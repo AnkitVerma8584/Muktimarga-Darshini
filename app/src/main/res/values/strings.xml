@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Muktimarga Darshini</string>
+    <!--Errors-->
+    <string name="empty_categories">No categories found</string>
+    <string name="empty_banners">No banners found</string>
+
+    <!--Menu-->
+    <string name="menu">Menu</string>
+    <string name="home">Home</string>
+    <string name="about">About us</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="support">Support</string>
+
+    <!--Language-->
+    <string name="en" translatable="false">English</string>
+    <string name="hi" translatable="false">हिन्दी</string>
+    <string name="kn" translatable="false">ಕನ್ನಡ</string>
+    <string name="sa" translatable="false">संस्कृत</string>
+
+    <!--Category-->
+    <string name="category">Categories</string>
+    <string name="category_search">Search for any category</string>
+
+    <!--Sub Category-->
+    <string name="sub_cat" translatable="false">Sub Categories</string>
+    <string name="sub_cat_search" translatable="false">Search for any category</string>
+
+    <!--Sub to sub Category-->
+    <string name="sub_to_sub_cat" translatable="false">Sub to sub Categories</string>
+    <string name="sub_to_sub_cat_search" translatable="false">Search for any category</string>
+
+    <!--Files-->
+    <string name="files" translatable="false">Files</string>
+
+    <!--Files details-->
+    <string name="files_details" translatable="false">File Details</string>
+    <string name="demo">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s</string>
+
+    <!--Contact and support-->
+    <string name="sub_heading">In case of any difficulty or queries please contact us on the details below :</string>
+    <string name="name">Sri Vyasatirtha Samshodhana Pratishthana (R.)</string>
+    <string name="email">somerandommail@gmail.com</string>
+    <string name="phone">+91 9448394312</string>
+    <string name="address">No.1226, 3rd Main, 2nd Cross Road, Krishnamurthy Puram, Mysore - 570004</string>
+
+    <!--Support-->
+    <string name="support_sub_heading">For any technical support or queries :</string>
+    <string name="support_name">Aishwarya Software Solutions</string>
+    <string name="support_email">aishwaryasoftware2022@gmail.com</string>
+    <string name="support_phone">+91 7337763918</string>
+    <string name="support_location">Bengaluru</string>
+
+    <!-- About us -->
+    <string name="about_us">Kalidasa Granthavali android application is designed to make all the kalidasa writings available on a single platform in the form of E-book. Users can select the category, related to that all the book titles will display. On clicking the title users are able to navigate to the particular files of that book. Content in the app available in different languages. This mobile application is very useful for the users who are at starting level in the sanskrit language and also who are interested in poetry.</string>
+
+</resources>
