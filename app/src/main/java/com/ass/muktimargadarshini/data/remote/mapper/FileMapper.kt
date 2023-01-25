@@ -3,7 +3,7 @@ package com.ass.muktimargadarshini.data.remote.mapper
 import com.ass.muktimargadarshini.data.Constants
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.modals.FileDocumentText
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesData
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
@@ -11,7 +11,6 @@ import java.io.File
 import java.io.FileReader
 
 object FileMapper {
-
     suspend fun HomeFiles.getFileToFilesData(file: File): FilesData? =
         withContext(Dispatchers.IO) {
             try {

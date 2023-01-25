@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.repository.remote.SubToSubCategoryRemoteRepository
 import com.ass.muktimargadarshini.domain.utils.Resource
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesData
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.util.print
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,6 @@ class SubToSubCategoryViewModel @Inject constructor(
     private val _subToSubCategoryState = MutableStateFlow(SubToSubCategoryState())
 
     private val _filesList = MutableStateFlow(emptyList<FilesData>())
-
 
     val subToSubCategoryState = combine(_subToSubCategoryState, query) { state, query ->
         state.copy(

@@ -1,4 +1,5 @@
 package com.ass.muktimargadarshini.di
+
 import com.ass.muktimargadarshini.data.remote.Api
 import com.ass.muktimargadarshini.data.remote.apis.FileDataApi
 import com.ass.muktimargadarshini.data.remote.apis.*
@@ -17,7 +18,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @KalidasaRetrofitBuild
+    @MukitimargaDarshini
     fun provideRetrofitInstance(): Retrofit = Retrofit.Builder()
         .baseUrl(Api.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -25,30 +26,35 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHomeDao(@KalidasaRetrofitBuild retrofit: Retrofit): HomeApi =
+    fun provideHomeDao(@MukitimargaDarshini retrofit: Retrofit): HomeApi =
         retrofit.create(HomeApi::class.java)
 
     @Provides
     @Singleton
-    fun provideSubCategoryDao(@KalidasaRetrofitBuild retrofit: Retrofit): SubCategoryApi =
+    fun provideSubCategoryDao(@MukitimargaDarshini retrofit: Retrofit): SubCategoryApi =
         retrofit.create(SubCategoryApi::class.java)
 
     @Provides
     @Singleton
-    fun provideSubToSubCategoryDao(@KalidasaRetrofitBuild retrofit: Retrofit): SubToSubCategoryApi =
+    fun provideSubToSubCategoryDao(@MukitimargaDarshini retrofit: Retrofit): SubToSubCategoryApi =
         retrofit.create(SubToSubCategoryApi::class.java)
 
     @Provides
     @Singleton
-    fun provideFilesDao(@KalidasaRetrofitBuild retrofit: Retrofit): FilesApi =
+    fun provideFilesDao(@MukitimargaDarshini retrofit: Retrofit): FilesApi =
         retrofit.create(FilesApi::class.java)
 
     @Provides
     @Singleton
-    fun provideFileDataDao(@KalidasaRetrofitBuild retrofit: Retrofit): FileDataApi =
+    fun provideFileDataDao(@MukitimargaDarshini retrofit: Retrofit): FileDataApi =
         retrofit.create(FileDataApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDataDao(@MukitimargaDarshini retrofit: Retrofit): DataApi =
+        retrofit.create(DataApi::class.java)
 }
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class KalidasaRetrofitBuild
+annotation class MukitimargaDarshini

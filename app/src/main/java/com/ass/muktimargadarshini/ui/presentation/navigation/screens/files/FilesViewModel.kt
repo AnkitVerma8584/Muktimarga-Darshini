@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.repository.remote.FilesRemoteRepository
 import com.ass.muktimargadarshini.domain.utils.Resource
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesData
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.util.print
 import dagger.hilt.android.lifecycle.HiltViewModel

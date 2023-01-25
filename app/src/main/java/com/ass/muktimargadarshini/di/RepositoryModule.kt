@@ -1,17 +1,15 @@
 package com.ass.muktimargadarshini.di
 
 import android.app.Application
+import com.ass.muktimargadarshini.data.local.dao.*
+import com.ass.muktimargadarshini.data.local.repositoryImpl.*
 import com.ass.muktimargadarshini.data.remote.apis.*
 import com.ass.muktimargadarshini.data.remote.repository.*
-import com.ass.muktimargadarshini.data.local.dao.*
-import com.ass.muktimargadarshini.data.local.repositoryImpl.FilesLocalRepositoryImpl
-import com.ass.muktimargadarshini.data.local.repositoryImpl.HomeLocalRepositoryImpl
-import com.ass.muktimargadarshini.data.local.repositoryImpl.SubCategoryLocalRepositoryImpl
-import com.ass.muktimargadarshini.data.local.repositoryImpl.SubToSubCategoryLocalRepositoryImpl
-import com.ass.muktimargadarshini.domain.repository.local.FileLocalRepository
-import com.ass.muktimargadarshini.domain.repository.local.HomeLocalRepository
-import com.ass.muktimargadarshini.domain.repository.local.SubCategoryLocalRepository
-import com.ass.muktimargadarshini.domain.repository.local.SubToSubCategoryLocalRepository
+import com.ass.muktimargadarshini.data.repository.HomeRepositoryImpl
+import com.ass.muktimargadarshini.data.repository.SubCategoryRepositoryImpl
+import com.ass.muktimargadarshini.domain.repository.HomeRepository
+import com.ass.muktimargadarshini.domain.repository.SubCategoryRepository
+import com.ass.muktimargadarshini.domain.repository.local.*
 import com.ass.muktimargadarshini.domain.repository.remote.*
 import dagger.Module
 import dagger.Provides
@@ -25,18 +23,21 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideHomeLocalRepository(
+    fun provideHomeRepository(
         bannerDao: BannerDao,
-        categoryDao: CategoryDao
-    ): HomeLocalRepository =
-        HomeLocalRepositoryImpl(bannerDao, categoryDao)
+        categoryDao: CategoryDao,
+        homeApi: HomeApi
+    ): HomeRepository =
+        HomeRepositoryImpl(bannerDao, categoryDao, homeApi)
 
     @Provides
     @ViewModelScoped
-    fun provideSubCategoryLocalRepository(
+    fun provideSubCategoryRepository(
+        subCategoryApi: SubCategoryApi,
         subCategoryDao: SubCategoryDao
-    ): SubCategoryLocalRepository =
-        SubCategoryLocalRepositoryImpl(subCategoryDao)
+    ): SubCategoryRepository =
+        SubCategoryRepositoryImpl(subCategoryApi, subCategoryDao)
+
 
     @Provides
     @ViewModelScoped
@@ -51,22 +52,6 @@ object RepositoryModule {
         filesDao: FilesDao
     ): FileLocalRepository =
         FilesLocalRepositoryImpl(filesDao)
-
-    @Provides
-    @ViewModelScoped
-    fun provideHomeRemoteRepository(
-        homeApi: HomeApi,
-        homeLocalRepository: HomeLocalRepository
-    ): HomeRemoteRepository =
-        HomeRemoteRepositoryImpl(homeApi, homeLocalRepository)
-
-    @Provides
-    @ViewModelScoped
-    fun provideSubCategoryRepository(
-        subCategoryApi: SubCategoryApi,
-        subCategoryLocalRepository: SubCategoryLocalRepository
-    ): SubCategoryRemoteRepository =
-        SubCategoryRemoteRepositoryImpl(subCategoryApi, subCategoryLocalRepository)
 
     @Provides
     @ViewModelScoped
@@ -101,6 +86,22 @@ object RepositoryModule {
         application: Application
     ): FileDataRemoteRepository =
         FileDataRemoteRepositoryImpl(filesApi, application)
+
+    @Provides
+    @ViewModelScoped
+    fun provideDataLocalRepository(
+        authorDao: AuthorDao,
+        godDao: GodDao
+    ): DataLocalRepository =
+        DataLocalRepositoryImpl(authorDao, godDao)
+
+    @Provides
+    @ViewModelScoped
+    fun provideDataRepository(
+        dataApi: DataApi,
+        dataLocalRepository: DataLocalRepository
+    ): DataRemoteRepository =
+        DataRemoteRepositoryImpl(dataApi, dataLocalRepository)
 
 
 }

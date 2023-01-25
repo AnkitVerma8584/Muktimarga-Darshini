@@ -49,4 +49,12 @@ object DatabaseModule {
     fun provideFilesDao(db: RoomDB): FilesDao = db.getFilesDao()
 
 
+    @Singleton
+    @Provides
+    fun provideAuthorDao(db: RoomDB): AuthorDao = db.getAuthorsDao()
+
+    @Singleton
+    @Provides
+    fun provideGodDao(db: RoomDB): GodDao = db.getGodsDao()
+
 }

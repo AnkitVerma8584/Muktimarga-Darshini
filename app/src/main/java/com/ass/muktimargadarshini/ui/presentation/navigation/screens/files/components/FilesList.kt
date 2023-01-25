@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.components
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.SearchedText
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesData
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.components.FileCard
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -50,7 +49,7 @@ fun FilesList(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.background)
-                    .padding(start = 16.dp, top = 16.dp),
+                    .padding(start = 16.dp, top = 8.dp),
                 style = MaterialTheme.typography.titleMedium
             )
         }

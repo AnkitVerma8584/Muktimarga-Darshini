@@ -1,17 +1,16 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_category
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.muktimargadarshini.domain.modals.HomeSubCategory
+import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.Loading
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.SearchBar
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_category.components.SubCategoryList
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category.components.SubCategoryList
 
 @Composable
 fun SubCategoryPage(
@@ -31,6 +30,6 @@ fun SubCategoryPage(
                 data = it,
                 onClick = onSubCategoryClicked
             )
-        } ?: CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+        } ?: Loading()
     }
 }

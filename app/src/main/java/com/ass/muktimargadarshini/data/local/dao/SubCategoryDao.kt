@@ -5,7 +5,6 @@ import com.ass.muktimargadarshini.data.local.modals.SubCategory
 
 @Dao
 abstract class SubCategoryDao {
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     protected abstract suspend fun insert(sub_category: List<SubCategory>)
 
@@ -19,7 +18,7 @@ abstract class SubCategoryDao {
     abstract suspend fun getSubCategoryCount(id: Int): Int
 
     @Transaction
-    open suspend fun insertCategory(sub_category: List<SubCategory>) {
+    open suspend fun insertSubCategory(sub_category: List<SubCategory>) {
         delete()
         insert(sub_category)
     }

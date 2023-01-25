@@ -10,7 +10,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface DataApi {
-
     @GET(Api.GET_AUTHOR)
     suspend fun getAuthor(): Response<ResultList<HomeAuthor>>
 

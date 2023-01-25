@@ -16,7 +16,7 @@ import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.Loading
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.SearchedText
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.components.FileCard
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesData
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

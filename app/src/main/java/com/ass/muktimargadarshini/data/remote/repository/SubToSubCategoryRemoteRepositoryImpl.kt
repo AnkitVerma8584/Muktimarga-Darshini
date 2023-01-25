@@ -13,7 +13,7 @@ import com.ass.muktimargadarshini.domain.repository.local.SubToSubCategoryLocalR
 import com.ass.muktimargadarshini.domain.repository.remote.SubToSubCategoryRemoteRepository
 import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.domain.utils.StringUtil
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesData
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.util.print
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

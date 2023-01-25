@@ -19,7 +19,7 @@ import com.ass.muktimargadarshini.presentation.ui.navigation.screens.contact.Con
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.FileDetailsPage
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.FilePage
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.pdf.PdfScreen
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_category.SubCategoryPage
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.support.SupportPage
 

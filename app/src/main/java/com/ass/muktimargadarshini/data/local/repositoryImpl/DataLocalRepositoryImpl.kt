@@ -1,15 +1,11 @@
 package com.ass.muktimargadarshini.data.local.repositoryImpl
 
 import com.ass.muktimargadarshini.data.local.dao.AuthorDao
-import com.ass.muktimargadarshini.data.local.dao.BannerDao
-import com.ass.muktimargadarshini.data.local.dao.CategoryDao
 import com.ass.muktimargadarshini.data.local.dao.GodDao
 import com.ass.muktimargadarshini.data.local.mapper.*
 import com.ass.muktimargadarshini.domain.modals.HomeAuthor
-import com.ass.muktimargadarshini.domain.modals.HomeCategory
 import com.ass.muktimargadarshini.domain.modals.HomeGod
 import com.ass.muktimargadarshini.domain.repository.local.DataLocalRepository
-import com.ass.muktimargadarshini.domain.repository.local.HomeLocalRepository
 
 class DataLocalRepositoryImpl(
     private val authorDao: AuthorDao,

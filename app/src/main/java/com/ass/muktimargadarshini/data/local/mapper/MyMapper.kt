@@ -10,7 +10,7 @@ fun List<String>.mapToBannerList(): List<Banner> = this.map {
 
 fun List<Banner>.mapToStringList(): List<String> = this.map { it.image }
 
-fun List<HomeCategory>.mapToHomeList(): List<Category> = this.map {
+fun List<HomeCategory>.mapToCategory(): List<Category> = this.map {
     Category(it.id, it.name, it.image)
 }
 
