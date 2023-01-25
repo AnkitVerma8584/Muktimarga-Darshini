@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_to_sub_category
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category
 
 import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
 import com.ass.muktimargadarshini.domain.utils.StringUtil

@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_to_sub_category
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +12,7 @@ import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.SearchBar
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_to_sub_category.components.SubToSubCategoryContent
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryViewModel
 
 @Composable
 fun SubToSubCategoryPage(

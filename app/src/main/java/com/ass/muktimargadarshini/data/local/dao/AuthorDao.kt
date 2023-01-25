@@ -20,7 +20,7 @@ abstract class AuthorDao {
     abstract suspend fun getAuthors(): List<Author>
 
     @Transaction
-    open suspend fun insertBanners(authors: List<Author>) {
+    open suspend fun insertAuthors(authors: List<Author>) {
         delete()
         insert(authors)
     }

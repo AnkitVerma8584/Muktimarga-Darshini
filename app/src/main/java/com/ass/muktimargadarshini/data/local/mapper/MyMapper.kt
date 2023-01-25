@@ -1,10 +1,7 @@
 package com.ass.muktimargadarshini.data.local.mapper
 
 import com.ass.muktimargadarshini.data.local.modals.*
-import com.ass.muktimargadarshini.domain.modals.HomeCategory
-import com.ass.muktimargadarshini.domain.modals.HomeFiles
-import com.ass.muktimargadarshini.domain.modals.HomeSubCategory
-import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
+import com.ass.muktimargadarshini.domain.modals.*
 
 fun List<String>.mapToBannerList(): List<Banner> = this.map {
     Banner(it)
@@ -81,3 +78,19 @@ fun Files?.mapToHomeFiles(): HomeFiles? =
             god_id
         )
     }
+
+fun List<HomeAuthor>.mapToAuthor() = this.map {
+    Author(it.id, it.name)
+}
+
+fun List<Author>.mapToHomeAuthor() = this.map {
+    HomeAuthor(it.id, it.name)
+}
+
+fun List<HomeGod>.mapToGod() = this.map {
+    God(it.id, it.god_name)
+}
+
+fun List<God>.mapToHomeGod() = this.map {
+    HomeGod(it.id, it.god_name)
+}

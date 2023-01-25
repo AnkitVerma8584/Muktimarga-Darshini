@@ -20,7 +20,7 @@ abstract class GodDao {
     abstract suspend fun getGods(): List<God>
 
     @Transaction
-    open suspend fun insertBanners(gods: List<God>) {
+    open suspend fun insertGods(gods: List<God>) {
         delete()
         insert(gods)
     }

@@ -6,7 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface FileDataApi {
-
     @GET
     suspend fun getFilesData(
         @Url fileUrl: String
