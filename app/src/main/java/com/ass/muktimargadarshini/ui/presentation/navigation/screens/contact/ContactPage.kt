@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.contact
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.contact
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -40,7 +40,9 @@ fun ContactPage() {
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(50.dp))
-        Details(icon = R.drawable.ic_person, details = R.string.name)
+        Details(icon = R.drawable.ic_person, details = R.string.name){
+            /*https://www.asihwaryasoftware.in*/
+        }
         Details(icon = R.drawable.ic_contact, details = R.string.phone) {
 
         }

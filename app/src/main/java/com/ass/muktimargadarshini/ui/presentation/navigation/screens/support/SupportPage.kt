@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.support
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.support
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

@@ -16,7 +16,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.muktimargadarshini.data.Constants.MINIMUM_SEARCH_CHAR
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.SearchBar
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.common.SearchBar
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.DocumentText
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.ScrollToTopButton
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.SearchedText

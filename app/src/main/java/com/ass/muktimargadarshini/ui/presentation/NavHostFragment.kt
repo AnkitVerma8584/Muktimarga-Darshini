@@ -3,6 +3,7 @@ package com.ass.muktimargadarshini.ui.presentation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -15,17 +16,19 @@ import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.about.AboutPage
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.CategoryPage
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.contact.ContactPage
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.contact.ContactPage
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.FileDetailsPage
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.FilePage
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.pdf.PdfScreen
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.support.SupportPage
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.support.SupportPage
 
 @Composable
 fun NavHostFragments(
-    navController: NavHostController, paddingValues: PaddingValues
+    navController: NavHostController,
+    paddingValues: PaddingValues,
+    windowSizeClass: WindowSizeClass
 ) {
     NavHost(
         modifier = Modifier
@@ -35,7 +38,7 @@ fun NavHostFragments(
         startDestination = NavigationFragment.Home.route
     ) {
         composable(route = NavigationFragment.Home.route) {
-            CategoryPage {
+            CategoryPage(windowSizeClass) {
                 NavigationFragment.SubCategory.title = StringUtil.DynamicText(it.name)
                 navController.navigate("sub_category/${it.id}") {
                     popUpTo(navController.graph.findStartDestination().id) {
@@ -72,7 +75,7 @@ fun NavHostFragments(
             arguments = listOf(navArgument("cat_id") { type = NavType.IntType },
                 navArgument("sub_cat_id") { type = NavType.IntType })
         ) {
-            SubToSubCategoryPage(onSubToSubCategoryClick = {
+            SubToSubCategoryPage(windowSizeClass, onSubToSubCategoryClick = {
                 NavigationFragment.Files.title = StringUtil.DynamicText(it.name)
                 navController.navigate("files/${it.cat_id}/${it.sub_cat_id}/${it.id}") {
                     launchSingleTop = true

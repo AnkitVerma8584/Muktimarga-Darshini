@@ -1,6 +1,7 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_to_sub_category.components
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,8 +10,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ass.muktimargadarshini.R
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.Loading
@@ -33,7 +37,8 @@ fun SubToSubCategoryContent(
         searchedContent.forEach { fileData ->
             stickyHeader {
                 Text(
-                    text = fileData.homeFiles.name, modifier = Modifier
+                    text = fileData.homeFiles.name,
+                    modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
                         .padding(12.dp),
@@ -57,20 +62,29 @@ fun SubToSubCategoryContent(
         } ?: item { Loading() }
 
         files?.let { list ->
-            if (list.isNotEmpty()) {
-                stickyHeader {
+            if (list.isEmpty()) return@LazyColumn
+            stickyHeader {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.background),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(
                         text = "Files",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.background)
-                            .padding(start = 16.dp, top = 16.dp),
+                        modifier = Modifier.padding(start = 16.dp, top = 16.dp),
                         style = MaterialTheme.typography.titleMedium
                     )
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_filter),
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 16.dp, top = 16.dp),
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    )
                 }
-                items(list, key = { it.uniqueKey }) {
-                    FileCard(item = it, onFileClicked = onFileClicked, onPdfClicked = onPdfClicked)
-                }
+            }
+            items(list, key = { it.uniqueKey }) {
+                FileCard(item = it, onFileClicked = onFileClicked, onPdfClicked = onPdfClicked)
             }
         } ?: item { Loading() }
     }

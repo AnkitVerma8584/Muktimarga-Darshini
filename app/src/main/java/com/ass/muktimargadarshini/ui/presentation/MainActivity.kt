@@ -6,6 +6,7 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,7 +14,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -32,27 +37,35 @@ import com.ass.muktimargadarshini.ui.presentation.navigation.modal.NavigationFra
 import com.ass.muktimargadarshini.ui.theme.MuktimargaDarshiniTheme
 import com.ass.muktimargadarshini.util.locale.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
+            WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE
         )
         setContent {
+            val windowSizeClass = calculateWindowSizeClass(this)
             MuktimargaDarshiniTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    MainPage(onLanguageSelected = {
-                        LocaleHelper.setLocale(this@MainActivity, it)
-                        recreate()
-                    })
+                var splash by rememberSaveable {
+                    mutableStateOf(true)
                 }
+                LaunchedEffect(key1 = true) {
+                    delay(2000)
+                    splash = false
+                }
+                Surface(
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                ) {
+                    if (splash) {
+                        SplashScreen()
+                    } else MainPage(windowSizeClass)
+                }
+
             }
         }
     }
@@ -62,10 +75,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainPage(
-    onLanguageSelected: (tag: String) -> Unit, allScreens: List<NavigationFragment> = listOf(
+    windowSizeClass: WindowSizeClass, allScreens: List<NavigationFragment> = listOf(
         NavigationFragment.Home,
         NavigationFragment.About,
         NavigationFragment.Contact,
@@ -125,11 +139,12 @@ private fun MainPage(
                     ?: stringResource(id = R.string.app_name),
                 hamburgerIconClicked = { scope.launch { drawerState.open() } },
                 navigationBackClicked = { navController.navigateUp() },
-                isNavigationFragment = currentFragment?.icon != null,
-                onLanguageSelected = onLanguageSelected
+                isNavigationFragment = currentFragment?.icon != null
             )
         }) {
-            NavHostFragments(navController = navController, paddingValues = it)
+            NavHostFragments(
+                navController = navController, paddingValues = it, windowSizeClass = windowSizeClass
+            )
         }
     }
 }
@@ -164,8 +179,7 @@ private fun AppBar(
     title: String,
     hamburgerIconClicked: () -> Unit,
     navigationBackClicked: () -> Unit,
-    isNavigationFragment: Boolean,
-    onLanguageSelected: (tag: String) -> Unit
+    isNavigationFragment: Boolean
 ) {
     TopAppBar(colors = TopAppBarDefaults.smallTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -194,14 +208,12 @@ private fun AppBar(
                     .padding(8.dp))
         }
     }, actions = {
-        TopAppBarDropdownMenu(onLanguageSelected)
+        TopAppBarDropdownMenu()
     })
 }
 
 @Composable
-private fun TopAppBarDropdownMenu(
-    onLanguageSelected: (tag: String) -> Unit
-) {
+private fun TopAppBarDropdownMenu() {
     val expanded = remember { mutableStateOf(false) }
     Box(
         Modifier.wrapContentSize(Alignment.TopEnd)
@@ -218,24 +230,16 @@ private fun TopAppBarDropdownMenu(
         expanded = expanded.value,
         onDismissRequest = { expanded.value = false },
     ) {
-        MenuItem(R.string.en) {
-            onLanguageSelected("en")
-        }
-        MenuItem(R.string.hi) {
-            onLanguageSelected("hi")
-        }
-        MenuItem(R.string.kn) {
-            onLanguageSelected("kn")
-        }
-        MenuItem(R.string.sa) {
-            onLanguageSelected("sa")
-        }
+        MenuItem(R.string.en)
+        MenuItem(R.string.hi)
+        MenuItem(R.string.kn)
+        MenuItem(R.string.sa)
     }
 }
 
 @Composable
 private fun MenuItem(
-    @StringRes languageId: Int, onMenuClick: () -> Unit
+    @StringRes languageId: Int
 ) {
     DropdownMenuItem(text = {
         androidx.compose.material.Text(
@@ -243,5 +247,5 @@ private fun MenuItem(
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
-    }, onClick = { onMenuClick() })
+    }, onClick = { })
 }

@@ -2,6 +2,7 @@ package com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -10,12 +11,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.muktimargadarshini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.SearchBar
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_to_sub_category.components.SubToSubCategoryContent
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryViewModel
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.common.SearchBar
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.components.SubToSubCategoryContent
 
 @Composable
 fun SubToSubCategoryPage(
+    windowSizeClass: WindowSizeClass,
     viewModel: SubToSubCategoryViewModel = hiltViewModel(),
     onSubToSubCategoryClick: (HomeSubToSubCategory) -> Unit,
     onFileClicked: (HomeFiles, String, Int) -> Unit,
@@ -44,5 +45,3 @@ fun SubToSubCategoryPage(
         )
     }
 }
-
-

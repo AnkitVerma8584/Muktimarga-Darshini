@@ -22,7 +22,7 @@ fun AboutPage() {
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         Text(
-            text = stringResource(id = R.string.app_name),
+            text = stringResource(id = R.string.about_us_header),
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.SemiBold
         )

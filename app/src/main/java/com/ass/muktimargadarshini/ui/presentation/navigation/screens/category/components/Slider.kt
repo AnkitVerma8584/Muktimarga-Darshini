@@ -43,7 +43,6 @@ fun Slider(
             }
         }
     }
-
     Box(
         modifier = Modifier
             .fillMaxWidth()

@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.common
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

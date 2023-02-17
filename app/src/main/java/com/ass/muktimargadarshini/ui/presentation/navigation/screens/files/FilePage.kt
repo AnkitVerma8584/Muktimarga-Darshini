@@ -10,7 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.muktimargadarshini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.Loading
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.SearchBar
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.common.SearchBar
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.components.FilesList
 
 @Composable

@@ -18,23 +18,6 @@ abstract class FilesDao {
     @Query("SELECT * FROM files WHERE cat_id=:cat_id AND sub_cat_id=:sub_cat_id;")
     abstract suspend fun getFiles(cat_id: Int, sub_cat_id: Int): List<Files>
 
-    @Query("SELECT * FROM files WHERE cat_id=:cat_id AND sub_cat_id=:sub_cat_id AND sub_to_sub_cat_id=:sub_to_sub_cat_id AND author_id IN (:author_ids) AND god_id IN (:god_ids);")
-    abstract suspend fun getFiles(
-        cat_id: Int,
-        sub_cat_id: Int,
-        sub_to_sub_cat_id: Int,
-        author_ids: Set<Int>,
-        god_ids: Set<Int>
-    ): List<Files>
-
-    @Query("SELECT * FROM files WHERE cat_id=:cat_id AND sub_cat_id=:sub_cat_id AND author_id IN (:author_ids) AND god_id IN (:god_ids);")
-    abstract suspend fun getFiles(
-        cat_id: Int,
-        sub_cat_id: Int,
-        author_ids: Set<Int>,
-        god_ids: Set<Int>
-    ): List<Files>
-
     @Query("SELECT * FROM files WHERE files.id=:id;")
     abstract suspend fun getFileById(id: Int): Files
 

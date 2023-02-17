@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.sub_to_sub_category.components
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
