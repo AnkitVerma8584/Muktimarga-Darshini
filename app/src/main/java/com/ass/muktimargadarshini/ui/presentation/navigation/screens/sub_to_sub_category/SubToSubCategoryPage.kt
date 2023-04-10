@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ass.muktimargadarshini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.common.SearchBar
@@ -31,8 +30,7 @@ fun SubToSubCategoryPage(
         SearchBar(
             hint = "Search for any sub categories or files",
             query = query,
-            onSearchQueryChanged = viewModel::queryChanged,
-            minimumLetter = MINIMUM_SEARCH_CHAR
+            onSearchQueryChanged = viewModel::queryChanged
         )
         SubToSubCategoryContent(
             query,

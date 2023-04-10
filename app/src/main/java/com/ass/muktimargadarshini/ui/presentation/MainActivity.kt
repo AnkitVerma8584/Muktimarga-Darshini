@@ -34,7 +34,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ass.muktimargadarshini.R
-import com.ass.muktimargadarshini.ui.presentation.authentication.MobileAuthenticationPage
 import com.ass.muktimargadarshini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.muktimargadarshini.ui.theme.MuktimargaDarshiniTheme
 import com.ass.muktimargadarshini.util.locale.LocaleHelper
@@ -83,7 +82,6 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainPage(
     windowSizeClass: WindowSizeClass, allScreens: List<NavigationFragment> = listOf(
@@ -188,35 +186,37 @@ private fun AppBar(
     navigationBackClicked: () -> Unit,
     isNavigationFragment: Boolean
 ) {
-    TopAppBar(colors = TopAppBarDefaults.smallTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-    ), title = {
-        androidx.compose.material.Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-    }, navigationIcon = {
-        if (isNavigationFragment) {
-            Icon(imageVector = Icons.Filled.Menu,
-                contentDescription = null,
-                modifier = Modifier
-                    .clickable { hamburgerIconClicked() }
-                    .padding(8.dp))
-        } else {
-            Icon(imageVector = Icons.Default.ArrowBack,
-                contentDescription = null,
-                modifier = Modifier
-                    .clickable { navigationBackClicked() }
-                    .padding(8.dp))
-        }
-    }, actions = {
-        TopAppBarDropdownMenu()
-    })
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+        title = {
+            androidx.compose.material.Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }, navigationIcon = {
+            if (isNavigationFragment) {
+                Icon(imageVector = Icons.Filled.Menu,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clickable { hamburgerIconClicked() }
+                        .padding(8.dp))
+            } else {
+                Icon(imageVector = Icons.Default.ArrowBack,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clickable { navigationBackClicked() }
+                        .padding(8.dp))
+            }
+        }, actions = {
+            TopAppBarDropdownMenu()
+        })
 }
 
 @Composable
