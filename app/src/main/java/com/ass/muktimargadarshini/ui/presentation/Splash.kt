@@ -7,13 +7,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -37,15 +35,16 @@ internal fun SplashScreen() {
     ) {
         Box(
             Modifier
+                .size(280.dp)
+                .align(Alignment.Center)
+                .scale(1f, 1.2f)
                 .scale(scale)
-                .size(250.dp)
-                .clip(CircleShape)
                 .background(
                     brush = Brush.radialGradient(
                         colors = listOf(
-                            Color(0xCCFFC107),
+                            Color(0x80FFC107),
                             Color(0x33FFC107),
-                            Color(0x03FFEB3B)
+                            Color(0x00FFEB3B)
                         ),
                     ),
                 )

@@ -6,6 +6,7 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -33,6 +34,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ass.muktimargadarshini.R
+import com.ass.muktimargadarshini.ui.presentation.authentication.MobileAuthenticationPage
 import com.ass.muktimargadarshini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.muktimargadarshini.ui.theme.MuktimargaDarshiniTheme
 import com.ass.muktimargadarshini.util.locale.LocaleHelper
@@ -42,7 +44,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
@@ -61,9 +63,14 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    if (splash) {
-                        SplashScreen()
-                    } else MainPage(windowSizeClass)
+                    AnimatedContent(targetState = splash, transitionSpec = {
+                        fadeIn(animationSpec = tween(durationMillis = 1000)) with
+                                fadeOut(animationSpec = tween(durationMillis = 1000))
+                    }) {
+                        if (splash) {
+                            SplashScreen()
+                        } else MainPage(windowSizeClass)
+                    }
                 }
 
             }
