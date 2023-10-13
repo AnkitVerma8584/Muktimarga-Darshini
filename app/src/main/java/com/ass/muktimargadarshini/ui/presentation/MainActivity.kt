@@ -12,7 +12,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
@@ -52,26 +52,25 @@ class MainActivity : ComponentActivity() {
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
             MuktimargaDarshiniTheme {
-                var splash by rememberSaveable {
+                var splashState by rememberSaveable {
                     mutableStateOf(true)
                 }
                 LaunchedEffect(key1 = true) {
                     delay(2000)
-                    splash = false
+                    splashState = false
                 }
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    AnimatedContent(targetState = splash, transitionSpec = {
-                        fadeIn(animationSpec = tween(durationMillis = 1000)) with
+                    AnimatedContent(targetState = splashState, transitionSpec = {
+                        fadeIn(animationSpec = tween(durationMillis = 1000)) togetherWith
                                 fadeOut(animationSpec = tween(durationMillis = 1000))
-                    }) {
+                    }, label = "start") { splash ->
                         if (splash) {
                             SplashScreen()
                         } else MainPage(windowSizeClass)
                     }
                 }
-
             }
         }
     }
@@ -208,7 +207,7 @@ private fun AppBar(
                         .clickable { hamburgerIconClicked() }
                         .padding(8.dp))
             } else {
-                Icon(imageVector = Icons.Default.ArrowBack,
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = null,
                     modifier = Modifier
                         .clickable { navigationBackClicked() }

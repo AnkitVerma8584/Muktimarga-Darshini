@@ -2,7 +2,6 @@ package com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,7 +14,6 @@ import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_
 
 @Composable
 fun SubToSubCategoryPage(
-    windowSizeClass: WindowSizeClass,
     viewModel: SubToSubCategoryViewModel = hiltViewModel(),
     onSubToSubCategoryClick: (HomeSubToSubCategory) -> Unit,
     onFileClicked: (HomeFiles, String, Int) -> Unit,

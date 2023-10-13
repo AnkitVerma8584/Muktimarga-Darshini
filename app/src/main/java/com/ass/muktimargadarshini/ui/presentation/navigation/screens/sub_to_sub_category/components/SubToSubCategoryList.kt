@@ -18,7 +18,7 @@ import com.ass.muktimargadarshini.R
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.Loading
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.SearchedText
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.components.SearchedText
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.components.FileCard
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 
@@ -56,8 +56,8 @@ fun SubToSubCategoryContent(
             }
         }
         subToSubCategory?.let { list ->
-            items(items = list, key = { it.uniqueKey }) { sub_category ->
-                SubToSubCategoryCard(data = sub_category, onClick = onSubToSubCategoryClick)
+            items(items = list, key = { it.uniqueKey }) { subCategory ->
+                SubToSubCategoryCard(data = subCategory, onClick = onSubToSubCategoryClick)
             }
         } ?: item { Loading() }
 

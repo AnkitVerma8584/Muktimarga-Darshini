@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details
 
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
@@ -6,8 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,10 +16,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.muktimargadarshini.data.Constants.MINIMUM_SEARCH_CHAR
+import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.FileDetailsViewModel
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.common.SearchBar
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.DocumentText
 import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.ScrollToTopButton
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.SearchedText
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.components.SearchedText
 import kotlinx.coroutines.launch
 
 @Composable
@@ -28,7 +29,7 @@ fun FileDetailsPage(
 ) {
     val state by viewModel.fileState.collectAsState()
     val query by viewModel.fileDataQuery.collectAsState()
-    var scale by remember { mutableStateOf(16f) }
+    var scale by remember { mutableFloatStateOf(16f) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(

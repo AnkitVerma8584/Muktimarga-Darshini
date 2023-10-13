@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components.SearchedText
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.components.SearchedText
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 
 @OptIn(ExperimentalFoundationApi::class)
