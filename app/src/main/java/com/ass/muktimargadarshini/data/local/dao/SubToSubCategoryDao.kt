@@ -7,20 +7,20 @@ import com.ass.muktimargadarshini.data.local.modals.SubToSubCategory
 abstract class SubToSubCategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    protected abstract suspend fun insert(sub_to_sub_category: List<SubToSubCategory>)
+    protected abstract suspend fun insert(subToSubCategory: List<SubToSubCategory>)
 
     @Query("DELETE FROM sub_to_sub_category;")
     protected abstract suspend fun delete()
 
-    @Query("SELECT * FROM sub_to_sub_category WHERE sub_to_sub_category.cat_id=:catId AND sub_to_sub_category.sub_cat_id=:subCatId;")
+    @Query("SELECT * FROM sub_to_sub_category WHERE sub_to_sub_category.catId=:catId AND sub_to_sub_category.subCatId=:subCatId;")
     abstract suspend fun getSubToSubCategories(catId: Int, subCatId: Int): List<SubToSubCategory>
 
-    @Query("SELECT COUNT(*) FROM sub_to_sub_category WHERE sub_to_sub_category.cat_id=:catId AND sub_to_sub_category.sub_cat_id=:subCatId;")
+    @Query("SELECT COUNT(*) FROM sub_to_sub_category WHERE sub_to_sub_category.catId=:catId AND sub_to_sub_category.subCatId=:subCatId;")
     abstract suspend fun getSubToSubCategoryCount(catId: Int, subCatId: Int): Int
 
     @Transaction
-    open suspend fun insertSubToSubCategory(sub_to_sub_category: List<SubToSubCategory>) {
+    open suspend fun insertSubToSubCategory(subToSubCategory: List<SubToSubCategory>) {
         delete()
-        insert(sub_to_sub_category)
+        insert(subToSubCategory)
     }
 }

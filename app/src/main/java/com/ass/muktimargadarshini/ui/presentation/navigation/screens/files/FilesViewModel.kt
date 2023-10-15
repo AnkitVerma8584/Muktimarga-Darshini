@@ -7,7 +7,7 @@ import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.repository.remote.FilesRemoteRepository
 import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.util.print
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default
@@ -38,12 +38,12 @@ class FilesViewModel @Inject constructor(
         if (query.length > 2)
             data.map { fileData ->
                 fileData.copy(
-                    file_data = fileData.file_data.filter { text ->
+                    fileData = fileData.fileData.filter { text ->
                         text.text?.contains(query, true) ?: false
                     }
                 )
             }.filter {
-                it.file_data.isNotEmpty()
+                it.fileData.isNotEmpty()
             }
         else emptyList()
     }.flowOn(Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())

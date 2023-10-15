@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.pdf
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.pdf
 
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import java.io.File

@@ -1,11 +1,10 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.components
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue

@@ -18,13 +18,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ass.muktimargadarshini.R
 import com.ass.muktimargadarshini.domain.modals.HomeCategory
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.Loading
+import com.ass.muktimargadarshini.ui.presentation.common.Loading
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.components.CategoryItem
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.components.CategoryList
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.components.Slider
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.state.BannerState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.state.CategoryState
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.common.SearchBar
+import com.ass.muktimargadarshini.ui.presentation.common.SearchBar
 
 @Composable
 fun CategoryPage(

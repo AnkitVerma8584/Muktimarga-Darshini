@@ -25,14 +25,14 @@ import com.ass.muktimargadarshini.R
 
 @Composable
 internal fun SplashScreen() {
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "scale animation")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = 1.2f,
         animationSpec = infiniteRepeatable(
             animation = tween(1000),
             repeatMode = RepeatMode.Reverse
-        )
+        ), label = "scale animation"
     )
     Box(
         contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()

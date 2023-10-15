@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "sub_to_sub_category")
 data class SubToSubCategory(
     @PrimaryKey val id: Int,
-    val cat_id: Int,
-    val sub_cat_id: Int,
+    val catId: Int,
+    val subCatId: Int,
     val name: String,
     val description: String
 )

@@ -2,7 +2,6 @@ package com.ass.muktimargadarshini.data.local.dao
 
 import androidx.room.*
 import com.ass.muktimargadarshini.data.local.modals.Author
-import com.ass.muktimargadarshini.data.local.modals.Banner
 
 @Dao
 abstract class AuthorDao {

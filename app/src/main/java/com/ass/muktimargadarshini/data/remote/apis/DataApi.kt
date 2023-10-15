@@ -2,12 +2,10 @@ package com.ass.muktimargadarshini.data.remote.apis
 
 import com.ass.muktimargadarshini.data.remote.Api
 import com.ass.muktimargadarshini.domain.modals.HomeAuthor
-import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeGod
 import com.ass.muktimargadarshini.domain.utils.ResultList
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Query
 
 interface DataApi {
     @GET(Api.GET_AUTHOR)

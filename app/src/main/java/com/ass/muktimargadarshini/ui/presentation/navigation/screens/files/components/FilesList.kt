@@ -34,7 +34,7 @@ fun FilesList(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            items(fileData.file_data) { text ->
+            items(fileData.fileData) { text ->
                 SearchedText(query = query, content = text, onClick = {
                     onFileClicked(fileData.homeFiles, query, it)
                 })

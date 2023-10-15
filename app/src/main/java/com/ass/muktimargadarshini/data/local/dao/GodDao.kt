@@ -1,7 +1,6 @@
 package com.ass.muktimargadarshini.data.local.dao
 
 import androidx.room.*
-import com.ass.muktimargadarshini.data.local.modals.Banner
 import com.ass.muktimargadarshini.data.local.modals.God
 
 @Dao

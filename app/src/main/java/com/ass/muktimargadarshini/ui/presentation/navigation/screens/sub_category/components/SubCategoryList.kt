@@ -36,8 +36,8 @@ fun SubCategoryList(
                 )
             }
         else
-            items(items = data, key = { it.id }) { sub_category ->
-                SubCategoryCard(data = sub_category, onClick = onClick)
+            items(items = data, key = { it.id }) { subCategory ->
+                SubCategoryCard(data = subCategory, onClick = onClick)
             }
     }
     /*LazyColumn {

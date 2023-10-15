@@ -13,8 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.common.Loading
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.pdf.PdfViewModel
+import com.ass.muktimargadarshini.ui.presentation.common.Loading
 import com.github.barteksc.pdfviewer.PDFView
 
 @Composable

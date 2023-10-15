@@ -10,21 +10,21 @@ import com.ass.muktimargadarshini.domain.repository.local.FileLocalRepository
 class FilesLocalRepositoryImpl(private val filesDao: FilesDao) :
     FileLocalRepository {
 
-    override suspend fun getFiles(cat_id: Int, sub_cat_id: Int): List<HomeFiles> =
-        filesDao.getFiles(cat_id, sub_cat_id).mapToHomeFilesList()
+    override suspend fun getFiles(catId: Int, subCatId: Int): List<HomeFiles> =
+        filesDao.getFiles(catId, subCatId).mapToHomeFilesList()
 
     override suspend fun getFiles(
-        cat_id: Int,
-        sub_cat_id: Int,
-        sub_to_sub_cat_id: Int
+        catId: Int,
+        subCatId: Int,
+        subToSubCatId: Int
     ): List<HomeFiles> =
-        filesDao.getFiles(cat_id, sub_cat_id, sub_to_sub_cat_id).mapToHomeFilesList()
+        filesDao.getFiles(catId, subCatId, subToSubCatId).mapToHomeFilesList()
 
-    override suspend fun getFilesCount(cat_id: Int, sub_cat_id: Int): Int =
-        filesDao.getFileCount(cat_id, sub_cat_id)
+    override suspend fun getFilesCount(catId: Int, subCatId: Int): Int =
+        filesDao.getFileCount(catId, subCatId)
 
-    override suspend fun getFilesCount(cat_id: Int, sub_cat_id: Int, sub_to_sub_cat_id: Int): Int =
-        filesDao.getFileCount(cat_id, sub_cat_id, sub_to_sub_cat_id)
+    override suspend fun getFilesCount(catId: Int, subCatId: Int, subToSubCatId: Int): Int =
+        filesDao.getFileCount(catId, subCatId, subToSubCatId)
 
     override suspend fun getFileById(fileId: Int): HomeFiles? =
         filesDao.getFileById(fileId).mapToHomeFiles()

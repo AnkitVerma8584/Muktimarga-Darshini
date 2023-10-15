@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SubToSubCategoryViewModelNew @Inject constructor(
     private val subToSubCategoryRepository: SubToSubCategoryRepository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val catId = savedStateHandle.get<Int>("cat_id") ?: 0
@@ -40,8 +40,8 @@ class SubToSubCategoryViewModelNew @Inject constructor(
     private val filterFiles = combine(_filesState, filterData) { state, filter ->
         state.data?.let { files ->
             files.filter {
-                filter.selectedAuthorIds.contains(it.author_id)
-                        && filter.selectedGodIds.contains(it.god_id)
+                filter.selectedAuthorIds.contains(it.authorId)
+                        && filter.selectedGodIds.contains(it.godId)
             }
         }
     }.distinctUntilChanged().flowOn(Dispatchers.Default)

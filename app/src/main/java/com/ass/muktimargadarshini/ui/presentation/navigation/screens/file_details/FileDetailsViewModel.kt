@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -7,8 +7,8 @@ import com.ass.muktimargadarshini.data.Constants.PARAGRAPH_LINE
 import com.ass.muktimargadarshini.domain.repository.remote.FileDataRemoteRepository
 import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.domain.utils.StringUtil
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.modals.FileDataState
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.modals.FileDocumentText
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDataState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDocumentText
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.file_details.modals.FileDocumentText
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDocumentText
 
 @Composable
 fun SearchedText(

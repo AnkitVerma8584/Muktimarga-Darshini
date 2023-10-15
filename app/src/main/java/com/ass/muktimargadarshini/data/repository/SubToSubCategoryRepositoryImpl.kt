@@ -17,7 +17,7 @@ import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeGod
 import com.ass.muktimargadarshini.domain.repository.SubToSubCategoryRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState
 import kotlinx.coroutines.flow.Flow
@@ -123,7 +123,7 @@ class SubToSubCategoryRepositoryImpl(
             homeFiles?.filter { it.isNotPdf }?.forEach { homeFile ->
                 val file = File(application.filesDir, "${homeFile.name}_${homeFile.id}.txt")
                 val downloadedFile = if (!file.exists()) {
-                    val result = fileDataApi.getFilesData(homeFile.file_url.getDocumentExtension())
+                    val result = fileDataApi.getFilesData(homeFile.fileUrl.getDocumentExtension())
                     result.body()?.byteStream()?.use { inputStream ->
                         application.openFileOutput(file.name, Context.MODE_PRIVATE)
                             .use { outputStream ->

@@ -3,7 +3,7 @@ package com.ass.muktimargadarshini.domain.repository
 import com.ass.muktimargadarshini.domain.modals.HomeAuthor
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeGod
-import com.ass.muktimargadarshini.presentation.ui.navigation.screens.files.modals.FilesState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState
 import kotlinx.coroutines.flow.Flow

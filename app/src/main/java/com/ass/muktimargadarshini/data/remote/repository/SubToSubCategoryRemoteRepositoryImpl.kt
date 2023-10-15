@@ -98,7 +98,7 @@ class SubToSubCategoryRemoteRepositoryImpl(
                 val file = File(application.filesDir, "${homeFile.name}_${homeFile.id}.txt")
 
                 val downloadedFile = if (!file.exists()) {
-                    val result = fileDataApi.getFilesData(homeFile.file_url.getDocumentExtension())
+                    val result = fileDataApi.getFilesData(homeFile.fileUrl.getDocumentExtension())
                     result.body()?.byteStream()?.use { inputStream ->
                         application.openFileOutput(file.name, Context.MODE_PRIVATE)
                             .use { outputStream ->

@@ -1,4 +1,4 @@
-package com.ass.muktimargadarshini.presentation.ui.navigation.screens.pdf
+package com.ass.muktimargadarshini.ui.presentation.navigation.screens.pdf
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -51,6 +51,7 @@ class PdfViewModel @Inject constructor(
                         _pdfState.update {
                             it.copy(isLoading = true, error = null, file = null)
                         }
+
                     is Resource.Success ->
                         _pdfState.update {
                             it.copy(isLoading = false, error = null, file = result.result)

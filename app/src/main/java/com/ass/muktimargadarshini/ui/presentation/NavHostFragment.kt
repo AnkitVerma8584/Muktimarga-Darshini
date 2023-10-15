@@ -64,7 +64,7 @@ fun NavHostFragments(
         ) {
             SubCategoryPage(onSubCategoryClicked = {
                 NavigationFragment.SubToSubCategory.title = StringUtil.DynamicText(it.name)
-                navController.navigate("sub_to_sub_category/${it.cat_id}/${it.id}") {
+                navController.navigate("sub_to_sub_category/${it.catId}/${it.id}") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -77,19 +77,19 @@ fun NavHostFragments(
         ) {
             SubToSubCategoryPage(onSubToSubCategoryClick = {
                 NavigationFragment.Files.title = StringUtil.DynamicText(it.name)
-                navController.navigate("files/${it.cat_id}/${it.sub_cat_id}/${it.id}") {
+                navController.navigate("files/${it.catId}/${it.subCatId}/${it.id}") {
                     launchSingleTop = true
                     restoreState = true
                 }
             }, onFileClicked = { item, query, index ->
                 NavigationFragment.FileDetails.title = StringUtil.DynamicText(item.name)
-                navController.navigate("file_details?file_id=$id&file_name=${item.name}&file_url=${item.file_url}&query=$query&index=$index") {
+                navController.navigate("file_details?file_id=$id&file_name=${item.name}&file_url=${item.fileUrl}&query=$query&index=$index") {
                     launchSingleTop = true
                     restoreState = true
                 }
             }, onPdfClicked = {
                 NavigationFragment.Pdf.title = StringUtil.DynamicText(it.name)
-                navController.navigate("pdf?url=${it.file_url}") {
+                navController.navigate("pdf?url=${it.fileUrl}") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -103,13 +103,13 @@ fun NavHostFragments(
         ) {
             FilePage(onFileClicked = { item, query, index ->
                 NavigationFragment.FileDetails.title = StringUtil.DynamicText(item.name)
-                navController.navigate("file_details?file_id=$id&file_name=${item.name}&file_url=${item.file_url}&query=$query&index=$index") {
+                navController.navigate("file_details?file_id=$id&file_name=${item.name}&file_url=${item.fileUrl}&query=$query&index=$index") {
                     launchSingleTop = true
                     restoreState = true
                 }
             }, onPdfClicked = {
                 NavigationFragment.Pdf.title = StringUtil.DynamicText(it.name)
-                navController.navigate("pdf?url=${it.file_url}") {
+                navController.navigate("pdf?url=${it.fileUrl}") {
                     launchSingleTop = true
                     restoreState = true
                 }

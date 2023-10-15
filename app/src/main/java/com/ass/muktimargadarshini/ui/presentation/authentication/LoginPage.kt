@@ -62,7 +62,6 @@ fun MobileAuthenticationPage(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun MobileInput(
     mobile: String,
@@ -148,7 +147,6 @@ private fun MobileInput(
 }
 
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun OtpInput(
     mobile: String,

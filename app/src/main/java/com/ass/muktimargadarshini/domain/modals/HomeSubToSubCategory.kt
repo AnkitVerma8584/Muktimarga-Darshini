@@ -2,8 +2,8 @@ package com.ass.muktimargadarshini.domain.modals
 
 data class HomeSubToSubCategory(
     val id: Int,
-    val cat_id: Int,
-    val sub_cat_id: Int,
+    val catId: Int,
+    val subCatId: Int,
     val name: String,
     val description: String
 ) {

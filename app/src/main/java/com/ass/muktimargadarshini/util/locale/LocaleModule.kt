@@ -11,12 +11,12 @@ class LocaleModule {
         return setLocale(context, lang)
     }
 
-    internal fun setLocale(context: Context, language: String): Context {
+    private fun setLocale(context: Context, language: String): Context {
         UserDataStore.getInstance().saveLanguage(language)
         return updateResources(context, language)
     }
 
-    internal fun getLanguage(): String {
+    private fun getLanguage(): String {
         return UserDataStore.getInstance().getLanguageId()
     }
 

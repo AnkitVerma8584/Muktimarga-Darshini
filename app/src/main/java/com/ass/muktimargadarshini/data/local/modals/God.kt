@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class God(
     @PrimaryKey
     val id: Int,
-    val god_name: String
+    val godName: String
 )

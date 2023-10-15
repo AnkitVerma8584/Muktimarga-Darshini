@@ -3,7 +3,7 @@ package com.ass.muktimargadarshini.data.local
 import android.content.Context
 import android.content.SharedPreferences
 import com.ass.muktimargadarshini.MyApplication
-import java.util.*
+import java.util.Locale
 
 const val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
 private const val LANGUAGE_PREFERENCE = "com.ass.muktimargadarshini.Kalidasa.Granthavali"
