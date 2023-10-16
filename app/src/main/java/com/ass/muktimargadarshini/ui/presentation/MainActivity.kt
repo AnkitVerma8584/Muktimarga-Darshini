@@ -41,8 +41,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +85,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MainPage(
-    windowSizeClass: WindowSizeClass, allScreens: List<NavigationFragment> = listOf(
+    windowSizeClass: WindowSizeClass,
+    allScreens: List<NavigationFragment> = listOf(
         NavigationFragment.Home,
         NavigationFragment.About,
         NavigationFragment.Contact,

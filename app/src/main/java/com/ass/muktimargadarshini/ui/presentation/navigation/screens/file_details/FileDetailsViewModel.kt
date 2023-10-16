@@ -109,19 +109,19 @@ class FileDetailsViewModel @Inject constructor(
     }
 
     val searchedText = combine(fileDataQuery, text) { query, list ->
-        list.mapIndexed { index, s ->
-            FileDocumentText(index, s)
-        }.filter { s ->
-            s.text?.contains(query, ignoreCase = true) ?: false
-        }
+        if(query.length>2)
+            list.mapIndexed { index, s ->
+                FileDocumentText(index, s)
+            }.filter { s ->
+                s.text?.contains(query, ignoreCase = true) ?: false
+            }
+        else emptyList()
     }.flowOn(Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
 
     fun updateQuery(newQuery: String = "") {
         _fileDataQuery.value = newQuery
     }
-
-//   suspend fun getLanguageCode(text: String) = languageTranslator.getLanguageCode(text)
 
     fun getScrollIndex(): Int = index
 

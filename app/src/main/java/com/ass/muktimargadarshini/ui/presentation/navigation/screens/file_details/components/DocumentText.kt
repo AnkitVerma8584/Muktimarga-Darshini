@@ -34,12 +34,7 @@ fun DocumentText(
             derivedStateOf {
                 buildAnnotatedString {
                     var start = 0
-                    while (query.length > 2 && it.indexOf(
-                            query,
-                            start,
-                            ignoreCase = true
-                        ) != -1
-                    ) {
+                    while (query.length > 2 && it.indexOf(query, start, ignoreCase = true) != -1) {
                         val firstIndex = it.indexOf(query, start, true)
                         val end = firstIndex + query.length
                         append(it.substring(start, firstIndex))
