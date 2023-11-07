@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -66,7 +67,7 @@ fun LazyItemScope.SubToSubCategoryCard(
                     .size(24.dp)
                     .clip(CircleShape)
                     .background(color = MaterialTheme.colorScheme.primaryContainer),
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                imageVector = Icons.Default.KeyboardArrowRight,
                 colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimaryContainer),
                 contentDescription = null
             )

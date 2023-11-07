@@ -12,7 +12,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -210,7 +210,7 @@ private fun AppBar(
                         .clickable { hamburgerIconClicked() }
                         .padding(8.dp))
             } else {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                Icon(imageVector = Icons.Default.Favorite,
                     contentDescription = null,
                     modifier = Modifier
                         .clickable { navigationBackClicked() }
