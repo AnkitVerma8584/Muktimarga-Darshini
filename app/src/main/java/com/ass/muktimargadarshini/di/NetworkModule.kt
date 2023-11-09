@@ -1,7 +1,6 @@
 package com.ass.muktimargadarshini.di
 
 import com.ass.muktimargadarshini.data.remote.Api
-import com.ass.muktimargadarshini.data.remote.apis.FileDataApi
 import com.ass.muktimargadarshini.data.remote.apis.*
 import dagger.Module
 import dagger.Provides
@@ -26,8 +25,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideUserDao(@MukitimargaDarshini retrofit: Retrofit): UserApi =
+        retrofit.create(UserApi::class.java)
+
+    @Provides
+    @Singleton
     fun provideHomeDao(@MukitimargaDarshini retrofit: Retrofit): HomeApi =
         retrofit.create(HomeApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePaymentDao(@MukitimargaDarshini retrofit: Retrofit): PaymentApi =
+        retrofit.create(PaymentApi::class.java)
 
     @Provides
     @Singleton

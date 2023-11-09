@@ -28,6 +28,7 @@ class HomeRepositoryImpl(
         else
             state.copy(data = categoryDao.getCategories().mapToHomeCategoryList())
         emit(state)
+
         try {
             val result = homeApi.getCategoryData()
             if (result.isSuccessful && result.body() != null) {

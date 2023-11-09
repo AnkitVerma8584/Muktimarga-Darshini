@@ -1,49 +1,61 @@
 package com.ass.muktimargadarshini.ui.presentation
 
-import android.content.Context
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.StringRes
+import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ass.muktimargadarshini.R
+import com.ass.muktimargadarshini.data.Constants
+import com.ass.muktimargadarshini.domain.modals.Payment
+import com.ass.muktimargadarshini.domain.modals.User
+import com.ass.muktimargadarshini.ui.presentation.authentication.AuthenticationActivity
+import com.ass.muktimargadarshini.ui.presentation.common.Loading
 import com.ass.muktimargadarshini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.muktimargadarshini.ui.theme.MuktimargaDarshiniTheme
-import com.ass.muktimargadarshini.util.locale.LocaleHelper
+import com.razorpay.Checkout
+import com.razorpay.PaymentData
+import com.razorpay.PaymentResultWithDataListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+import org.json.JSONObject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
+
+    private val mainViewModel by viewModels<MainViewModel>()
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,39 +66,30 @@ class MainActivity : ComponentActivity() {
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
             MuktimargaDarshiniTheme {
-                var splashState by rememberSaveable {
-                    mutableStateOf(true)
-                }
-                LaunchedEffect(key1 = true) {
-                    delay(2000)
-                    splashState = false
-                }
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    AnimatedContent(targetState = splashState, transitionSpec = {
-                        fadeIn(animationSpec = tween(durationMillis = 1000)) togetherWith
-                                fadeOut(animationSpec = tween(durationMillis = 1000))
-                    }, label = "start") { splash ->
-                        if (splash) {
-                            SplashScreen()
-                        } else MainPage(windowSizeClass)
-                    }
+                    MainPage(windowSizeClass, mainViewModel)
                 }
             }
         }
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(LocaleHelper.onAttach(newBase!!))
+    override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+        p1?.let { mainViewModel.verifyPayment(it) }
+    }
+
+    override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
+        mainViewModel.paymentCancelled()
     }
 }
 
 
 @Composable
-private fun MainPage(
-    windowSizeClass: WindowSizeClass,
-    allScreens: List<NavigationFragment> = listOf(
+private fun Activity.MainPage(
+    windowSizeClass: WindowSizeClass, mainViewModel: MainViewModel
+) {
+    val allScreens: List<NavigationFragment> = listOf(
         NavigationFragment.Home,
         NavigationFragment.About,
         NavigationFragment.Contact,
@@ -96,17 +99,18 @@ private fun MainPage(
         NavigationFragment.SubToSubCategory,
         NavigationFragment.FileDetails,
         NavigationFragment.Pdf
-    ), menuScreens: List<NavigationFragment> = listOf(
+    )
+    val menuScreens: List<NavigationFragment> = listOf(
         NavigationFragment.Home,
         NavigationFragment.About,
         NavigationFragment.Contact,
         NavigationFragment.Support
     )
-) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val navController: NavHostController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
     val currentDestination = navBackStackEntry?.destination
 
     val currentFragment by remember(currentDestination) {
@@ -114,12 +118,33 @@ private fun MainPage(
             allScreens.find { it.route == navController.currentBackStackEntry?.destination?.route }
         }
     }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val order by mainViewModel.orderState.collectAsStateWithLifecycle()
+    val payment by mainViewModel.paymentState.collectAsStateWithLifecycle()
+    val user by mainViewModel.user.collectAsStateWithLifecycle()
+
     ModalNavigationDrawer(drawerState = drawerState,
         gesturesEnabled = currentFragment?.icon != null,
         drawerContent = {
             ModalDrawerSheet {
                 Spacer(Modifier.height(24.dp))
-                androidx.compose.material.Text(
+                Text(
+                    text = "Hello ${user.userName},",
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+                Text(
+                    text = user.userPhone,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+                Spacer(Modifier.height(24.dp))
+                Text(
                     text = stringResource(id = R.string.menu),
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.bodyLarge,
@@ -138,20 +163,83 @@ private fun MainPage(
                             }
                         })
                 }
+                NavigationDrawerItem(icon = {
+                    Icon(
+                        imageVector = Icons.Filled.Logout,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }, label = {
+                    Text(
+                        text = stringResource(id = R.string.logout),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }, selected = false, onClick = {
+                    mainViewModel.logout()
+                    startActivity(Intent(this@MainPage, AuthenticationActivity::class.java))
+                    finish()
+                }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                )
             }
         }) {
-        Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+
+        order.data?.let { p ->
+            startPayment(p, user)
+        }
+
+        Scaffold(modifier = Modifier.fillMaxSize(), snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }, topBar = {
             AppBar(
                 title = currentFragment?.title?.asString()
                     ?: stringResource(id = R.string.app_name),
                 hamburgerIconClicked = { scope.launch { drawerState.open() } },
                 navigationBackClicked = { navController.navigateUp() },
-                isNavigationFragment = currentFragment?.icon != null
+                isNavigationFragment = currentFragment?.icon != null,
+                mainViewModel = mainViewModel,
+                user = user
             )
         }) {
-            NavHostFragments(
-                navController = navController, paddingValues = it, windowSizeClass = windowSizeClass
-            )
+            val ctx = LocalContext.current
+            payment.data?.let {
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = "Payment verified", duration = SnackbarDuration.Short
+                    )
+                }
+                mainViewModel.resetPaymentState()
+            }
+            payment.error?.let { txt ->
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = txt.asString(context = ctx), duration = SnackbarDuration.Short
+                    )
+                }
+                mainViewModel.resetPaymentState()
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it), contentAlignment = Alignment.Center
+            ) {
+                if (order.isLoading || payment.isLoading) {
+                    Loading()
+                }
+                NavHostFragments(
+                    navController = navController,
+                    windowSizeClass = windowSizeClass,
+                    isPaidCustomer = user.isPaidCustomer,
+                    onNavigationTriggered = {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "Purchase the pack to use.",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
+                )
+            }
         }
     }
 }
@@ -186,75 +274,71 @@ private fun AppBar(
     title: String,
     hamburgerIconClicked: () -> Unit,
     navigationBackClicked: () -> Unit,
-    isNavigationFragment: Boolean
+    isNavigationFragment: Boolean,
+    mainViewModel: MainViewModel,
+    user: User
 ) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        ),
-        title = {
-            androidx.compose.material.Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        }, navigationIcon = {
-            if (isNavigationFragment) {
-                Icon(imageVector = Icons.Filled.Menu,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clickable { hamburgerIconClicked() }
-                        .padding(8.dp))
-            } else {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clickable { navigationBackClicked() }
-                        .padding(8.dp))
-            }
-        }, actions = {
-            TopAppBarDropdownMenu()
-        })
-}
-
-@Composable
-private fun TopAppBarDropdownMenu() {
-    val expanded = remember { mutableStateOf(false) }
-    Box(
-        Modifier.wrapContentSize(Alignment.TopEnd)
-    ) {
-        IconButton(onClick = {
-            expanded.value = true
-        }) {
-            Icon(
-                painterResource(id = R.drawable.ic_language), contentDescription = "Change Language"
-            )
-        }
-    }
-    DropdownMenu(
-        expanded = expanded.value,
-        onDismissRequest = { expanded.value = false },
-    ) {
-        MenuItem(R.string.en)
-        MenuItem(R.string.hi)
-        MenuItem(R.string.kn)
-        MenuItem(R.string.sa)
-    }
-}
-
-@Composable
-private fun MenuItem(
-    @StringRes languageId: Int
-) {
-    DropdownMenuItem(text = {
-        androidx.compose.material.Text(
-            text = stringResource(id = languageId),
-            style = MaterialTheme.typography.labelLarge,
+    mainViewModel.user.collectAsStateWithLifecycle()
+    TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+    ), title = {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
-    }, onClick = { })
+    }, navigationIcon = {
+        if (isNavigationFragment) {
+            Icon(imageVector = Icons.Filled.Menu,
+                contentDescription = null,
+                modifier = Modifier
+                    .clickable { hamburgerIconClicked() }
+                    .padding(8.dp))
+        } else {
+            Icon(imageVector = Icons.Filled.ArrowBack,
+                contentDescription = null,
+                modifier = Modifier
+                    .clickable { navigationBackClicked() }
+                    .padding(8.dp))
+        }
+    }, actions = {
+        if (!user.isPaidCustomer) IconButton(onClick = {
+            mainViewModel.getOrder()
+        }) {
+            Text(text = "BUY")
+        }
+
+    })
 }
+
+fun Activity.startPayment(
+    paymentData: Payment, user: User
+) {
+    val checkout = Checkout()
+    checkout.setKeyID(Constants.API_TEST_KEYS)
+    checkout.setImage(R.mipmap.ic_launcher)
+    try {
+        val options = JSONObject()
+        options.put("name", "MuktimargaDarshini")
+        options.put("description", "Payment for Muktimarga darshini app")
+        options.put("order_id", paymentData.id)
+        options.put("theme.color", "#934B00")
+        options.put("currency", "INR")
+        options.put("prefill.email", "${user.userName}@gmail.com")
+        options.put("prefill.contact", user.userPhone)
+        options.put("amount", paymentData.amount)
+        val retryObj = JSONObject()
+        retryObj.put("enabled", true)
+        retryObj.put("max_count", 4)
+        options.put("retry", retryObj)
+        checkout.open(this, options)
+    } catch (e: Exception) {
+        Log.e("TAG", "Error in starting Razorpay Checkout", e)
+    }
+}
+
+

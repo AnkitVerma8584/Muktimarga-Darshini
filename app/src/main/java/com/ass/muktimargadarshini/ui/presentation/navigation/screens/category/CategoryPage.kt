@@ -1,7 +1,13 @@
 package com.ass.muktimargadarshini.ui.presentation.navigation.screens.category
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -9,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,12 +26,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ass.muktimargadarshini.R
 import com.ass.muktimargadarshini.domain.modals.HomeCategory
 import com.ass.muktimargadarshini.ui.presentation.common.Loading
+import com.ass.muktimargadarshini.ui.presentation.common.SearchBar
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.components.CategoryItem
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.components.CategoryList
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.components.Slider
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.state.BannerState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.state.CategoryState
-import com.ass.muktimargadarshini.ui.presentation.common.SearchBar
 
 @Composable
 fun CategoryPage(
@@ -59,10 +66,11 @@ private fun CategoryScreenPortrait(
     categories: CategoryState,
     onClick: (HomeCategory) -> Unit
 ) {
+    val query by viewModel.categoryQuery.collectAsState()
     Column(modifier = modifier.fillMaxSize()) {
         SearchBar(
             hint = stringResource(id = R.string.category_search),
-            query = viewModel.categoryQuery.collectAsStateWithLifecycle().value,
+            query = query,
             onSearchQueryChanged = viewModel::queryChanged
         )
         if (categories.isLoading) {
@@ -96,10 +104,11 @@ private fun CategoryScreenLandscape(
     categories: CategoryState,
     onClick: (HomeCategory) -> Unit
 ) {
+    val query by viewModel.categoryQuery.collectAsState()
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
             hint = stringResource(id = R.string.category_search),
-            query = viewModel.categoryQuery.collectAsStateWithLifecycle().value,
+            query = query,
             onSearchQueryChanged = viewModel::queryChanged
         )
         Row(modifier = modifier.fillMaxSize()) {
@@ -113,17 +122,16 @@ private fun CategoryScreenLandscape(
                         Slider(banner = it)
                 }
             }
-            Column(
+            LazyColumn(
                 modifier = modifier
                     .fillMaxHeight()
                     .weight(1f)
             ) {
-
                 if (categories.isLoading) {
-                    Loading()
+                    item{ Loading() }
                 }
-                LazyColumn {
-                    categories.data?.let { list ->
+                categories.data?.let { list ->
+                    run {
                         if (list.isEmpty())
                             item {
                                 Text(

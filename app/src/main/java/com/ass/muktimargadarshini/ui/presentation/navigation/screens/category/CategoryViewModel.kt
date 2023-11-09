@@ -7,14 +7,18 @@ import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.st
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.state.CategoryState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     homeRepository: HomeRepository
 ) : ViewModel() {
-
     private val _categoryState =
         homeRepository.getCategoryState().flowOn(IO)
 

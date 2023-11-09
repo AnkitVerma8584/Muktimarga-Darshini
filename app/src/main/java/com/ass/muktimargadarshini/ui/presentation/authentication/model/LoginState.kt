@@ -1,8 +1,10 @@
 package com.ass.muktimargadarshini.ui.presentation.authentication.model
 
-sealed class LoginState {
-    data object Idle : LoginState()
-    data object InvalidMobile : LoginState()
-    data object LoginSuccessful : LoginState()
-    data object OtpVerifier : LoginState()
-}
+import com.ass.muktimargadarshini.domain.modals.User
+import com.ass.muktimargadarshini.domain.utils.StringUtil
+
+data class LoginState(
+    val isLoading: Boolean = false,
+    val data: User? = null,
+    val error: StringUtil? = null
+)

@@ -10,6 +10,7 @@ interface HomeApi {
     @GET(Api.GET_BANNER)
     suspend fun getBannerData(): Response<ResultList<String>>
 
+
     @GET(Api.GET_CATEGORY)
     suspend fun getCategoryData(): Response<ResultList<HomeCategory>>
 }

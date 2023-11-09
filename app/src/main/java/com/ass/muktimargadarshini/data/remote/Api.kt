@@ -7,7 +7,8 @@ object Api {
     fun String.getDocumentExtension(): String = "uploads/documents/$this"
 
     //fun String.getDocumentUrl(): String = BASE_URL + this.getDocumentExtension()
-
+    const val LOGIN =  "app/user_login.php"
+    const val PAYMENT = "app/order.php"
     const val GET_BANNER = "app/banner.php"
     const val GET_CATEGORY = "app/category.php"
     const val GET_SUBCATEGORIES = "app/sub_category.php"
