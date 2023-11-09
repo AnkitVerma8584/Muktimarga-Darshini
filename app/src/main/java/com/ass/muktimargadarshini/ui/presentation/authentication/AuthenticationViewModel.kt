@@ -21,7 +21,7 @@ class AuthenticationViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(1500)
+            delay(1600)
             userDataStore.userLoggedIn.collectLatest {
                 _isUserLoggedInChannel.send(it)
             }

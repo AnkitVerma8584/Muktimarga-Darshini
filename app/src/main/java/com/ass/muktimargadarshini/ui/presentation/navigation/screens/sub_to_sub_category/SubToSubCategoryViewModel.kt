@@ -9,10 +9,16 @@ import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState
-import com.ass.muktimargadarshini.util.print
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -101,16 +107,19 @@ class SubToSubCategoryViewModel @Inject constructor(
                         state.copy(isLoading = false, data = it.result)
                     }
                 }
+
                 is Resource.Failure -> {
                     _subToSubCategoryState.update { state ->
                         state.copy(isLoading = false, error = it.error)
                     }
                 }
+
                 Resource.Loading -> {
                     _subToSubCategoryState.update { state ->
                         state.copy(isLoading = true, error = null, data = null)
                     }
                 }
+
                 is Resource.Success -> {
                     _subToSubCategoryState.update { state ->
                         state.copy(isLoading = false, error = null, data = it.result)
@@ -129,16 +138,19 @@ class SubToSubCategoryViewModel @Inject constructor(
                         state.copy(isLoading = false, data = it.result)
                     }
                 }
+
                 is Resource.Failure -> {
                     _fileState.update { state ->
                         state.copy(isLoading = false, error = it.error)
                     }
                 }
+
                 Resource.Loading -> {
                     _fileState.update { state ->
                         state.copy(isLoading = true, error = null, data = null)
                     }
                 }
+
                 is Resource.Success -> {
                     getFilesData(it.result)
                     _fileState.update { state ->
@@ -155,12 +167,15 @@ class SubToSubCategoryViewModel @Inject constructor(
                 is Resource.Cached -> {
 
                 }
+
                 is Resource.Failure -> {
-                    it.error.print()
+
                 }
+
                 Resource.Loading -> {
 
                 }
+
                 is Resource.Success -> {
                     _filesList.value = it.result
                 }

@@ -35,7 +35,8 @@ fun FilesList(
                 )
             }
             items(fileData.fileData) { text ->
-                SearchedText(query = query, content = text, onClick = {
+                SearchedText(
+                    query = query, content = text, onClick = {
                     onFileClicked(fileData.homeFiles, query, it)
                 })
             }

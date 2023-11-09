@@ -2,11 +2,19 @@ package com.ass.muktimargadarshini.data.repository
 
 import android.app.Application
 import android.content.Context
+import com.ass.muktimargadarshini.data.local.UserDataStore
 import com.ass.muktimargadarshini.data.local.dao.AuthorDao
 import com.ass.muktimargadarshini.data.local.dao.FilesDao
 import com.ass.muktimargadarshini.data.local.dao.GodDao
 import com.ass.muktimargadarshini.data.local.dao.SubToSubCategoryDao
-import com.ass.muktimargadarshini.data.local.mapper.*
+import com.ass.muktimargadarshini.data.local.mapper.mapToAuthor
+import com.ass.muktimargadarshini.data.local.mapper.mapToFilesList
+import com.ass.muktimargadarshini.data.local.mapper.mapToGod
+import com.ass.muktimargadarshini.data.local.mapper.mapToHomeAuthor
+import com.ass.muktimargadarshini.data.local.mapper.mapToHomeFilesList
+import com.ass.muktimargadarshini.data.local.mapper.mapToHomeGod
+import com.ass.muktimargadarshini.data.local.mapper.mapToHomeSubToSubCategoryList
+import com.ass.muktimargadarshini.data.local.mapper.mapToSubToSubCategoryList
 import com.ass.muktimargadarshini.data.remote.Api.getDocumentExtension
 import com.ass.muktimargadarshini.data.remote.apis.DataApi
 import com.ass.muktimargadarshini.data.remote.apis.FileDataApi
@@ -17,8 +25,8 @@ import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.modals.HomeGod
 import com.ass.muktimargadarshini.domain.repository.SubToSubCategoryRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -33,7 +41,8 @@ class SubToSubCategoryRepositoryImpl(
     private val fileDataApi: FileDataApi,
     private val dataApi: DataApi,
     private val godDao: GodDao,
-    private val authorDao: AuthorDao
+    private val authorDao: AuthorDao,
+    private val userDataStore: UserDataStore
 ) : SubToSubCategoryRepository {
 
     override fun getSubToSubCategories(
@@ -88,7 +97,7 @@ class SubToSubCategoryRepositoryImpl(
         )
         emit(state)
         try {
-            val result = subToSubCategoryApi.getFiles(catId, subCategoryId)
+            val result = subToSubCategoryApi.getFiles(userDataStore.getId(), catId, subCategoryId)
             state = if (result.isSuccessful && result.body() != null) {
                 if (result.body()!!.success) {
                     val data = result.body()?.data!!

@@ -13,7 +13,7 @@ object Api {
     const val GET_CATEGORY = "app/category.php"
     const val GET_SUBCATEGORIES = "app/sub_category.php"
     const val GET_SUB_TO_SUBCATEGORIES = "app/sub_to_sub_category.php"
-    const val GET_FILES = "app/files.php"
+    const val GET_FILES = "app/get_files.php"
     const val GET_AUTHOR = "app/author.php"
     const val GET_GODS = "app/god.php"
 

@@ -101,13 +101,13 @@ fun NavHostFragments(
                     launchSingleTop = true
                     restoreState = true
                 }
-            }, onPdfClicked = {
+            }, onPdfClicked = { homeFile ->
                 if (!isPaidCustomer) {
                     onNavigationTriggered.invoke()
                     return@SubToSubCategoryPage
                 }
-                NavigationFragment.Pdf.title = StringUtil.DynamicText(it.name)
-                navController.navigate("pdf?url=${it.fileUrl}") {
+                NavigationFragment.Pdf.title = StringUtil.DynamicText(homeFile.name)
+                navController.navigate("pdf?file_id=${homeFile.id}&file_name=${homeFile.name}&file_url=${homeFile.fileUrl}") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -129,13 +129,13 @@ fun NavHostFragments(
                     launchSingleTop = true
                     restoreState = true
                 }
-            }, onPdfClicked = {
+            }, onPdfClicked = { homeFile ->
                 if (!isPaidCustomer) {
                     onNavigationTriggered.invoke()
                     return@FilePage
                 }
-                NavigationFragment.Pdf.title = StringUtil.DynamicText(it.name)
-                navController.navigate("pdf?url=${it.fileUrl}") {
+                NavigationFragment.Pdf.title = StringUtil.DynamicText(homeFile.name)
+                navController.navigate("pdf?file_id=${homeFile.id}&file_name=${homeFile.name}&file_url=${homeFile.fileUrl}") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -143,7 +143,11 @@ fun NavHostFragments(
         }
         composable(
             route = NavigationFragment.FileDetails.route,
-            arguments = listOf(navArgument("file_id") { type = NavType.IntType },
+            arguments =
+            listOf(
+                navArgument("file_id") {
+                    type = NavType.IntType
+                },
                 navArgument("query") {
                     type = NavType.StringType
                     defaultValue = ""
@@ -157,7 +161,14 @@ fun NavHostFragments(
         }
         composable(
             route = NavigationFragment.Pdf.route,
-            arguments = listOf(navArgument("url") { type = NavType.StringType })
+            arguments = listOf(
+                navArgument("file_id")
+                { type = NavType.IntType },
+                navArgument("file_name")
+                { type = NavType.StringType },
+                navArgument("file_url")
+                { type = NavType.StringType }
+            )
         ) {
             PdfScreen()
         }

@@ -16,6 +16,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDocumentText
 
 @Composable
@@ -23,6 +24,7 @@ fun SearchedText(
     query: String,
     content: FileDocumentText,
     onClick: (index: Int) -> Unit,
+    scale: Float = 1.0f,
     spanStyle: SpanStyle = SpanStyle(
         color = MaterialTheme.colorScheme.onPrimaryContainer,
         fontWeight = FontWeight.SemiBold,
@@ -56,7 +58,9 @@ fun SearchedText(
                 .clickable { onClick(content.index) },
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,
-            text = annotatedString
+            text = annotatedString,
+            fontSize = scale.sp,
+            lineHeight = scale.sp * 1.3
         )
         Divider(
             modifier = Modifier

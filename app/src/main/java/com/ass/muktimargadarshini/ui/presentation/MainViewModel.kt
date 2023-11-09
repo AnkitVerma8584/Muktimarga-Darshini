@@ -8,7 +8,6 @@ import com.ass.muktimargadarshini.domain.modals.User
 import com.ass.muktimargadarshini.domain.repository.PaymentRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.payment.PaymentState
-import com.ass.muktimargadarshini.util.print
 import com.razorpay.PaymentData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -81,7 +80,6 @@ class MainViewModel @Inject constructor(
                 paymentId = paymentData.paymentId,
                 paymentSignature = paymentData.signature
             ).collectLatest {
-                it.print()
                 _paymentState.value = it
                 it.data?.let { u ->
                     userDataStore.saveUser(u)

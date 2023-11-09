@@ -79,8 +79,11 @@ fun ContentPage(
     content: Content
 ) {
     val body = listOf(
-        termsAndConditionBody(), refundBody(),
-        termsAndConditionBody(), refundBody(), termsAndConditionBody()
+        termsAndConditionBody(),
+        refundBody(),
+        termsAndConditionBody(),
+        refundBody(),
+        termsAndConditionBody()
     )
     AnimatedContent(targetState = content, transitionSpec = {
         slideInHorizontally(initialOffsetX = {
@@ -99,15 +102,6 @@ fun ContentPage(
             )
             Spacer(modifier = Modifier.height(10.dp))
             TextBody(annotatedString = body[content.index], scrollState)
-            /*Text(
-                text = stringResource(id = targetCount.body),
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight()
-                    .align(Alignment.CenterHorizontally)
-                    .verticalScroll(scrollState),
-                textAlign = TextAlign.Justify
-            )*/
             Spacer(modifier = Modifier.height(50.dp))
         }
     }

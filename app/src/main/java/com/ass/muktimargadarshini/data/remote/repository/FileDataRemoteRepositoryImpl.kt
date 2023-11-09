@@ -8,7 +8,6 @@ import com.ass.muktimargadarshini.domain.repository.remote.FileDataRemoteReposit
 import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.util.isInValidFile
-import com.ass.muktimargadarshini.util.print
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.ResponseBody
@@ -16,7 +15,8 @@ import java.io.File
 import java.io.IOException
 
 class FileDataRemoteRepositoryImpl(
-    private val fileDataApi: FileDataApi, private val application: Application
+    private val fileDataApi: FileDataApi,
+    private val application: Application
 ) : FileDataRemoteRepository {
     override fun getFileData(
         homeFileName: String,
@@ -31,9 +31,6 @@ class FileDataRemoteRepositoryImpl(
                 emit(Resource.Cached(file))
             }
             val result = fileDataApi.getFilesData(homeFileUrl.getDocumentExtension())
-            result.print()
-            result.errorBody().print()
-            homeFileUrl.print()
             val body: ResponseBody? = result.body()
             emit(body?.let {
                 it.byteStream().use { inputStream ->
@@ -42,7 +39,6 @@ class FileDataRemoteRepositoryImpl(
                 }
                 Resource.Success(file)
             } ?: Resource.Failure(StringUtil.DynamicText("Failed to download file")))
-
         } catch (e: Exception) {
             emit(
                 Resource.Failure(

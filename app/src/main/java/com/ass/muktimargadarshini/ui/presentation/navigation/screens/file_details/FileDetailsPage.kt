@@ -104,11 +104,15 @@ private fun BoxScope.DocumentContent(
                     }
                     if (searchedText.isNotEmpty()) {
                         items(searchedText) { content ->
-                            SearchedText(query = query, content = content, onClick = {
-                                coroutineScope.launch {
-                                    listState.animateScrollToItem(searchedText.size + it)
-                                }
-                            })
+                            SearchedText(
+                                query = query,
+                                content = content,
+                                scale = scale,
+                                onClick = {
+                                    coroutineScope.launch {
+                                        listState.animateScrollToItem(searchedText.size + it)
+                                    }
+                                })
                         }
                     }
                 }

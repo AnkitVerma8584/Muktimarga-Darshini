@@ -8,10 +8,16 @@ import com.ass.muktimargadarshini.domain.repository.remote.FilesRemoteRepository
 import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
-import com.ass.muktimargadarshini.util.print
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -67,16 +73,19 @@ class FilesViewModel @Inject constructor(
                         state.copy(isLoading = false, data = it.result)
                     }
                 }
+
                 is Resource.Failure -> {
                     _state.update { state ->
                         state.copy(isLoading = false, error = it.error)
                     }
                 }
+
                 Resource.Loading -> {
                     _state.update { state ->
                         state.copy(isLoading = true, error = null, data = null)
                     }
                 }
+
                 is Resource.Success -> {
                     getFilesData(it.result)
                     _state.update { state ->
@@ -93,12 +102,14 @@ class FilesViewModel @Inject constructor(
                 is Resource.Cached -> {
 
                 }
+
                 is Resource.Failure -> {
-                    it.error.print()
                 }
+
                 Resource.Loading -> {
 
                 }
+
                 is Resource.Success -> {
                     _filesList.value = it.result
                 }

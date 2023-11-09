@@ -2,6 +2,7 @@ package com.ass.muktimargadarshini.data.remote.repository
 
 import android.app.Application
 import android.content.Context
+import com.ass.muktimargadarshini.data.local.UserDataStore
 import com.ass.muktimargadarshini.data.remote.Api.getDocumentExtension
 import com.ass.muktimargadarshini.data.remote.apis.FileDataApi
 import com.ass.muktimargadarshini.data.remote.apis.FilesApi
@@ -18,6 +19,7 @@ import java.io.File
 import java.io.IOException
 
 class FilesRemoteRepositoryImpl(
+    private val userDataStore: UserDataStore,
     private val filesApi: FilesApi,
     private val fileLocalRepository: FileLocalRepository,
     private val application: Application,
@@ -34,7 +36,7 @@ class FilesRemoteRepositoryImpl(
             emit(Resource.Success(fileLocalRepository.getFiles(catId, subCategoryId)))
         emit(
             try {
-                val result = filesApi.getFiles(catId, subCategoryId, subToSubCategoryId)
+                val result = filesApi.getFiles(userDataStore.getId(),catId, subCategoryId, subToSubCategoryId)
                 if (result.isSuccessful && result.body() != null) {
                     if (result.body()!!.success) {
                         val data = result.body()?.data ?: emptyList()

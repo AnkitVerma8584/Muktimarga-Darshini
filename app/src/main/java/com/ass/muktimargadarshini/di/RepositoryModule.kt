@@ -84,6 +84,7 @@ object RepositoryModule {
     @Provides
     @ViewModelScoped
     fun provideSubToSubCategoryRepositoryOld(
+        userDataStore: UserDataStore,
         subToSubCategoryApi: SubToSubCategoryApi,
         subToSubCategoryLocalRepository: SubToSubCategoryLocalRepository,
         fileLocalRepository: FileLocalRepository,
@@ -91,6 +92,7 @@ object RepositoryModule {
         application: Application
     ): SubToSubCategoryRemoteRepository =
         SubToSubCategoryRemoteRepositoryImpl(
+            userDataStore,
             subToSubCategoryApi,
             subToSubCategoryLocalRepository,
             fileLocalRepository,
@@ -103,9 +105,10 @@ object RepositoryModule {
         filesApi: FilesApi,
         fileLocalRepository: FileLocalRepository,
         filesDataApi: FileDataApi,
-        application: Application
+        application: Application,
+        userDataStore: UserDataStore
     ): FilesRemoteRepository =
-        FilesRemoteRepositoryImpl(filesApi, fileLocalRepository, application, filesDataApi)
+        FilesRemoteRepositoryImpl(userDataStore ,filesApi, fileLocalRepository, application, filesDataApi)
 
     @Provides
     @ViewModelScoped
@@ -133,7 +136,7 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideSubToSubCategoryRepository(
+    fun provideSubToSubCategoryRepository( userDataStore: UserDataStore,
         subToSubCategoryApi: SubToSubCategoryApi,
         subToSubCategoryDao: SubToSubCategoryDao,
         filesDataApi: FileDataApi,
@@ -150,7 +153,8 @@ object RepositoryModule {
             filesDao,
             filesDataApi,
             dataApi,
-            godDao, authorDao
+            godDao, authorDao,
+            userDataStore
         )
 
 

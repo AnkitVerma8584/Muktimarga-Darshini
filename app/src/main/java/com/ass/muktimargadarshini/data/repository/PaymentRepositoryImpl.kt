@@ -7,7 +7,6 @@ import com.ass.muktimargadarshini.domain.modals.User
 import com.ass.muktimargadarshini.domain.repository.PaymentRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.payment.PaymentState
-import com.ass.muktimargadarshini.util.print
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
@@ -50,7 +49,6 @@ class PaymentRepositoryImpl(
                 )
             )
         } finally {
-            state.print()
             emit(state)
         }
     }

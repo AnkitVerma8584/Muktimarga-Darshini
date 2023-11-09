@@ -2,6 +2,7 @@ package com.ass.muktimargadarshini.data.remote.repository
 
 import android.app.Application
 import android.content.Context
+import com.ass.muktimargadarshini.data.local.UserDataStore
 import com.ass.muktimargadarshini.data.remote.Api.getDocumentExtension
 import com.ass.muktimargadarshini.data.remote.apis.FileDataApi
 import com.ass.muktimargadarshini.data.remote.apis.SubToSubCategoryApi
@@ -14,13 +15,13 @@ import com.ass.muktimargadarshini.domain.repository.remote.SubToSubCategoryRemot
 import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
-import com.ass.muktimargadarshini.util.print
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File
 import java.io.IOException
 
 class SubToSubCategoryRemoteRepositoryImpl(
+    private val userDataStore: UserDataStore,
     private val subToSubCategoryApi: SubToSubCategoryApi,
     private val subToSubCategoryLocalRepository: SubToSubCategoryLocalRepository,
     private val fileLocalRepository: FileLocalRepository,
@@ -32,17 +33,14 @@ class SubToSubCategoryRemoteRepositoryImpl(
         categoryId: Int, subCategoryId: Int
     ): Flow<Resource<List<HomeSubToSubCategory>>> = flow {
         emit(Resource.Loading)
-        if (subToSubCategoryLocalRepository.getSubToSubCategoryCount(
-                categoryId,
-                subCategoryId
-            ) > 0
-        ) emit(
-            Resource.Cached(
-                subToSubCategoryLocalRepository.getSubToSubCategories(
-                    categoryId, subCategoryId
+        if (subToSubCategoryLocalRepository.getSubToSubCategoryCount(categoryId, subCategoryId) > 0)
+            emit(
+                Resource.Cached(
+                    subToSubCategoryLocalRepository.getSubToSubCategories(
+                        categoryId, subCategoryId
+                    )
                 )
             )
-        )
         emit(
             try {
                 val result = subToSubCategoryApi.getSubToSubCategories(categoryId, subCategoryId)
@@ -70,8 +68,8 @@ class SubToSubCategoryRemoteRepositoryImpl(
             emit(Resource.Success(fileLocalRepository.getFiles(catId, subCategoryId)))
         emit(
             try {
-                val result = subToSubCategoryApi.getFiles(catId, subCategoryId)
-                result.print()
+                val result =
+                    subToSubCategoryApi.getFiles(userDataStore.getId(), catId, subCategoryId)
                 if (result.isSuccessful && result.body() != null) {
                     if (result.body()!!.success) {
                         val data = result.body()?.data ?: emptyList()

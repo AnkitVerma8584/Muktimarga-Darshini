@@ -16,8 +16,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -34,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -101,15 +106,18 @@ fun MobileAuthenticationPage(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(padding)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(50.dp))
             Image(
-                modifier = Modifier.size(300.dp),
+                modifier = Modifier.size(200.dp),
+                contentScale= ContentScale.Crop,
                 painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
                 contentDescription = null
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(50.dp))
             MobileInput(
                 focusManager = focusManager,
                 focusRequester = focusRequester,
@@ -117,7 +125,6 @@ fun MobileAuthenticationPage(
                 error = mobileError,
                 onValueChanged = viewModel::setMobile
             )
-            Spacer(modifier = Modifier.height(8.dp))
             PasswordInput(focusManager = focusManager,
                 focusRequester = focusRequester,
                 password = password,
@@ -139,7 +146,7 @@ fun MobileAuthenticationPage(
                         onRegisterClicked.invoke()
                     })
             }
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(50.dp))
             AnimatedContent(targetState = uiState == UiState.Loading, transitionSpec = {
                 fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith fadeOut(
                     animationSpec = tween(durationMillis = 300)
@@ -152,13 +159,15 @@ fun MobileAuthenticationPage(
                         viewModel.login(mobile, password)
                     }) {
                         Text(
-                            text = "Login", style = MaterialTheme.typography.bodyLarge
+                            text = "Login",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
 
                 }
             }
-
+            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }

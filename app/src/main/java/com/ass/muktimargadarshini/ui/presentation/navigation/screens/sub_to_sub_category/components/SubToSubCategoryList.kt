@@ -56,6 +56,17 @@ fun SubToSubCategoryContent(
             }
         }
         subToSubCategory?.let { list ->
+            if (list.isEmpty()) return@LazyColumn
+            stickyHeader {
+                Text(
+                    text = "Sub-Categories",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(start = 16.dp, top = 16.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
             items(items = list, key = { it.uniqueKey }) { subCategory ->
                 SubToSubCategoryCard(data = subCategory, onClick = onSubToSubCategoryClick)
             }

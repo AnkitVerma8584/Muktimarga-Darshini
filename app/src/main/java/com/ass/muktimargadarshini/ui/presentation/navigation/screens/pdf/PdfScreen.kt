@@ -38,9 +38,9 @@ fun PdfScreen(
         pdfState.file?.let { pdf ->
             AndroidView(factory = {
                 PDFView(it, null).also { pdfView ->
-                    pdfView.fromFile(pdf).onError {
-                        pdfViewModel.pdfState
-                    }.load()
+                    pdfView.fromFile(pdf)
+                        .onError(pdfViewModel::setPdfError)
+                        .load()
                 }
             }, modifier = Modifier.fillMaxSize())
         }

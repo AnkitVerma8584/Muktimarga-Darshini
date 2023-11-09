@@ -10,15 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.util.lerp
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.load
 import com.flaviofaria.kenburnsview.KenBurnsView
 import com.google.accompanist.pager.*
-import com.ass.muktimargadarshini.util.print
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 import kotlin.math.absoluteValue
@@ -39,7 +38,7 @@ fun Slider(
                     animationSpec = tween(500)
                 )
             } catch (e: Exception) {
-                e.print()
+                e.printStackTrace()
             }
         }
     }

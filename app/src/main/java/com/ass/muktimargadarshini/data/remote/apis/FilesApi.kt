@@ -11,6 +11,7 @@ interface FilesApi {
 
     @GET(Api.GET_FILES)
     suspend fun getFiles(
+        @Query("user_id") userId:Int,
         @Query("cat_id") categoryId: Int,
         @Query("sub_cat_id") subCategoryId: Int,
         @Query("sub_to_sub_cat_id") subToSubCategoryId: Int

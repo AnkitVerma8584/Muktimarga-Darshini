@@ -17,7 +17,6 @@ class UserRepositoryImpl(
     override fun loginUser(mobile: String, password: String): Flow<LoginState> = flow {
         var state = LoginState(isLoading = true)
         emit(state)
-        delay(2000)
         try {
             val result = userApi.loginUser(mobile, password)
             if (result.isSuccessful && result.body() != null) {
