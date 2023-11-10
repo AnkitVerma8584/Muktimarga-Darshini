@@ -5,9 +5,9 @@ import com.ass.muktimargadarshini.data.remote.apis.UserApi
 import com.ass.muktimargadarshini.domain.repository.UserRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.authentication.model.LoginState
+import com.ass.muktimargadarshini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okio.IOException
 
 class UserRepositoryImpl(
     private val userApi: UserApi,
@@ -39,11 +39,7 @@ class UserRepositoryImpl(
         } catch (e: Exception) {
             state = state.copy(
                 isLoading = false,
-                error = StringUtil.DynamicText(
-                    if (e is IOException) "Please check your internet connection" else {
-                        e.localizedMessage ?: "Some server error occurred"
-                    }
-                )
+                error = e.getError()
             )
         } finally {
             emit(state)
@@ -76,11 +72,7 @@ class UserRepositoryImpl(
             } catch (e: Exception) {
                 state = state.copy(
                     isLoading = false,
-                    error = StringUtil.DynamicText(
-                        if (e is IOException) "Please check your internet connection" else {
-                            e.localizedMessage ?: "Some server error occurred"
-                        }
-                    )
+                    error = e.getError()
                 )
             } finally {
                 emit(state)

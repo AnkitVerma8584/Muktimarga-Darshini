@@ -53,15 +53,6 @@ object NetworkModule {
     fun provideFilesDao(@MukitimargaDarshini retrofit: Retrofit): FilesApi =
         retrofit.create(FilesApi::class.java)
 
-    @Provides
-    @Singleton
-    fun provideFileDataDao(@MukitimargaDarshini retrofit: Retrofit): FileDataApi =
-        retrofit.create(FileDataApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideDataDao(@MukitimargaDarshini retrofit: Retrofit): DataApi =
-        retrofit.create(DataApi::class.java)
 }
 
 @Qualifier

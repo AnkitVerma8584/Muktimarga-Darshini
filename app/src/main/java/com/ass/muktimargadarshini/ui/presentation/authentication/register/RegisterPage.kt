@@ -51,7 +51,6 @@ import com.ass.muktimargadarshini.R
 import com.ass.muktimargadarshini.ui.presentation.authentication.common.MobileInput
 import com.ass.muktimargadarshini.ui.presentation.authentication.common.NameInput
 import com.ass.muktimargadarshini.ui.presentation.authentication.common.PasswordInput
-import com.ass.muktimargadarshini.util.UiState
 import kotlin.system.exitProcess
 
 @Composable
@@ -75,7 +74,6 @@ fun RegisterPage(
     val focusManager: FocusManager = LocalFocusManager.current
     val ctx = LocalContext.current
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -156,7 +154,7 @@ fun RegisterPage(
                     })
             }
             Spacer(modifier = Modifier.height(50.dp))
-            AnimatedContent(targetState = uiState == UiState.Loading, transitionSpec = {
+            AnimatedContent(targetState = viewModel.isLoading, transitionSpec = {
                 fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith fadeOut(
                     animationSpec = tween(durationMillis = 300)
                 )

@@ -4,9 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.data.Constants.PARAGRAPH_LINE
-import com.ass.muktimargadarshini.domain.repository.remote.FileDataRemoteRepository
+import com.ass.muktimargadarshini.domain.repository.DocumentRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDataState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.DocumentState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDocumentText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default
@@ -28,11 +28,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FileDetailsViewModel @Inject constructor(
-    private val filesRepository: FileDataRemoteRepository,
+    private val filesRepository: DocumentRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _fileState = MutableStateFlow(FileDataState())
+    private val _fileState = MutableStateFlow(DocumentState())
     val fileState = _fileState.asStateFlow()
 
     private var index = savedStateHandle.get<Int>("index") ?: -1
@@ -45,15 +45,15 @@ class FileDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(IO) {
-            fetchFile(
+            fetchDocument(
                 savedStateHandle.get<Int>("file_id") ?: 0,
                 savedStateHandle.get<String>("file_url") ?: ""
             )
         }
     }
 
-    private suspend fun fetchFile(homeFileId: Int, homeFileUrl: String) {
-        filesRepository.getFileData("file_${homeFileId}.txt", homeFileUrl)
+    private suspend fun fetchDocument(homeFileId: Int, homeFileUrl: String) {
+        filesRepository.getDocument("file_${homeFileId}.txt", homeFileUrl)
             .collectLatest { result ->
                 _fileState.value = result
                 result.data?.let { file ->

@@ -9,7 +9,6 @@ import com.ass.muktimargadarshini.domain.modals.User
 import com.ass.muktimargadarshini.domain.repository.PaymentRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.payment.PaymentState
-import com.ass.muktimargadarshini.util.UiState
 import com.razorpay.PaymentData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -39,7 +38,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    var uiState = mutableStateOf<UiState>(UiState.Idle)
+    var isLoading = mutableStateOf(false)
         private set
 
 
@@ -53,7 +52,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
 
             paymentRepository.getPaymentOrder().collectLatest {
-                uiState.value = if (it.isLoading) UiState.Loading else UiState.Idle
+                isLoading.value = it.isLoading
                 _orderState.send(it)
             }
         }
@@ -97,7 +96,7 @@ class MainViewModel @Inject constructor(
                 paymentId = paymentData.paymentId,
                 paymentSignature = paymentData.signature
             ).collectLatest {
-                uiState.value = if (it.isLoading) UiState.Loading else UiState.Idle
+                isLoading.value = it.isLoading
                 _paymentState.send(it)
                 it.data?.let { u ->
                     userDataStore.saveUser(u)

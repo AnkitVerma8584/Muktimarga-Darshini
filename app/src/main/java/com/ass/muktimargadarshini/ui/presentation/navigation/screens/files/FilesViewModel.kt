@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
-import com.ass.muktimargadarshini.domain.repository.remote.FilesRemoteRepository
+import com.ass.muktimargadarshini.domain.repository.FilesRepository
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilesViewModel @Inject constructor(
-    private val filesRemoteRepository: FilesRemoteRepository,
+    private val filesRepository: FilesRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -63,7 +63,7 @@ class FilesViewModel @Inject constructor(
     }
 
     private suspend fun getFilesList(catId: Int, subCatId: Int, subToSubCatId: Int) {
-        filesRemoteRepository.getFiles(catId, subCatId, subToSubCatId).collect {
+        filesRepository.getFiles(catId, subCatId, subToSubCatId).collect {
             _state.value = it
             it.data?.let { list ->
                 getFilesData(list)
@@ -72,7 +72,7 @@ class FilesViewModel @Inject constructor(
     }
 
     private suspend fun getFilesData(list: List<HomeFiles>) {
-        filesRemoteRepository.getFilesData(list).collectLatest {
+        filesRepository.getFilesData(list).collectLatest {
             it.data?.let { list ->
                 _filesList.value = list
             }

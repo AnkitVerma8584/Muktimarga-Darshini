@@ -7,9 +7,9 @@ import com.ass.muktimargadarshini.domain.modals.User
 import com.ass.muktimargadarshini.domain.repository.PaymentRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.payment.PaymentState
+import com.ass.muktimargadarshini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okio.IOException
 
 class PaymentRepositoryImpl(
     private val paymentApi: PaymentApi,
@@ -42,11 +42,7 @@ class PaymentRepositoryImpl(
         } catch (e: Exception) {
             state = state.copy(
                 isLoading = false,
-                error = StringUtil.DynamicText(
-                    if (e is IOException) "Please check your internet connection" else {
-                        e.localizedMessage ?: "Some server error occurred"
-                    }
-                )
+                error = e.getError()
             )
         } finally {
             emit(state)
@@ -87,11 +83,7 @@ class PaymentRepositoryImpl(
         } catch (e: Exception) {
             state = state.copy(
                 isLoading = false,
-                error = StringUtil.DynamicText(
-                    if (e is IOException) "Please check your internet connection" else {
-                        e.localizedMessage ?: "Some server error occurred"
-                    }
-                )
+                error = e.getError()
             )
         } finally {
             emit(state)

@@ -3,19 +3,21 @@ package com.ass.muktimargadarshini.di
 import android.app.Application
 import com.ass.muktimargadarshini.data.local.UserDataStore
 import com.ass.muktimargadarshini.data.local.dao.*
-import com.ass.muktimargadarshini.data.local.repositoryImpl.*
 import com.ass.muktimargadarshini.data.remote.apis.*
-import com.ass.muktimargadarshini.data.remote.repository.*
+import com.ass.muktimargadarshini.data.repository.DocumentRepositoryImpl
+import com.ass.muktimargadarshini.data.repository.FilesRepositoryImpl
 import com.ass.muktimargadarshini.data.repository.HomeRepositoryImpl
 import com.ass.muktimargadarshini.data.repository.PaymentRepositoryImpl
 import com.ass.muktimargadarshini.data.repository.SubCategoryRepositoryImpl
+import com.ass.muktimargadarshini.data.repository.SubToSubCategoryRepositoryImpl
 import com.ass.muktimargadarshini.data.repository.UserRepositoryImpl
+import com.ass.muktimargadarshini.domain.repository.DocumentRepository
+import com.ass.muktimargadarshini.domain.repository.FilesRepository
 import com.ass.muktimargadarshini.domain.repository.HomeRepository
 import com.ass.muktimargadarshini.domain.repository.PaymentRepository
 import com.ass.muktimargadarshini.domain.repository.SubCategoryRepository
+import com.ass.muktimargadarshini.domain.repository.SubToSubCategoryRepository
 import com.ass.muktimargadarshini.domain.repository.UserRepository
-import com.ass.muktimargadarshini.domain.repository.local.*
-import com.ass.muktimargadarshini.domain.repository.remote.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -67,68 +69,45 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideSubToSubCategoryLocalRepository(
-        subToSubCategoryDao: SubToSubCategoryDao
-    ): SubToSubCategoryLocalRepository =
-        SubToSubCategoryLocalRepositoryImpl(subToSubCategoryDao)
-
-    @Provides
-    @ViewModelScoped
-    fun provideFilesLocalRepository(
-        filesDao: FilesDao
-    ): FileLocalRepository =
-        FilesLocalRepositoryImpl(filesDao)
-
-    @Provides
-    @ViewModelScoped
     fun provideSubToSubCategoryRepositoryOld(
         userDataStore: UserDataStore,
         subToSubCategoryApi: SubToSubCategoryApi,
-        subToSubCategoryLocalRepository: SubToSubCategoryLocalRepository,
-        fileLocalRepository: FileLocalRepository,
-        filesDataApi: FileDataApi,
+        subToSubCategoryDao: SubToSubCategoryDao,
+        filesDao: FilesDao,
+        filesApi: FilesApi,
         application: Application
-    ): SubToSubCategoryRemoteRepository =
-        SubToSubCategoryRemoteRepositoryImpl(
+    ): SubToSubCategoryRepository =
+        SubToSubCategoryRepositoryImpl(
             userDataStore,
             subToSubCategoryApi,
-            subToSubCategoryLocalRepository,
-            fileLocalRepository,
-            application, filesDataApi
+            subToSubCategoryDao,
+            filesDao,
+            application,
+            filesApi
         )
 
     @Provides
     @ViewModelScoped
     fun provideFileRepository(
         filesApi: FilesApi,
-        fileLocalRepository: FileLocalRepository,
-        filesDataApi: FileDataApi,
+        filesDao: FilesDao,
         application: Application,
         userDataStore: UserDataStore
-    ): FilesRemoteRepository =
-        FilesRemoteRepositoryImpl(
+    ): FilesRepository =
+        FilesRepositoryImpl(
             userDataStore,
             filesApi,
-            fileLocalRepository,
-            application,
-            filesDataApi
+            filesDao,
+            application
         )
 
     @Provides
     @ViewModelScoped
     fun provideFileDataRepository(
-        filesApi: FileDataApi,
+        filesApi: FilesApi,
         application: Application
-    ): FileDataRemoteRepository =
-        FileDataRemoteRepositoryImpl(filesApi, application)
-
-    @Provides
-    @ViewModelScoped
-    fun provideDataLocalRepository(
-        authorDao: AuthorDao,
-        godDao: GodDao
-    ): DataLocalRepository =
-        DataLocalRepositoryImpl(authorDao, godDao)
+    ): DocumentRepository =
+        DocumentRepositoryImpl(filesApi, application)
 
 
 }

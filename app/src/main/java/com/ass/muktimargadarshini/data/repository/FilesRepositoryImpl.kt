@@ -1,31 +1,32 @@
-package com.ass.muktimargadarshini.data.remote.repository
+package com.ass.muktimargadarshini.data.repository
 
 import android.app.Application
 import android.content.Context
 import com.ass.muktimargadarshini.data.local.UserDataStore
+import com.ass.muktimargadarshini.data.local.dao.FilesDao
+import com.ass.muktimargadarshini.data.local.mapper.mapToFilesList
+import com.ass.muktimargadarshini.data.local.mapper.mapToHomeFilesList
 import com.ass.muktimargadarshini.data.remote.Api.getDocumentExtension
-import com.ass.muktimargadarshini.data.remote.apis.FileDataApi
 import com.ass.muktimargadarshini.data.remote.apis.FilesApi
 import com.ass.muktimargadarshini.data.remote.mapper.FileMapper.getFileToFilesData
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
-import com.ass.muktimargadarshini.domain.repository.local.FileLocalRepository
-import com.ass.muktimargadarshini.domain.repository.remote.FilesRemoteRepository
+import com.ass.muktimargadarshini.domain.repository.FilesRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesDataState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
+import com.ass.muktimargadarshini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File
 import java.io.IOException
 
-class FilesRemoteRepositoryImpl(
+class FilesRepositoryImpl(
     private val userDataStore: UserDataStore,
     private val filesApi: FilesApi,
-    private val fileLocalRepository: FileLocalRepository,
-    private val application: Application,
-    private val fileDataApi: FileDataApi
-) : FilesRemoteRepository {
+    private val filesDao: FilesDao,
+    private val application: Application
+) : FilesRepository {
 
     override fun getFiles(
         catId: Int,
@@ -34,8 +35,9 @@ class FilesRemoteRepositoryImpl(
     ): Flow<FilesState> = flow {
         var state = FilesState(isLoading = true)
         emit(state)
+
         val localFiles =
-            fileLocalRepository.getFiles(catId, subCategoryId, subToSubCategoryId)
+            filesDao.getFiles(catId, subCategoryId, subToSubCategoryId).mapToHomeFilesList()
 
         if (localFiles.isNotEmpty()) {
             state = state.copy(isLoading = false, data = localFiles)
@@ -48,7 +50,7 @@ class FilesRemoteRepositoryImpl(
                 if (result.body()!!.success) {
                     val data = result.body()?.data ?: emptyList()
                     if (data != localFiles)
-                        fileLocalRepository.submitFiles(data)
+                        filesDao.insertFiles(data.mapToFilesList())
                     else return@flow
                     state.copy(isLoading = false, data = data)
                 } else state.copy(
@@ -64,10 +66,7 @@ class FilesRemoteRepositoryImpl(
         } catch (e: Exception) {
             state = state.copy(
                 isLoading = false,
-                error = StringUtil.DynamicText(
-                    if (e is IOException) "Please check your internet connection"
-                    else e.localizedMessage ?: "Some server error occurred"
-                )
+                error = e.getError()
             )
         } finally {
             emit(state)
@@ -89,7 +88,7 @@ class FilesRemoteRepositoryImpl(
                         file
                     else {
                         val result =
-                            fileDataApi.getFilesData(homeFile.fileUrl.getDocumentExtension())
+                            filesApi.getFilesData(homeFile.fileUrl.getDocumentExtension())
                         result.body()?.byteStream()?.use { inputStream ->
                             application.openFileOutput(file.name, Context.MODE_PRIVATE)
                                 .use { outputStream ->
@@ -117,7 +116,7 @@ class FilesRemoteRepositoryImpl(
         } catch (e: Exception) {
             state = state.copy(
                 isLoading = false,
-                error = StringUtil.DynamicText(e.localizedMessage ?: "Some error occurred.")
+                error = e.getError()
             )
         } finally {
             emit(state)

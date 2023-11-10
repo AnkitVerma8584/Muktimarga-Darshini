@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
-import com.ass.muktimargadarshini.domain.repository.remote.SubToSubCategoryRemoteRepository
+import com.ass.muktimargadarshini.domain.repository.SubToSubCategoryRepository
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SubToSubCategoryViewModel @Inject constructor(
-    private val subToSubCategoryRemoteRepository: SubToSubCategoryRemoteRepository,
+    private val subToSubCategoryRepository: SubToSubCategoryRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -84,20 +84,20 @@ class SubToSubCategoryViewModel @Inject constructor(
     }
 
     private suspend fun getSubToSubCategoryData(catId: Int, subCatId: Int) {
-        subToSubCategoryRemoteRepository.getSubToSubCategories(catId, subCatId).collectLatest {
+        subToSubCategoryRepository.getSubToSubCategories(catId, subCatId).collectLatest {
             _subToSubCategoryState.value = it
         }
     }
 
     private suspend fun getFiles(catId: Int, subCatId: Int) {
-        subToSubCategoryRemoteRepository.getFiles(catId, subCatId).collectLatest {
+        subToSubCategoryRepository.getFiles(catId, subCatId).collectLatest {
             _fileState.value = it
             it.data?.let { list -> getDataFromFiles(list) }
         }
     }
 
     private suspend fun getDataFromFiles(list: List<HomeFiles>) {
-        subToSubCategoryRemoteRepository.getFilesData(list).collectLatest {
+        subToSubCategoryRepository.getFilesData(list).collectLatest {
             _filesList.value = it
         }
     }

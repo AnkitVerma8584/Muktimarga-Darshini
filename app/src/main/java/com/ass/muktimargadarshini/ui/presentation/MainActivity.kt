@@ -49,7 +49,6 @@ import com.ass.muktimargadarshini.ui.presentation.authentication.AuthenticationA
 import com.ass.muktimargadarshini.ui.presentation.common.Loading
 import com.ass.muktimargadarshini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.muktimargadarshini.ui.theme.MuktimargaDarshiniTheme
-import com.ass.muktimargadarshini.util.UiState
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -245,11 +244,10 @@ private fun Activity.MainPage(
                     .fillMaxSize()
                     .padding(it), contentAlignment = Alignment.Center
             ) {
-                if (mainViewModel.uiState.value == UiState.Loading) {
+                if (mainViewModel.isLoading.value) {
                     Loading()
                 }
-                NavHostFragments(
-                    navController = navController,
+                NavHostFragments(navController = navController,
                     windowSizeClass = windowSizeClass,
                     isPaidCustomer = user.isPaidCustomer,
                     onNavigationTriggered = {
@@ -259,8 +257,7 @@ private fun Activity.MainPage(
                                 duration = SnackbarDuration.Short
                             )
                         }
-                    }
-                )
+                    })
             }
         }
     }
@@ -328,20 +325,17 @@ private fun AppBar(
                     .padding(8.dp))
         }
     }, actions = {
-        if (!user.isPaidCustomer)
-            IconButton(onClick = {
-                mainViewModel.getOrder()
-            }) {
-                Text(text = "BUY")
-            }
+        if (!user.isPaidCustomer) IconButton(onClick = {
+            mainViewModel.getOrder()
+        }) {
+            Text(text = "BUY")
+        }
 
     })
 }
 
 fun Activity.startPayment(
-    paymentData: Payment,
-    user: User,
-    mainViewModel: MainViewModel
+    paymentData: Payment, user: User, mainViewModel: MainViewModel
 ) {
     val checkout = Checkout()
     checkout.setKeyID(BuildConfig.LIVE_KEY)

@@ -7,9 +7,9 @@ import com.ass.muktimargadarshini.data.remote.apis.SubCategoryApi
 import com.ass.muktimargadarshini.domain.repository.SubCategoryRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category.components.SubCategoryState
+import com.ass.muktimargadarshini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.io.IOException
 
 class SubCategoryRepositoryImpl(
     private val subCategoryApi: SubCategoryApi,
@@ -37,6 +37,7 @@ class SubCategoryRepositoryImpl(
                     val data = result.body()?.data!!
                     if (localSubCategories != data)
                         subCategoryDao.insertSubCategory(data.mapToSubCategoryList())
+                    else return@flow
                     state.copy(isLoading = false, data = data)
                 } else {
                     state.copy(
@@ -53,11 +54,7 @@ class SubCategoryRepositoryImpl(
         } catch (e: Exception) {
             state = state.copy(
                 isLoading = false,
-                error = StringUtil.DynamicText(
-                    if (e is IOException) "Please check your internet connection" else {
-                        e.localizedMessage ?: "Some server error occurred"
-                    }
-                )
+                error = e.getError()
             )
         } finally {
             emit(state)

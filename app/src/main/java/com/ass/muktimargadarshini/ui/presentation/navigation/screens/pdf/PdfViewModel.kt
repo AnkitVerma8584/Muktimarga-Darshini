@@ -3,9 +3,9 @@ package com.ass.muktimargadarshini.ui.presentation.navigation.screens.pdf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ass.muktimargadarshini.domain.repository.remote.FileDataRemoteRepository
+import com.ass.muktimargadarshini.domain.repository.DocumentRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDataState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.DocumentState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,11 +17,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PdfViewModel @Inject constructor(
-    private val filesRepository: FileDataRemoteRepository,
+    private val filesRepository: DocumentRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _pdfState = MutableStateFlow(FileDataState())
+    private val _pdfState = MutableStateFlow(DocumentState())
     val pdfState = _pdfState.asStateFlow()
 
     init {
@@ -35,7 +35,7 @@ class PdfViewModel @Inject constructor(
     }
 
     private suspend fun fetchFile(homeFileId: Int, homeFileName: String, homeFileUrl: String) {
-        filesRepository.getFileData("${homeFileName}_${homeFileId}.pdf", homeFileUrl)
+        filesRepository.getDocument("${homeFileName}_${homeFileId}.pdf", homeFileUrl)
             .collectLatest { result ->
                 _pdfState.value = result
             }

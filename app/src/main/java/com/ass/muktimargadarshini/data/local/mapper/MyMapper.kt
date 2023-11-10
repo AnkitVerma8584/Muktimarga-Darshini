@@ -1,7 +1,14 @@
 package com.ass.muktimargadarshini.data.local.mapper
 
-import com.ass.muktimargadarshini.data.local.modals.*
-import com.ass.muktimargadarshini.domain.modals.*
+import com.ass.muktimargadarshini.data.local.modals.Banner
+import com.ass.muktimargadarshini.data.local.modals.Category
+import com.ass.muktimargadarshini.data.local.modals.Files
+import com.ass.muktimargadarshini.data.local.modals.SubCategory
+import com.ass.muktimargadarshini.data.local.modals.SubToSubCategory
+import com.ass.muktimargadarshini.domain.modals.HomeCategory
+import com.ass.muktimargadarshini.domain.modals.HomeFiles
+import com.ass.muktimargadarshini.domain.modals.HomeSubCategory
+import com.ass.muktimargadarshini.domain.modals.HomeSubToSubCategory
 
 fun List<String>.mapToBannerList(): List<Banner> = this.map {
     Banner(it)
@@ -29,10 +36,9 @@ fun List<HomeSubToSubCategory>.mapToSubToSubCategoryList(): List<SubToSubCategor
     SubToSubCategory(it.id, it.catId, it.subCatId, it.name, it.description)
 }
 
-fun List<SubToSubCategory>.mapToHomeSubToSubCategoryList(): List<HomeSubToSubCategory> =
-    this.map {
-        HomeSubToSubCategory(it.id, it.catId, it.subCatId, it.name, it.description)
-    }
+fun List<SubToSubCategory>.mapToHomeSubToSubCategoryList(): List<HomeSubToSubCategory> = this.map {
+    HomeSubToSubCategory(it.id, it.catId, it.subCatId, it.name, it.description)
+}
 
 
 fun List<HomeFiles>.mapToFilesList(): List<Files> = this.map {
@@ -61,8 +67,7 @@ fun List<Files>.mapToHomeFilesList(): List<HomeFiles> = this.map {
         it.authorId,
         it.godId
     )
-}
-
+}/*
 fun Files?.mapToHomeFiles(): HomeFiles? =
     this?.let {
         HomeFiles(
@@ -92,4 +97,4 @@ fun List<HomeGod>.mapToGod() = this.map {
 
 fun List<God>.mapToHomeGod() = this.map {
     HomeGod(it.id, it.godName)
-}
+}*/

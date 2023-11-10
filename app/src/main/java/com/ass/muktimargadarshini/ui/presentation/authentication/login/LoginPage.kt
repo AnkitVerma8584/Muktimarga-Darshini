@@ -20,8 +20,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -52,7 +50,6 @@ import coil.compose.rememberAsyncImagePainter
 import com.ass.muktimargadarshini.R
 import com.ass.muktimargadarshini.ui.presentation.authentication.common.MobileInput
 import com.ass.muktimargadarshini.ui.presentation.authentication.common.PasswordInput
-import com.ass.muktimargadarshini.util.UiState
 import kotlin.system.exitProcess
 
 @Composable
@@ -73,7 +70,6 @@ fun MobileAuthenticationPage(
     val focusManager: FocusManager = LocalFocusManager.current
     val ctx = LocalContext.current
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -113,7 +109,7 @@ fun MobileAuthenticationPage(
             Spacer(modifier = Modifier.height(50.dp))
             Image(
                 modifier = Modifier.size(200.dp),
-                contentScale= ContentScale.Crop,
+                contentScale = ContentScale.Crop,
                 painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
                 contentDescription = null
             )
@@ -147,7 +143,7 @@ fun MobileAuthenticationPage(
                     })
             }
             Spacer(modifier = Modifier.height(50.dp))
-            AnimatedContent(targetState = uiState == UiState.Loading, transitionSpec = {
+            AnimatedContent(targetState = viewModel.isLoading, transitionSpec = {
                 fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith fadeOut(
                     animationSpec = tween(durationMillis = 300)
                 )

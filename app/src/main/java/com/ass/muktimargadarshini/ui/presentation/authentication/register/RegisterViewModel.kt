@@ -1,10 +1,12 @@
 package com.ass.muktimargadarshini.ui.presentation.authentication.register
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.domain.repository.UserRepository
 import com.ass.muktimargadarshini.ui.presentation.authentication.model.LoginState
-import com.ass.muktimargadarshini.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,8 +41,9 @@ class RegisterViewModel @Inject constructor(
     private val _passwordError = MutableStateFlow<String?>(null)
     val passwordError get() = _passwordError.asStateFlow()
 
-    private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
-    val uiState get() = _uiState.asStateFlow()
+    var isLoading by mutableStateOf(false)
+        private set
+
 
     private val _registerState = Channel<LoginState>()
     val registerState get() = _registerState.receiveAsFlow()
@@ -76,7 +79,7 @@ class RegisterViewModel @Inject constructor(
             _passwordError.value = null
 
             userRepository.registerUser(name, mobile, password).collectLatest {
-                _uiState.value = if (it.isLoading) UiState.Loading else UiState.Idle
+                isLoading = it.isLoading
                 _registerState.send(it)
             }
         }

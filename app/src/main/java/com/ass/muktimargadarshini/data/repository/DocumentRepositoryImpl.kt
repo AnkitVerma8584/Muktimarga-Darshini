@@ -1,33 +1,29 @@
-package com.ass.muktimargadarshini.data.remote.repository
+package com.ass.muktimargadarshini.data.repository
 
 import android.app.Application
 import android.content.Context
 import com.ass.muktimargadarshini.data.remote.Api.getDocumentExtension
-import com.ass.muktimargadarshini.data.remote.apis.FileDataApi
-import com.ass.muktimargadarshini.domain.repository.remote.FileDataRemoteRepository
+import com.ass.muktimargadarshini.data.remote.apis.FilesApi
+import com.ass.muktimargadarshini.domain.repository.DocumentRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDataState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.DocumentState
+import com.ass.muktimargadarshini.util.getError
 import com.ass.muktimargadarshini.util.isInValidFile
-import com.ass.muktimargadarshini.util.print
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.ResponseBody
 import java.io.File
-import java.io.IOException
 
-class FileDataRemoteRepositoryImpl(
-    private val fileDataApi: FileDataApi,
+class DocumentRepositoryImpl(
+    private val filesApi: FilesApi,
     private val application: Application
-) : FileDataRemoteRepository {
+) : DocumentRepository {
 
-    override fun getFileData(
+    override fun getDocument(
         homeFileName: String,
         homeFileUrl: String
-    ): Flow<FileDataState> = flow {
-
-        var state = FileDataState(isLoading = true)
-        homeFileName.print()
-        homeFileUrl.print()
+    ): Flow<DocumentState> = flow {
+        var state = DocumentState(isLoading = true)
         if (homeFileUrl.isInValidFile()) {
             state = state.copy(
                 isLoading = false,
@@ -41,7 +37,7 @@ class FileDataRemoteRepositoryImpl(
                 state = state.copy(isLoading = false, data = file)
                 emit(state)
             }
-            val result = fileDataApi.getFilesData(homeFileUrl.getDocumentExtension())
+            val result = filesApi.getFilesData(homeFileUrl.getDocumentExtension())
             val body: ResponseBody? = result.body()
 
             body?.let {
@@ -60,10 +56,7 @@ class FileDataRemoteRepositoryImpl(
         } catch (e: Exception) {
             state = state.copy(
                 isLoading = false,
-                error = StringUtil.DynamicText(
-                    if (e is IOException) "Please check your internet connection"
-                    else e.localizedMessage ?: "Some server error occurred"
-                )
+                error = e.getError()
             )
         } finally {
             emit(state)

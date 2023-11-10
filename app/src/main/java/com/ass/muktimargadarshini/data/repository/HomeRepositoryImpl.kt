@@ -11,6 +11,7 @@ import com.ass.muktimargadarshini.domain.repository.HomeRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.state.BannerState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.category.state.CategoryState
+import com.ass.muktimargadarshini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
@@ -22,7 +23,6 @@ class HomeRepositoryImpl(
 ) : HomeRepository {
 
     override fun getCategoryState(): Flow<CategoryState> = flow {
-
         var state = CategoryState(isLoading = true)
         emit(state)
 
@@ -42,6 +42,7 @@ class HomeRepositoryImpl(
 
                     if (data != localCategories)
                         categoryDao.insertCategory(data.mapToCategory())
+                    else return@flow
 
                     state.copy(isLoading = false, data = data)
                 } else {
@@ -88,6 +89,7 @@ class HomeRepositoryImpl(
                     val data = result.body()?.data!!
                     if (localBanners != data)
                         bannerDao.insertBanners(data.mapToBannerList())
+                    else return@flow
                     state.copy(isLoading = false, data = data)
                 } else {
                     state.copy(
@@ -105,11 +107,7 @@ class HomeRepositoryImpl(
         } catch (e: Exception) {
             state = state.copy(
                 isLoading = false,
-                error = StringUtil.DynamicText(
-                    if (e is IOException) "Please check your internet connection" else {
-                        e.localizedMessage ?: "Some server error occurred"
-                    }
-                )
+                error = e.getError()
             )
         } finally {
             emit(state)
