@@ -22,19 +22,27 @@ class HomeRepositoryImpl(
 ) : HomeRepository {
 
     override fun getCategoryState(): Flow<CategoryState> = flow {
-        var state = CategoryState()
-        state = if (categoryDao.getCategoryCount() == 0)
-            state.copy(isLoading = true)
-        else
-            state.copy(data = categoryDao.getCategories().mapToHomeCategoryList())
+
+        var state = CategoryState(isLoading = true)
         emit(state)
+
+        val localCategories = categoryDao.getCategories().mapToHomeCategoryList()
+
+        if (localCategories.isNotEmpty()) {
+            state = state.copy(isLoading = false, data = localCategories)
+            emit(state)
+        }
 
         try {
             val result = homeApi.getCategoryData()
             if (result.isSuccessful && result.body() != null) {
+
                 state = if (result.body()!!.success) {
                     val data = result.body()?.data!!
-                    categoryDao.insertCategory(data.mapToCategory())
+
+                    if (data != localCategories)
+                        categoryDao.insertCategory(data.mapToCategory())
+
                     state.copy(isLoading = false, data = data)
                 } else {
                     state.copy(
@@ -63,20 +71,23 @@ class HomeRepositoryImpl(
     }
 
     override fun getBannerState(): Flow<BannerState> = flow {
-        var state = BannerState()
-        state = if (categoryDao.getCategoryCount() == 0)
-            state.copy(isLoading = true)
-        else state.copy(
-            isLoading = false,
-            data = bannerDao.getBanners().mapToStringList()
-        )
+        var state = BannerState(isLoading = true)
         emit(state)
+
+        val localBanners = bannerDao.getBanners().mapToStringList()
+
+        if (localBanners.isNotEmpty()) {
+            state = state.copy(isLoading = false, data = localBanners)
+            emit(state)
+        }
+
         try {
             val result = homeApi.getBannerData()
             if (result.isSuccessful && result.body() != null) {
                 state = if (result.body()!!.success) {
                     val data = result.body()?.data!!
-                    bannerDao.insertBanners(data.mapToBannerList())
+                    if (localBanners != data)
+                        bannerDao.insertBanners(data.mapToBannerList())
                     state.copy(isLoading = false, data = data)
                 } else {
                     state.copy(

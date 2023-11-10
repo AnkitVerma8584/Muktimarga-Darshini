@@ -3,7 +3,6 @@ package com.ass.muktimargadarshini.ui.presentation
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,29 +27,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.ass.muktimargadarshini.BuildConfig
 import com.ass.muktimargadarshini.R
-import com.ass.muktimargadarshini.data.Constants
 import com.ass.muktimargadarshini.domain.modals.Payment
 import com.ass.muktimargadarshini.domain.modals.User
 import com.ass.muktimargadarshini.ui.presentation.authentication.AuthenticationActivity
 import com.ass.muktimargadarshini.ui.presentation.common.Loading
 import com.ass.muktimargadarshini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.muktimargadarshini.ui.theme.MuktimargaDarshiniTheme
+import com.ass.muktimargadarshini.util.UiState
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -122,9 +126,18 @@ private fun Activity.MainPage(
     }
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val order by mainViewModel.orderState.collectAsStateWithLifecycle()
-    val payment by mainViewModel.paymentState.collectAsStateWithLifecycle()
     val user by mainViewModel.user.collectAsStateWithLifecycle()
+    val lifeCycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(key1 = lifeCycleOwner.lifecycle) {
+        lifeCycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            mainViewModel.orderState.collectLatest { order ->
+                order.data?.let { p ->
+                    startPayment(p, user, mainViewModel)
+                }
+            }
+        }
+    }
 
     ModalNavigationDrawer(drawerState = drawerState,
         gesturesEnabled = currentFragment?.icon != null,
@@ -190,9 +203,6 @@ private fun Activity.MainPage(
             }
         }) {
 
-        order.data?.let { p ->
-            startPayment(p, user)
-        }
 
         Scaffold(modifier = Modifier.fillMaxSize(), snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -208,28 +218,34 @@ private fun Activity.MainPage(
             )
         }) {
             val ctx = LocalContext.current
-            payment.data?.let {
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = "Payment verified", duration = SnackbarDuration.Short
-                    )
+            LaunchedEffect(key1 = lifeCycleOwner.lifecycle) {
+                lifeCycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    mainViewModel.paymentState.collectLatest { payment ->
+                        payment.data?.let {
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "Payment verified", duration = SnackbarDuration.Short
+                                )
+                            }
+                        }
+                        payment.error?.let { txt ->
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = txt.asString(context = ctx),
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
+                        }
+                    }
                 }
-                mainViewModel.resetPaymentState()
             }
-            payment.error?.let { txt ->
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = txt.asString(context = ctx), duration = SnackbarDuration.Short
-                    )
-                }
-                mainViewModel.resetPaymentState()
-            }
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(it), contentAlignment = Alignment.Center
             ) {
-                if (order.isLoading || payment.isLoading) {
+                if (mainViewModel.uiState.value == UiState.Loading) {
                     Loading()
                 }
                 NavHostFragments(
@@ -263,7 +279,7 @@ private fun MenuItem(
             )
         }
     }, label = {
-        androidx.compose.material.Text(
+        Text(
             item.title.asString(),
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             style = MaterialTheme.typography.labelLarge
@@ -284,7 +300,7 @@ private fun AppBar(
     mainViewModel: MainViewModel,
     user: User
 ) {
-    mainViewModel.user.collectAsStateWithLifecycle()
+
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -312,24 +328,27 @@ private fun AppBar(
                     .padding(8.dp))
         }
     }, actions = {
-        if (!user.isPaidCustomer) IconButton(onClick = {
-            mainViewModel.getOrder()
-        }) {
-            Text(text = "BUY")
-        }
+        if (!user.isPaidCustomer)
+            IconButton(onClick = {
+                mainViewModel.getOrder()
+            }) {
+                Text(text = "BUY")
+            }
 
     })
 }
 
 fun Activity.startPayment(
-    paymentData: Payment, user: User
+    paymentData: Payment,
+    user: User,
+    mainViewModel: MainViewModel
 ) {
     val checkout = Checkout()
-    checkout.setKeyID(Constants.API_TEST_KEYS)
+    checkout.setKeyID(BuildConfig.LIVE_KEY)
     checkout.setImage(R.mipmap.ic_launcher)
     try {
         val options = JSONObject()
-        options.put("name", "MuktimargaDarshini")
+        options.put("name", "Muktimarga Darshini")
         options.put("description", "Payment for Muktimarga darshini app")
         options.put("order_id", paymentData.id)
         options.put("theme.color", "#934B00")
@@ -343,7 +362,7 @@ fun Activity.startPayment(
         options.put("retry", retryObj)
         checkout.open(this, options)
     } catch (e: Exception) {
-        Log.e("TAG", "Error in starting Razorpay Checkout", e)
+        mainViewModel.errorInPayment()
     }
 }
 

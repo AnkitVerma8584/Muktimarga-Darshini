@@ -35,7 +35,7 @@ fun PdfScreen(
             )
         }
 
-        pdfState.file?.let { pdf ->
+        pdfState.data?.let { pdf ->
             AndroidView(factory = {
                 PDFView(it, null).also { pdfView ->
                     pdfView.fromFile(pdf)

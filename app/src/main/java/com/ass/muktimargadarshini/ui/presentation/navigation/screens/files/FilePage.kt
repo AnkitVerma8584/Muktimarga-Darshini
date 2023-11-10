@@ -11,6 +11,7 @@ import com.ass.muktimargadarshini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.ui.presentation.common.Loading
 import com.ass.muktimargadarshini.ui.presentation.common.SearchBar
+import com.ass.muktimargadarshini.ui.presentation.common.ShowErrorText
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.components.FilesList
 
 @Composable
@@ -30,6 +31,9 @@ fun FilePage(
             onSearchQueryChanged = viewModel::queryChanged,
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
+        if (files.isLoading)
+            Loading()
+        files.error?.ShowErrorText()
         files.data?.let {
             FilesList(
                 searchedContent = searchedData,
@@ -38,6 +42,6 @@ fun FilePage(
                 onFileClicked = onFileClicked,
                 onPdfClicked = onPdfClicked
             )
-        } ?: Loading()
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.ass.muktimargadarshini.ui.presentation
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.data.local.UserDataStore
@@ -8,11 +9,14 @@ import com.ass.muktimargadarshini.domain.modals.User
 import com.ass.muktimargadarshini.domain.repository.PaymentRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.payment.PaymentState
+import com.ass.muktimargadarshini.util.UiState
 import com.razorpay.PaymentData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,34 +39,48 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private val _orderState = MutableStateFlow(PaymentState<Payment>())
-    val orderState get() = _orderState.asStateFlow()
+    var uiState = mutableStateOf<UiState>(UiState.Idle)
+        private set
 
-    private val _paymentState = MutableStateFlow(PaymentState<User>())
-    val paymentState get() = _paymentState.asStateFlow()
+
+    private val _orderState = Channel<PaymentState<Payment>>()
+    val orderState get() = _orderState.receiveAsFlow()
+
+    private val _paymentState = Channel<PaymentState<User>>()
+    val paymentState get() = _paymentState.receiveAsFlow()
 
     fun getOrder() {
         viewModelScope.launch {
+
             paymentRepository.getPaymentOrder().collectLatest {
-                _orderState.value = it
+                uiState.value = if (it.isLoading) UiState.Loading else UiState.Idle
+                _orderState.send(it)
             }
         }
     }
 
-    private fun resetOrderState() {
-        _orderState.value = PaymentState()
-    }
-
-    fun resetPaymentState() {
-        _paymentState.value = PaymentState()
-    }
-
     fun paymentCancelled() {
-        _paymentState.value = PaymentState(
-            isLoading = false,
-            data = null,
-            error = StringUtil.DynamicText("Payment cancelled")
-        )
+        viewModelScope.launch {
+            _paymentState.send(
+                PaymentState(
+                    isLoading = false,
+                    data = null,
+                    error = StringUtil.DynamicText("Payment cancelled")
+                )
+            )
+        }
+    }
+
+    fun errorInPayment() {
+        viewModelScope.launch {
+            _paymentState.send(
+                PaymentState(
+                    isLoading = false,
+                    data = null,
+                    error = StringUtil.DynamicText("Some error occurred in payment.")
+                )
+            )
+        }
     }
 
 
@@ -73,14 +91,14 @@ class MainViewModel @Inject constructor(
     }
 
     fun verifyPayment(paymentData: PaymentData) {
-        resetOrderState()
         viewModelScope.launch {
             paymentRepository.verifyPayment(
                 orderId = paymentData.orderId,
                 paymentId = paymentData.paymentId,
                 paymentSignature = paymentData.signature
             ).collectLatest {
-                _paymentState.value = it
+                uiState.value = if (it.isLoading) UiState.Loading else UiState.Idle
+                _paymentState.send(it)
                 it.data?.let { u ->
                     userDataStore.saveUser(u)
                 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.domain.repository.remote.FileDataRemoteRepository
-import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.domain.utils.StringUtil
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ class PdfViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _pdfState = MutableStateFlow(PdfState())
+    private val _pdfState = MutableStateFlow(FileDataState())
     val pdfState = _pdfState.asStateFlow()
 
     init {
@@ -37,26 +37,7 @@ class PdfViewModel @Inject constructor(
     private suspend fun fetchFile(homeFileId: Int, homeFileName: String, homeFileUrl: String) {
         filesRepository.getFileData("${homeFileName}_${homeFileId}.pdf", homeFileUrl)
             .collectLatest { result ->
-                when (result) {
-                    is Resource.Cached ->
-                        _pdfState.update {
-                            it.copy(isLoading = false, error = null, file = result.result)
-                        }
-
-                    is Resource.Failure -> _pdfState.update {
-                        it.copy(isLoading = false, error = result.error, file = null)
-                    }
-
-                    Resource.Loading ->
-                        _pdfState.update {
-                            it.copy(isLoading = true, error = null, file = null)
-                        }
-
-                    is Resource.Success ->
-                        _pdfState.update {
-                            it.copy(isLoading = false, error = null, file = result.result)
-                        }
-                }
+                _pdfState.value = result
             }
     }
 
@@ -65,7 +46,7 @@ class PdfViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 error = StringUtil.DynamicText(throwable.message ?: "Unable to render pdf"),
-                file = null
+                data = null
             )
         }
     }

@@ -5,15 +5,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.data.Constants.PARAGRAPH_LINE
 import com.ass.muktimargadarshini.domain.repository.remote.FileDataRemoteRepository
-import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.domain.utils.StringUtil
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDataState
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDocumentText
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.File
@@ -42,38 +47,17 @@ class FileDetailsViewModel @Inject constructor(
         viewModelScope.launch(IO) {
             fetchFile(
                 savedStateHandle.get<Int>("file_id") ?: 0,
-                savedStateHandle.get<String>("file_name") ?: "",
                 savedStateHandle.get<String>("file_url") ?: ""
             )
         }
     }
 
-    private suspend fun fetchFile(homeFileId: Int, homeFileName: String, homeFileUrl: String) {
-        filesRepository.getFileData("${homeFileName}_${homeFileId}.txt", homeFileUrl)
+    private suspend fun fetchFile(homeFileId: Int, homeFileUrl: String) {
+        filesRepository.getFileData("file_${homeFileId}.txt", homeFileUrl)
             .collectLatest { result ->
-                when (result) {
-                    is Resource.Cached -> {
-                        _fileState.update {
-                            it.copy(isLoading = false, error = null)
-                        }
-                        readTextFile(result.result)
-                    }
-                    is Resource.Failure -> {
-                        _fileState.update {
-                            it.copy(isLoading = false, error = result.error)
-                        }
-                    }
-                    Resource.Loading -> {
-                        _fileState.update {
-                            it.copy(isLoading = true, error = null)
-                        }
-                    }
-                    is Resource.Success -> {
-                        _fileState.update {
-                            it.copy(isLoading = false, error = null)
-                        }
-                        readTextFile(result.result)
-                    }
+                _fileState.value = result
+                result.data?.let { file ->
+                    readTextFile(file)
                 }
             }
     }
@@ -102,6 +86,7 @@ class FileDetailsViewModel @Inject constructor(
             _fileState.update {
                 it.copy(
                     isLoading = false,
+                    data = null,
                     error = StringUtil.DynamicText(if (e is IOException) "The file is corrupted" else "Unable to display the file")
                 )
             }
@@ -109,7 +94,7 @@ class FileDetailsViewModel @Inject constructor(
     }
 
     val searchedText = combine(fileDataQuery, text) { query, list ->
-        if(query.length>2)
+        if (query.length > 2)
             list.mapIndexed { index, s ->
                 FileDocumentText(index, s)
             }.filter { s ->

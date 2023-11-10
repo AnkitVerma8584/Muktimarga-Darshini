@@ -6,7 +6,7 @@ import com.ass.muktimargadarshini.data.local.mapper.mapToSubCategoryList
 import com.ass.muktimargadarshini.data.remote.apis.SubCategoryApi
 import com.ass.muktimargadarshini.domain.repository.SubCategoryRepository
 import com.ass.muktimargadarshini.domain.utils.StringUtil
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category.SubCategoryState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category.components.SubCategoryState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
@@ -17,20 +17,26 @@ class SubCategoryRepositoryImpl(
 ) : SubCategoryRepository {
 
     override fun getSubCategory(categoryId: Int): Flow<SubCategoryState> = flow {
-        var state = SubCategoryState()
-        state = if (subCategoryDao.getSubCategoryCount(categoryId) == 0)
-            state.copy(isLoading = true)
-        else
-            state.copy(
-                data = subCategoryDao.getSubCategories(categoryId).mapToHomeSubCategoryList()
-            )
+        var state = SubCategoryState(isLoading = true)
         emit(state)
+
+        val localSubCategories =
+            subCategoryDao.getSubCategories(categoryId).mapToHomeSubCategoryList()
+
+        if (localSubCategories.isNotEmpty()) {
+            state = state.copy(
+                isLoading = false,
+                data = localSubCategories
+            )
+            emit(state)
+        }
         try {
             val result = subCategoryApi.getSubCategories(categoryId)
             if (result.isSuccessful && result.body() != null) {
                 state = if (result.body()!!.success) {
                     val data = result.body()?.data!!
-                    subCategoryDao.insertSubCategory(data.mapToSubCategoryList())
+                    if (localSubCategories != data)
+                        subCategoryDao.insertSubCategory(data.mapToSubCategoryList())
                     state.copy(isLoading = false, data = data)
                 } else {
                     state.copy(

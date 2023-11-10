@@ -76,7 +76,8 @@ fun FileDetailsPage(
 
 @Composable
 private fun BoxScope.DocumentContent(
-    viewModel: FileDetailsViewModel, query: String, scale: Float, scrollIndex: Int
+    viewModel: FileDetailsViewModel,
+    query: String, scale: Float, scrollIndex: Int
 ) {
     val text by viewModel.text.collectAsState()
     val searchedText by viewModel.searchedText.collectAsState()

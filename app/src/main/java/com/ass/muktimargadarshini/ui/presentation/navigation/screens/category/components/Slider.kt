@@ -25,27 +25,27 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Slider(
+    modifier: Modifier,
     banner: List<String>
 ) {
     val pagerState = rememberPagerState(pageCount = banner.size, initialPage = 0)
-    LaunchedEffect(Unit) {
-        while (true) {
-            yield()
-            delay(5000)
-            try {
-                pagerState.animateScrollToPage(
-                    page = (pagerState.currentPage + 1) % pagerState.pageCount,
-                    animationSpec = tween(500)
-                )
-            } catch (e: Exception) {
-                e.printStackTrace()
+    if (banner.size > 1)
+        LaunchedEffect(Unit) {
+            while (true) {
+                yield()
+                delay(5000)
+                try {
+                    pagerState.animateScrollToPage(
+                        page = (pagerState.currentPage + 1) % pagerState.pageCount,
+                        animationSpec = tween(500)
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
-    }
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(16 / 9f),
+        modifier = modifier.aspectRatio(16 / 9f),
         contentAlignment = Alignment.BottomCenter
     ) {
         HorizontalPager(
@@ -83,12 +83,13 @@ fun Slider(
             }
         }
 
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            modifier = Modifier.padding(22.dp),
-            activeColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            inactiveColor = MaterialTheme.colorScheme.primaryContainer
-        )
+        if (banner.size > 1)
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                modifier = Modifier.padding(22.dp),
+                activeColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                inactiveColor = MaterialTheme.colorScheme.primaryContainer
+            )
     }
 
 }

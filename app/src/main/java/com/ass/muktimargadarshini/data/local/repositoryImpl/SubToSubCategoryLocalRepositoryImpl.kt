@@ -8,8 +8,6 @@ import com.ass.muktimargadarshini.domain.repository.local.SubToSubCategoryLocalR
 
 class SubToSubCategoryLocalRepositoryImpl(private val subToSubCategoryDao: SubToSubCategoryDao) :
     SubToSubCategoryLocalRepository {
-
-
     override suspend fun getSubToSubCategories(
         catId: Int,
         subCatId: Int

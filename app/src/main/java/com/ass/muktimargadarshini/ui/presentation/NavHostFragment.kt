@@ -81,51 +81,54 @@ fun NavHostFragments(
             arguments = listOf(navArgument("cat_id") { type = NavType.IntType },
                 navArgument("sub_cat_id") { type = NavType.IntType })
         ) {
-            SubToSubCategoryPage(onSubToSubCategoryClick = {
-                if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
-                    return@SubToSubCategoryPage
-                }
-                NavigationFragment.Files.title = StringUtil.DynamicText(it.name)
-                navController.navigate("files/${it.catId}/${it.subCatId}/${it.id}") {
-                    launchSingleTop = true
-                    restoreState = true
-                }
-            }, onFileClicked = { item, query, index ->
-                if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
-                    return@SubToSubCategoryPage
-                }
-                NavigationFragment.FileDetails.title = StringUtil.DynamicText(item.name)
-                navController.navigate("file_details?file_id=$id&file_name=${item.name}&file_url=${item.fileUrl}&query=$query&index=$index") {
-                    launchSingleTop = true
-                    restoreState = true
-                }
-            }, onPdfClicked = { homeFile ->
-                if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
-                    return@SubToSubCategoryPage
-                }
-                NavigationFragment.Pdf.title = StringUtil.DynamicText(homeFile.name)
-                navController.navigate("pdf?file_id=${homeFile.id}&file_name=${homeFile.name}&file_url=${homeFile.fileUrl}") {
-                    launchSingleTop = true
-                    restoreState = true
-                }
-            })
+            SubToSubCategoryPage(
+                onSubToSubCategoryClick = { subToSubCat ->
+                    if (!isPaidCustomer) {
+                        onNavigationTriggered.invoke()
+                        return@SubToSubCategoryPage
+                    }
+                    NavigationFragment.Files.title = StringUtil.DynamicText(subToSubCat.name)
+
+                    navController.navigate("files/${subToSubCat.catId}/${subToSubCat.subCatId}/${subToSubCat.id}") {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }, onFileClicked = { file, query, index ->
+                    if (!isPaidCustomer) {
+                        onNavigationTriggered.invoke()
+                        return@SubToSubCategoryPage
+                    }
+                    NavigationFragment.FileDetails.title = StringUtil.DynamicText(file.name)
+                    navController.navigate("file_details?file_id=${file.id}&file_url=${file.fileUrl}&query=$query&index=$index") {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }, onPdfClicked = { homeFile ->
+                    if (!isPaidCustomer) {
+                        onNavigationTriggered.invoke()
+                        return@SubToSubCategoryPage
+                    }
+                    NavigationFragment.Pdf.title = StringUtil.DynamicText(homeFile.name)
+                    navController.navigate("pdf?file_id=${homeFile.id}&file_name=${homeFile.name}&file_url=${homeFile.fileUrl}") {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                })
         }
         composable(
             route = NavigationFragment.Files.route,
-            arguments = listOf(navArgument("cat_id") { type = NavType.IntType },
+            arguments =
+            listOf(navArgument("cat_id") { type = NavType.IntType },
                 navArgument("sub_cat_id") { type = NavType.IntType },
                 navArgument("sub_to_sub_cat_id") { type = NavType.IntType })
         ) {
-            FilePage(onFileClicked = { item, query, index ->
+            FilePage(onFileClicked = { file, query, index ->
                 if (!isPaidCustomer) {
                     onNavigationTriggered.invoke()
                     return@FilePage
                 }
-                NavigationFragment.FileDetails.title = StringUtil.DynamicText(item.name)
-                navController.navigate("file_details?file_id=$id&file_name=${item.name}&file_url=${item.fileUrl}&query=$query&index=$index") {
+                NavigationFragment.FileDetails.title = StringUtil.DynamicText(file.name)
+                navController.navigate("file_details?file_id=${file.id}&file_url=${file.fileUrl}&query=$query&index=$index") {
                     launchSingleTop = true
                     restoreState = true
                 }

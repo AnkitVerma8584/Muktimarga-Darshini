@@ -1,7 +1,8 @@
 package com.ass.muktimargadarshini.domain.repository.remote
+
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
-import com.ass.muktimargadarshini.domain.utils.Resource
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesDataState
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import kotlinx.coroutines.flow.Flow
 
 interface FilesRemoteRepository {
@@ -10,9 +11,9 @@ interface FilesRemoteRepository {
         catId: Int,
         subCategoryId: Int,
         subToSubCategoryId: Int
-    ): Flow<Resource<List<HomeFiles>>>
+    ): Flow<FilesState>
 
     fun getFilesData(
         homeFiles: List<HomeFiles>,
-    ):Flow<Resource<List<FilesData>>>
+    ): Flow<FilesDataState>
 }

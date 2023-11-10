@@ -1,13 +1,12 @@
 package com.ass.muktimargadarshini.domain.repository.remote
 
-import com.ass.muktimargadarshini.domain.utils.Resource
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDataState
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 interface FileDataRemoteRepository {
 
     fun getFileData(
         homeFileName: String,
         homeFileUrl: String
-    ): Flow<Resource<File>>
+    ): Flow<FileDataState>
 }

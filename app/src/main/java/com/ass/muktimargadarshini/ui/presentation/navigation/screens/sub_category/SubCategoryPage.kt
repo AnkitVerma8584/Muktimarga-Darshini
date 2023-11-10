@@ -2,15 +2,22 @@ package com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_catego
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.muktimargadarshini.domain.modals.HomeSubCategory
+import com.ass.muktimargadarshini.ui.presentation.common.Header
 import com.ass.muktimargadarshini.ui.presentation.common.Loading
+import com.ass.muktimargadarshini.ui.presentation.common.NoSearchedResults
 import com.ass.muktimargadarshini.ui.presentation.common.SearchBar
-import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category.components.SubCategoryList
+import com.ass.muktimargadarshini.ui.presentation.common.ShowErrorText
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.sub_category.components.SubCategoryCard
 
 @Composable
 fun SubCategoryPage(
@@ -25,11 +32,21 @@ fun SubCategoryPage(
             query = query,
             onSearchQueryChanged = viewModel::queryChanged
         )
-        subCategories.data?.let {
-            SubCategoryList(
-                data = it,
-                onClick = onSubCategoryClicked
-            )
-        } ?: Loading()
+        if (subCategories.isLoading)
+            Loading()
+        Header(header = "Sub-Categories")
+        subCategories.data?.let { subCategoriesList ->
+            LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 300.dp)) {
+                if (subCategoriesList.isEmpty())
+                    item {
+                        NoSearchedResults()
+                    }
+                else
+                    items(items = subCategoriesList, key = { it.id }) { subCategory ->
+                        SubCategoryCard(data = subCategory, onClick = onSubCategoryClicked)
+                    }
+            }
+        }
+        subCategories.error?.ShowErrorText()
     }
 }

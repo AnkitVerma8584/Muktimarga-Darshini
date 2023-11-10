@@ -5,9 +5,10 @@ import android.content.Context
 import com.ass.muktimargadarshini.data.remote.Api.getDocumentExtension
 import com.ass.muktimargadarshini.data.remote.apis.FileDataApi
 import com.ass.muktimargadarshini.domain.repository.remote.FileDataRemoteRepository
-import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.domain.utils.StringUtil
+import com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_details.modals.FileDataState
 import com.ass.muktimargadarshini.util.isInValidFile
+import com.ass.muktimargadarshini.util.print
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.ResponseBody
@@ -18,34 +19,54 @@ class FileDataRemoteRepositoryImpl(
     private val fileDataApi: FileDataApi,
     private val application: Application
 ) : FileDataRemoteRepository {
+
     override fun getFileData(
         homeFileName: String,
         homeFileUrl: String
-    ): Flow<Resource<File>> = flow {
-        emit(Resource.Loading)
+    ): Flow<FileDataState> = flow {
+
+        var state = FileDataState(isLoading = true)
+        homeFileName.print()
+        homeFileUrl.print()
+        if (homeFileUrl.isInValidFile()) {
+            state = state.copy(
+                isLoading = false,
+                error = StringUtil.DynamicText("Invalid file type")
+            )
+        }
+        emit(state)
         try {
-            if (homeFileUrl.isInValidFile())
-                emit(Resource.Failure(StringUtil.DynamicText("Invalid file type")))
             val file = File(application.filesDir, homeFileName)
             if (file.exists()) {
-                emit(Resource.Cached(file))
+                state = state.copy(isLoading = false, data = file)
+                emit(state)
             }
             val result = fileDataApi.getFilesData(homeFileUrl.getDocumentExtension())
             val body: ResponseBody? = result.body()
-            emit(body?.let {
+
+            body?.let {
                 it.byteStream().use { inputStream ->
                     application.openFileOutput(file.name, Context.MODE_PRIVATE)
                         .use { outputStream -> inputStream.copyTo(outputStream) }
                 }
-                Resource.Success(file)
-            } ?: Resource.Failure(StringUtil.DynamicText("Failed to download file")))
+                state = state.copy(isLoading = false, data = file)
+                emit(state)
+            } ?: {
+                state = state.copy(
+                    isLoading = false,
+                    error = StringUtil.DynamicText("Failed to download the file")
+                )
+            }
         } catch (e: Exception) {
-            emit(
-                Resource.Failure(
-                    if (e is IOException) StringUtil.DynamicText("Please check your internet connection")
-                    else StringUtil.DynamicText(e.localizedMessage ?: "Some server error occurred")
+            state = state.copy(
+                isLoading = false,
+                error = StringUtil.DynamicText(
+                    if (e is IOException) "Please check your internet connection"
+                    else e.localizedMessage ?: "Some server error occurred"
                 )
             )
+        } finally {
+            emit(state)
         }
     }
 }

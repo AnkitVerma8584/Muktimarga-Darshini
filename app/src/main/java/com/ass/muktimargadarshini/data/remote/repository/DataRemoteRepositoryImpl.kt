@@ -1,5 +1,5 @@
 package com.ass.muktimargadarshini.data.remote.repository
-
+/*
 import com.ass.muktimargadarshini.data.remote.apis.DataApi
 import com.ass.muktimargadarshini.domain.modals.HomeAuthor
 import com.ass.muktimargadarshini.domain.modals.HomeGod
@@ -71,4 +71,4 @@ class DataRemoteRepositoryImpl(
             )
         }
     }
-}
+}*/

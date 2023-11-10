@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.muktimargadarshini.domain.modals.HomeFiles
 import com.ass.muktimargadarshini.domain.repository.remote.FilesRemoteRepository
-import com.ass.muktimargadarshini.domain.utils.Resource
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.muktimargadarshini.ui.presentation.navigation.screens.files.modals.FilesState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,28 +33,28 @@ class FilesViewModel @Inject constructor(
     private val _filesList = MutableStateFlow(emptyList<FilesData>())
 
     val fileState = combine(_state, query) { state, query ->
-        state.copy(data = state.data?.let {
-            it.filter { item -> item.name.contains(query, ignoreCase = true) }
-        })
-    }.flowOn(Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(), FilesState())
+        state.copy(
+            data = state.data?.let {
+                it.filter { item -> item.name.contains(query, ignoreCase = true) }
+            })
+    }.flowOn(Default).stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5000), FilesState()
+    )
 
     val fileData = combine(_filesList, query) { data, query ->
-        if (query.length > 2)
-            data.map { fileData ->
-                fileData.copy(
-                    fileData = fileData.fileData.filter { text ->
-                        text.text?.contains(query, true) ?: false
-                    }
-                )
-            }.filter {
-                it.fileData.isNotEmpty()
-            }
+        if (query.length > 2) data.map { fileData ->
+            fileData.copy(fileData = fileData.fileData.filter { text ->
+                text.text?.contains(query, true) ?: false
+            })
+        }.filter {
+            it.fileData.isNotEmpty()
+        }
         else emptyList()
-    }.flowOn(Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    }.flowOn(Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     init {
         viewModelScope.launch(Default) {
-            getSubCategoryData(
+            getFilesList(
                 savedStateHandle.get<Int>("cat_id") ?: 0,
                 savedStateHandle.get<Int>("sub_cat_id") ?: 0,
                 savedStateHandle.get<Int>("sub_to_sub_cat_id") ?: 0,
@@ -64,55 +62,19 @@ class FilesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getSubCategoryData(catId: Int, subCatId: Int, subToSubCatId: Int) {
-        filesRemoteRepository.getFiles(catId, subCatId, subToSubCatId).collectLatest {
-            when (it) {
-                is Resource.Cached -> {
-                    getFilesData(it.result)
-                    _state.update { state ->
-                        state.copy(isLoading = false, data = it.result)
-                    }
-                }
-
-                is Resource.Failure -> {
-                    _state.update { state ->
-                        state.copy(isLoading = false, error = it.error)
-                    }
-                }
-
-                Resource.Loading -> {
-                    _state.update { state ->
-                        state.copy(isLoading = true, error = null, data = null)
-                    }
-                }
-
-                is Resource.Success -> {
-                    getFilesData(it.result)
-                    _state.update { state ->
-                        state.copy(isLoading = false, error = null, data = it.result)
-                    }
-                }
+    private suspend fun getFilesList(catId: Int, subCatId: Int, subToSubCatId: Int) {
+        filesRemoteRepository.getFiles(catId, subCatId, subToSubCatId).collect {
+            _state.value = it
+            it.data?.let { list ->
+                getFilesData(list)
             }
         }
     }
 
     private suspend fun getFilesData(list: List<HomeFiles>) {
         filesRemoteRepository.getFilesData(list).collectLatest {
-            when (it) {
-                is Resource.Cached -> {
-
-                }
-
-                is Resource.Failure -> {
-                }
-
-                Resource.Loading -> {
-
-                }
-
-                is Resource.Success -> {
-                    _filesList.value = it.result
-                }
+            it.data?.let { list ->
+                _filesList.value = list
             }
         }
     }
