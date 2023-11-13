@@ -81,7 +81,8 @@ fun Activity.MainPage(
         NavigationFragment.Files,
         NavigationFragment.SubToSubCategory,
         NavigationFragment.FileDetails,
-        NavigationFragment.Pdf
+        NavigationFragment.Pdf,
+        NavigationFragment.Music
     )
     val menuScreens: List<NavigationFragment> = listOf(
         NavigationFragment.Home,
@@ -138,7 +139,6 @@ fun Activity.MainPage(
             }
         )
     }
-
 
 
     ModalNavigationDrawer(drawerState = drawerState,

@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -59,7 +60,15 @@ fun LazyItemScope.FileCard(
                     )
             }
             Image(
-                painter = painterResource(id = if (item.isTxt) R.drawable.ic_txt else R.drawable.ic_pdf),
+                painter = painterResource(
+                    id =
+                    when (item.type) {
+                        FileType.TYPE_TEXT -> R.drawable.ic_txt
+                        FileType.TYPE_PDF -> R.drawable.ic_pdf
+                        FileType.TYPE_AUDIO -> R.drawable.ic_music
+                        else -> R.drawable.ic_default_file
+                    }
+                ),
                 contentDescription = null
             )
         }

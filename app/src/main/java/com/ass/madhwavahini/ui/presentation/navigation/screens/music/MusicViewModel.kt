@@ -1,8 +1,13 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.music
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ass.madhwavahini.data.remote.Api
+import com.ass.madhwavahini.data.remote.Api.getDocumentExtension
 import com.ass.madhwavahini.domain.modals.Track
 import com.ass.madhwavahini.domain.player.MyPlayer
 import com.ass.madhwavahini.domain.player.PlaybackState
@@ -23,7 +28,9 @@ class MusicViewModel @Inject constructor(
     private val myPlayer: MyPlayer,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel(), PlayerEvents {
-    val currentTrack: Track get() = getTrackInfo()
+
+    var currentTrack: Track by mutableStateOf(getTrackInfo())
+        private set
 
     private var isTrackPlay: Boolean = false
 
@@ -32,7 +39,6 @@ class MusicViewModel @Inject constructor(
     private val _playbackState = MutableStateFlow(PlaybackState(0L, 0L))
     val playbackState: StateFlow<PlaybackState> get() = _playbackState.asStateFlow()
 
-    private var isAuto: Boolean = false
 
     private fun getTrackInfo(): Track {
         val fileId = savedStateHandle.get<Int>("file_id") ?: 0
@@ -42,7 +48,7 @@ class MusicViewModel @Inject constructor(
         return Track(
             trackId = fileId,
             trackName = fileName,
-            trackUrl = fileUrl,
+            trackUrl = Api.BASE_URL + fileUrl.getDocumentExtension(),
             artistName = fileAuthor,
         )
     }
@@ -53,14 +59,9 @@ class MusicViewModel @Inject constructor(
     }
 
 
-    private fun setUpTrack() {
-        if (!isAuto) myPlayer.setUpTrack(isTrackPlay)
-        isAuto = false
-    }
-
     private fun updateState(state: PlayerStates) {
         isTrackPlay = (state == PlayerStates.STATE_PLAYING)
-        currentTrack.state = state
+        currentTrack = currentTrack.copy(state = state)
         updatePlaybackState(state)
     }
 
@@ -88,12 +89,22 @@ class MusicViewModel @Inject constructor(
         }
     }
 
+    override fun onSeekForward() {
+        myPlayer.seekForward()
+    }
+
+    override fun onSeekBackward() {
+        myPlayer.seekBackward()
+    }
+
     override fun onPlayPauseClick() {
         myPlayer.playPause()
     }
 
     override fun onSeekBarPositionChanged(position: Long) {
-        viewModelScope.launch { myPlayer.seekToPosition(position) }
+        viewModelScope.launch {
+            myPlayer.seekToPosition(position)
+        }
     }
 
     override fun onCleared() {

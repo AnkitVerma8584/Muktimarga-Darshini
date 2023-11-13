@@ -9,6 +9,7 @@ import com.ass.madhwavahini.data.local.mapper.mapToHomeFilesList
 import com.ass.madhwavahini.data.remote.Api.getDocumentExtension
 import com.ass.madhwavahini.data.remote.apis.FilesApi
 import com.ass.madhwavahini.data.remote.mapper.FileMapper.getFileToFilesData
+import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.FilesRepository
 import com.ass.madhwavahini.domain.utils.StringUtil
@@ -78,8 +79,7 @@ class FilesRepositoryImpl(
         val fileDataList = mutableListOf<FilesData>()
         emit(state)
         try {
-            homeFiles.filter { it.isTxt }.forEach { homeFile ->
-
+            homeFiles.filter { it.type == FileType.TYPE_TEXT }.forEach { homeFile ->
                 val file = File(application.filesDir, "file_${homeFile.id}.txt")
 
                 val downloadedFile =

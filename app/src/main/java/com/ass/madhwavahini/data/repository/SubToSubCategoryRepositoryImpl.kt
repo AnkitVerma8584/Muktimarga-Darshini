@@ -122,7 +122,7 @@ class SubToSubCategoryRepositoryImpl(
     override fun getFilesData(homeFiles: List<HomeFile>): Flow<List<FilesData>> = flow {
         try {
             val fileDataList = mutableListOf<FilesData>()
-            homeFiles.filter { it.type == FileType.TYPE_TXT }.forEach { homeFile ->
+            homeFiles.filter { it.type == FileType.TYPE_TEXT }.forEach { homeFile ->
                 val file = File(application.filesDir, "file_${homeFile.id}.txt")
 
                 val downloadedFile = if (file.exists()) file

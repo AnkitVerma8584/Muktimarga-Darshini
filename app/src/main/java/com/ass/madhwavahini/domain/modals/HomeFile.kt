@@ -27,14 +27,14 @@ data class HomeFile(
     val type
         get():FileType {
             return if (fileUrl.endsWith(".txt", true))
-                FileType.TYPE_TXT
+                FileType.TYPE_TEXT
             else if (fileUrl.endsWith(".pdf", true))
                 FileType.TYPE_PDF
-            else if (fileUrl.endsWith(".mp3", true))
-                FileType.TYPE_MP3
+            else if (fileUrl.endsWith(".mp3", true) ||
+                fileUrl.endsWith(".mp4", true) ||
+                fileUrl.endsWith(".m4a", true)
+            )
+                FileType.TYPE_AUDIO
             else FileType.TYPE_UNKNOWN
         }
-    val isTxt get():Boolean = fileUrl.endsWith(".txt", true)
-    val isPdf get() = fileUrl.endsWith(".pdf", true)
-    val isMusic get() = fileUrl.endsWith(".mp3", true)
 }

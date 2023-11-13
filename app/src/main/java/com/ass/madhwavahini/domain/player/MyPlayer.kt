@@ -32,14 +32,18 @@ class MyPlayer @Inject constructor(private val player: ExoPlayer) : Player.Liste
         player.prepare()
     }
 
-    fun setUpTrack(isTrackPlay: Boolean) {
-        if (player.playbackState == Player.STATE_IDLE) player.prepare()
-        player.seekTo(0, 0)
-        if (isTrackPlay) player.playWhenReady = true
+    fun seekForward() {
+        player.seekForward()
+    }
+
+    fun seekBackward() {
+        player.seekBack()
     }
 
     fun playPause() {
-        if (player.playbackState == Player.STATE_IDLE) player.prepare()
+        if (player.playbackState == Player.STATE_IDLE)
+            player.prepare()
+
         player.playWhenReady = !player.playWhenReady
     }
 
