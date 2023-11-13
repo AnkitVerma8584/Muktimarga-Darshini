@@ -16,23 +16,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyItemScope.FileCard(
-    item: HomeFiles,
-    onFileClicked: (homeFiles: HomeFiles, query: String, index: Int) -> Unit,
-    onPdfClicked: (homeFiles: HomeFiles) -> Unit
+    item: HomeFile,
+    onFileClicked: (homeFile: HomeFile, query: String, index: Int) -> Unit,
 ) {
     ElevatedCard(modifier = Modifier
         .padding(8.dp)
         .animateItemPlacement()
         .fillMaxWidth()
         .clickable {
-            if (item.isNotPdf)
-                onFileClicked(item, "", -1)
-            else onPdfClicked(item)
+            onFileClicked(item, "", -1)
         }) {
         Row(
             modifier = Modifier
@@ -62,7 +59,7 @@ fun LazyItemScope.FileCard(
                     )
             }
             Image(
-                painter = painterResource(id = if (item.isNotPdf) R.drawable.ic_txt else R.drawable.ic_pdf),
+                painter = painterResource(id = if (item.isTxt) R.drawable.ic_txt else R.drawable.ic_pdf),
                 contentDescription = null
             )
         }

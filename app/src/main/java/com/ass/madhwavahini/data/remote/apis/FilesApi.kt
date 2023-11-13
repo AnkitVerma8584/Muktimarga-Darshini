@@ -1,7 +1,7 @@
 package com.ass.madhwavahini.data.remote.apis
 
 import com.ass.madhwavahini.data.remote.Api
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.utils.ResultList
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -16,7 +16,7 @@ interface FilesApi {
         @Query("user_id") userId: Int,
         @Query("cat_id") categoryId: Int,
         @Query("sub_cat_id") subCategoryId: Int
-    ): Response<ResultList<HomeFiles>>
+    ): Response<ResultList<HomeFile>>
 
     @GET(Api.GET_FILES)
     suspend fun getFiles(
@@ -24,7 +24,7 @@ interface FilesApi {
         @Query("cat_id") categoryId: Int,
         @Query("sub_cat_id") subCategoryId: Int,
         @Query("sub_to_sub_cat_id") subToSubCategoryId: Int
-    ): Response<ResultList<HomeFiles>>
+    ): Response<ResultList<HomeFile>>
 
     @GET
     suspend fun getFilesData(

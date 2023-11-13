@@ -15,7 +15,8 @@ import okhttp3.ResponseBody
 import java.io.File
 
 class DocumentRepositoryImpl(
-    private val filesApi: FilesApi, private val application: Application
+    private val filesApi: FilesApi,
+    private val application: Application
 ) : DocumentRepository {
 
     override fun getDocument(

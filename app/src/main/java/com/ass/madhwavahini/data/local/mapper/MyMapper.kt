@@ -6,7 +6,7 @@ import com.ass.madhwavahini.data.local.modals.Files
 import com.ass.madhwavahini.data.local.modals.SubCategory
 import com.ass.madhwavahini.data.local.modals.SubToSubCategory
 import com.ass.madhwavahini.domain.modals.HomeCategory
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubCategory
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 
@@ -41,7 +41,7 @@ fun List<SubToSubCategory>.mapToHomeSubToSubCategoryList(): List<HomeSubToSubCat
 }
 
 
-fun List<HomeFiles>.mapToFilesList(): List<Files> = this.map {
+fun List<HomeFile>.mapToFilesList(): List<Files> = this.map {
     Files(
         it.id,
         it.catId,
@@ -51,12 +51,14 @@ fun List<HomeFiles>.mapToFilesList(): List<Files> = this.map {
         it.description,
         it.fileUrl,
         it.authorId,
-        it.godId
+        it.godId,
+        it.authorName,
+        it.godName
     )
 }
 
-fun List<Files>.mapToHomeFilesList(): List<HomeFiles> = this.map {
-    HomeFiles(
+fun List<Files>.mapToHomeFilesList(): List<HomeFile> = this.map {
+    HomeFile(
         it.id,
         it.catId,
         it.subCatId,
@@ -65,36 +67,8 @@ fun List<Files>.mapToHomeFilesList(): List<HomeFiles> = this.map {
         it.description,
         it.fileUrl,
         it.authorId,
-        it.godId
+        it.godId,
+        it.authorName,
+        it.godName
     )
-}/*
-fun Files?.mapToHomeFiles(): HomeFiles? =
-    this?.let {
-        HomeFiles(
-            id,
-            catId,
-            subCatId,
-            subToSubCatId,
-            name,
-            description,
-            fileUrl,
-            authorId,
-            godId
-        )
-    }
-
-fun List<HomeAuthor>.mapToAuthor() = this.map {
-    Author(it.id, it.name)
 }
-
-fun List<Author>.mapToHomeAuthor() = this.map {
-    HomeAuthor(it.id, it.name)
-}
-
-fun List<HomeGod>.mapToGod() = this.map {
-    God(it.id, it.godName)
-}
-
-fun List<God>.mapToHomeGod() = this.map {
-    HomeGod(it.id, it.godName)
-}*/

@@ -13,5 +13,7 @@ data class Files(
     val description: String,
     val fileUrl: String,
     val authorId: Int,
-    val godId: Int
+    val godId: Int,
+    val authorName: String,
+    val godName: String
 )

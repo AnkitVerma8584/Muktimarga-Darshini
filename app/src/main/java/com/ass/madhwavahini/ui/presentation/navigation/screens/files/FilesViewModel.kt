@@ -3,7 +3,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.files
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.FilesRepository
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
@@ -71,7 +71,7 @@ class FilesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getFilesData(list: List<HomeFiles>) {
+    private suspend fun getFilesData(list: List<HomeFile>) {
         filesRepository.getFilesData(list).collectLatest {
             it.data?.let { list ->
                 _filesList.value = list

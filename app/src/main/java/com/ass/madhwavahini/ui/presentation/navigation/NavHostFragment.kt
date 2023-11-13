@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.utils.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.AboutPage
@@ -17,6 +18,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.category.Category
 import com.ass.madhwavahini.ui.presentation.navigation.screens.contact.ContactPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.FileDetailsPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.FilePage
+import com.ass.madhwavahini.ui.presentation.navigation.screens.music.MusicScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.pdf.PdfScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
@@ -93,25 +95,30 @@ fun NavHostFragments(
                         launchSingleTop = true
                         restoreState = true
                     }
-                }, onFileClicked = { file, query, index ->
+                }, onFileClicked = { homeFile, query, index ->
                     if (!isPaidCustomer) {
                         onNavigationTriggered.invoke()
                         return@SubToSubCategoryPage
                     }
-                    NavigationFragment.FileDetails.title = StringUtil.DynamicText(file.name)
-                    navController.navigate("file_details?file_id=${file.id}&file_url=${file.fileUrl}&query=$query&index=$index") {
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                }, onPdfClicked = { homeFile ->
-                    if (!isPaidCustomer) {
-                        onNavigationTriggered.invoke()
-                        return@SubToSubCategoryPage
-                    }
-                    NavigationFragment.Pdf.title = StringUtil.DynamicText(homeFile.name)
-                    navController.navigate("pdf?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}") {
-                        launchSingleTop = true
-                        restoreState = true
+                    NavigationFragment.FileDetails.title = StringUtil.DynamicText(homeFile.name)
+
+                    when (homeFile.type) {
+                        FileType.TYPE_TXT -> navController.navigate("file_details?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}&query=$query&index=$index") {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+                        FileType.TYPE_PDF -> navController.navigate("pdf?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}") {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+                        FileType.TYPE_MP3 -> navController.navigate("music?file_id=${homeFile.id}&file_name=${homeFile.name}&file_author=${homeFile.authorName}&file_url=${homeFile.fileUrl}") {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+                        FileType.TYPE_UNKNOWN -> {}
                     }
                 })
         }
@@ -122,27 +129,32 @@ fun NavHostFragments(
                 navArgument("sub_cat_id") { type = NavType.IntType },
                 navArgument("sub_to_sub_cat_id") { type = NavType.IntType })
         ) {
-            FilePage(onFileClicked = { file, query, index ->
-                if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
-                    return@FilePage
-                }
-                NavigationFragment.FileDetails.title = StringUtil.DynamicText(file.name)
-                navController.navigate("file_details?file_id=${file.id}&file_url=${file.fileUrl}&query=$query&index=$index") {
-                    launchSingleTop = true
-                    restoreState = true
-                }
-            }, onPdfClicked = { homeFile ->
-                if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
-                    return@FilePage
-                }
-                NavigationFragment.Pdf.title = StringUtil.DynamicText(homeFile.name)
-                navController.navigate("pdf?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}") {
-                    launchSingleTop = true
-                    restoreState = true
-                }
-            })
+            FilePage(
+                onFileClicked = { homeFile, query, index ->
+                    if (!isPaidCustomer) {
+                        onNavigationTriggered.invoke()
+                        return@FilePage
+                    }
+                    NavigationFragment.FileDetails.title = StringUtil.DynamicText(homeFile.name)
+                    when (homeFile.type) {
+                        FileType.TYPE_TXT -> navController.navigate("file_details?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}&query=$query&index=$index") {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+                        FileType.TYPE_PDF -> navController.navigate("pdf?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}") {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+                        FileType.TYPE_MP3 -> navController.navigate("music?file_id=${homeFile.id}&file_name=${homeFile.name}&file_author=${homeFile.authorName}&file_url=${homeFile.fileUrl}") {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+                        FileType.TYPE_UNKNOWN -> {}
+                    }
+                })
         }
         composable(
             route = NavigationFragment.FileDetails.route,
@@ -172,6 +184,21 @@ fun NavHostFragments(
             )
         ) {
             PdfScreen()
+        }
+        composable(
+            route = NavigationFragment.Music.route,
+            arguments = listOf(
+                navArgument("file_id")
+                { type = NavType.IntType },
+                navArgument("file_name")
+                { type = NavType.StringType },
+                navArgument("file_author")
+                { type = NavType.StringType },
+                navArgument("file_url")
+                { type = NavType.StringType }
+            )
+        ) {
+            MusicScreen()
         }
     }
 }

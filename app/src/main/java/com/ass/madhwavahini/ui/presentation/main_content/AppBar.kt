@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.drawer_appbar
+package com.ass.madhwavahini.ui.presentation.main_content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding

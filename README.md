@@ -7,4 +7,4 @@ This app is for displaying granthas and shloks etc.
 # Updates in copy
 
 Upgraded dependency.
-Added UPI payment.
+Added razorpay payment.

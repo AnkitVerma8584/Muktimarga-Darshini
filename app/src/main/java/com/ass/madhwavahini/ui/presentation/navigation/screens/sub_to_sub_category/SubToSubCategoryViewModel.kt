@@ -3,7 +3,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_categ
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
@@ -96,7 +96,7 @@ class SubToSubCategoryViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getDataFromFiles(list: List<HomeFiles>) {
+    private suspend fun getDataFromFiles(list: List<HomeFile>) {
         subToSubCategoryRepository.getFilesData(list).collectLatest {
             _filesList.value = it
         }

@@ -9,7 +9,7 @@ import com.ass.madhwavahini.data.local.mapper.mapToHomeFilesList
 import com.ass.madhwavahini.data.remote.Api.getDocumentExtension
 import com.ass.madhwavahini.data.remote.apis.FilesApi
 import com.ass.madhwavahini.data.remote.mapper.FileMapper.getFileToFilesData
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.FilesRepository
 import com.ass.madhwavahini.domain.utils.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
@@ -72,13 +72,13 @@ class FilesRepositoryImpl(
         }
     }
 
-    override fun getFilesData(homeFiles: List<HomeFiles>):
+    override fun getFilesData(homeFiles: List<HomeFile>):
             Flow<FilesDataState> = flow {
         var state = FilesDataState(isLoading = true)
         val fileDataList = mutableListOf<FilesData>()
         emit(state)
         try {
-            homeFiles.filter { it.isNotPdf }.forEach { homeFile ->
+            homeFiles.filter { it.isTxt }.forEach { homeFile ->
 
                 val file = File(application.filesDir, "file_${homeFile.id}.txt")
 

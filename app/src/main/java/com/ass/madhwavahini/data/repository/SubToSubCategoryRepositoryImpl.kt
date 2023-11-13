@@ -13,7 +13,8 @@ import com.ass.madhwavahini.data.remote.Api.getDocumentExtension
 import com.ass.madhwavahini.data.remote.apis.FilesApi
 import com.ass.madhwavahini.data.remote.apis.SubToSubCategoryApi
 import com.ass.madhwavahini.data.remote.mapper.FileMapper.getFileToFilesData
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.FileType
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
 import com.ass.madhwavahini.domain.utils.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
@@ -118,10 +119,10 @@ class SubToSubCategoryRepositoryImpl(
         }
     }
 
-    override fun getFilesData(homeFiles: List<HomeFiles>): Flow<List<FilesData>> = flow {
+    override fun getFilesData(homeFiles: List<HomeFile>): Flow<List<FilesData>> = flow {
         try {
             val fileDataList = mutableListOf<FilesData>()
-            homeFiles.filter { it.isNotPdf }.forEach { homeFile ->
+            homeFiles.filter { it.type == FileType.TYPE_TXT }.forEach { homeFile ->
                 val file = File(application.filesDir, "file_${homeFile.id}.txt")
 
                 val downloadedFile = if (file.exists()) file

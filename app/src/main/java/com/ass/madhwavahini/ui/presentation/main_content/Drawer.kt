@@ -1,7 +1,8 @@
-package com.ass.madhwavahini.ui.presentation.drawer_appbar
+package com.ass.madhwavahini.ui.presentation.main_content
 
 import android.app.Activity
 import android.content.Intent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -38,8 +39,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -54,7 +57,6 @@ import androidx.navigation.compose.rememberNavController
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.ui.presentation.MainViewModel
-import com.ass.madhwavahini.ui.presentation.MenuItem
 import com.ass.madhwavahini.ui.presentation.authentication.AuthenticationActivity
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.navigation.NavHostFragments
@@ -67,7 +69,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Activity.MainPage(
+fun Activity.MainPage(
     windowSizeClass: WindowSizeClass, mainViewModel: MainViewModel
 ) {
     val allScreens: List<NavigationFragment> = listOf(
@@ -202,13 +204,12 @@ private fun Activity.MainPage(
                 )
             }
         }) {
-
-
         Scaffold(modifier = Modifier.fillMaxSize(), snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         }, topBar = {
             MyAppBar(
-                title = currentFragment?.title?.asString() ?: stringResource(id = R.string.app_name),
+                title = currentFragment?.title?.asString()
+                    ?: stringResource(id = R.string.app_name),
                 hamburgerIconClicked = { scope.launch { drawerState.open() } },
                 navigationBackClicked = { navController.navigateUp() },
                 isNavigationFragment = currentFragment?.icon != null,
@@ -262,3 +263,31 @@ private fun Activity.MainPage(
         }
     }
 }
+
+
+@Composable
+private fun MenuItem(
+    item: NavigationFragment,
+    isSelected: Boolean,
+    onMenuClick: (item: NavigationFragment) -> Unit
+) {
+    NavigationDrawerItem(icon = {
+        item.icon?.let {
+            Image(
+                painter = painterResource(id = it),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimaryContainer)
+            )
+        }
+    }, label = {
+        Text(
+            item.title.asString(),
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            style = MaterialTheme.typography.labelLarge
+        )
+    }, selected = isSelected, onClick = {
+        onMenuClick(item)
+    }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+    )
+}
+

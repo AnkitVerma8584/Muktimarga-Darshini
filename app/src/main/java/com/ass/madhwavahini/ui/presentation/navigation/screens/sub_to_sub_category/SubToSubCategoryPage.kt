@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.components.SubToSubCategoryContent
@@ -16,8 +16,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_catego
 fun SubToSubCategoryPage(
     viewModel: SubToSubCategoryViewModel = hiltViewModel(),
     onSubToSubCategoryClick: (HomeSubToSubCategory) -> Unit,
-    onFileClicked: (HomeFiles, String, Int) -> Unit,
-    onPdfClicked: (homeFiles: HomeFiles) -> Unit
+    onFileClicked: (HomeFile, String, Int) -> Unit
 ) {
     val subToSubCategories by viewModel.subToSubCategoryState.collectAsState()
     val files by viewModel.fileState.collectAsState()
@@ -37,8 +36,7 @@ fun SubToSubCategoryPage(
             subToSubCategories,
             onSubToSubCategoryClick,
             files,
-            onFileClicked,
-            onPdfClicked
+            onFileClicked
         )
     }
 }

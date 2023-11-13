@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
@@ -28,8 +28,7 @@ fun SubToSubCategoryContent(
     subToSubCategory: SubToSubCategoryState,
     onSubToSubCategoryClick: (HomeSubToSubCategory) -> Unit,
     files: FilesState,
-    onFileClicked: (HomeFiles, String, Int) -> Unit,
-    onPdfClicked: (homeFiles: HomeFiles) -> Unit
+    onFileClicked: (HomeFile, String, Int) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -38,14 +37,14 @@ fun SubToSubCategoryContent(
     ) {
         searchedContent.forEach { fileData ->
             stickyHeader {
-                SearchedFileHeader(header = fileData.homeFiles.name)
+                SearchedFileHeader(header = fileData.homeFile.name)
             }
             items(fileData.fileData) { text ->
                 SearchedText(
                     query = query,
                     content = text,
                     onClick = {
-                        onFileClicked(fileData.homeFiles, query, it)
+                        onFileClicked(fileData.homeFile, query, it)
                     })
             }
             item {
@@ -94,10 +93,9 @@ fun SubToSubCategoryContent(
                 }
             else
                 items(list, key = { it.uniqueKey }) {
-                    FileCard(item = it, onFileClicked = onFileClicked, onPdfClicked = onPdfClicked)
+                    FileCard(item = it, onFileClicked = onFileClicked)
                 }
         }
-        //item { files.error?.ShowErrorText() }
     }
 }
 

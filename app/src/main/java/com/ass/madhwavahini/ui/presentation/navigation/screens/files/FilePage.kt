@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.common.ShowErrorText
@@ -17,8 +17,10 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.files.components.
 @Composable
 fun FilePage(
     viewModel: FilesViewModel = hiltViewModel(),
-    onFileClicked: (homeFiles: HomeFiles, query: String, index: Int) -> Unit,
-    onPdfClicked: (homeFiles: HomeFiles) -> Unit
+    onFileClicked: (
+        homeFile: HomeFile,
+        query: String, index: Int
+    ) -> Unit,
 ) {
     val files by viewModel.fileState.collectAsState()
     val searchedData by viewModel.fileData.collectAsState()
@@ -39,8 +41,7 @@ fun FilePage(
                 searchedContent = searchedData,
                 data = it,
                 query,
-                onFileClicked = onFileClicked,
-                onPdfClicked = onPdfClicked
+                onFileClicked = onFileClicked
             )
         }
     }

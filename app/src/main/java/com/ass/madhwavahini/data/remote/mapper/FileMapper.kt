@@ -1,7 +1,11 @@
 package com.ass.madhwavahini.data.remote.mapper
 
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants
-import com.ass.madhwavahini.domain.modals.HomeFiles
+import com.ass.madhwavahini.data.remote.Api
+import com.ass.madhwavahini.data.remote.Api.getDocumentExtension
+import com.ass.madhwavahini.domain.modals.HomeFile
+import com.ass.madhwavahini.domain.modals.Track
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.modals.FileDocumentText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +15,17 @@ import java.io.File
 import java.io.FileReader
 
 object FileMapper {
-    suspend fun HomeFiles.getFileToFilesData(file: File): FilesData? =
+
+    fun HomeFile.getTrack(): Track =
+        Track(
+            trackId = id,
+            trackImage = R.drawable.app_logo,
+            trackName = name,
+            trackUrl = Api.BASE_URL + fileUrl.getDocumentExtension(),
+            artistName = authorName
+        )
+
+    suspend fun HomeFile.getFileToFilesData(file: File): FilesData? =
         withContext(Dispatchers.IO) {
             try {
                 val br = BufferedReader(FileReader(file))
