@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation
+package com.ass.madhwavahini.ui.presentation.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
