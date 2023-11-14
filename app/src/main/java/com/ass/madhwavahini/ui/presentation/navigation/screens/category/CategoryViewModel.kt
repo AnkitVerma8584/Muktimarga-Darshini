@@ -19,6 +19,7 @@ import javax.inject.Inject
 class CategoryViewModel @Inject constructor(
     homeRepository: HomeRepository
 ) : ViewModel() {
+
     private val _categoryState =
         homeRepository.getCategoryState().flowOn(IO)
 

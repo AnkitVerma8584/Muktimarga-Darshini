@@ -52,10 +52,11 @@ class SubCategoryRepositoryImpl(
                 )
             }
         } catch (e: Exception) {
-            state = state.copy(
-                isLoading = false,
-                error = e.getError()
-            )
+            if (localSubCategories.isEmpty())
+                state = state.copy(
+                    isLoading = false,
+                    error = e.getError()
+                )
         } finally {
             emit(state)
         }

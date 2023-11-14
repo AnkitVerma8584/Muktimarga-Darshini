@@ -72,9 +72,10 @@ class SubToSubCategoryRepositoryImpl(
                 )
             }
         } catch (e: Exception) {
-            state = state.copy(
-                isLoading = false, error = e.getError()
-            )
+            if (localSubToSubCategories.isEmpty())
+                state = state.copy(
+                    isLoading = false, error = e.getError()
+                )
         } finally {
             emit(state)
         }
@@ -87,12 +88,9 @@ class SubToSubCategoryRepositoryImpl(
         val localFiles = filesDao.getFiles(catId, subCategoryId).mapToHomeFilesList()
 
         if (localFiles.isNotEmpty()) {
-            state = state.copy(
-                isLoading = false, data = localFiles
-            )
+            state = state.copy(isLoading = false, data = localFiles)
             emit(state)
         }
-
         try {
             val result = filesApi.getFiles(userDataStore.getId(), catId, subCategoryId)
             state = if (result.isSuccessful && result.body() != null) {
@@ -111,9 +109,10 @@ class SubToSubCategoryRepositoryImpl(
                 )
             }
         } catch (e: Exception) {
-            state = state.copy(
-                isLoading = false, error = e.getError()
-            )
+            if (localFiles.isEmpty())
+                state = state.copy(
+                    isLoading = false, error = e.getError()
+                )
         } finally {
             emit(state)
         }

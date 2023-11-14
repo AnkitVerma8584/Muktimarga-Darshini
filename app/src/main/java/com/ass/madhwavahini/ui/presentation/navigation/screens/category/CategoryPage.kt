@@ -27,6 +27,7 @@ fun CategoryPage(
 ) {
     val banners by viewModel.bannerState.collectAsStateWithLifecycle()
     val categories by viewModel.categoryState.collectAsStateWithLifecycle()
+
     val query by viewModel.categoryQuery.collectAsState()
 
     val configuration = LocalConfiguration.current

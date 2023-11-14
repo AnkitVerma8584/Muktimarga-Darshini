@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -77,7 +78,7 @@ fun BottomMusicBar(
                     painter = rememberAsyncImagePainter(model = selectedTrack.trackImage),
                     contentDescription = null
                 )
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(15.dp))
                 Column(
                     modifier = Modifier
                         .fillMaxWidth(), verticalArrangement = Arrangement.Bottom
@@ -103,9 +104,7 @@ private fun AudioSlider(
     playbackState: StateFlow<PlaybackState>,
     onSeekBarPositionChanged: (Long) -> Unit
 ) {
-    val playbackStateValue = playbackState.collectAsState(
-        initial = PlaybackState(0L, 0L)
-    ).value
+    val playbackStateValue = playbackState.collectAsState(initial = PlaybackState(0L, 0L)).value
     var currentMediaProgress = playbackStateValue.currentPlaybackPosition.toFloat()
     var currentPosTemp by rememberSaveable { mutableFloatStateOf(0f) }
 
@@ -154,34 +153,22 @@ private fun AudioControls(
         modifier = Modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        SeekBackward(onClick = onSeekBack)
-        PlayPauseIcon(
-            selectedTrack = selectedTrack, onClick = onPlayPauseClick
-        )
-        SeekForward(onClick = onSeekForward)
+        SeekButton(imageVector = Icons.Default.FastRewind, onSeekBack)
+        PlayPauseIcon(selectedTrack = selectedTrack, onClick = onPlayPauseClick)
+        SeekButton(imageVector = Icons.Default.FastForward, onSeekForward)
     }
 }
 
-
 @Composable
-private fun SeekBackward(onClick: () -> Unit) {
+private fun SeekButton(
+    imageVector: ImageVector,
+    onClick: () -> Unit
+) {
     IconButton(onClick = onClick) {
         Icon(
-            imageVector = Icons.Default.FastRewind,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSecondaryContainer
-        )
-    }
-}
-
-
-@Composable
-private fun SeekForward(onClick: () -> Unit) {
-    IconButton(onClick = onClick) {
-        Icon(
-            imageVector = Icons.Default.FastForward,
+            imageVector = imageVector,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSecondaryContainer
         )
@@ -193,7 +180,8 @@ fun PlayPauseIcon(selectedTrack: Track, onClick: () -> Unit) {
     if (selectedTrack.state == PlayerStates.STATE_BUFFERING) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(size = 48.dp),
+                .size(size = 40.dp)
+                .padding(5.dp),
             color = MaterialTheme.colorScheme.onSecondaryContainer,
         )
     } else {

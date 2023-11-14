@@ -14,7 +14,6 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.Ca
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.io.IOException
 
 class HomeRepositoryImpl(
     private val bannerDao: BannerDao,
@@ -58,14 +57,11 @@ class HomeRepositoryImpl(
                 )
             }
         } catch (e: Exception) {
-            state = state.copy(
-                isLoading = false,
-                error = StringUtil.DynamicText(
-                    if (e is IOException) "Please check your internet connection" else {
-                        e.localizedMessage ?: "Some server error occurred"
-                    }
+            if (localCategories.isEmpty())
+                state = state.copy(
+                    isLoading = false,
+                    error = e.getError()
                 )
-            )
         } finally {
             emit(state)
         }

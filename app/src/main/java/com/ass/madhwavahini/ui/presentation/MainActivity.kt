@@ -34,9 +34,9 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        window.setFlags(
-//            WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE
-//        )
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE
+        )
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
             MuktimargaDarshiniTheme {

@@ -113,10 +113,7 @@ fun Activity.MainPage(
     LaunchedEffect(key1 = lifeCycleOwner.lifecycle) {
         lifeCycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             mainViewModel.orderState.collectLatest { order ->
-                paymentData = order.data/*
-                    order.data?.let { p ->
-                        startPayment(p, user, mainViewModel)
-                    }*/
+                paymentData = order.data
             }
         }
     }
@@ -130,9 +127,6 @@ fun Activity.MainPage(
             onRazorpayModeClicked = {
                 startPayment(payment, user, mainViewModel)
                 paymentData = null
-            },
-            onUpiSubmitClicked = { tid, amount ->
-
             })
     }
 
