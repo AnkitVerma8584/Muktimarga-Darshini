@@ -1,9 +1,18 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.file_details
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.data.Constants.PARAGRAPH_LINE
+import com.ass.madhwavahini.data.remote.Api.getAudioUrl
+import com.ass.madhwavahini.domain.modals.Track
+import com.ass.madhwavahini.domain.player.MyPlayer
+import com.ass.madhwavahini.domain.player.PlaybackState
+import com.ass.madhwavahini.domain.player.PlayerEvents
+import com.ass.madhwavahini.domain.player.PlayerStates
 import com.ass.madhwavahini.domain.repository.DocumentRepository
 import com.ass.madhwavahini.domain.utils.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.modals.DocumentState
@@ -11,14 +20,18 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.moda
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.File
@@ -29,8 +42,9 @@ import javax.inject.Inject
 @HiltViewModel
 class FileDetailsViewModel @Inject constructor(
     private val filesRepository: DocumentRepository,
+    private val myPlayer: MyPlayer,
     private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : ViewModel(), PlayerEvents {
 
     private val _fileState = MutableStateFlow(DocumentState())
     val fileState = _fileState.asStateFlow()
@@ -43,7 +57,28 @@ class FileDetailsViewModel @Inject constructor(
     private val _text = MutableStateFlow(listOf<String?>())
     val text = _text.asStateFlow()
 
+    /////////////////////////////////  AUDIO  /////////////////////////////////
+    var currentTrack: Track by mutableStateOf(getTrackInfo())
+        private set
+
+    var hasAudioFile: Boolean by mutableStateOf(false)
+        private set
+
+    private var isTrackPlay: Boolean = false
+
+    private var playbackStateJob: Job? = null
+
+    private val _playbackState = MutableStateFlow(PlaybackState(0L, 0L))
+    val playbackState: StateFlow<PlaybackState> get() = _playbackState.asStateFlow()
+
+    ////////////////////////////////  AUDIO  /////////////////////////////////
     init {
+
+        if (currentTrack.trackUrl.isNotBlank()) {
+            hasAudioFile = true
+            myPlayer.initPlayer(currentTrack.trackUrl)
+            observePlayerState()
+        }
         viewModelScope.launch(IO) {
             fetchDocument(
                 savedStateHandle.get<Int>("file_id") ?: 0,
@@ -112,5 +147,71 @@ class FileDetailsViewModel @Inject constructor(
 
     fun removeIndexFlag() {
         index = -1
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**                                                  AUDIO                                              */
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    private fun getTrackInfo(): Track {
+        val audioUrl = savedStateHandle.get<String>("audio_url") ?: ""
+        val audioImage = savedStateHandle.get<String>("audio_image") ?: ""
+        return if (audioUrl.isBlank()) Track() else
+            Track(
+                trackUrl = audioUrl.getAudioUrl(),
+                trackImage = audioImage.getAudioUrl(),
+            )
+    }
+
+    private fun updateState(state: PlayerStates) {
+        isTrackPlay = (state == PlayerStates.STATE_PLAYING)
+        currentTrack = currentTrack.copy(state = state)
+        updatePlaybackState(state)
+    }
+
+    private fun observePlayerState() {
+        viewModelScope.launch {
+            myPlayer.playerState.collect {
+                updateState(it)
+            }
+        }
+    }
+
+
+    private fun updatePlaybackState(state: PlayerStates) {
+        playbackStateJob?.cancel()
+        playbackStateJob = viewModelScope.launch {
+            do {
+                _playbackState.emit(
+                    PlaybackState(
+                        currentPlaybackPosition = myPlayer.currentPlaybackPosition,
+                        currentTrackDuration = myPlayer.currentTrackDuration
+                    )
+                )
+                delay(1000)
+            } while (state == PlayerStates.STATE_PLAYING && isActive)
+        }
+    }
+
+    override fun onSeekForward() {
+        myPlayer.seekForward()
+    }
+
+    override fun onSeekBackward() {
+        myPlayer.seekBackward()
+    }
+
+    override fun onPlayPauseClick() {
+        myPlayer.playPause()
+    }
+
+    override fun onSeekBarPositionChanged(position: Long) {
+        myPlayer.seekToPosition(position)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        myPlayer.releasePlayer()
     }
 }

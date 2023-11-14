@@ -26,7 +26,7 @@ fun BoxScope.AudioToggleButton(
         modifier = Modifier
             .align(Alignment.TopEnd)
             .padding(16.dp)
-            .size(54.dp)
+            .size(48.dp)
             .clip(CircleShape)
             .background(color = MaterialTheme.colorScheme.primary),
         onClick = {

@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ass.madhwavahini.data.Constants.SPLASH_TIMEOUT
 import com.ass.madhwavahini.ui.presentation.MainActivity
 import com.ass.madhwavahini.ui.presentation.SplashScreen
 import com.ass.madhwavahini.ui.presentation.authentication.login.MobileAuthenticationPage
@@ -47,7 +48,7 @@ class AuthenticationActivity : ComponentActivity() {
                 mutableStateOf(true)
             }
             LaunchedEffect(key1 = true) {
-                delay(2000)
+                delay(SPLASH_TIMEOUT)
                 splashState = false
             }
             val lifecycleOwner = LocalLifecycleOwner.current

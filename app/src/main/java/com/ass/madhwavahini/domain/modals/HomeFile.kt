@@ -11,8 +11,8 @@ data class HomeFile(
     val name: String,
     val description: String,
     @SerializedName("file_url") val fileUrl: String,
-    @SerializedName("audio_file") val audioUrl: String?,
-    @SerializedName("audio_image") val audioImage: String?,
+    @SerializedName("audio_file") val audioUrl: String,
+    @SerializedName("audio_image") val audioImage: String,
     @SerializedName("author_id") val authorId: Int,
     @SerializedName("god_id") val godId: Int,
     val authorName: String,
@@ -24,9 +24,9 @@ data class HomeFile(
         get():FileType {
             return if (fileUrl.endsWith(".pdf", true)) FileType.TYPE_PDF
             else if (fileUrl.endsWith(".txt")) {
-                return audioUrl?.let {
+                return if (audioUrl.isNotBlank()) {
                     FileType.TYPE_AUDIO
-                } ?: FileType.TYPE_TEXT
+                } else FileType.TYPE_TEXT
             } else FileType.TYPE_UNKNOWN
         }
 }

@@ -5,6 +5,7 @@ object Api {
     const val BASE_URL = "https://srssvvt.in/madhvavahini/"
 
     fun String.getDocumentExtension(): String = "uploads/documents/$this"
+    fun String.getAudioUrl(): String = BASE_URL + "uploads/audio/$this"
 
     //fun String.getDocumentUrl(): String = BASE_URL + this.getDocumentExtension()
     const val LOGIN =  "app/user_login.php"

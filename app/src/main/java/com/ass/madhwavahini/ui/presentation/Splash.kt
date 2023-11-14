@@ -49,7 +49,6 @@ internal fun SplashScreen() {
                     this.scaleX = scale
                     this.scaleY = scale
                 }
-                .scale(scale)
                 .background(
                     brush = Brush.radialGradient(
                         colors = listOf(
@@ -75,17 +74,3 @@ internal fun SplashScreen() {
         )
     }
 }
-/*Modifier
-                .size(280.dp)
-                .align(Alignment.Center)
-                .scale(1f, 1.2f)
-                .scale(scale)
-                .background(
-                    brush = Brush.radialGradient(
-                        colors = listOf(
-                            Color(0x80FFC107),
-                            Color(0x33FFC107),
-                            Color(0x00FFEB3B)
-                        ),
-                    ),
-                )*/

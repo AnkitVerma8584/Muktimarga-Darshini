@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,6 +24,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.AudioToggleButton
+import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.BottomMusicBar
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.DocumentText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.ScrollToTopButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
@@ -43,7 +46,11 @@ fun FileDetailsPage(
 ) {
     val state by viewModel.fileState.collectAsState()
     val query by viewModel.fileDataQuery.collectAsState()
-    var scale by remember { mutableFloatStateOf(16f) }
+    var scale by rememberSaveable { mutableFloatStateOf(16f) }
+
+    var isDisplayingAudio by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
@@ -53,7 +60,8 @@ fun FileDetailsPage(
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
         Box(modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .weight(1f)
             .pointerInput(Unit) {
                 detectTransformGestures { _, _, zoom, _ ->
                     if ((scale * zoom) in 11.0f..60.0f) scale *= zoom
@@ -73,21 +81,20 @@ fun FileDetailsPage(
                 scrollIndex = viewModel.getScrollIndex()
             )
 
-
-            var isDisplayingAudio by remember {
-                mutableStateOf(false)
-            }
-            AudioToggleButton(isDisplayingAudio = isDisplayingAudio) {
-                isDisplayingAudio = !isDisplayingAudio
-            }
+            if (viewModel.hasAudioFile)
+                AudioToggleButton(isDisplayingAudio = isDisplayingAudio) {
+                    isDisplayingAudio = !isDisplayingAudio
+                }
         }
+        if (viewModel.hasAudioFile)
+            BottomMusicBar(viewModel, isDisplayingAudio)
+
     }
 }
 
 @Composable
 private fun BoxScope.DocumentContent(
-    viewModel: FileDetailsViewModel,
-    query: String, scale: Float, scrollIndex: Int
+    viewModel: FileDetailsViewModel, query: String, scale: Float, scrollIndex: Int
 ) {
     val text by viewModel.text.collectAsState()
     val searchedText by viewModel.searchedText.collectAsState()
@@ -95,8 +102,7 @@ private fun BoxScope.DocumentContent(
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    if (text.isEmpty())
-        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+    if (text.isEmpty()) CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
     else {
         SelectionContainer {
             LazyColumn(

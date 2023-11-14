@@ -1,5 +1,7 @@
 package com.ass.madhwavahini.ui.presentation.payment
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +21,7 @@ import androidx.compose.ui.unit.dp
 fun UpiInfoField(
     header: String,
     text: String,
+    clipboardManager: ClipboardManager,
     prefix: @Composable () -> Unit
 ) {
     Text(
@@ -39,13 +42,14 @@ fun UpiInfoField(
             focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer
         ),
         modifier = Modifier
-            .fillMaxWidth(0.9f),
+            .fillMaxWidth(),
         value = text,
 
         trailingIcon = {
             IconButton(
                 onClick = {
-                    // TODO copy content
+                    val clipData = ClipData.newPlainText(header, text)
+                    clipboardManager.setPrimaryClip(clipData)
                 },
             ) {
                 Icon(

@@ -54,7 +54,8 @@ fun TrackInfo(trackName: String, artistName: String) {
 
 @Composable
 fun TrackProgressSlider(
-    playbackState: StateFlow<PlaybackState>, onSeekBarPositionChanged: (Long) -> Unit
+    playbackState: StateFlow<PlaybackState>,
+    onSeekBarPositionChanged: (Long) -> Unit
 ) {
     val playbackStateValue = playbackState.collectAsState(
         initial = PlaybackState(0L, 0L)
