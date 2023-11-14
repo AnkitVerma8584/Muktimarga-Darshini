@@ -35,9 +35,9 @@ class SubCategoryRepositoryImpl(
             if (result.isSuccessful && result.body() != null) {
                 state = if (result.body()!!.success) {
                     val data = result.body()?.data!!
-                    if (localSubCategories != data)
+                    if (localSubCategories != data) {
                         subCategoryDao.insertSubCategory(data.mapToSubCategoryList())
-                    else return@flow
+                    } else return@flow
                     state.copy(isLoading = false, data = data)
                 } else {
                     state.copy(

@@ -11,7 +11,6 @@ import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.PaymentRepository
 import com.ass.madhwavahini.domain.utils.StringUtil
 import com.ass.madhwavahini.ui.presentation.payment.PaymentState
-import com.ass.madhwavahini.util.print
 import com.razorpay.PaymentData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -58,7 +57,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             paymentRepository.getPaymentOrder().collectLatest {
                 isLoading.value = it.isLoading
-                it.print()
                 _orderState.send(it)
             }
         }

@@ -6,11 +6,8 @@ import com.ass.madhwavahini.data.local.modals.Category
 @Dao
 abstract class CategoryDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insert(category: List<Category>)
-
-    @Query("SELECT COUNT(*) FROM category;")
-    abstract fun getCategoryCount(): Int
 
     @Query("DELETE FROM category;")
     protected abstract suspend fun delete()

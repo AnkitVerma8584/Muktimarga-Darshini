@@ -1,6 +1,7 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.files
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,7 +35,7 @@ fun FilePage(
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
         if (files.isLoading)
-            Loading()
+            Loading(Modifier.fillMaxHeight())
         files.error?.ShowErrorText()
         files.data?.let {
             FilesList(

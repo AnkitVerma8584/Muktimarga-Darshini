@@ -1,6 +1,7 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -32,10 +33,12 @@ fun SubCategoryPage(
             query = query,
             onSearchQueryChanged = viewModel::queryChanged
         )
+
         if (subCategories.isLoading)
-            Loading()
-        Header(header = "Sub-Categories")
+            Loading(Modifier.fillMaxHeight())
+
         subCategories.data?.let { subCategoriesList ->
+            Header(header = "Sub-Categories")
             LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 300.dp)) {
                 if (subCategoriesList.isEmpty())
                     item {

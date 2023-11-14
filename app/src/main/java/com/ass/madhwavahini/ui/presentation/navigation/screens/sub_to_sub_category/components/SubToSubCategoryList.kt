@@ -52,16 +52,17 @@ fun SubToSubCategoryContent(
             }
         }
 
+        if (subToSubCategory.isLoading || subToSubCategory.data != null || (files.data == null && !files.isLoading))
+            stickyHeader {
+                Header("Sub-To-Sub-Categories")
+            }
+
         if (subToSubCategory.isLoading) {
             item {
                 Loading()
             }
         }
 
-        if (subToSubCategory.isLoading || subToSubCategory.data != null || (files.data == null && !files.isLoading))
-            stickyHeader {
-                Header("Sub-To-Sub-Categories")
-            }
 
         if (files.data == null && !files.isLoading)
             item { subToSubCategory.error?.ShowErrorText() }

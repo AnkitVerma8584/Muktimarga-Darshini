@@ -6,11 +6,8 @@ import com.ass.madhwavahini.data.local.modals.Banner
 @Dao
 abstract class BannerDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insert(banners: List<Banner>)
-
-    @Query("SELECT COUNT(*) FROM banner;")
-    abstract fun getBannerCount(): Int
 
     @Query("DELETE FROM banner;")
     protected abstract suspend fun delete()

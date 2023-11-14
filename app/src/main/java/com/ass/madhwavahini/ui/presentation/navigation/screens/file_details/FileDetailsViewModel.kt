@@ -73,17 +73,16 @@ class FileDetailsViewModel @Inject constructor(
 
     ////////////////////////////////  AUDIO  /////////////////////////////////
     init {
-
-        if (currentTrack.trackUrl.isNotBlank()) {
-            hasAudioFile = true
-            myPlayer.initPlayer(currentTrack.trackUrl)
-            observePlayerState()
-        }
         viewModelScope.launch(IO) {
             fetchDocument(
                 savedStateHandle.get<Int>("file_id") ?: 0,
                 savedStateHandle.get<String>("file_url") ?: ""
             )
+        }
+        if (currentTrack.trackUrl.isNotBlank()) {
+            hasAudioFile = true
+            myPlayer.initPlayer(currentTrack.trackUrl)
+            observePlayerState()
         }
     }
 

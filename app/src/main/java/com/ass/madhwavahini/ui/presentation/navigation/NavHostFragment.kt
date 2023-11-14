@@ -24,7 +24,6 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.pdf.PdfScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.support.SupportPage
-import com.ass.madhwavahini.util.print
 
 @Composable
 fun NavHostFragments(
@@ -158,7 +157,6 @@ fun NavHostFragments(
 }
 
 private fun NavController.onFileClicked(homeFile: HomeFile, query: String, index: Int) {
-    homeFile.print()
     when (homeFile.type) {
         FileType.TYPE_TEXT -> {
             NavigationFragment.FileDetails.title = StringUtil.DynamicText(homeFile.name)
