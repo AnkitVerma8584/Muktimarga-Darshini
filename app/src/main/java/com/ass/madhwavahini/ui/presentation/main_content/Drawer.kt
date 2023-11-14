@@ -118,7 +118,7 @@ fun Activity.MainPage(
         }
     }
 
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     paymentData?.let { payment ->
         PaymentOptionsBottomSheet(sheetState = sheetState,
