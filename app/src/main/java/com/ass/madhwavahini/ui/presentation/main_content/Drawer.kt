@@ -42,7 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -82,12 +81,6 @@ fun Activity.MainPage(
         NavigationFragment.SubToSubCategory,
         NavigationFragment.FileDetails,
         NavigationFragment.Pdf
-    )
-    val menuScreens: List<NavigationFragment> = listOf(
-        NavigationFragment.Home,
-        NavigationFragment.About,
-        NavigationFragment.Contact,
-        NavigationFragment.Support
     )
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -130,7 +123,6 @@ fun Activity.MainPage(
             })
     }
 
-
     ModalNavigationDrawer(drawerState = drawerState,
         gesturesEnabled = currentFragment?.icon != null,
         drawerContent = {
@@ -163,7 +155,7 @@ fun Activity.MainPage(
                     modifier = Modifier.padding(horizontal = 24.dp)
                 )
                 Spacer(Modifier.height(8.dp))
-                menuScreens.forEach { item ->
+                allScreens.filter { it.icon != null }.forEach { item ->
                     MenuItem(item = item,
                         isSelected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                         onMenuClick = {
@@ -203,8 +195,8 @@ fun Activity.MainPage(
                 hamburgerIconClicked = { scope.launch { drawerState.open() } },
                 navigationBackClicked = { navController.navigateUp() },
                 isNavigationFragment = currentFragment?.icon != null,
-                mainViewModel = mainViewModel,
-                user = user
+                isPaidCustomer = user.isPaidCustomer,
+                onBuyClicked = mainViewModel::getOrder
             )
         }) {
             val ctx = LocalContext.current
@@ -214,7 +206,8 @@ fun Activity.MainPage(
                         payment.data?.let {
                             scope.launch {
                                 snackbarHostState.showSnackbar(
-                                    message = "Payment verified", duration = SnackbarDuration.Short
+                                    message = "Payment Verified.",
+                                    duration = SnackbarDuration.Short
                                 )
                             }
                         }
@@ -262,7 +255,7 @@ private fun MenuItem(
     NavigationDrawerItem(icon = {
         item.icon?.let {
             Image(
-                painter = painterResource(id = it),
+                imageVector = it,
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimaryContainer)
             )

@@ -17,8 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.ass.madhwavahini.domain.modals.User
-import com.ass.madhwavahini.ui.presentation.MainViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,8 +26,8 @@ fun MyAppBar(
     hamburgerIconClicked: () -> Unit,
     navigationBackClicked: () -> Unit,
     isNavigationFragment: Boolean,
-    mainViewModel: MainViewModel,
-    user: User
+    isPaidCustomer: Boolean,
+    onBuyClicked: () -> Unit
 ) {
 
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
@@ -59,11 +57,8 @@ fun MyAppBar(
                     .padding(8.dp))
         }
     }, actions = {
-        if (!user.isPaidCustomer) IconButton(onClick = {
-            mainViewModel.getOrder()
-        }) {
+        if (!isPaidCustomer) IconButton(onClick = onBuyClicked) {
             Text(text = "BUY")
         }
-
     })
 }

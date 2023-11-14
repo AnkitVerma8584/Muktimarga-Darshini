@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.ass.muktimargadarshini",
+  "applicationId": "com.ass.madhwavahini",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 1,
-      "versionName": "1.1.23",
+      "versionCode": 2,
+      "versionName": "1.23.2",
       "outputFile": "app-release.apk"
     }
   ],

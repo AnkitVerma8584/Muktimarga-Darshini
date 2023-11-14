@@ -1,34 +1,41 @@
 package com.ass.madhwavahini.ui.presentation.navigation.modal
 
-import androidx.annotation.DrawableRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SupportAgent
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.PhoneInTalk
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.utils.StringUtil
 
 sealed class NavigationFragment(
     val route: String,
     var title: StringUtil,
-    @DrawableRes val icon: Int? = null
+    val icon: ImageVector? = null
 ) {
     data object Home : NavigationFragment(
-        route = "home", title = StringUtil.StringResource(R.string.home), icon = R.drawable.ic_home
+        route = "home",
+        title = StringUtil.StringResource(R.string.home),
+        icon = Icons.Outlined.Home
     )
 
     data object About : NavigationFragment(
         route = "about",
         title = StringUtil.StringResource(R.string.about),
-        icon = R.drawable.ic_about
+        icon = Icons.Outlined.Info
     )
 
     data object Contact : NavigationFragment(
         route = "contact",
         title = StringUtil.StringResource(R.string.contact_us),
-        icon = R.drawable.ic_contact
+        icon = Icons.Outlined.PhoneInTalk
     )
 
     data object Support : NavigationFragment(
         route = "support",
         title = StringUtil.StringResource(R.string.support),
-        icon = R.drawable.ic_support
+        icon = Icons.Default.SupportAgent
     )
 
     data object SubCategory : NavigationFragment(
