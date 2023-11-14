@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -44,6 +45,10 @@ internal fun SplashScreen() {
                 .size(280.dp)
                 .align(Alignment.Center)
                 .scale(1f, 1.2f)
+                .graphicsLayer {
+                    this.scaleX = scale
+                    this.scaleY = scale
+                }
                 .scale(scale)
                 .background(
                     brush = Brush.radialGradient(
@@ -70,3 +75,17 @@ internal fun SplashScreen() {
         )
     }
 }
+/*Modifier
+                .size(280.dp)
+                .align(Alignment.Center)
+                .scale(1f, 1.2f)
+                .scale(scale)
+                .background(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            Color(0x80FFC107),
+                            Color(0x33FFC107),
+                            Color(0x00FFEB3B)
+                        ),
+                    ),
+                )*/

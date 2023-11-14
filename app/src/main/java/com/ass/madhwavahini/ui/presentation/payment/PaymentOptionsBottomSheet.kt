@@ -2,11 +2,19 @@ package com.ass.madhwavahini.ui.presentation.payment
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PermIdentity
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SheetState
@@ -36,46 +44,73 @@ fun PaymentOptionsBottomSheet(
         sheetState = sheetState,
         onDismissRequest = onDismiss
     ) {
-        Row(modifier = Modifier.clickable { onRazorpayModeClicked() }) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_filter), contentDescription = null
-            )
-            Text(text = "Pay Using razorpay")
-        }
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(text = "Pay Using Upi")
+        Column(modifier = Modifier.padding(16.dp)) {
 
-        OutlinedTextField(
-            value = paymentData.upi,
-            onValueChange = {},
-            readOnly = true,
-        )
 
-        OutlinedTextField(
-            value = paymentData.phone,
-            onValueChange = {},
-            readOnly = true,
-        )
-        OutlinedTextField(value = (paymentData.amount / 100).toString(),
-            onValueChange = {},
-            readOnly = true,
-            prefix = {
+            PaymentOption(
+                icon = R.drawable.ic_razorpay,
+                text = "Pay via Razorpay",
+                modifier = Modifier.clickable {
+                    onRazorpayModeClicked.invoke()
+                })
+            Spacer(modifier = Modifier.height(30.dp))
+            PaymentOption(icon = R.drawable.ic_upi, text = "Pay via Upi")
+
+            Spacer(modifier = Modifier.height(10.dp))
+            UpiInfoField(
+                "Upi Id",
+                paymentData.upi
+            ) {
+                Icon(imageVector = Icons.Default.PermIdentity, contentDescription = null)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            UpiInfoField(
+                "PhonePe number",
+                paymentData.phone
+            ) {
+                Icon(imageVector = Icons.Default.Phone, contentDescription = null)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            UpiInfoField(
+                "Amount to be paid",
+                (paymentData.amount / 100).toString()
+            ) {
                 Text(text = "Rs.")
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "UPI the amount to the above upi id or phone and submit the transaction id.")
+            Spacer(modifier = Modifier.height(10.dp))
+            OutlinedTextField(value = transactionId, onValueChange = {
+                transactionId = it
+            }, prefix = {
+                Text(text = "ID/")
             })
-        Text(text = "UPI the amount to the above upi id or phone and submit the transaction id.")
-
-        OutlinedTextField(value = transactionId, onValueChange = {
-            transactionId = it
-        }, prefix = {
-            Text(text = "ID/")
-        })
-        Button(onClick = {
-            onUpiSubmitClicked(
-                transactionId, (paymentData.amount / 100)
-            )
-        }) {
-            Text(text = "Submit")
+            Spacer(modifier = Modifier.height(10.dp))
+            Button(onClick = {
+                onUpiSubmitClicked(
+                    transactionId, (paymentData.amount / 100)
+                )
+            }) {
+                Text(text = "Submit")
+            }
+            Spacer(modifier = Modifier.height(50.dp))
         }
-        Spacer(modifier = Modifier.height(50.dp))
+    }
+}
+
+@Composable
+private fun PaymentOption(
+    icon: Int,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Row {
+        Image(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            modifier = modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+        Text(text = text)
     }
 }

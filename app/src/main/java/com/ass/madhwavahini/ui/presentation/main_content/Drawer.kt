@@ -81,8 +81,7 @@ fun Activity.MainPage(
         NavigationFragment.Files,
         NavigationFragment.SubToSubCategory,
         NavigationFragment.FileDetails,
-        NavigationFragment.Pdf,
-        NavigationFragment.Music
+        NavigationFragment.Pdf
     )
     val menuScreens: List<NavigationFragment> = listOf(
         NavigationFragment.Home,
@@ -114,8 +113,7 @@ fun Activity.MainPage(
     LaunchedEffect(key1 = lifeCycleOwner.lifecycle) {
         lifeCycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             mainViewModel.orderState.collectLatest { order ->
-                paymentData = order.data
-                /*
+                paymentData = order.data/*
                     order.data?.let { p ->
                         startPayment(p, user, mainViewModel)
                     }*/
@@ -126,8 +124,7 @@ fun Activity.MainPage(
     val sheetState = rememberModalBottomSheetState()
 
     paymentData?.let { payment ->
-        PaymentOptionsBottomSheet(
-            sheetState = sheetState,
+        PaymentOptionsBottomSheet(sheetState = sheetState,
             paymentData = payment,
             onDismiss = { paymentData = null },
             onRazorpayModeClicked = {
@@ -136,8 +133,7 @@ fun Activity.MainPage(
             },
             onUpiSubmitClicked = { tid, amount ->
 
-            }
-        )
+            })
     }
 
 
@@ -267,9 +263,7 @@ fun Activity.MainPage(
 
 @Composable
 private fun MenuItem(
-    item: NavigationFragment,
-    isSelected: Boolean,
-    onMenuClick: (item: NavigationFragment) -> Unit
+    item: NavigationFragment, isSelected: Boolean, onMenuClick: (item: NavigationFragment) -> Unit
 ) {
     NavigationDrawerItem(icon = {
         item.icon?.let {

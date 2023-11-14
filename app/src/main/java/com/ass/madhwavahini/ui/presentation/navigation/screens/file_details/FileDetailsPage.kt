@@ -20,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
+import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.AudioToggleButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.DocumentText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.ScrollToTopButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
@@ -70,6 +72,14 @@ fun FileDetailsPage(
                 query = query,
                 scrollIndex = viewModel.getScrollIndex()
             )
+
+
+            var isDisplayingAudio by remember {
+                mutableStateOf(false)
+            }
+            AudioToggleButton(isDisplayingAudio = isDisplayingAudio) {
+                isDisplayingAudio = !isDisplayingAudio
+            }
         }
     }
 }
@@ -132,5 +142,7 @@ private fun BoxScope.DocumentContent(
                 viewModel.removeIndexFlag()
             }
         }
+
+
     }
 }

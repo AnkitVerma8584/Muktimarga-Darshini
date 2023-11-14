@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.navigation.screens.music.common.TrackControls
 import com.ass.madhwavahini.ui.presentation.navigation.screens.music.common.TrackInfo
 import com.ass.madhwavahini.ui.presentation.navigation.screens.music.common.TrackProgressSlider
@@ -54,7 +55,7 @@ private fun MusicLayoutPortrait(
                 .weight(1f)
                 .padding(all = 16.dp)
                 .clip(shape = RoundedCornerShape(8.dp)),
-            painter = painterResource(id = selectedTrack.trackImage),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = null
         )
         Spacer(modifier = Modifier.height(5.dp))
@@ -89,7 +90,7 @@ private fun MusicLayoutLandscape(
                 .weight(2f)
                 .padding(all = 16.dp)
                 .clip(shape = RoundedCornerShape(8.dp)),
-            painter = painterResource(id = selectedTrack.trackImage),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = null
         )
         Column(

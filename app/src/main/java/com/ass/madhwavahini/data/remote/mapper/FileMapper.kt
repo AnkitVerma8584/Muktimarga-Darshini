@@ -1,6 +1,5 @@
 package com.ass.madhwavahini.data.remote.mapper
 
-import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants
 import com.ass.madhwavahini.data.remote.Api
 import com.ass.madhwavahini.data.remote.Api.getDocumentExtension
@@ -19,9 +18,9 @@ object FileMapper {
     fun HomeFile.getTrack(): Track =
         Track(
             trackId = id,
-            trackImage = R.drawable.app_logo,
+            trackImage = audioImage ?: "",
             trackName = name,
-            trackUrl = Api.BASE_URL + fileUrl.getDocumentExtension(),
+            trackUrl = Api.BASE_URL + audioUrl?.getDocumentExtension(),
             artistName = authorName
         )
 
