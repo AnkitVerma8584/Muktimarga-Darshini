@@ -121,25 +121,26 @@ class SubToSubCategoryRepositoryImpl(
     override fun getFilesData(homeFiles: List<HomeFile>): Flow<List<FilesData>> = flow {
         try {
             val fileDataList = mutableListOf<FilesData>()
-            homeFiles.filter { it.type == FileType.TYPE_TEXT }.forEach { homeFile ->
-                val file = File(application.filesDir, "file_${homeFile.id}.txt")
+            homeFiles.filter { it.type == FileType.TYPE_TEXT || it.type == FileType.TYPE_AUDIO }
+                .forEach { homeFile ->
+                    val file = File(application.filesDir, "file_${homeFile.id}.txt")
 
-                val downloadedFile = if (file.exists()) file
-                else {
-                    val result = filesApi.getFilesData(homeFile.fileUrl.getDocumentExtension())
-                    result.body()?.byteStream()?.use { inputStream ->
-                        application.openFileOutput(file.name, Context.MODE_PRIVATE)
-                            .use { outputStream ->
-                                inputStream.copyTo(outputStream)
-                            }
-                        file
+                    val downloadedFile = if (file.exists()) file
+                    else {
+                        val result = filesApi.getFilesData(homeFile.fileUrl.getDocumentExtension())
+                        result.body()?.byteStream()?.use { inputStream ->
+                            application.openFileOutput(file.name, Context.MODE_PRIVATE)
+                                .use { outputStream ->
+                                    inputStream.copyTo(outputStream)
+                                }
+                            file
+                        }
+                    }
+                    val fileData = downloadedFile?.let { homeFile.getFileToFilesData(it) }
+                    fileData?.let {
+                        fileDataList.add(it)
                     }
                 }
-                val fileData = downloadedFile?.let { homeFile.getFileToFilesData(it) }
-                fileData?.let {
-                    fileDataList.add(it)
-                }
-            }
             emit(fileDataList)
         } catch (e: Exception) {
             emit(emptyList())

@@ -85,7 +85,8 @@ fun ContentPage(
         refundBody(),
         termsAndConditionBody()
     )
-    AnimatedContent(targetState = content, transitionSpec = {
+    AnimatedContent(targetState = content,
+        transitionSpec = {
         slideInHorizontally(initialOffsetX = {
             if (targetState.index > initialState.index) it else -it
         }) togetherWith slideOutHorizontally(targetOffsetX = {

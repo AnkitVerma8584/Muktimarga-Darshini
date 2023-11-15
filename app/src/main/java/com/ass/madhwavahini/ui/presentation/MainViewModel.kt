@@ -33,6 +33,10 @@ class MainViewModel @Inject constructor(
     private val _user = MutableStateFlow(User())
     val user get() = _user.asStateFlow()
 
+
+    private var _showNotificationRational = Channel<Boolean>()
+    var showNotificationRational = _showNotificationRational.receiveAsFlow()
+
     init {
         viewModelScope.launch {
             launch {

@@ -1,10 +1,14 @@
 package com.ass.madhwavahini.ui.presentation
 
+import android.Manifest
 import android.app.Activity
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -14,12 +18,16 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
 import com.ass.madhwavahini.BuildConfig
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.data.Constants
 import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.ui.presentation.main_content.MainPage
 import com.ass.madhwavahini.ui.theme.MuktimargaDarshiniTheme
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -30,6 +38,17 @@ import org.json.JSONObject
 class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
 
     private val mainViewModel by viewModels<MainViewModel>()
+
+    // Declare the launcher at the top of your Activity/Fragment:
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            // TODO: Inform user that that your app will not show notifications.
+        }
+    }
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +74,29 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
 
     override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
         mainViewModel.paymentCancelled()
+    }
+
+
+    @Composable
+    private fun AskNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                Firebase.messaging.subscribeToTopic(Constants.TOPIC)
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                val dialog = AlertDialog(
+                    onDismissRequest = { /*TODO*/ },
+                    confirmButton = { /*TODO*/ })
+
+                // TODO: display an educational UI explaining to the user the features that will be enabled
+                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                //       If the user selects "No thanks," allow the user to continue without notifications.
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 }
 

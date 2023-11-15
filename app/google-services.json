@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "770363780886",
+    "project_id": "madhwa-vahini",
+    "storage_bucket": "madhwa-vahini.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770363780886:android:0662b90b46173b43046a37",
+        "android_client_info": {
+          "package_name": "com.ass.madhwavahini"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770363780886-4fo9a5dusu1sr6hqdvtm4t8h03pet7jp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDicPl0W1wQsQvcj-hHsJsI7UvW7WLZx-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770363780886-4fo9a5dusu1sr6hqdvtm4t8h03pet7jp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
