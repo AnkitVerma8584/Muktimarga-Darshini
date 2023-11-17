@@ -1,5 +1,6 @@
 package com.ass.madhwavahini.data.repository
 
+import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.data.local.dao.SubCategoryDao
 import com.ass.madhwavahini.data.local.mapper.mapToHomeSubCategoryList
 import com.ass.madhwavahini.data.local.mapper.mapToSubCategoryList
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.flow
 
 class SubCategoryRepositoryImpl(
     private val subCategoryApi: SubCategoryApi,
-    private val subCategoryDao: SubCategoryDao
+    private val subCategoryDao: SubCategoryDao,
+    private val userDataStore: UserDataStore
 ) : SubCategoryRepository {
 
     override fun getSubCategory(categoryId: Int): Flow<SubCategoryState> = flow {
@@ -31,7 +33,7 @@ class SubCategoryRepositoryImpl(
             emit(state)
         }
         try {
-            val result = subCategoryApi.getSubCategories(categoryId)
+            val result = subCategoryApi.getSubCategories(userDataStore.getId(), categoryId)
             if (result.isSuccessful && result.body() != null) {
                 state = if (result.body()!!.success) {
                     val data = result.body()?.data!!

@@ -3,6 +3,7 @@ package com.ass.madhwavahini.ui.presentation.authentication
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -41,8 +42,10 @@ import kotlinx.coroutines.delay
 class AuthenticationActivity : ComponentActivity() {
 
     private val viewModel: AuthenticationViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             var splashState by rememberSaveable {
                 mutableStateOf(true)

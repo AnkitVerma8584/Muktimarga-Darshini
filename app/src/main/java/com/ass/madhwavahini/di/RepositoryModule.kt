@@ -61,10 +61,11 @@ object RepositoryModule {
     @Provides
     @ViewModelScoped
     fun provideSubCategoryRepository(
+        userDataStore: UserDataStore,
         subCategoryApi: SubCategoryApi,
         subCategoryDao: SubCategoryDao
     ): SubCategoryRepository =
-        SubCategoryRepositoryImpl(subCategoryApi, subCategoryDao)
+        SubCategoryRepositoryImpl(subCategoryApi, subCategoryDao,userDataStore)
 
 
     @Provides

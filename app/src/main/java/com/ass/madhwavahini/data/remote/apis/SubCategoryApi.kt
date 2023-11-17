@@ -11,6 +11,7 @@ interface SubCategoryApi {
 
     @GET(Api.GET_SUBCATEGORIES)
     suspend fun getSubCategories(
+        @Query("user_id") userId: Int,
         @Query("cat_id") categoryId: Int
     ): Response<ResultList<HomeSubCategory>>
 }

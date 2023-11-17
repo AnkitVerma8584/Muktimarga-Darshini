@@ -3,16 +3,15 @@ package com.ass.madhwavahini.data.remote
 object Api {
 
     const val BASE_URL = "https://srssvvt.in/madhvavahini/"
-
+    private const val API = "app/apis"
     fun String.getDocumentExtension(): String = "uploads/documents/$this"
     fun String.getAudioUrl(): String = BASE_URL + "uploads/audio/$this"
 
-    //fun String.getDocumentUrl(): String = BASE_URL + this.getDocumentExtension()
-    const val LOGIN =  "app/user_login.php"
-    const val PAYMENT = "app/order.php"
-    const val GET_BANNER = "app/banner.php"
-    const val GET_CATEGORY = "app/category.php"
-    const val GET_SUBCATEGORIES = "app/sub_category.php"
-    const val GET_SUB_TO_SUBCATEGORIES = "app/sub_to_sub_category.php"
-    const val GET_FILES = "app/get_files.php"
+    const val LOGIN = "$API/user.php"
+    const val PAYMENT = "$API/order.php"
+    const val GET_BANNER = "$API/banner.php"
+    const val GET_CATEGORY = "$API/category.php"
+    const val GET_SUBCATEGORIES = "$API/sub_category.php"
+    const val GET_SUB_TO_SUBCATEGORIES = "$API/sub_to_sub_category.php"
+    const val GET_FILES = "$API/files.php"
 }

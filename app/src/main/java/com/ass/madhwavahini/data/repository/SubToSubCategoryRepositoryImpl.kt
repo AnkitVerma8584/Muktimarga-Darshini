@@ -52,14 +52,17 @@ class SubToSubCategoryRepositoryImpl(
         }
 
         try {
-            val result = subToSubCategoryApi.getSubToSubCategories(categoryId, subCategoryId)
+            val result = subToSubCategoryApi.getSubToSubCategories(
+                userDataStore.getId(),
+                categoryId,
+                subCategoryId
+            )
             state = if (result.isSuccessful && result.body() != null) {
                 if (result.body()!!.success) {
                     val data = result.body()?.data ?: emptyList()
 
-                    if (data != localSubToSubCategories) subToSubCategoryDao.insertSubToSubCategory(
-                        data.mapToSubToSubCategoryList()
-                    )
+                    if (data != localSubToSubCategories) subToSubCategoryDao
+                        .insertSubToSubCategory(data.mapToSubToSubCategoryList())
                     else return@flow
 
                     state.copy(isLoading = false, data = data)
@@ -123,7 +126,7 @@ class SubToSubCategoryRepositoryImpl(
             val fileDataList = mutableListOf<FilesData>()
             homeFiles.filter { it.type == FileType.TYPE_TEXT || it.type == FileType.TYPE_AUDIO }
                 .forEach { homeFile ->
-                    val file = File(application.filesDir, "file_${homeFile.id}.txt")
+                    val file = File(application.filesDir, "${homeFile.uniqueKey}.txt")
 
                     val downloadedFile = if (file.exists()) file
                     else {

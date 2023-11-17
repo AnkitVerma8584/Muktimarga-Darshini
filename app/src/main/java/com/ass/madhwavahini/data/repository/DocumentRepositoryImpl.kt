@@ -45,7 +45,6 @@ class DocumentRepositoryImpl(
                         .use { outputStream -> inputStream.copyTo(outputStream) }
                 }
                 state = state.copy(isLoading = false, data = file)
-                emit(state)
             } ?: {
                 state = state.copy(
                     isLoading = false, error = StringUtil.DynamicText("Failed to download the file")

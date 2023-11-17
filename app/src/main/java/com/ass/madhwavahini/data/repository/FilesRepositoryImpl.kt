@@ -81,7 +81,7 @@ class FilesRepositoryImpl(
         try {
             homeFiles.filter { it.type == FileType.TYPE_TEXT || it.type == FileType.TYPE_AUDIO }
                 .forEach { homeFile ->
-                    val file = File(application.filesDir, "file_${homeFile.id}.txt")
+                    val file = File(application.filesDir, "${homeFile.uniqueKey}.txt")
                     val downloadedFile =
                         if (file.exists())
                             file

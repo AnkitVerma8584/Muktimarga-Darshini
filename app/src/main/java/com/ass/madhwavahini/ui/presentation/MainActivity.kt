@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
     }
 
     override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-        mainViewModel.paymentCancelled()
+        mainViewModel.errorInPayment("Payment cancelled")
     }
 
 

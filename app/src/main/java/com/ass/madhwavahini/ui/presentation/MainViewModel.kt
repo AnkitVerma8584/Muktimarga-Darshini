@@ -66,25 +66,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun paymentCancelled() {
+    fun errorInPayment(error: String = "Some error occurred in payment.") {
         viewModelScope.launch {
             _paymentState.send(
                 PaymentState(
                     isLoading = false,
                     data = null,
-                    error = StringUtil.DynamicText("Payment cancelled")
-                )
-            )
-        }
-    }
-
-    fun errorInPayment() {
-        viewModelScope.launch {
-            _paymentState.send(
-                PaymentState(
-                    isLoading = false,
-                    data = null,
-                    error = StringUtil.DynamicText("Some error occurred in payment.")
+                    error = StringUtil.DynamicText(error)
                 )
             )
         }
