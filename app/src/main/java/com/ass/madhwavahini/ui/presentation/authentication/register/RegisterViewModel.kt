@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ass.madhwavahini.domain.repository.UserRepository
+import com.ass.madhwavahini.domain.repository.LoginRepository
 import com.ass.madhwavahini.ui.presentation.authentication.model.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val loginRepository: LoginRepository
 ) : ViewModel() {
 
     private val _name = MutableStateFlow("")
@@ -78,7 +78,7 @@ class RegisterViewModel @Inject constructor(
             }
             _passwordError.value = null
 
-            userRepository.registerUser(name, mobile, password).collectLatest {
+            loginRepository.registerUser(name, mobile, password).collectLatest {
                 isLoading = it.isLoading
                 _registerState.send(it)
             }

@@ -61,6 +61,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideLoginDao(@MukitimargaDarshini retrofit: Retrofit): LoginApi =
+        retrofit.create(LoginApi::class.java)
+
+    @Provides
+    @Singleton
     fun provideHomeDao(@MukitimargaDarshini retrofit: Retrofit): HomeApi =
         retrofit.create(HomeApi::class.java)
 

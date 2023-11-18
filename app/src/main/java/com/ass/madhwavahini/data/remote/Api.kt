@@ -7,7 +7,8 @@ object Api {
     fun String.getDocumentExtension(): String = "uploads/documents/$this"
     fun String.getAudioUrl(): String = BASE_URL + "uploads/audio/$this"
 
-    const val LOGIN = "$API/user.php"
+    const val LOGIN = "$API/login_register.php"
+    const val USER = "$API/user.php"
     const val PAYMENT = "$API/order.php"
     const val GET_BANNER = "$API/banner.php"
     const val GET_CATEGORY = "$API/category.php"
