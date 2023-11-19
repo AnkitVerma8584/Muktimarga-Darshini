@@ -1,7 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.files
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.madhwavahini.domain.modals.HomeFile
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
-import com.ass.madhwavahini.ui.presentation.common.ShowErrorText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.components.FilesList
 
 @Composable
@@ -35,8 +34,10 @@ fun FilePage(
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
         if (files.isLoading)
-            Loading(Modifier.fillMaxHeight())
-        files.error?.ShowErrorText()
+            Loading()
+
+        files.error?.ShowError()
+
         files.data?.let {
             FilesList(
                 searchedContent = searchedData,

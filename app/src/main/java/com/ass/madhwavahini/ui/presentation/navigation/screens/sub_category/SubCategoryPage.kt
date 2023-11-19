@@ -1,7 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.domain.modals.HomeSubCategory
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
-import com.ass.madhwavahini.ui.presentation.common.ShowErrorText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.components.SubCategoryCard
 
 @Composable
@@ -35,7 +34,7 @@ fun SubCategoryPage(
         )
 
         if (subCategories.isLoading)
-            Loading(Modifier.fillMaxHeight())
+            Loading()
 
         subCategories.data?.let { subCategoriesList ->
             Header(header = "Sub-Categories")
@@ -50,6 +49,6 @@ fun SubCategoryPage(
                     }
             }
         }
-        subCategories.error?.ShowErrorText()
+        subCategories.error?.ShowError()
     }
 }

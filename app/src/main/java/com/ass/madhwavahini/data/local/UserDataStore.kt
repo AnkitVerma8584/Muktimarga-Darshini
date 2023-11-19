@@ -109,7 +109,8 @@ class UserDataStore @Inject constructor(
                 userPhone = userPhone,
                 paymentId = userPaymentId,
                 paymentAmount = userPaymentAmount,
-                isPaidCustomer = isPaid
+                isPaidCustomer = isPaid,
+                ""
             )
         }.distinctUntilChanged()
 }

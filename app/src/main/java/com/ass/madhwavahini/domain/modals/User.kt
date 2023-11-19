@@ -6,5 +6,6 @@ data class User(
     val userPhone: String = "",
     val paymentId: String? = null,
     val paymentAmount: Double? = null,
-    val isPaidCustomer: Boolean = false
+    val isPaidCustomer: Boolean = false,
+    val token: String = ""
 )

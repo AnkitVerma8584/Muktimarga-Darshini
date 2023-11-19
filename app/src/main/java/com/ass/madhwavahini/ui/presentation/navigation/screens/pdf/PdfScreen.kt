@@ -1,7 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.pdf
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -9,8 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Loading
-import com.ass.madhwavahini.ui.presentation.common.ShowErrorText
 import com.github.barteksc.pdfviewer.PDFView
 
 @Composable
@@ -19,10 +18,10 @@ fun PdfScreen(
 ) {
     val pdfState by pdfViewModel.pdfState.collectAsState()
     if (pdfState.isLoading)
-        Loading(Modifier.fillMaxHeight())
+        Loading()
     else
         Column(modifier = Modifier.fillMaxSize()) {
-            pdfState.error?.ShowErrorText()
+            pdfState.error?.ShowError()
             pdfState.data?.let { pdf ->
                 AndroidView(
                     factory = {

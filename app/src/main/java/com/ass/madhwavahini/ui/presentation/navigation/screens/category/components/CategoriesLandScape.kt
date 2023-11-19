@@ -9,10 +9,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ass.madhwavahini.domain.modals.HomeCategory
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
-import com.ass.madhwavahini.ui.presentation.common.ShowErrorText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.BannerState
 import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.CategoryState
 
@@ -26,6 +26,10 @@ fun CategoriesLandscape(
     onClick: (HomeCategory) -> Unit
 ) {
     Row(modifier = modifier.fillMaxSize()) {
+
+        if (categories.isLoading && banners.isLoading) {
+            Loading()
+        }
         banners.data?.let {
             Slider(
                 banner = it,
@@ -37,13 +41,10 @@ fun CategoriesLandscape(
                 .fillMaxHeight()
                 .weight(1f)
         ) {
-            stickyHeader {
-                Header(header = "Categories")
-            }
-            if (categories.isLoading) {
-                item { Loading() }
-            }
             categories.data?.let { list ->
+                stickyHeader {
+                    Header(header = "Categories")
+                }
                 if (list.isEmpty())
                     item {
                         NoSearchedResults()
@@ -55,7 +56,7 @@ fun CategoriesLandscape(
 
             }
             item {
-                categories.error?.ShowErrorText()
+                categories.error?.ShowError()
             }
         }
     }

@@ -8,10 +8,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ass.madhwavahini.domain.modals.HomeCategory
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
-import com.ass.madhwavahini.ui.presentation.common.ShowErrorText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.BannerState
 import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.CategoryState
 
@@ -23,21 +23,23 @@ fun ColumnScope.CategoriesPortrait(
     onClick: (HomeCategory) -> Unit
 ) {
     LazyColumn(modifier = Modifier.weight(1f)) {
-        if (banners.isLoading) {
+
+        // If both are loading
+        if (banners.isLoading && categories.isLoading) {
             item { Loading() }
         }
+        //Banner sliders
         banners.data?.let {
             item {
                 Slider(banner = it, modifier = Modifier.fillMaxWidth())
             }
         }
-        stickyHeader {
-            Header(header = "Categories")
-        }
-        if (categories.isLoading) {
-            item { Loading() }
-        }
+
+        //Categories
         categories.data?.let { list ->
+            stickyHeader {
+                Header(header = "Categories")
+            }
             if (list.isEmpty())
                 item {
                     NoSearchedResults()
@@ -47,8 +49,9 @@ fun ColumnScope.CategoriesPortrait(
                     CategoryItem(data = category, onClick = onClick)
                 }
         }
+        //Categories error
         item {
-            categories.error?.ShowErrorText()
+            categories.error?.ShowError()
         }
     }
 

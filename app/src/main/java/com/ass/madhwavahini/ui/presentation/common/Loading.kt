@@ -1,7 +1,7 @@
 package com.ass.madhwavahini.ui.presentation.common
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -9,12 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
 
 @Composable
-fun Loading(
-    modifier: Modifier = Modifier
-) {
+fun Loading() {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = Modifier
+            .fillMaxSize()
             .zIndex(3f)
     )
     {
