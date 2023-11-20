@@ -1,27 +1,19 @@
 package com.ass.madhwavahini.data.remote.apis
 
 import com.ass.madhwavahini.data.remote.Api
-import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.wrapper.Result
 import retrofit2.Response
 import retrofit2.http.Field
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.HTTP
 
 interface UserApi {
-    @GET(Api.USER)
-    suspend fun verifyUser(
-        @Query("token") token: String,
-    ): Response<Result<User>>
 
-
-    @POST(Api.USER)
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = Api.LOGIN, hasBody = true)
     suspend fun logoutUser(
-        @Field("name") name: String,
-        @Field("mobile") mobile: String,
-        @Field("password") password: String
-    ): Response<Result<User>>
+        @Field("user_id") id: Int
+    ): Response<Result<String>>
 
 
 }

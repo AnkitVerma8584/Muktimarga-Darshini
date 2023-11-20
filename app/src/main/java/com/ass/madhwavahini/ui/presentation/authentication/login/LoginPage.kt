@@ -1,7 +1,5 @@
 package com.ass.madhwavahini.ui.presentation.authentication.login
 
-import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -29,9 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -50,11 +46,11 @@ import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
-import kotlin.system.exitProcess
 
 @Composable
-fun MobileAuthenticationPage(
+fun LoginPage(
     onRegisterClicked: () -> Unit,
+    onNavigate: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val mobile by viewModel.mobile.collectAsStateWithLifecycle()
@@ -63,13 +59,9 @@ fun MobileAuthenticationPage(
     val password by viewModel.password.collectAsStateWithLifecycle()
     val passwordError by viewModel.passwordError.collectAsStateWithLifecycle()
 
-    var backPressedTime by remember { mutableLongStateOf(0L) }
-    val context = LocalContext.current
-
     val focusRequester: FocusRequester = remember { FocusRequester() }
     val focusManager: FocusManager = LocalFocusManager.current
     val ctx = LocalContext.current
-
     val snackbarHostState = remember { SnackbarHostState() }
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -81,6 +73,7 @@ fun MobileAuthenticationPage(
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loginState.collect { login ->
                     login.data?.let {
+                        onNavigate()
                         snackbarHostState.showSnackbar(
                             message = "Logged in successfully.",
                             duration = SnackbarDuration.Short
@@ -96,14 +89,6 @@ fun MobileAuthenticationPage(
             }
         }
 
-        BackHandler(onBack = {
-            if (backPressedTime + 2000 > System.currentTimeMillis()) {
-                exitProcess(0)
-            } else {
-                Toast.makeText(context, "Press back again to exit", Toast.LENGTH_SHORT).show()
-                backPressedTime = System.currentTimeMillis()
-            }
-        })
 
         Column(
             modifier = Modifier
@@ -145,7 +130,8 @@ fun MobileAuthenticationPage(
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.clickable {
-                        onRegisterClicked.invoke()
+                        if (!viewModel.isLoading)
+                            onRegisterClicked.invoke()
                     })
             }
             Spacer(modifier = Modifier.height(50.dp))

@@ -31,7 +31,7 @@ private val USER_NAME = stringPreferencesKey("user_name")
 private val USER_TRANSACTION_ID = stringPreferencesKey("user_transaction")
 private val USER_PAYMENT_AMOUNT = doublePreferencesKey("user_amount")
 private val USER_IS_PAID_CUSTOMER = booleanPreferencesKey("user_is_paid")
-private val USER_IS_LOGGED_IN = booleanPreferencesKey("user_login")
+private val USER_TOKEN = stringPreferencesKey("user_login_token")
 
 @Singleton
 class UserDataStore @Inject constructor(
@@ -50,7 +50,7 @@ class UserDataStore @Inject constructor(
                 it[USER_PAYMENT_AMOUNT] = amt
             }
             it[USER_IS_PAID_CUSTOMER] = user.isPaidCustomer
-            it[USER_IS_LOGGED_IN] = true
+            it[USER_TOKEN] = user.token
         }
     }
 
@@ -65,6 +65,11 @@ class UserDataStore @Inject constructor(
         return preferences[USER_MOBILE] ?: ""
     }
 
+    suspend fun getToken(): String? {
+        val preferences: Preferences = dataStore.data.first()
+        return preferences[USER_TOKEN]
+    }
+
     suspend fun getId(): Int {
         val preferences: Preferences = dataStore.data.first()
         return preferences[USER_ID] ?: 0
@@ -72,8 +77,7 @@ class UserDataStore @Inject constructor(
 
     suspend fun shouldGetNotifications(): Boolean {
         val preferences: Preferences = dataStore.data.first()
-        return (preferences[USER_IS_LOGGED_IN] ?: false) &&
-                (preferences[USER_IS_PAID_CUSTOMER] ?: false)
+        return (preferences[USER_IS_PAID_CUSTOMER] ?: false)
     }
 
     val userLoggedIn: Flow<Boolean> = dataStore.data
@@ -85,7 +89,7 @@ class UserDataStore @Inject constructor(
             }
         }
         .map { preferences ->
-            preferences[USER_IS_LOGGED_IN] ?: false
+            preferences[USER_ID] != null
         }.distinctUntilChanged()
 
     val userData: Flow<User> = dataStore.data
@@ -103,6 +107,7 @@ class UserDataStore @Inject constructor(
             val userPaymentId = preferences[USER_TRANSACTION_ID] ?: ""
             val userPaymentAmount = preferences[USER_PAYMENT_AMOUNT] ?: 0.0
             val isPaid = preferences[USER_IS_PAID_CUSTOMER] ?: false
+            val token = preferences[USER_TOKEN] ?: ""
             User(
                 userId = userId,
                 userName = userName,
@@ -110,7 +115,7 @@ class UserDataStore @Inject constructor(
                 paymentId = userPaymentId,
                 paymentAmount = userPaymentAmount,
                 isPaidCustomer = isPaid,
-                ""
+                token = token
             )
         }.distinctUntilChanged()
 }

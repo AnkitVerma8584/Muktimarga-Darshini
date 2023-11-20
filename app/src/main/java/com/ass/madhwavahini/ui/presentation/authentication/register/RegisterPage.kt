@@ -1,7 +1,5 @@
 package com.ass.madhwavahini.ui.presentation.authentication.register
 
-import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -29,9 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -51,7 +47,6 @@ import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.NameInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
-import kotlin.system.exitProcess
 
 @Composable
 fun RegisterPage(
@@ -66,9 +61,6 @@ fun RegisterPage(
 
     val password by viewModel.password.collectAsStateWithLifecycle()
     val passwordError by viewModel.passwordError.collectAsStateWithLifecycle()
-
-    var backPressedTime by remember { mutableLongStateOf(0L) }
-    val context = LocalContext.current
 
     val focusRequester: FocusRequester = remember { FocusRequester() }
     val focusManager: FocusManager = LocalFocusManager.current
@@ -99,15 +91,6 @@ fun RegisterPage(
                 }
             }
         }
-
-        BackHandler(onBack = {
-            if (backPressedTime + 2000 > System.currentTimeMillis()) {
-                exitProcess(0)
-            } else {
-                Toast.makeText(context, "Press back again to exit", Toast.LENGTH_SHORT).show()
-                backPressedTime = System.currentTimeMillis()
-            }
-        })
 
         Column(
             modifier = Modifier

@@ -4,6 +4,6 @@ import com.ass.madhwavahini.domain.wrapper.StringUtil
 
 data class UserState(
     val isLoading: Boolean = false,
-    val data: Boolean? = null,
+    val data: String? = null,
     val error: StringUtil? = null
 )

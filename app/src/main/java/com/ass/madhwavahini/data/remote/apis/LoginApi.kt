@@ -10,12 +10,17 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface LoginApi {
+
+    @GET(Api.LOGIN)
+    suspend fun loginUser(
+        @Query("token") token: String
+    ): Response<Result<User>>
+
     @GET(Api.LOGIN)
     suspend fun loginUser(
         @Query("mobile") mobile: String,
         @Query("password") password: String
     ): Response<Result<User>>
-
 
     @POST(Api.LOGIN)
     suspend fun registerUser(

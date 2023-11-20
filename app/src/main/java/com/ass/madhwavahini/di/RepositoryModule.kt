@@ -41,10 +41,11 @@ object RepositoryModule {
     @Provides
     @ViewModelScoped
     fun provideUserRepository(
+        application: Application,
         userApi: UserApi,
         userDataStore: UserDataStore
     ): UserRepository =
-        UserRepositoryImpl(userApi, userDataStore)
+        UserRepositoryImpl(application, userApi, userDataStore)
 
 
     @Provides

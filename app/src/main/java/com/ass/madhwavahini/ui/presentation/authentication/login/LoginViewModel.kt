@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.domain.repository.LoginRepository
 import com.ass.madhwavahini.ui.presentation.authentication.model.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepository,
+    private val userDataStore: UserDataStore
 ) : ViewModel() {
 
     private val _mobile = MutableStateFlow("")
@@ -39,6 +41,17 @@ class LoginViewModel @Inject constructor(
 
     private val _loginState = Channel<LoginState>()
     val loginState get() = _loginState.receiveAsFlow()
+
+    init {
+        viewModelScope.launch {
+            userDataStore.getToken()?.let { token ->
+                loginRepository.verifyUser(token).collectLatest {
+                    isLoading = it.isLoading
+                    _loginState.send(it)
+                }
+            }
+        }
+    }
 
     fun login(mobile: String, password: String) {
         viewModelScope.launch {
@@ -70,5 +83,6 @@ class LoginViewModel @Inject constructor(
     fun setPassword(password: String) {
         _password.value = password
     }
+
 
 }
