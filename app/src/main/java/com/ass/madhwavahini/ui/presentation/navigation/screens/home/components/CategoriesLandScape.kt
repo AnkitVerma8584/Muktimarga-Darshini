@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.category.components
+package com.ass.madhwavahini.ui.presentation.navigation.screens.home.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
@@ -13,8 +13,8 @@ import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.BannerState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.CategoryState
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.BannerState
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.CategoryState
 
 
 @OptIn(ExperimentalFoundationApi::class)

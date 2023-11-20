@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.domain.utils
+package com.ass.madhwavahini.domain.wrapper
 
 data class ResultList<T>(
     val success: Boolean,

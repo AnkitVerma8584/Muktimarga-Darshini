@@ -3,7 +3,7 @@ package com.ass.madhwavahini.di
 import android.app.Application
 import androidx.media3.exoplayer.ExoPlayer
 import com.ass.madhwavahini.data.Constants.AUDIO_SKIP_TIME
-import com.ass.madhwavahini.domain.player.MyPlayer
+import com.ass.madhwavahini.util.player.MyPlayer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

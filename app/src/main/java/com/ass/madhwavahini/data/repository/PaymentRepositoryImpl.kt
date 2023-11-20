@@ -5,7 +5,7 @@ import com.ass.madhwavahini.data.remote.apis.PaymentApi
 import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.PaymentRepository
-import com.ass.madhwavahini.domain.utils.StringUtil
+import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.payment.PaymentState
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow

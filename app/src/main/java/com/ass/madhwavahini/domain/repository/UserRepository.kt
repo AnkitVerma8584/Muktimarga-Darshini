@@ -1,12 +1,11 @@
 package com.ass.madhwavahini.domain.repository
 
-import com.ass.madhwavahini.ui.presentation.authentication.model.LoginState
+import com.ass.madhwavahini.ui.presentation.main_content.UserState
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
+    fun verifyUser(): Flow<UserState>
 
-    fun verifyUser(): Flow<LoginState>
-
-    fun logoutUser(): Flow<LoginState>
+    fun logoutUser(): Flow<UserState>
 
 }

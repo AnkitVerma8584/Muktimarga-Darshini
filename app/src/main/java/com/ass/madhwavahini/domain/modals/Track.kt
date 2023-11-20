@@ -1,6 +1,6 @@
 package com.ass.madhwavahini.domain.modals
 
-import com.ass.madhwavahini.domain.player.PlayerStates
+import com.ass.madhwavahini.util.player.PlayerStates
 
 data class Track(
     val trackId: Int = 0,

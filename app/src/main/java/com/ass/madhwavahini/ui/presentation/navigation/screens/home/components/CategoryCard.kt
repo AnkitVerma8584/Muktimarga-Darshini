@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.category.components
+package com.ass.madhwavahini.ui.presentation.navigation.screens.home.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image

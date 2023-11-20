@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
-import com.ass.madhwavahini.domain.utils.StringUtil
+import com.ass.madhwavahini.domain.wrapper.StringUtil
 
 @Composable
 fun NoSearchedResults() {

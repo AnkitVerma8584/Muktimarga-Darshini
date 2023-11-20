@@ -42,8 +42,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.domain.modals.Track
-import com.ass.madhwavahini.domain.player.PlaybackState
-import com.ass.madhwavahini.domain.player.PlayerStates
+import com.ass.madhwavahini.util.player.PlaybackState
+import com.ass.madhwavahini.util.player.PlayerStates
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.FileDetailsViewModel
 import com.ass.madhwavahini.util.formatTime
 import kotlinx.coroutines.flow.StateFlow

@@ -2,7 +2,7 @@ package com.ass.madhwavahini.data.remote.apis
 
 import com.ass.madhwavahini.data.remote.Api
 import com.ass.madhwavahini.domain.modals.HomeFile
-import com.ass.madhwavahini.domain.utils.ResultList
+import com.ass.madhwavahini.domain.wrapper.ResultList
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET

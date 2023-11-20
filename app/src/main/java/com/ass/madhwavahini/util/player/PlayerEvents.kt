@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.domain.player
+package com.ass.madhwavahini.util.player
 
 /**
  * An interface for handling player events such as play, pause, next, previous, and seek bar position changes.

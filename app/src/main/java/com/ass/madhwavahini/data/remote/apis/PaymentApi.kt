@@ -3,7 +3,7 @@ package com.ass.madhwavahini.data.remote.apis
 import com.ass.madhwavahini.data.remote.Api
 import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.domain.modals.User
-import com.ass.madhwavahini.domain.utils.Result
+import com.ass.madhwavahini.domain.wrapper.Result
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

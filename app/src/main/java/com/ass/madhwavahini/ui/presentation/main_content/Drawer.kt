@@ -1,7 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.main_content
 
 import android.app.Activity
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -46,7 +45,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -56,7 +54,6 @@ import androidx.navigation.compose.rememberNavController
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.ui.presentation.MainViewModel
-import com.ass.madhwavahini.ui.presentation.authentication.AuthenticationActivity
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.navigation.NavHostFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.NavigationFragment
@@ -96,7 +93,6 @@ fun Activity.MainPage(
     }
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val user by mainViewModel.user.collectAsStateWithLifecycle()
 
     val lifeCycleOwner = LocalLifecycleOwner.current
 
@@ -118,7 +114,7 @@ fun Activity.MainPage(
             paymentData = payment,
             onDismiss = { paymentData = null },
             onRazorpayModeClicked = {
-                startPayment(payment, user, mainViewModel)
+                startPayment(payment, mainViewModel)
                 paymentData = null
             })
     }
@@ -133,14 +129,14 @@ fun Activity.MainPage(
             ) {
                 Spacer(Modifier.height(24.dp))
                 Text(
-                    text = "Hello ${user.userName},",
+                    text = "Hello ${mainViewModel.user.firstName},",
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(horizontal = 24.dp)
                 )
                 Text(
-                    text = user.userPhone,
+                    text = mainViewModel.user.userPhone,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Normal,
@@ -178,11 +174,13 @@ fun Activity.MainPage(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         style = MaterialTheme.typography.labelLarge
                     )
-                }, selected = false, onClick = {
-                    mainViewModel.logout()
-                    startActivity(Intent(this@MainPage, AuthenticationActivity::class.java))
-                    finish()
-                }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                }, selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                        mainViewModel.logout()
+                    }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
             }
         }) {
@@ -195,7 +193,7 @@ fun Activity.MainPage(
                 hamburgerIconClicked = { scope.launch { drawerState.open() } },
                 navigationBackClicked = { navController.navigateUp() },
                 isNavigationFragment = currentFragment?.icon != null,
-                isPaidCustomer = user.isPaidCustomer,
+                isPaidCustomer = mainViewModel.user.isPaidCustomer,
                 onBuyClicked = mainViewModel::getOrder
             )
         }) {
@@ -206,8 +204,7 @@ fun Activity.MainPage(
                         payment.data?.let {
                             scope.launch {
                                 snackbarHostState.showSnackbar(
-                                    message = "Payment Verified.",
-                                    duration = SnackbarDuration.Short
+                                    message = "Payment Verified.", duration = SnackbarDuration.Short
                                 )
                             }
                         }
@@ -228,12 +225,12 @@ fun Activity.MainPage(
                     .fillMaxSize()
                     .padding(it), contentAlignment = Alignment.Center
             ) {
-                if (mainViewModel.isLoading.value) {
+                if (mainViewModel.isLoading) {
                     Loading()
                 }
                 NavHostFragments(navController = navController,
                     windowSizeClass = windowSizeClass,
-                    isPaidCustomer = user.isPaidCustomer,
+                    isPaidCustomer = mainViewModel.user.isPaidCustomer,
                     onNavigationTriggered = {
                         scope.launch {
                             snackbarHostState.showSnackbar(

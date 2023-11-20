@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.domain.player
+package com.ass.madhwavahini.util.player
 
 data class PlaybackState(
     val currentPlaybackPosition: Long,

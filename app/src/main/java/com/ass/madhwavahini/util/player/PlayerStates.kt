@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.domain.player
+package com.ass.madhwavahini.util.player
 
 /**
  * An enumeration of the possible states for the player.

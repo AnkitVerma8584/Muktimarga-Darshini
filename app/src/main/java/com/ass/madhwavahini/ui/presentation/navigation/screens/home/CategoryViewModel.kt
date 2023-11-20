@@ -1,10 +1,10 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.category
+package com.ass.madhwavahini.ui.presentation.navigation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.domain.repository.HomeRepository
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.BannerState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.CategoryState
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.BannerState
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.CategoryState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -12,7 +12,7 @@ import com.ass.madhwavahini.data.remote.mapper.FileMapper.getFileToFilesData
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.FilesRepository
-import com.ass.madhwavahini.domain.utils.StringUtil
+import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesDataState
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState

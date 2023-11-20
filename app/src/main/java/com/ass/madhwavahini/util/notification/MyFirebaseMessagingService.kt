@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.domain.notification
+package com.ass.madhwavahini.util.notification
 
 import android.Manifest
 import android.app.Notification

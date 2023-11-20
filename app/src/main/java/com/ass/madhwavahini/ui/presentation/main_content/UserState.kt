@@ -1,9 +1,9 @@
-package com.ass.madhwavahini.ui.presentation.payment
+package com.ass.madhwavahini.ui.presentation.main_content
 
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 
-data class PaymentState<T>(
+data class UserState(
     val isLoading: Boolean = false,
-    val data: T? = null,
+    val data: Boolean? = null,
     val error: StringUtil? = null
 )

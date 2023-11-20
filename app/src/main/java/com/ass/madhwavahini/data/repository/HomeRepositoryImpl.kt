@@ -8,9 +8,9 @@ import com.ass.madhwavahini.data.local.mapper.mapToHomeCategoryList
 import com.ass.madhwavahini.data.local.mapper.mapToStringList
 import com.ass.madhwavahini.data.remote.apis.HomeApi
 import com.ass.madhwavahini.domain.repository.HomeRepository
-import com.ass.madhwavahini.domain.utils.StringUtil
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.BannerState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.state.CategoryState
+import com.ass.madhwavahini.domain.wrapper.StringUtil
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.BannerState
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.CategoryState
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

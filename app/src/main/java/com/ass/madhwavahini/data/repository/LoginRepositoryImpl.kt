@@ -3,7 +3,7 @@ package com.ass.madhwavahini.data.repository
 import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.data.remote.apis.LoginApi
 import com.ass.madhwavahini.domain.repository.LoginRepository
-import com.ass.madhwavahini.domain.utils.StringUtil
+import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.authentication.model.LoginState
 import com.ass.madhwavahini.util.getError
 import com.ass.madhwavahini.util.print

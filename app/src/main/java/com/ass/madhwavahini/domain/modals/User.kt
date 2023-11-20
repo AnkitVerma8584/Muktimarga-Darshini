@@ -8,4 +8,6 @@ data class User(
     val paymentAmount: Double? = null,
     val isPaidCustomer: Boolean = false,
     val token: String = ""
-)
+) {
+    val firstName get() = userName.split(" ").first()
+}

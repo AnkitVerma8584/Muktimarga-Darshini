@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.category
+package com.ass.madhwavahini.ui.presentation.navigation.screens.home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -16,8 +16,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeCategory
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.components.CategoriesLandscape
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.components.CategoriesPortrait
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.components.CategoriesLandscape
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.components.CategoriesPortrait
 
 @Composable
 fun CategoryPage(

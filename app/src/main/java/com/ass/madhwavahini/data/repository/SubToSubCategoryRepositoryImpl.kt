@@ -16,7 +16,7 @@ import com.ass.madhwavahini.data.remote.mapper.FileMapper.getFileToFilesData
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
-import com.ass.madhwavahini.domain.utils.StringUtil
+import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState

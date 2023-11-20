@@ -7,7 +7,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.PhoneInTalk
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ass.madhwavahini.R
-import com.ass.madhwavahini.domain.utils.StringUtil
+import com.ass.madhwavahini.domain.wrapper.StringUtil
 
 sealed class NavigationFragment(
     val route: String,

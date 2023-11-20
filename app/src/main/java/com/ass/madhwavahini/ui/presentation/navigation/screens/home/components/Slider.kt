@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.category.components
+package com.ass.madhwavahini.ui.presentation.navigation.screens.home.components
 
 import android.widget.ImageView
 import androidx.compose.animation.core.tween

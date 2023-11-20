@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.domain.utils
+package com.ass.madhwavahini.domain.wrapper
 
 import android.content.Context
 import androidx.annotation.StringRes

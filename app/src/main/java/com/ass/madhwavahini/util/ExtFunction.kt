@@ -1,7 +1,7 @@
 package com.ass.madhwavahini.util
 
 import android.util.Log
-import com.ass.madhwavahini.domain.utils.StringUtil
+import com.ass.madhwavahini.domain.wrapper.StringUtil
 import okio.IOException
 
 fun Any?.print(tag: String = "TAG") {

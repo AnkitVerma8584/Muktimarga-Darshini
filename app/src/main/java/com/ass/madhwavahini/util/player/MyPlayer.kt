@@ -1,17 +1,17 @@
-package com.ass.madhwavahini.domain.player
+package com.ass.madhwavahini.util.player
 
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import com.ass.madhwavahini.domain.player.PlayerStates.STATE_BUFFERING
-import com.ass.madhwavahini.domain.player.PlayerStates.STATE_END
-import com.ass.madhwavahini.domain.player.PlayerStates.STATE_ERROR
-import com.ass.madhwavahini.domain.player.PlayerStates.STATE_IDLE
-import com.ass.madhwavahini.domain.player.PlayerStates.STATE_NEXT_TRACK
-import com.ass.madhwavahini.domain.player.PlayerStates.STATE_PAUSE
-import com.ass.madhwavahini.domain.player.PlayerStates.STATE_PLAYING
-import com.ass.madhwavahini.domain.player.PlayerStates.STATE_READY
+import com.ass.madhwavahini.util.player.PlayerStates.STATE_BUFFERING
+import com.ass.madhwavahini.util.player.PlayerStates.STATE_END
+import com.ass.madhwavahini.util.player.PlayerStates.STATE_ERROR
+import com.ass.madhwavahini.util.player.PlayerStates.STATE_IDLE
+import com.ass.madhwavahini.util.player.PlayerStates.STATE_NEXT_TRACK
+import com.ass.madhwavahini.util.player.PlayerStates.STATE_PAUSE
+import com.ass.madhwavahini.util.player.PlayerStates.STATE_PLAYING
+import com.ass.madhwavahini.util.player.PlayerStates.STATE_READY
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 

@@ -9,11 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
-import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchedFileHeader
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.components.FileCard
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
@@ -30,6 +30,18 @@ fun SubToSubCategoryContent(
     files: FilesState,
     onFileClicked: (HomeFile, String, Int) -> Unit
 ) {
+    // If both are loading show a single progressbar
+    if (subToSubCategory.isLoading && files.isLoading) {
+        Loading()
+        return
+    }
+    // If there are no files then only show subToSubCategory error
+    subToSubCategory.error?.let {
+        if (files.data == null && !files.isLoading) {
+            it.ShowError()
+            return
+        }
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -48,17 +60,6 @@ fun SubToSubCategoryContent(
                 Spacer(modifier = Modifier.height(15.dp))
             }
         }
-
-        // If both are loading show a single progressbar
-        if (subToSubCategory.isLoading && files.isLoading) {
-            item {
-                Loading()
-            }
-        }
-
-        // If there are no files then only show subToSubCategory error
-        if (files.data == null && !files.isLoading) item { subToSubCategory.error?.ShowError() }
-
 
         subToSubCategory.data?.let { list ->
             stickyHeader {

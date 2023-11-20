@@ -13,10 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
-import com.ass.madhwavahini.domain.utils.StringUtil
+import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.AboutPage
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.CategoryPage
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.CategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.contact.ContactPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.FileDetailsPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.FilePage
