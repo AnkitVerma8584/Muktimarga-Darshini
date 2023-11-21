@@ -20,13 +20,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,12 +40,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
+import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
 
 @Composable
 fun LoginPage(
@@ -53,43 +53,44 @@ fun LoginPage(
     onNavigate: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val mobile by viewModel.mobile.collectAsStateWithLifecycle()
-    val mobileError by viewModel.mobileError.collectAsStateWithLifecycle()
-
-    val password by viewModel.password.collectAsStateWithLifecycle()
-    val passwordError by viewModel.passwordError.collectAsStateWithLifecycle()
-
     val focusRequester: FocusRequester = remember { FocusRequester() }
     val focusManager: FocusManager = LocalFocusManager.current
     val ctx = LocalContext.current
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
     val lifecycleOwner = LocalLifecycleOwner.current
 
     Scaffold(snackbarHost = {
-        SnackbarHost(hostState = snackbarHostState)
+        SnackbarHost(
+            hostState = snackBarHostState
+        ) { sb: SnackbarData ->
+            MyCustomSnack(
+                text = sb.visuals.message
+            ) {
+                snackBarHostState.currentSnackbarData?.dismiss()
+            }
+        }
     }) { padding ->
-
         LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loginState.collect { login ->
+
                     login.data?.let {
                         onNavigate()
-                        snackbarHostState.showSnackbar(
+                        snackBarHostState.showSnackbar(
                             message = "Logged in successfully.",
                             duration = SnackbarDuration.Short
                         )
                     }
+
                     login.error?.let {
-                        snackbarHostState.showSnackbar(
+                        snackBarHostState.showSnackbar(
                             message = it.asString(ctx),
-                            duration = SnackbarDuration.Short
+                            duration = SnackbarDuration.Long
                         )
                     }
                 }
             }
         }
-
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -108,16 +109,20 @@ fun LoginPage(
             MobileInput(
                 focusManager = focusManager,
                 focusRequester = focusRequester,
-                mobile = mobile,
-                error = mobileError,
+                mobile = viewModel.mobileText,
+                error = viewModel.mobileError,
                 onValueChanged = viewModel::setMobile
             )
             PasswordInput(focusManager = focusManager,
                 focusRequester = focusRequester,
-                password = password,
-                passwordError = passwordError,
+                password = viewModel.passwordText,
+                passwordError = viewModel.passwordError,
                 onValueChanged = viewModel::setPassword,
-                onDoneClicked = { viewModel.login(mobile, password) })
+                onDoneClicked = {
+                    viewModel.login(
+                        viewModel.mobileText, viewModel.passwordText
+                    )
+                })
 
             Spacer(modifier = Modifier.height(5.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -130,8 +135,7 @@ fun LoginPage(
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.clickable {
-                        if (!viewModel.isLoading)
-                            onRegisterClicked.invoke()
+                        if (!viewModel.isLoading) onRegisterClicked.invoke()
                     })
             }
             Spacer(modifier = Modifier.height(50.dp))
@@ -144,7 +148,7 @@ fun LoginPage(
                     CircularProgressIndicator()
                 } else {
                     Button(onClick = {
-                        viewModel.login(mobile, password)
+                        viewModel.login(viewModel.mobileText, viewModel.passwordText)
                     }) {
                         Text(
                             text = "Login",
@@ -158,4 +162,5 @@ fun LoginPage(
             Spacer(modifier = Modifier.height(50.dp))
         }
     }
+
 }

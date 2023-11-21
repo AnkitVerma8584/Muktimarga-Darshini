@@ -20,13 +20,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,13 +40,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.NameInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
+import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
 
 @Composable
 fun RegisterPage(
@@ -54,40 +54,40 @@ fun RegisterPage(
     onNavigate: () -> Unit,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    val name by viewModel.name.collectAsStateWithLifecycle()
-    val nameError by viewModel.nameError.collectAsStateWithLifecycle()
-
-    val mobile by viewModel.mobile.collectAsStateWithLifecycle()
-    val mobileError by viewModel.mobileError.collectAsStateWithLifecycle()
-
-    val password by viewModel.password.collectAsStateWithLifecycle()
-    val passwordError by viewModel.passwordError.collectAsStateWithLifecycle()
-
     val focusRequester: FocusRequester = remember { FocusRequester() }
     val focusManager: FocusManager = LocalFocusManager.current
     val ctx = LocalContext.current
 
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
     val lifecycleOwner = LocalLifecycleOwner.current
 
     Scaffold(snackbarHost = {
-        SnackbarHost(hostState = snackbarHostState)
+        SnackbarHost(
+            hostState = snackBarHostState
+        ) { sb: SnackbarData ->
+            MyCustomSnack(
+                text = sb.visuals.message
+            ) {
+                snackBarHostState.currentSnackbarData?.dismiss()
+            }
+        }
     }) { padding ->
 
         LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.registerState.collect { login ->
+
                     login.data?.let {
                         onNavigate()
-                        snackbarHostState.showSnackbar(
+                        snackBarHostState.showSnackbar(
                             message = "Signed up successfully.",
                             duration = SnackbarDuration.Short
                         )
                     }
                     login.error?.let {
-                        snackbarHostState.showSnackbar(
+                        snackBarHostState.showSnackbar(
                             message = it.asString(ctx),
-                            duration = SnackbarDuration.Short
+                            duration = SnackbarDuration.Long
                         )
                     }
                 }
@@ -112,23 +112,29 @@ fun RegisterPage(
             NameInput(
                 focusManager = focusManager,
                 focusRequester = focusRequester,
-                name = name,
-                error = nameError,
+                name = viewModel.nameText,
+                error = viewModel.nameError,
                 onValueChanged = viewModel::setName
             )
             MobileInput(
                 focusManager = focusManager,
                 focusRequester = focusRequester,
-                mobile = mobile,
-                error = mobileError,
+                mobile = viewModel.mobileText,
+                error = viewModel.mobileError,
                 onValueChanged = viewModel::setMobile
             )
             PasswordInput(focusManager = focusManager,
                 focusRequester = focusRequester,
-                password = password,
-                passwordError = passwordError,
+                password = viewModel.passwordText,
+                passwordError = viewModel.passwordError,
                 onValueChanged = viewModel::setPassword,
-                onDoneClicked = { viewModel.register(name, mobile, password) })
+                onDoneClicked = {
+                    viewModel.register(
+                        viewModel.nameText,
+                        viewModel.mobileText,
+                        viewModel.passwordText
+                    )
+                })
 
             Spacer(modifier = Modifier.height(5.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -154,7 +160,10 @@ fun RegisterPage(
                     CircularProgressIndicator()
                 } else {
                     Button(onClick = {
-                        viewModel.register(name, mobile, password)
+                        viewModel.register(
+                            viewModel.nameText,
+                            viewModel.mobileText, viewModel.passwordText
+                        )
                     }) {
                         Text(
                             text = "Sign Up",

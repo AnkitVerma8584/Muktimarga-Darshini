@@ -22,7 +22,7 @@ fun NoSearchedResults() {
     Text(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal=16.dp, vertical = 5.dp),
+            .padding(horizontal = 16.dp, vertical = 5.dp),
         text = "No results found for the given query",
         color = MaterialTheme.colorScheme.error
     )

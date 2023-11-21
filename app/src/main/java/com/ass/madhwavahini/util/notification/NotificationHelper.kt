@@ -20,7 +20,6 @@ import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.CHANNEL_ONE_DESCRIPTION
 import com.ass.madhwavahini.data.Constants.CHANNEL_ONE_ID
 import com.ass.madhwavahini.data.Constants.CHANNEL_ONE_NAME
-import com.ass.madhwavahini.util.print
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -30,7 +29,6 @@ class NotificationHelper @Inject constructor(
 ) {
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            "Creating channel".print()
             createChannel()
         }
     }
