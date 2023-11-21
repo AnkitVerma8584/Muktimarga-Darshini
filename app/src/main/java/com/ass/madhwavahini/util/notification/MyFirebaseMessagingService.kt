@@ -1,26 +1,19 @@
 package com.ass.madhwavahini.util.notification
 
-import android.Manifest
-import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
-import android.provider.Settings
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.annotation.Keep
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import com.ass.madhwavahini.R
-import com.ass.madhwavahini.data.Constants.CHANNEL_ONE_ID
 import com.ass.madhwavahini.data.local.UserDataStore
-import com.ass.madhwavahini.ui.presentation.MainActivity
+import com.ass.madhwavahini.ui.presentation.authentication.AuthenticationActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
+import java.net.URL
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,19 +37,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 val data: Map<String, String> = p0.data
                 val title = data["title"] ?: "Title"
                 val body = data["message"] ?: "Message"
-                sendNotification(title, body)
+                val image = data["image"]
+                val mIcon = getImage(image)
+                sendNotification(title, body, mIcon)
             }
         }
     }
 
-    private fun sendNotification(title: String, body: String) {
-        val notificationIntent = Intent(applicationContext, MainActivity::class.java)
+    private fun sendNotification(title: String, body: String, image: Bitmap?) {
+        val notificationIntent = Intent(applicationContext, AuthenticationActivity::class.java)
 
         notificationIntent.flags =
             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
-
-        val id = (1..50000).random()
+        val id = (Int.MIN_VALUE..Int.MAX_VALUE).random()
 
         val intent = PendingIntent.getActivity(
             applicationContext,
@@ -64,35 +58,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
+        notificationHelper.sendNotification(id, title, body, intent, image)
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationHelper.createNormalChannel()
-            val notificationBuilder: Notification =
-                notificationHelper.getNormalNotification(title, body, intent)
-
-            notificationHelper.notify(id, notificationBuilder)
-        } else {
-            val builder: NotificationCompat.Builder =
-                NotificationCompat.Builder(applicationContext, CHANNEL_ONE_ID)
-                    .setSmallIcon(R.drawable.app_logo)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                    .setShowWhen(true)
-                    .setContentIntent(intent)
-                    .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-            NotificationManagerCompat.from(applicationContext).notify(id, builder.build())
-
+    private fun getImage(image: String?): Bitmap? {
+        if (image == null)
+            return null
+        return try {
+            val url = URL(image)
+            BitmapFactory.decodeStream(url.openConnection().getInputStream())
+        } catch (e: Exception) {
+            null
         }
     }
 

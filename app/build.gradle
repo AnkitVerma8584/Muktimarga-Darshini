@@ -15,9 +15,9 @@ android {
         applicationId "com.ass.madhwavahini"
         minSdk 21
         targetSdk 34
-        versionCode 2
-        versionName "1.23.2"
-        //As of type.year.version
+        versionCode 3
+        versionName "1.23.3"
+        // type.year.version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -129,7 +129,7 @@ dependencies {
     implementation 'com.razorpay:checkout:1.6.36'
 
     //music
-    def media3_version = "1.1.1"
+    def media3_version = "1.2.0"
     implementation "androidx.media3:media3-exoplayer:$media3_version"
 
 }

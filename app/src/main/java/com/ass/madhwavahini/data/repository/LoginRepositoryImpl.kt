@@ -2,15 +2,19 @@ package com.ass.madhwavahini.data.repository
 
 import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.data.remote.apis.LoginApi
+import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.LoginRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.authentication.model.LoginState
 import com.ass.madhwavahini.util.getError
+import com.ass.madhwavahini.util.notification.NotificationHelper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class LoginRepositoryImpl(
-    private val loginApi: LoginApi, private val userDataStore: UserDataStore
+    private val loginApi: LoginApi,
+    private val userDataStore: UserDataStore,
+    private val notificationHelper: NotificationHelper
 ) : LoginRepository {
     override fun verifyUser(token: String): Flow<LoginState> = flow {
         var state = LoginState(isLoading = true)
@@ -78,8 +82,13 @@ class LoginRepositoryImpl(
                 val result = loginApi.registerUser(name, mobile, password)
                 if (result.isSuccessful && result.body() != null) {
                     state = if (result.body()!!.success) {
-                        val data = result.body()?.data
+                        val data: User? = result.body()?.data
                         userDataStore.saveUser(data!!)
+                        notificationHelper.sendNotification(
+                            data.userId,
+                            title = "Hello ${data.firstName},",
+                            body = "Madhwa Vahini welcomes you."
+                        )
                         state.copy(isLoading = false, data = data)
                     } else {
                         state.copy(

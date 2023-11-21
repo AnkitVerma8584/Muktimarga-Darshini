@@ -20,6 +20,7 @@ import com.ass.madhwavahini.domain.repository.PaymentRepository
 import com.ass.madhwavahini.domain.repository.SubCategoryRepository
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
 import com.ass.madhwavahini.domain.repository.UserRepository
+import com.ass.madhwavahini.util.notification.NotificationHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,9 +35,10 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideLoginRepository(
         loginApi: LoginApi,
-        userDataStore: UserDataStore
+        userDataStore: UserDataStore,
+        notificationHelper: NotificationHelper
     ): LoginRepository =
-        LoginRepositoryImpl(loginApi, userDataStore)
+        LoginRepositoryImpl(loginApi, userDataStore,notificationHelper)
 
     @Provides
     @ViewModelScoped

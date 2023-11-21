@@ -1,19 +1,17 @@
 package com.ass.madhwavahini
 
 import android.app.Application
-import android.provider.Settings
+import com.ass.madhwavahini.data.Constants
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
 class MyApplication : Application() {
-    companion object {
-        lateinit var DEVICE_ID: String
-    }
-
     override fun onCreate() {
         super.onCreate()
-        DEVICE_ID = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
+        Firebase.messaging.subscribeToTopic(Constants.TOPIC)
     }
 
 }
