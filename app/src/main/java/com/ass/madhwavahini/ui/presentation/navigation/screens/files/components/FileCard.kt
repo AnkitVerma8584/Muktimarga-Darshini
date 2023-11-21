@@ -26,9 +26,9 @@ fun LazyItemScope.FileCard(
     onFileClicked: (homeFile: HomeFile, query: String, index: Int) -> Unit,
 ) {
     ElevatedCard(modifier = Modifier
-        .padding(8.dp)
-        .animateItemPlacement()
         .fillMaxWidth()
+        .padding(horizontal = 12.dp, vertical = 8.dp)
+        .animateItemPlacement()
         .clickable {
             onFileClicked(item, "", -1)
         }) {

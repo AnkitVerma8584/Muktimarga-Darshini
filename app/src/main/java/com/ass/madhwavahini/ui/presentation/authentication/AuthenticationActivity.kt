@@ -43,7 +43,6 @@ class AuthenticationActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             var backPressedTime by remember { mutableLongStateOf(0L) }
             BackHandler(onBack = {
@@ -101,7 +100,7 @@ private fun Activity.AuthenticationNavigation() {
             RegisterPage(
                 onSignInClick = {
                     navController.navigateUp()
-                })
+                }, onNavigate = { navigateToMainActivity() })
         }
     }
 }

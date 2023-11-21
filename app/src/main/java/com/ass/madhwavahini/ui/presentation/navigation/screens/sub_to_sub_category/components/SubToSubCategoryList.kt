@@ -43,9 +43,7 @@ fun SubToSubCategoryContent(
         }
     }
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
         searchedContent.forEach { fileData ->
             stickyHeader {

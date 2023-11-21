@@ -42,8 +42,7 @@ fun LazyItemScope.SubToSubCategoryCard(
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .wrapContentWidth()
+                modifier = Modifier.wrapContentWidth()
             ) {
                 Text(
                     text = data.name,

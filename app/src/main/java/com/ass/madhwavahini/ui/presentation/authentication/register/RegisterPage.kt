@@ -51,6 +51,7 @@ import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
 @Composable
 fun RegisterPage(
     onSignInClick: () -> Unit,
+    onNavigate: () -> Unit,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val name by viewModel.name.collectAsStateWithLifecycle()
@@ -77,6 +78,7 @@ fun RegisterPage(
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.registerState.collect { login ->
                     login.data?.let {
+                        onNavigate()
                         snackbarHostState.showSnackbar(
                             message = "Signed up successfully.",
                             duration = SnackbarDuration.Short

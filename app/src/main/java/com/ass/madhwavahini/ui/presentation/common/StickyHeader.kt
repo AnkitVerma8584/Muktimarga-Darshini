@@ -35,15 +35,15 @@ fun SearchedFileHeader(header: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 8.dp, bottom = 8.dp)
+            .padding(start = 12.dp, bottom = 8.dp, end = 12.dp)
             .background(MaterialTheme.colorScheme.background),
     ) {
         Image(
-            modifier=Modifier.size(20.dp),
+            modifier = Modifier.size(20.dp),
             painter = painterResource(id = R.drawable.ic_txt),
             contentDescription = null
         )
-        Spacer(modifier=Modifier.width(5.dp))
+        Spacer(modifier = Modifier.width(5.dp))
         Text(
             text = header,
             style = MaterialTheme.typography.titleMedium,
