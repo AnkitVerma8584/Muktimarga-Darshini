@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeCategory
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
@@ -17,6 +19,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.Catego
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoriesPortrait(
+    query: String,
     banners: BannerState,
     categories: CategoryState,
     onClick: (HomeCategory) -> Unit
@@ -37,11 +40,11 @@ fun CategoriesPortrait(
             //Categories
             categories.data?.let { list ->
                 stickyHeader {
-                    Header(header = "Categories")
+                    Header(header = stringResource(id = R.string.category))
                 }
                 if (list.isEmpty())
                     item {
-                        NoSearchedResults()
+                        NoSearchedResults(query = query, id = R.string.empty_categories)
                     }
                 else
                     items(items = list, key = { it.id }) { category ->

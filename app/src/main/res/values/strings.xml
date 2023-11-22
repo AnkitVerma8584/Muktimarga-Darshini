@@ -1,10 +1,37 @@
 <resources>
     <string name="app_name">Madhva Vahini</string>
+    <string name="splash_description">Developed by Aishwarya Software, Bengaluru</string>
+    <string name="app_version">v %s</string>
     <!--Errors-->
-    <string name="empty_categories">No categories found</string>
-    <string name="empty_banners">No banners found</string>
+    <string name="empty_categories">No categories found for query %s</string>
+    <string name="empty_subcategories">No sub-categories found for query %s</string>
+    <string name="empty_sub_to_sub_categories">No sub-to-sub-categories found for query %s</string>
+    <string name="empty_files">No files found for query %s</string>
+    <string name="check_internet">Please check your internet connection.</string>
+    <string name="server_error">Some server error occurred</string>
+
+    <!--Search-->
+    <plurals name="numberOfSearchResults">
+        <item quantity="one">%d result found.</item>
+        <item quantity="other">%d results found.</item>
+    </plurals>
+
+    <!--Authentication-->
+    <string name="login">Sign In</string>
+    <string name="has_account">Already have an account ? </string>
+    <string name="no_account">Don\'t have an account yet ? </string>
+    <string name="register">Sign Up</string>
+    <string name="name_header">Name</string>
+    <string name="name_hint">Enter your full name</string>
+    <string name="phone_header">Mobile number</string>
+    <string name="phone_hint">Enter your mobile number</string>
+    <string name="password_header">Password</string>
+    <string name="password_hint">Enter password</string>
+    <string name="login_success">Logged in successfully.</string>
+    <string name="signin_success">Signed in successfully.</string>
 
     <!--Menu-->
+    <string name="welcome">Welcome %s,</string>
     <string name="menu">Menu</string>
     <string name="home">Home</string>
     <string name="about">About us</string>
@@ -12,29 +39,24 @@
     <string name="support">Support</string>
     <string name="logout">Logout</string>
 
-    <!--Language-->
-    <string name="en" translatable="false">English</string>
-    <string name="hi" translatable="false">हिन्दी</string>
-    <string name="kn" translatable="false">ಕನ್ನಡ</string>
-    <string name="sa" translatable="false">संस्कृत</string>
-
     <!--Category-->
     <string name="category">Categories</string>
     <string name="category_search">Search for any category</string>
 
     <!--Sub Category-->
-    <string name="sub_cat" translatable="false">Sub Categories</string>
-    <string name="sub_cat_search" translatable="false">Search for any category</string>
+    <string name="sub_cat">Sub Categories</string>
+    <string name="sub_cat_search">Search for any sub-category</string>
 
     <!--Sub to sub Category-->
-    <string name="sub_to_sub_cat" translatable="false">Sub to sub Categories</string>
-    <string name="sub_to_sub_cat_search" translatable="false">Search for any category</string>
+    <string name="sub_to_sub_cat">Sub to sub categories</string>
+    <string name="sub_to_sub_cat_search">Search for any category or files</string>
 
     <!--Files-->
-    <string name="files" translatable="false">Files</string>
+    <string name="files">Files</string>
+    <string name="files_search">Search for any file</string>
 
     <!--Files details-->
-    <string name="files_details" translatable="false">File Details</string>
+    <string name="files_details">File Details</string>
 
     <!--Contact-->
     <string name="sub_heading">In case of any difficulty or queries please contact us on the details below :</string>

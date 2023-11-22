@@ -52,7 +52,8 @@ class DocumentRepositoryImpl(
             }
         } catch (e: Exception) {
             state = state.copy(
-                isLoading = false, error = e.getError()
+                isLoading = false,
+                error = e.getError()
             )
         } finally {
             emit(state)

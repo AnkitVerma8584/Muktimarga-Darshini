@@ -1,5 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.common
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,18 +13,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 
 @Composable
-fun NoSearchedResults() {
+fun NoSearchedResults(
+    query: String,
+    @StringRes id: Int
+) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 5.dp),
-        text = "No results found for the given query",
+        text = stringResource(id, query),
         color = MaterialTheme.colorScheme.error
     )
 }

@@ -28,6 +28,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.R
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -44,7 +46,6 @@ fun PasswordInput(
     focusRequester: FocusRequester,
     focusManager: FocusManager,
     password: String,
-    hint: String = "Enter your password",
     passwordError: String? = null,
     onDoneClicked: () -> Unit,
     onValueChanged: (password: String) -> Unit
@@ -66,7 +67,7 @@ fun PasswordInput(
         }
     }
     Text(
-        text = "Password",
+        text = stringResource(id = R.string.password_header),
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth(0.9f),
@@ -89,7 +90,7 @@ fun PasswordInput(
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         placeholder = {
             Text(
-                hint,
+                stringResource(id = R.string.password_hint),
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

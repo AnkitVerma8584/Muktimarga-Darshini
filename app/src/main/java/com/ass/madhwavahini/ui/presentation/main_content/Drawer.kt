@@ -129,7 +129,7 @@ fun Activity.MainPage(
             ) {
                 Spacer(Modifier.height(24.dp))
                 Text(
-                    text = "Hello ${mainViewModel.user.firstName},",
+                    text = stringResource(id = R.string.welcome, mainViewModel.user.firstName),
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold,

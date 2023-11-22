@@ -36,6 +36,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -70,22 +71,21 @@ fun LoginPage(
             }
         }
     }) { padding ->
+        val res = LocalContext.current.resources
         LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loginState.collect { login ->
-
                     login.data?.let {
                         onNavigate()
                         snackBarHostState.showSnackbar(
-                            message = "Logged in successfully.",
+                            message = res.getString(R.string.login_success),
                             duration = SnackbarDuration.Short
                         )
                     }
-
                     login.error?.let {
                         snackBarHostState.showSnackbar(
                             message = it.asString(ctx),
-                            duration = SnackbarDuration.Long
+                            duration = SnackbarDuration.Short
                         )
                     }
                 }
@@ -100,7 +100,7 @@ fun LoginPage(
         ) {
             Spacer(modifier = Modifier.height(50.dp))
             Image(
-                modifier = Modifier.size(200.dp),
+                modifier = Modifier.size(190.dp),
                 contentScale = ContentScale.Crop,
                 painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
                 contentDescription = null
@@ -127,10 +127,10 @@ fun LoginPage(
             Spacer(modifier = Modifier.height(5.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Don't have an account yet ? ",
+                    text = stringResource(id = R.string.no_account),
                     style = MaterialTheme.typography.labelMedium
                 )
-                Text(text = "Sign Up",
+                Text(text = stringResource(id = R.string.register),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.error,
@@ -151,7 +151,7 @@ fun LoginPage(
                         viewModel.login(viewModel.mobileText, viewModel.passwordText)
                     }) {
                         Text(
-                            text = "Login",
+                            text = stringResource(id = R.string.login),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.SemiBold
                         )

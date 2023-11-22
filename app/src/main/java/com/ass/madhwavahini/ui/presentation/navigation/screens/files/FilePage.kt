@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.ui.presentation.common.ShowError
@@ -28,7 +30,7 @@ fun FilePage(
 
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
-            hint = "Search for any files",
+            hint = stringResource(id = R.string.files_search),
             query = query,
             onSearchQueryChanged = viewModel::queryChanged,
             minimumLetter = MINIMUM_SEARCH_CHAR

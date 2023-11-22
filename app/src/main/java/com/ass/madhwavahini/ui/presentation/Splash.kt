@@ -8,10 +8,13 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,20 +24,23 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.ass.madhwavahini.BuildConfig
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.ui.theme.MuktimargaDarshiniTheme
+import com.ass.madhwavahini.ui.theme.UiModePreviews
+
 
 @Composable
 internal fun SplashScreen() {
     val infiniteTransition = rememberInfiniteTransition(label = "scale animation")
     val scale by infiniteTransition.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.2f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1000),
-            repeatMode = RepeatMode.Reverse
+        initialValue = 1f, targetValue = 1.2f, animationSpec = infiniteRepeatable(
+            animation = tween(1000), repeatMode = RepeatMode.Reverse
         ), label = "scale animation"
     )
     Box(
@@ -52,25 +58,45 @@ internal fun SplashScreen() {
                 .background(
                     brush = Brush.radialGradient(
                         colors = listOf(
-                            Color(0x80FFC107),
-                            Color(0x33FFC107),
-                            Color(0x00FFEB3B)
+                            Color(0x80FFC107), Color(0x33FFC107), Color(0x00FFEB3B)
                         ),
                     ),
-                )
-        )
+                ))
         Image(
             modifier = Modifier.size(350.dp),
             painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
             contentDescription = null
         )
-        Text(
-            text = "Developed by Aishwarya Software, Bengaluru",
-            textAlign = TextAlign.Center,
+        Column(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .padding(8.dp)
-                .align(Alignment.BottomCenter)
-        )
+                .align(Alignment.BottomCenter),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(id = R.string.splash_description),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = stringResource(id = R.string.app_version, BuildConfig.VERSION_NAME),
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Normal
+            )
+        }
+    }
+}
+
+@UiModePreviews
+@Composable
+private fun SplashPreview() {
+    MuktimargaDarshiniTheme {
+        MaterialTheme {
+            Surface(color = MaterialTheme.colorScheme.background) {
+                SplashScreen()
+            }
+        }
     }
 }

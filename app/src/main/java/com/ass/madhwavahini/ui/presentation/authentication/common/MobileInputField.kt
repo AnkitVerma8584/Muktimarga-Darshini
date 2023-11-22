@@ -21,19 +21,20 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.R
 
 @Composable
 fun MobileInput(
     focusRequester: FocusRequester,
     focusManager: FocusManager,
     mobile: String,
-    hint: String = "Enter mobile number",
     error: String? = null,
     onValueChanged: (mobile: String) -> Unit
 ) {
@@ -49,7 +50,7 @@ fun MobileInput(
         }
     }
     Text(
-        text = "Mobile Number",
+        text = stringResource(id = R.string.phone_header),
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth(0.9f),
@@ -72,7 +73,7 @@ fun MobileInput(
         value = mobile,
         placeholder = {
             Text(
-                hint,
+                stringResource(id = R.string.phone_hint),
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

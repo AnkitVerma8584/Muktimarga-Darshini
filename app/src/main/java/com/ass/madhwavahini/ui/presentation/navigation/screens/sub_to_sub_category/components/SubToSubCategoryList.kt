@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 import com.ass.madhwavahini.ui.presentation.common.Header
@@ -61,10 +63,10 @@ fun SubToSubCategoryContent(
 
         subToSubCategory.data?.let { list ->
             stickyHeader {
-                Header("Sub-To-Sub-Categories")
+                Header(stringResource(id = R.string.sub_to_sub_cat))
             }
             if (list.isEmpty()) item {
-                NoSearchedResults()
+                NoSearchedResults(query, R.string.empty_sub_to_sub_categories)
             }
             else items(items = list, key = { it.uniqueKey }) { subCategory ->
                 SubToSubCategoryCard(data = subCategory, onClick = onSubToSubCategoryClick)
@@ -73,10 +75,10 @@ fun SubToSubCategoryContent(
 
         files.data?.let { list ->
             stickyHeader {
-                Header("Files")
+                Header(stringResource(id = R.string.files))
             }
             if (list.isEmpty()) item {
-                NoSearchedResults()
+                NoSearchedResults(query, R.string.empty_files)
             }
             else items(list, key = { it.uniqueKey }) {
                 FileCard(item = it, onFileClicked = onFileClicked)

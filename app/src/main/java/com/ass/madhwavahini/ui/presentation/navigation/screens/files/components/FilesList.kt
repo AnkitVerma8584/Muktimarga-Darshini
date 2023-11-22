@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
@@ -23,9 +25,7 @@ fun FilesList(
     onFileClicked: (homeFile: HomeFile, query: String, index: Int) -> Unit,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
         searchedContent.forEach { fileData ->
             stickyHeader {
@@ -43,11 +43,11 @@ fun FilesList(
         }
 
         stickyHeader {
-            Header(header = "Files")
+            Header(header = stringResource(id = R.string.files))
         }
         if (data.isEmpty())
             item {
-                NoSearchedResults()
+                NoSearchedResults(query = query, id = R.string.empty_files)
             }
         else {
             items(data, key = { it.id }) {

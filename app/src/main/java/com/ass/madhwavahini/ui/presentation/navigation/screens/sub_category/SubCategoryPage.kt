@@ -9,14 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeSubCategory
-import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.components.SubCategoryCard
 
 @Composable
@@ -28,7 +30,7 @@ fun SubCategoryPage(
     val query by viewModel.subCategoryQuery.collectAsState()
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
-            hint = "Search for any sub-category",
+            hint = stringResource(id = R.string.sub_cat_search),
             query = query,
             onSearchQueryChanged = viewModel::queryChanged
         )
@@ -37,11 +39,11 @@ fun SubCategoryPage(
             Loading()
 
         subCategories.data?.let { subCategoriesList ->
-            Header(header = "Sub-Categories")
+            Header(header = stringResource(id = R.string.sub_cat))
             LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 300.dp)) {
                 if (subCategoriesList.isEmpty())
                     item {
-                        NoSearchedResults()
+                        NoSearchedResults(query, R.string.empty_subcategories)
                     }
                 else
                     items(items = subCategoriesList, key = { it.id }) { subCategory ->

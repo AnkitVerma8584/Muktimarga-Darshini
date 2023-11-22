@@ -29,8 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.AudioToggleButton
@@ -94,13 +96,18 @@ fun FileDetailsPage(
 
 @Composable
 private fun BoxScope.DocumentContent(
-    viewModel: FileDetailsViewModel, query: String, scale: Float, scrollIndex: Int
+    viewModel: FileDetailsViewModel,
+    query: String, scale: Float, scrollIndex: Int
 ) {
     val text by viewModel.text.collectAsState()
     val searchedText by viewModel.searchedText.collectAsState()
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+
+    val resources = LocalContext.current.resources
+
+
 
     if (text.isEmpty()) CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
     else {
@@ -113,7 +120,11 @@ private fun BoxScope.DocumentContent(
                 if (query.length > 2) {
                     item {
                         Text(
-                            text = "Found ${searchedText.size} results.",
+                            text = resources.getQuantityString(
+                                R.plurals.numberOfSearchResults,
+                                searchedText.size,
+                                searchedText.size
+                            ),
                             modifier = Modifier.padding(8.dp),
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.labelMedium

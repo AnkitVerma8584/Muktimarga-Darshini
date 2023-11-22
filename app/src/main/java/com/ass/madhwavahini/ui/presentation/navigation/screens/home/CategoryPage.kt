@@ -44,12 +44,14 @@ fun CategoryPage(
 
         if (shouldDisplayLandscape)
             CategoriesLandscape(
+                query = query,
                 banners = banners,
                 categories = categories,
                 onClick = onClick
             )
         else
             CategoriesPortrait(
+                query = query,
                 banners = banners,
                 categories = categories,
                 onClick = onClick

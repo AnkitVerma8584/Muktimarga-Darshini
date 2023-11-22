@@ -36,6 +36,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -72,7 +73,7 @@ fun RegisterPage(
             }
         }
     }) { padding ->
-
+        val res = LocalContext.current.resources
         LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.registerState.collect { login ->
@@ -80,14 +81,14 @@ fun RegisterPage(
                     login.data?.let {
                         onNavigate()
                         snackBarHostState.showSnackbar(
-                            message = "Signed up successfully.",
+                            message = res.getString(R.string.signin_success),
                             duration = SnackbarDuration.Short
                         )
                     }
                     login.error?.let {
                         snackBarHostState.showSnackbar(
                             message = it.asString(ctx),
-                            duration = SnackbarDuration.Long
+                            duration = SnackbarDuration.Short
                         )
                     }
                 }
@@ -103,7 +104,7 @@ fun RegisterPage(
         ) {
             Spacer(modifier = Modifier.height(50.dp))
             Image(
-                modifier = Modifier.size(200.dp),
+                modifier = Modifier.size(190.dp),
                 contentScale = ContentScale.Crop,
                 painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
                 contentDescription = null
@@ -139,10 +140,10 @@ fun RegisterPage(
             Spacer(modifier = Modifier.height(5.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Already have an account? ",
+                    text = stringResource(id = R.string.has_account),
                     style = MaterialTheme.typography.labelMedium
                 )
-                Text(text = "Sign In",
+                Text(text = stringResource(id = R.string.register),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.error,
@@ -166,7 +167,7 @@ fun RegisterPage(
                         )
                     }) {
                         Text(
-                            text = "Sign Up",
+                            text = stringResource(id = R.string.login),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.SemiBold
                         )

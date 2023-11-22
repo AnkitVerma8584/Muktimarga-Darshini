@@ -20,27 +20,26 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.R
 
 @Composable
 fun NameInput(
     focusRequester: FocusRequester,
     focusManager: FocusManager,
     name: String,
-    hint: String = "Enter your name",
     error: String? = null,
     onValueChanged: (name: String) -> Unit
 ) {
     val trailingIconView = @Composable {
         IconButton(
-            onClick = {
-                onValueChanged("")
-            },
+            onClick = { onValueChanged("") },
         ) {
             Icon(
                 Icons.Default.Clear, contentDescription = null
@@ -48,7 +47,7 @@ fun NameInput(
         }
     }
     Text(
-        text = "Full name",
+        text =   stringResource(id = R.string.name_header),
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth(0.9f),
@@ -69,7 +68,7 @@ fun NameInput(
         value = name,
         placeholder = {
             Text(
-                hint,
+                stringResource(id = R.string.name_hint),
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

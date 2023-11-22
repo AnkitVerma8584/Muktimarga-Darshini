@@ -1,6 +1,7 @@
 package com.ass.madhwavahini.util
 
 import android.util.Log
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import okio.IOException
 
@@ -11,12 +12,11 @@ fun Any?.print(tag: String = "TAG") {
 fun String.isInValidFile(): Boolean =
     !this.endsWith(".pdf", ignoreCase = true) && !this.endsWith(".txt", ignoreCase = true)
 
-
 fun Exception.getError(): StringUtil {
-    return StringUtil.DynamicText(
-        if (this is IOException) "Please check your internet connection" else {
-            this.localizedMessage ?: "Some server error occurred"
-        }
+    return StringUtil.StringResource(
+        if (this is IOException)
+            R.string.check_internet else
+            R.string.server_error
     )
 }
 

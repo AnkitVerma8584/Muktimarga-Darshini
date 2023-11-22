@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
@@ -26,7 +28,7 @@ fun SubToSubCategoryPage(
 
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
-            hint = "Search for any sub categories or files",
+            hint = stringResource(id = R.string.sub_to_sub_cat_search),
             query = query,
             onSearchQueryChanged = viewModel::queryChanged
         )
