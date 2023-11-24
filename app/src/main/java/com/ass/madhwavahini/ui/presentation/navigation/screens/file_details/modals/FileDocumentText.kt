@@ -2,5 +2,5 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.mod
 
 data class FileDocumentText(
     val index: Int,
-    val text: String?
+    val text: String
 )

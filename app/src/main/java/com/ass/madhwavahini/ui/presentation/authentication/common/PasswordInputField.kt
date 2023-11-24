@@ -38,6 +38,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.data.Constants.ROUNDED_CORNER_RADIUS
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -73,7 +74,8 @@ fun PasswordInput(
             .fillMaxWidth(0.9f),
         style = MaterialTheme.typography.labelLarge
     )
-    OutlinedTextField(shape = RoundedCornerShape(12.dp),
+    OutlinedTextField(
+        shape = RoundedCornerShape(ROUNDED_CORNER_RADIUS),
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
             focusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,

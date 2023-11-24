@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ass.madhwavahini.data.Constants.PARAGRAPH_LINE
 import com.ass.madhwavahini.data.remote.Api.getAudioUrl
 import com.ass.madhwavahini.domain.modals.Track
 import com.ass.madhwavahini.domain.repository.DocumentRepository
@@ -54,7 +53,7 @@ class FileDetailsViewModel @Inject constructor(
     private val _fileDataQuery = MutableStateFlow(savedStateHandle["query"] ?: "")
     val fileDataQuery get() = _fileDataQuery.asStateFlow()
 
-    private val _text = MutableStateFlow(listOf<String?>())
+    private val _text = MutableStateFlow(listOf<String>())
     val text = _text.asStateFlow()
 
     /////////////////////////////////  AUDIO  /////////////////////////////////
@@ -99,21 +98,11 @@ class FileDetailsViewModel @Inject constructor(
     private fun readTextFile(file: File) {
         try {
             val br = BufferedReader(FileReader(file))
-            var line: String?
-            val text = mutableListOf<String?>()
-            val paragraph = StringBuilder()
-            var i = 0
+            var line: String
+            val text = mutableListOf<String>()
             while (br.readLine().also { line = it } != null) {
-                paragraph.append(line)
-                if (i == PARAGRAPH_LINE) {
-                    text.add(paragraph.toString())
-                    paragraph.clear()
-                    i = 0
-                } else paragraph.append("\n")
-                i++
+                text.add(line)
             }
-            if (paragraph.isNotBlank())
-                text.add(paragraph.toString())
             br.close()
             _text.update { text.toList() }
         } catch (e: Exception) {
@@ -132,10 +121,10 @@ class FileDetailsViewModel @Inject constructor(
             list.mapIndexed { index, s ->
                 FileDocumentText(index, s)
             }.filter { s ->
-                s.text?.contains(query, ignoreCase = true) ?: false
+                s.text.contains(query, ignoreCase = true)
             }
         else emptyList()
-    }.flowOn(Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    }.flowOn(Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), emptyList())
 
 
     fun updateQuery(newQuery: String = "") {

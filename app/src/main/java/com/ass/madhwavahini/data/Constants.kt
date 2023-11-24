@@ -1,5 +1,7 @@
 package com.ass.madhwavahini.data
 
+import androidx.compose.ui.unit.dp
+
 object Constants {
     const val PARAGRAPH_LINE: Int = 2
     const val MINIMUM_SEARCH_CHAR: Int = 3
@@ -11,4 +13,5 @@ object Constants {
     const val CHANNEL_ONE_NAME: String = "File updates"
     const val CHANNEL_ONE_DESCRIPTION: String = "Receive new additions on files."
 
+    val ROUNDED_CORNER_RADIUS = 12.dp
 }

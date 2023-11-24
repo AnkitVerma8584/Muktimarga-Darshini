@@ -25,7 +25,7 @@ import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.ui.presentation.authentication.AuthenticationActivity
 import com.ass.madhwavahini.ui.presentation.main_content.MainPage
 import com.ass.madhwavahini.ui.presentation.main_content.dialog.NotificationPermissionRationalDialog
-import com.ass.madhwavahini.ui.theme.MuktimargaDarshiniTheme
+import com.ass.madhwavahini.ui.theme.MadhwaVahiniTheme
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
         )
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
-            MuktimargaDarshiniTheme {
+            MadhwaVahiniTheme {
                 val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission(),
                     onResult = { isGranted ->

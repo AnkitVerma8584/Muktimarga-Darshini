@@ -18,6 +18,7 @@
 
     <!--Authentication-->
     <string name="login">Sign In</string>
+    <string name="forgot_password">Forgot Password?</string>
     <string name="has_account">Already have an account ? </string>
     <string name="no_account">Don\'t have an account yet ? </string>
     <string name="register">Sign Up</string>

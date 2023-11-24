@@ -31,7 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ass.madhwavahini.ui.theme.MuktimargaDarshiniTheme
+import com.ass.madhwavahini.ui.theme.ShowPreview
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -132,7 +132,7 @@ fun SearchBar(
 @Preview(showBackground = true)
 @Composable
 private fun SearchViewPreview() {
-    MuktimargaDarshiniTheme {
+    ShowPreview {
         SearchBar(query = "")
     }
 }

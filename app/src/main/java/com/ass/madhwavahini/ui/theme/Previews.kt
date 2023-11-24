@@ -2,6 +2,11 @@ package com.ass.madhwavahini.ui.theme
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Preview(
@@ -55,4 +60,17 @@ annotation class UiModePreviews
 )
 annotation class DevicePreviews
 
-
+@Composable
+fun ShowPreview(
+    content: @Composable () -> Unit
+) {
+    MadhwaVahiniTheme(
+        content = {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background,
+                content = content
+            )
+        }
+    )
+}

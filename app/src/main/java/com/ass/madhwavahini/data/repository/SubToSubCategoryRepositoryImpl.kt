@@ -12,7 +12,7 @@ import com.ass.madhwavahini.data.local.mapper.mapToSubToSubCategoryList
 import com.ass.madhwavahini.data.remote.Api.getDocumentExtension
 import com.ass.madhwavahini.data.remote.apis.FilesApi
 import com.ass.madhwavahini.data.remote.apis.SubToSubCategoryApi
-import com.ass.madhwavahini.data.remote.mapper.FileMapper.getFileToFilesData
+import com.ass.madhwavahini.data.remote.mapper.getFileToFilesData
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository

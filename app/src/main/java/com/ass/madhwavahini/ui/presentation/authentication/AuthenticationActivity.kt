@@ -7,12 +7,10 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.SpringSpec
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -24,16 +22,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.SPLASH_TIMEOUT
 import com.ass.madhwavahini.ui.presentation.MainActivity
 import com.ass.madhwavahini.ui.presentation.SplashScreen
 import com.ass.madhwavahini.ui.presentation.authentication.login.LoginPage
+import com.ass.madhwavahini.ui.presentation.authentication.password.MobileVerificationScreen
+import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswordScreen
 import com.ass.madhwavahini.ui.presentation.authentication.register.RegisterPage
-import com.ass.madhwavahini.ui.theme.MuktimargaDarshiniTheme
+import com.ass.madhwavahini.ui.theme.MadhwaVahiniTheme
+import com.skydoves.orbital.Orbital
+import com.skydoves.orbital.animateSharedElementTransition
+import com.skydoves.orbital.rememberContentWithOrbitalScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlin.system.exitProcess
@@ -53,19 +60,89 @@ class AuthenticationActivity : ComponentActivity() {
                     backPressedTime = System.currentTimeMillis()
                 }
             })
-
-            var splashState by rememberSaveable {
-                mutableStateOf(true)
-            }
-            LaunchedEffect(key1 = true) {
-                delay(SPLASH_TIMEOUT)
-                splashState = false
-            }
-            MuktimargaDarshiniTheme {
+            MadhwaVahiniTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    AnimatedContent(targetState = splashState, transitionSpec = {
+                    val sharedImage = rememberContentWithOrbitalScope {
+                        Image(
+                            modifier = Modifier
+                                .size(190.dp)
+                                .animateSharedElementTransition(
+                                    orbitalScope = this,
+                                    movementSpec = SpringSpec(stiffness = 500f),
+                                    transformSpec = SpringSpec(stiffness = 500f)
+                                ),
+                            painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                        )
+                    }
+                    var splashState by rememberSaveable {
+                        mutableStateOf(true)
+                    }
+                    LaunchedEffect(key1 = true) {
+                        delay(SPLASH_TIMEOUT)
+                        splashState = false
+                    }
+
+                    Orbital {
+                        if (splashState) {
+                            SplashScreen { sharedImage() }
+                        } else {
+                            AuthenticationNavigation { sharedImage() }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+private fun Activity.AuthenticationNavigation(
+    sharedImage: @Composable () -> Unit
+) {
+    val navController: NavHostController = rememberNavController()
+    NavHost(
+        modifier = Modifier.fillMaxSize(), navController = navController, startDestination = "login"
+    ) {
+        composable("login") {
+            LoginPage(
+                sharedImage = { sharedImage() },
+                onRegisterClicked = {
+                    navController.navigate("register")
+                },
+                onNavigate = { navigateToMainActivity() },
+                onForgetPassword = { navController.navigate("mobile_auth") }
+            )
+        }
+        composable("register") {
+            RegisterPage(sharedImage = { sharedImage() },
+                onSignInClick = {
+                    navController.navigateUp()
+                }, onNavigate = { navigateToMainActivity() })
+        }
+        composable("mobile_auth") {
+            MobileVerificationScreen(
+                onMobileVerified = {
+                    navController.navigate("password_reset")
+                }
+            )
+        }
+        composable("password_reset") {
+            ResetPasswordScreen()
+        }
+    }
+}
+
+private fun Activity.navigateToMainActivity() {
+    startActivity(Intent(this, MainActivity::class.java))
+    finish()
+}
+
+/* AnimatedContent(targetState = splashState, transitionSpec = {
                         fadeIn(animationSpec = tween(durationMillis = 1000)) togetherWith fadeOut(
                             animationSpec = tween(durationMillis = 1000)
                         )
@@ -75,37 +152,4 @@ class AuthenticationActivity : ComponentActivity() {
                         } else {
                             AuthenticationNavigation()
                         }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun Activity.AuthenticationNavigation() {
-    val navController: NavHostController = rememberNavController()
-    NavHost(
-        modifier = Modifier.fillMaxSize(), navController = navController, startDestination = "login"
-    ) {
-        composable("login") {
-            LoginPage(
-                onRegisterClicked = {
-                    navController.navigate("register")
-                },
-                onNavigate = { navigateToMainActivity() }
-            )
-        }
-        composable("register") {
-            RegisterPage(
-                onSignInClick = {
-                    navController.navigateUp()
-                }, onNavigate = { navigateToMainActivity() })
-        }
-    }
-}
-
-private fun Activity.navigateToMainActivity() {
-    startActivity(Intent(this, MainActivity::class.java))
-    finish()
-}
+                    }*/

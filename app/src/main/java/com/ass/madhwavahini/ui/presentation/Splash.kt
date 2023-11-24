@@ -5,7 +5,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,15 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.BuildConfig
 import com.ass.madhwavahini.R
-import com.ass.madhwavahini.ui.theme.MuktimargaDarshiniTheme
-import com.ass.madhwavahini.ui.theme.UiModePreviews
 
 
 @Composable
-internal fun SplashScreen() {
+internal fun SplashScreen(
+    sharedImage: @Composable () -> Unit
+) {
     val infiniteTransition = rememberInfiniteTransition(label = "scale animation")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f, targetValue = 1.2f, animationSpec = infiniteRepeatable(
@@ -58,15 +55,13 @@ internal fun SplashScreen() {
                 .background(
                     brush = Brush.radialGradient(
                         colors = listOf(
-                            Color(0x80FFC107), Color(0x33FFC107), Color(0x00FFEB3B)
+                            Color(0x80FFC107),
+                            Color(0x33FFC107),
+                            Color(0x00FFEB3B)
                         ),
                     ),
                 ))
-        Image(
-            modifier = Modifier.size(350.dp),
-            painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
-            contentDescription = null
-        )
+        sharedImage()
         Column(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
@@ -89,14 +84,3 @@ internal fun SplashScreen() {
     }
 }
 
-@UiModePreviews
-@Composable
-private fun SplashPreview() {
-    MuktimargaDarshiniTheme {
-        MaterialTheme {
-            Surface(color = MaterialTheme.colorScheme.background) {
-                SplashScreen()
-            }
-        }
-    }
-}

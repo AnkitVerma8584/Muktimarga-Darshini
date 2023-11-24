@@ -8,6 +8,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\91858\\StudioProjects\\signing_key.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+            keyPassword '123456'
+        }
+    }
     namespace 'com.ass.madhwavahini'
     compileSdk 34
 
@@ -26,7 +34,8 @@ android {
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
-        buildConfigField "String","LIVE_KEY","\"${properties.getProperty("LIVE_KEY")}\""
+        buildConfigField "String", "LIVE_KEY", "\"${properties.getProperty("LIVE_KEY")}\""
+        signingConfig signingConfigs.debug
 
     }
 
@@ -34,6 +43,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -89,6 +99,7 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:32.6.0')
     implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-auth'
     //Navigation
     implementation "androidx.navigation:navigation-compose:2.7.5"
 
@@ -107,6 +118,7 @@ dependencies {
     implementation 'io.coil-kt:coil-compose:2.5.0'
 
     implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'com.github.skydoves:orbital:0.3.2'
 
     // Slider Compose
     implementation "com.flaviofaria:kenburnsview:1.0.7"
