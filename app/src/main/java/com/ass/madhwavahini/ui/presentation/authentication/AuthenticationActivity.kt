@@ -34,8 +34,7 @@ import com.ass.madhwavahini.data.Constants.SPLASH_TIMEOUT
 import com.ass.madhwavahini.ui.presentation.MainActivity
 import com.ass.madhwavahini.ui.presentation.SplashScreen
 import com.ass.madhwavahini.ui.presentation.authentication.login.LoginPage
-import com.ass.madhwavahini.ui.presentation.authentication.password.MobileVerificationScreen
-import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswordScreen
+import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswordFragment
 import com.ass.madhwavahini.ui.presentation.authentication.register.RegisterPage
 import com.ass.madhwavahini.ui.theme.MadhwaVahiniTheme
 import com.skydoves.orbital.Orbital
@@ -67,11 +66,11 @@ class AuthenticationActivity : ComponentActivity() {
                     val sharedImage = rememberContentWithOrbitalScope {
                         Image(
                             modifier = Modifier
-                                .size(190.dp)
+                                .size(180.dp)
                                 .animateSharedElementTransition(
                                     orbitalScope = this,
-                                    movementSpec = SpringSpec(stiffness = 500f),
-                                    transformSpec = SpringSpec(stiffness = 500f)
+                                    movementSpec = SpringSpec(stiffness = 200f),
+                                    transformSpec = SpringSpec(stiffness = 200f)
                                 ),
                             painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
                             contentDescription = null,
@@ -125,14 +124,7 @@ private fun Activity.AuthenticationNavigation(
                 }, onNavigate = { navigateToMainActivity() })
         }
         composable("mobile_auth") {
-            MobileVerificationScreen(
-                onMobileVerified = {
-                    navController.navigate("password_reset")
-                }
-            )
-        }
-        composable("password_reset") {
-            ResetPasswordScreen()
+            ResetPasswordFragment(onPasswordResetCompleted = navController::navigateUp)
         }
     }
 }
@@ -141,15 +133,3 @@ private fun Activity.navigateToMainActivity() {
     startActivity(Intent(this, MainActivity::class.java))
     finish()
 }
-
-/* AnimatedContent(targetState = splashState, transitionSpec = {
-                        fadeIn(animationSpec = tween(durationMillis = 1000)) togetherWith fadeOut(
-                            animationSpec = tween(durationMillis = 1000)
-                        )
-                    }, label = "start") { splash ->
-                        if (splash) {
-                            SplashScreen()
-                        } else {
-                            AuthenticationNavigation()
-                        }
-                    }*/

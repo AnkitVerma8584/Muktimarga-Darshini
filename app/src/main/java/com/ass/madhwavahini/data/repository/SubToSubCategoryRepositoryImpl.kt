@@ -15,11 +15,11 @@ import com.ass.madhwavahini.data.remote.apis.SubToSubCategoryApi
 import com.ass.madhwavahini.data.remote.mapper.getFileToFilesData
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
+import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -36,8 +36,8 @@ class SubToSubCategoryRepositoryImpl(
 
     override fun getSubToSubCategories(
         categoryId: Int, subCategoryId: Int
-    ): Flow<SubToSubCategoryState> = flow {
-        var state = SubToSubCategoryState(isLoading = true)
+    ): Flow<UiStateList<HomeSubToSubCategory>> = flow {
+        var state = UiStateList<HomeSubToSubCategory>(isLoading = true)
         emit(state)
 
         val localSubToSubCategories =
@@ -84,8 +84,8 @@ class SubToSubCategoryRepositoryImpl(
         }
     }
 
-    override fun getFiles(catId: Int, subCategoryId: Int): Flow<FilesState> = flow {
-        var state = FilesState(isLoading = true)
+    override fun getFiles(catId: Int, subCategoryId: Int): Flow<UiStateList<HomeFile>> = flow {
+        var state = UiStateList<HomeFile>(isLoading = true)
         emit(state)
 
         val localFiles = filesDao.getFiles(catId, subCategoryId).mapToHomeFilesList()

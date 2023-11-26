@@ -13,9 +13,8 @@ import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.FilesRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesDataState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -32,8 +31,8 @@ class FilesRepositoryImpl(
         catId: Int,
         subCategoryId: Int,
         subToSubCategoryId: Int
-    ): Flow<FilesState> = flow {
-        var state = FilesState(isLoading = true)
+    ): Flow<UiStateList<HomeFile>> = flow {
+        var state = UiStateList<HomeFile>(isLoading = true)
         emit(state)
 
         val localFiles =
@@ -74,8 +73,8 @@ class FilesRepositoryImpl(
     }
 
     override fun getFilesData(homeFiles: List<HomeFile>):
-            Flow<FilesDataState> = flow {
-        var state = FilesDataState(isLoading = true)
+            Flow<UiStateList<FilesData>> = flow {
+        var state = UiStateList<FilesData>(isLoading = true)
         val fileDataList = mutableListOf<FilesData>()
         emit(state)
         try {

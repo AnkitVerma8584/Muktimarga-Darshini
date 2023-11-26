@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.domain.repository.SubCategoryRepository
-import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.components.SubCategoryState
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +36,7 @@ class SubCategoryViewModel @Inject constructor(
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
-        SubCategoryState()
+        UiStateList()
     )
 
     fun queryChanged(newQuery: String = "") {

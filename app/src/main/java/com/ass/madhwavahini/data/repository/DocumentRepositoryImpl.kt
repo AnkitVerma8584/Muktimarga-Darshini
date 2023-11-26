@@ -6,7 +6,7 @@ import com.ass.madhwavahini.data.remote.Api.getDocumentExtension
 import com.ass.madhwavahini.data.remote.apis.FilesApi
 import com.ass.madhwavahini.domain.repository.DocumentRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.modals.DocumentState
+import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.util.getError
 import com.ass.madhwavahini.util.isInValidFile
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +21,8 @@ class DocumentRepositoryImpl(
 
     override fun getDocument(
         homeFileName: String, homeFileUrl: String
-    ): Flow<DocumentState> = flow {
-        var state = DocumentState(isLoading = true)
+    ): Flow<UiState<File>> = flow {
+        var state = UiState<File>(isLoading = true)
         if (homeFileUrl.isInValidFile()) {
             state = state.copy(
                 isLoading = false, error = StringUtil.DynamicText("Invalid file type")

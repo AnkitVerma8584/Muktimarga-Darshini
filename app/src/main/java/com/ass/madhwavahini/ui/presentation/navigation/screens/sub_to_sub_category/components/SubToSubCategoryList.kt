@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
@@ -19,17 +20,15 @@ import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.components.FileCard
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SubToSubCategoryContent(
     query: String,
     searchedContent: List<FilesData>,
-    subToSubCategory: SubToSubCategoryState,
+    subToSubCategory: UiStateList<HomeSubToSubCategory>,
     onSubToSubCategoryClick: (HomeSubToSubCategory) -> Unit,
-    files: FilesState,
+    files: UiStateList<HomeFile>,
     onFileClicked: (HomeFile, String, Int) -> Unit
 ) {
     // If both are loading show a single progressbar

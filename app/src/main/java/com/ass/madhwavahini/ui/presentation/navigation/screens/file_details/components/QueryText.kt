@@ -32,41 +32,41 @@ fun SearchedText(
     )
 ) {
     val text = content.text
-    text?.let {
-        val annotatedString by remember(query) {
-            derivedStateOf {
-                buildAnnotatedString {
-                    var start = 0
-                    while (query.length > 2 && it.indexOf(query, start, ignoreCase = true) != -1) {
-                        val firstIndex = it.indexOf(query, start, true)
-                        val end = firstIndex + query.length
-                        append(it.substring(start, firstIndex))
-                        withStyle(style = spanStyle) {
-                            append(it.substring(firstIndex, end))
-                        }
-                        start = end
+
+    val annotatedString by remember(query) {
+        derivedStateOf {
+            buildAnnotatedString {
+                var start = 0
+                while (query.length > 2 && text.indexOf(query, start, ignoreCase = true) != -1) {
+                    val firstIndex = text.indexOf(query, start, true)
+                    val end = firstIndex + query.length
+                    append(text.substring(start, firstIndex))
+                    withStyle(style = spanStyle) {
+                        append(text.substring(firstIndex, end))
                     }
-                    append(it.substring(start, it.length))
-                    toAnnotatedString()
+                    start = end
                 }
+                append(text.substring(start, text.length))
+                toAnnotatedString()
             }
         }
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp)
-                .clickable { onClick(content.index) },
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-            text = annotatedString,
-            fontSize = scale.sp,
-            lineHeight = scale.sp * 1.4
-        )
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            color = MaterialTheme.colorScheme.onBackground
-        )
     }
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp)
+            .clickable { onClick(content.index) },
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground,
+        text = annotatedString,
+        fontSize = scale.sp,
+        lineHeight = scale.sp * 1.4
+    )
+    Divider(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        color = MaterialTheme.colorScheme.onBackground
+    )
+
 }

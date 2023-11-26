@@ -22,10 +22,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.ROUNDED_CORNER_RADIUS
 
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PasswordInput(
@@ -48,8 +47,17 @@ fun PasswordInput(
     focusManager: FocusManager,
     password: String,
     passwordError: String? = null,
-    onDoneClicked: () -> Unit,
-    onValueChanged: (password: String) -> Unit
+    onDoneClicked: () -> Unit = {},
+    onValueChanged: (password: String) -> Unit,
+    label: String = stringResource(id = R.string.password_header),
+    hint: String = stringResource(id = R.string.password_hint),
+    imeAction: ImeAction = ImeAction.Done,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
+        capitalization = KeyboardCapitalization.None,
+        autoCorrect = false,
+        keyboardType = KeyboardType.Password,
+        imeAction = imeAction
+    )
 ) {
     val keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
 
@@ -68,7 +76,7 @@ fun PasswordInput(
         }
     }
     Text(
-        text = stringResource(id = R.string.password_header),
+        text = label,
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth(0.9f),
@@ -86,13 +94,12 @@ fun PasswordInput(
         ),
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .focusRequester(focusRequester)
-            .layoutId("password"),
+            .focusRequester(focusRequester),
         value = password,
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         placeholder = {
             Text(
-                stringResource(id = R.string.password_hint),
+                hint,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -109,17 +116,16 @@ fun PasswordInput(
                 imageVector = Icons.Filled.Lock, contentDescription = null
             )
         },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
-            keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(onDone = {
-            keyboardController?.hide()
-            focusManager.clearFocus()
-            onDoneClicked.invoke()
-        }),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = KeyboardActions(
+            onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            },
+            onDone = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+                onDoneClicked.invoke()
+            }),
         supportingText = {
             passwordError?.let {
                 Text(

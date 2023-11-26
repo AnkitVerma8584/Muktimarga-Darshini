@@ -31,6 +31,10 @@
     <string name="login_success">Logged in successfully.</string>
     <string name="signin_success">Signed in successfully.</string>
 
+    <string name="get_otp">Get Otp</string>
+    <string name="verify_otp">Verify Otp</string>
+    <string name="reset_password">Reset Password</string>
+
     <!--Menu-->
     <string name="welcome">Welcome %s,</string>
     <string name="menu">Menu</string>

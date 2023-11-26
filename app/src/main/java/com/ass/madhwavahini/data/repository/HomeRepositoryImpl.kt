@@ -7,10 +7,10 @@ import com.ass.madhwavahini.data.local.mapper.mapToCategory
 import com.ass.madhwavahini.data.local.mapper.mapToHomeCategoryList
 import com.ass.madhwavahini.data.local.mapper.mapToStringList
 import com.ass.madhwavahini.data.remote.apis.HomeApi
+import com.ass.madhwavahini.domain.modals.HomeCategory
 import com.ass.madhwavahini.domain.repository.HomeRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
-import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.BannerState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.CategoryState
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,8 +21,8 @@ class HomeRepositoryImpl(
     private val homeApi: HomeApi
 ) : HomeRepository {
 
-    override fun getCategoryState(): Flow<CategoryState> = flow {
-        var state = CategoryState(isLoading = true)
+    override fun getCategoryState(): Flow<UiStateList<HomeCategory>> = flow {
+        var state = UiStateList<HomeCategory>(isLoading = true)
         emit(state)
 
         val localCategories = categoryDao.getCategories().mapToHomeCategoryList()
@@ -67,8 +67,8 @@ class HomeRepositoryImpl(
         }
     }
 
-    override fun getBannerState(): Flow<BannerState> = flow {
-        var state = BannerState(isLoading = true)
+    override fun getBannerState(): Flow<UiStateList<String>> = flow {
+        var state = UiStateList<String>(isLoading = true)
         emit(state)
 
         val localBanners = bannerDao.getBanners().mapToStringList()

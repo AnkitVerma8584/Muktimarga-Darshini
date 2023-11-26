@@ -10,7 +10,7 @@ import com.ass.madhwavahini.data.remote.Api.getAudioUrl
 import com.ass.madhwavahini.domain.modals.Track
 import com.ass.madhwavahini.domain.repository.DocumentRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.modals.DocumentState
+import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.modals.FileDocumentText
 import com.ass.madhwavahini.util.player.MyPlayer
 import com.ass.madhwavahini.util.player.PlaybackState
@@ -45,7 +45,7 @@ class FileDetailsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel(), PlayerEvents {
 
-    private val _fileState = MutableStateFlow(DocumentState())
+    private val _fileState = MutableStateFlow(UiState<File>())
     val fileState = _fileState.asStateFlow()
 
     private var index = savedStateHandle.get<Int>("index") ?: -1

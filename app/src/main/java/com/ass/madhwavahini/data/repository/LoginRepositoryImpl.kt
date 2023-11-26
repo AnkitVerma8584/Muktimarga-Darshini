@@ -5,7 +5,7 @@ import com.ass.madhwavahini.data.remote.apis.LoginApi
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.LoginRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
-import com.ass.madhwavahini.ui.presentation.authentication.model.LoginState
+import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.util.getError
 import com.ass.madhwavahini.util.notification.NotificationHelper
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +16,8 @@ class LoginRepositoryImpl(
     private val userDataStore: UserDataStore,
     private val notificationHelper: NotificationHelper
 ) : LoginRepository {
-    override fun verifyUser(token: String): Flow<LoginState> = flow {
-        var state = LoginState(isLoading = true)
+    override fun verifyUser(token: String): Flow<UiState<User>> = flow {
+        var state = UiState<User>(isLoading = true)
         emit(state)
         try {
             val result = loginApi.loginUser(token)
@@ -45,8 +45,8 @@ class LoginRepositoryImpl(
         }
     }
 
-    override fun loginUser(mobile: String, password: String): Flow<LoginState> = flow {
-        var state = LoginState(isLoading = true)
+    override fun loginUser(mobile: String, password: String): Flow<UiState<User>> = flow {
+        var state = UiState<User>(isLoading = true)
         emit(state)
         try {
             val result = loginApi.loginUser(mobile, password)
@@ -74,9 +74,9 @@ class LoginRepositoryImpl(
         }
     }
 
-    override fun registerUser(name: String, mobile: String, password: String): Flow<LoginState> =
+    override fun registerUser(name: String, mobile: String, password: String): Flow<UiState<User>> =
         flow {
-            var state = LoginState(isLoading = true)
+            var state = UiState<User>(isLoading = true)
             emit(state)
             try {
                 val result = loginApi.registerUser(name, mobile, password)

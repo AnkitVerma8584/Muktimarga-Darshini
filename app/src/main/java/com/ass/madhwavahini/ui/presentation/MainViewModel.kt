@@ -11,7 +11,7 @@ import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.PaymentRepository
 import com.ass.madhwavahini.domain.repository.UserRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
-import com.ass.madhwavahini.ui.presentation.payment.PaymentState
+import com.ass.madhwavahini.domain.wrapper.UiState
 import com.razorpay.PaymentData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -62,10 +62,10 @@ class MainViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
         private set
 
-    private val _orderState = Channel<PaymentState<Payment>>()
+    private val _orderState = Channel<UiState<Payment>>()
     val orderState get() = _orderState.receiveAsFlow()
 
-    private val _paymentState = Channel<PaymentState<User>>()
+    private val _paymentState = Channel<UiState<User>>()
     val paymentState get() = _paymentState.receiveAsFlow()
 
     fun getOrder() {
@@ -80,7 +80,7 @@ class MainViewModel @Inject constructor(
     fun errorInPayment(error: String = "Some error occurred in payment.") {
         viewModelScope.launch {
             _paymentState.send(
-                PaymentState(
+                UiState(
                     isLoading = false,
                     data = null,
                     error = StringUtil.DynamicText(error)
@@ -97,7 +97,6 @@ class MainViewModel @Inject constructor(
                     shouldLogOut = true
                 }
             }
-
         }
     }
 

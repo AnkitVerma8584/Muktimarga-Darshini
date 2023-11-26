@@ -9,19 +9,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeCategory
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.ShowError
-import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.BannerState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.CategoryState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoriesPortrait(
     query: String,
-    banners: BannerState,
-    categories: CategoryState,
+    banners: UiStateList<String>,
+    categories: UiStateList<HomeCategory>,
     onClick: (HomeCategory) -> Unit
 ) {
     // If both are loading

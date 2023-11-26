@@ -37,7 +37,16 @@ fun MobileInput(
     focusManager: FocusManager,
     mobile: String,
     error: String? = null,
-    onValueChanged: (mobile: String) -> Unit
+    onValueChanged: (mobile: String) -> Unit,
+    label: String = stringResource(id = R.string.phone_header),
+    hint: String = stringResource(id = R.string.phone_hint),
+    imeAction: ImeAction = ImeAction.Next,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
+        capitalization = KeyboardCapitalization.None,
+        autoCorrect = false,
+        keyboardType = KeyboardType.Phone,
+        imeAction = imeAction
+    )
 ) {
     val trailingIconView = @Composable {
         IconButton(
@@ -51,7 +60,7 @@ fun MobileInput(
         }
     }
     Text(
-        text = stringResource(id = R.string.phone_header),
+        text = label,
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth(0.9f),
@@ -74,7 +83,7 @@ fun MobileInput(
         value = mobile,
         placeholder = {
             Text(
-                stringResource(id = R.string.phone_hint),
+                hint,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -87,16 +96,9 @@ fun MobileInput(
             if (it.length <= 10) onValueChanged(it)
         },
         leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Phone, contentDescription = null
-            )
+            Icon(imageVector = Icons.Filled.Phone, contentDescription = null)
         },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
-            keyboardType = KeyboardType.Phone,
-            imeAction = ImeAction.Next
-        ),
+        keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(onNext = {
             focusManager.moveFocus(FocusDirection.Down)
         }),

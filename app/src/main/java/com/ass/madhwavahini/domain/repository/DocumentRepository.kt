@@ -1,12 +1,13 @@
 package com.ass.madhwavahini.domain.repository
 
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.modals.DocumentState
+import com.ass.madhwavahini.domain.wrapper.UiState
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface DocumentRepository {
 
     fun getDocument(
         homeFileName: String,
         homeFileUrl: String
-    ): Flow<DocumentState>
+    ): Flow<UiState<File>>
 }

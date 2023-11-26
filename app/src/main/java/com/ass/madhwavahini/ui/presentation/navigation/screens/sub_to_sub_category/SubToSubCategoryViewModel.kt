@@ -4,10 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.domain.modals.HomeFile
+import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.modal.SubToSubCategoryState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +30,7 @@ class SubToSubCategoryViewModel @Inject constructor(
     val query get() = _query.asStateFlow()
 
 
-    private val _subToSubCategoryState = MutableStateFlow(SubToSubCategoryState())
+    private val _subToSubCategoryState = MutableStateFlow(UiStateList<HomeSubToSubCategory>())
     val subToSubCategoryState = combine(_subToSubCategoryState, query) { state, query ->
         state.copy(data = state.data?.let {
             it.filter { item -> item.name.contains(query, ignoreCase = true) }
@@ -38,17 +38,16 @@ class SubToSubCategoryViewModel @Inject constructor(
     }.flowOn(Dispatchers.Default).stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
-        SubToSubCategoryState()
+        UiStateList()
     )
 
-
-    private val _fileState = MutableStateFlow(FilesState())
+    private val _fileState = MutableStateFlow(UiStateList<HomeFile>())
     val fileState = combine(_fileState, query) { state, query ->
         state.copy(data = state.data?.let {
             it.filter { item -> item.name.contains(query, ignoreCase = true) }
         })
     }.flowOn(Dispatchers.Default).stateIn(
-        viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L), FilesState()
+        viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L), UiStateList()
     )
 
     private val _filesList = MutableStateFlow(emptyList<FilesData>())
@@ -56,7 +55,7 @@ class SubToSubCategoryViewModel @Inject constructor(
     val searchedFilesData = combine(_filesList, query) { data, query ->
         if (query.length > 2) data.map { fileData ->
             fileData.copy(fileData = fileData.fileData.filter { text ->
-                text.text?.contains(query, true) ?: false
+                text.text.contains(query, true)
             })
         }.filter {
             it.fileData.isNotEmpty()

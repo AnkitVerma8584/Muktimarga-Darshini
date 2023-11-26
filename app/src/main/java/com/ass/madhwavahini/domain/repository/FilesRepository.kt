@@ -1,8 +1,8 @@
 package com.ass.madhwavahini.domain.repository
 
 import com.ass.madhwavahini.domain.modals.HomeFile
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesDataState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
+import com.ass.madhwavahini.domain.wrapper.UiStateList
+import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 import kotlinx.coroutines.flow.Flow
 
 interface FilesRepository {
@@ -11,9 +11,9 @@ interface FilesRepository {
         catId: Int,
         subCategoryId: Int,
         subToSubCategoryId: Int
-    ): Flow<FilesState>
+    ): Flow<UiStateList<HomeFile>>
 
     fun getFilesData(
         homeFiles: List<HomeFile>,
-    ): Flow<FilesDataState>
+    ): Flow<UiStateList<FilesData>>
 }

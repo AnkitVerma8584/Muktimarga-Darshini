@@ -6,8 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.data.local.UserDataStore
+import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.LoginRepository
-import com.ass.madhwavahini.ui.presentation.authentication.model.LoginState
+import com.ass.madhwavahini.domain.wrapper.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
@@ -32,15 +33,15 @@ class LoginViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
         private set
 
-    private val _loginState = Channel<LoginState>()
-    val loginState get() = _loginState.receiveAsFlow()
+    private val _userState = Channel<UiState<User>>()
+    val userState get() = _userState.receiveAsFlow()
 
     init {
         viewModelScope.launch {
             userDataStore.getToken()?.let { token ->
                 loginRepository.verifyUser(token).collectLatest {
                     isLoading = it.isLoading
-                    _loginState.send(it)
+                    _userState.send(it)
                 }
             }
         }
@@ -64,7 +65,7 @@ class LoginViewModel @Inject constructor(
             passwordError = null
             loginRepository.loginUser(mobile, password).collectLatest {
                 isLoading = it.isLoading
-                _loginState.send(it)
+                _userState.send(it)
             }
         }
     }

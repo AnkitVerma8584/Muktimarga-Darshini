@@ -6,7 +6,7 @@ import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.PaymentRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
-import com.ass.madhwavahini.ui.presentation.payment.PaymentState
+import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,8 +15,8 @@ class PaymentRepositoryImpl(
     private val paymentApi: PaymentApi,
     private val userDataStore: UserDataStore
 ) : PaymentRepository {
-    override fun getPaymentOrder(): Flow<PaymentState<Payment>> = flow {
-        var state = PaymentState<Payment>(isLoading = true)
+    override fun getPaymentOrder(): Flow<UiState<Payment>> = flow {
+        var state = UiState<Payment>(isLoading = true)
         emit(state)
         try {
             val result = paymentApi.getOrder(
@@ -53,8 +53,8 @@ class PaymentRepositoryImpl(
         orderId: String,
         paymentId: String,
         paymentSignature: String
-    ): Flow<PaymentState<User>> = flow {
-        var state = PaymentState<User>(isLoading = true)
+    ): Flow<UiState<User>> = flow {
+        var state = UiState<User>(isLoading = true)
         emit(state)
         try {
             val result = paymentApi.verifyPayment(

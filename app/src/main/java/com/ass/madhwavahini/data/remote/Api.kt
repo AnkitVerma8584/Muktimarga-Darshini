@@ -8,6 +8,7 @@ object Api {
     fun String.getAudioUrl(): String = BASE_URL + "uploads/audio/$this"
 
     const val LOGIN = "$API/login.php"
+    const val USER = "$API/user.php"
     const val PAYMENT = "$API/order.php"
     const val GET_BANNER = "$API/banner.php"
     const val GET_CATEGORY = "$API/category.php"

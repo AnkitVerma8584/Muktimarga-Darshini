@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.FilesRepository
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ class FilesViewModel @Inject constructor(
     private val _query = MutableStateFlow("")
     val query get() = _query.asStateFlow()
 
-    private val _state = MutableStateFlow(FilesState())
+    private val _state = MutableStateFlow(UiStateList<HomeFile>())
 
     private val _filesList = MutableStateFlow(emptyList<FilesData>())
 
@@ -38,13 +38,13 @@ class FilesViewModel @Inject constructor(
                 it.filter { item -> item.name.contains(query, ignoreCase = true) }
             })
     }.flowOn(Default).stateIn(
-        viewModelScope, SharingStarted.WhileSubscribed(5000), FilesState()
+        viewModelScope, SharingStarted.WhileSubscribed(5000), UiStateList()
     )
 
     val fileData = combine(_filesList, query) { data, query ->
         if (query.length > 2) data.map { fileData ->
             fileData.copy(fileData = fileData.fileData.filter { text ->
-                text.text?.contains(query, true) ?: false
+                text.text.contains(query, true)
             })
         }.filter {
             it.fileData.isNotEmpty()

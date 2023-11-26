@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -45,7 +43,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.ass.madhwavahini.R
-import com.ass.madhwavahini.data.Constants.ROUNDED_CORNER_RADIUS
 import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
 import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
@@ -75,10 +72,10 @@ fun LoginPage(
             }
         }
     }) { padding ->
-        val res = LocalContext.current.resources
+        val res = ctx.resources
         LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.loginState.collect { login ->
+                viewModel.userState.collect { login ->
                     login.data?.let {
                         onNavigate()
                         snackBarHostState.showSnackbar(
@@ -143,7 +140,7 @@ fun LoginPage(
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium,
                     )
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(50.dp))
                     AnimatedContent(targetState = viewModel.isLoading, transitionSpec = {
                         fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith fadeOut(
                             animationSpec = tween(durationMillis = 300)
@@ -153,8 +150,6 @@ fun LoginPage(
                             CircularProgressIndicator()
                         } else {
                             Button(
-                                modifier = Modifier.fillMaxWidth(0.9f),
-                                shape = RoundedCornerShape(ROUNDED_CORNER_RADIUS),
                                 onClick = {
                                     viewModel.login(viewModel.mobileText, viewModel.passwordText)
                                 }) {
@@ -166,7 +161,7 @@ fun LoginPage(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = stringResource(id = R.string.no_account),
@@ -183,9 +178,6 @@ fun LoginPage(
                     }
                 }
             }
-
-
-
             Spacer(modifier = Modifier.height(50.dp))
         }
     }

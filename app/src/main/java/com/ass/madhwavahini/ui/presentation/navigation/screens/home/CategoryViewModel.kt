@@ -3,8 +3,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.domain.repository.HomeRepository
-import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.BannerState
-import com.ass.madhwavahini.ui.presentation.navigation.screens.home.state.CategoryState
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +28,7 @@ class CategoryViewModel @Inject constructor(
     val bannerState = _bannerState.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
-        BannerState()
+        UiStateList()
     )
 
     private val _categoryQuery = MutableStateFlow("")
@@ -44,7 +43,7 @@ class CategoryViewModel @Inject constructor(
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
-        CategoryState()
+        UiStateList()
     )
 
     fun queryChanged(newQuery: String = "") {

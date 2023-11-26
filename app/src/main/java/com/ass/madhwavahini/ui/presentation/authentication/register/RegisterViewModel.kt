@@ -5,8 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.LoginRepository
-import com.ass.madhwavahini.ui.presentation.authentication.model.LoginState
+import com.ass.madhwavahini.domain.wrapper.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
@@ -21,8 +22,7 @@ class RegisterViewModel @Inject constructor(
 
     var nameText by mutableStateOf("")
         private set
-
-    var nameError by mutableStateOf("")
+    var nameError by mutableStateOf<String?>(null)
         private set
     var mobileText by mutableStateOf("")
         private set
@@ -36,7 +36,7 @@ class RegisterViewModel @Inject constructor(
         private set
 
 
-    private val _registerState = Channel<LoginState>()
+    private val _registerState = Channel<UiState<User>>()
     val registerState get() = _registerState.receiveAsFlow()
 
     fun setName(newValue: String) {
@@ -54,7 +54,16 @@ class RegisterViewModel @Inject constructor(
 
     fun register(name: String, mobile: String, password: String) {
         viewModelScope.launch {
-            if (mobile.isEmpty()) {
+            if (mobile.isBlank()) {
+                nameError = "Name required."
+                return@launch
+            }
+            if (mobile.length > 50 || mobile.any { char -> char.isDigit() }) {
+                nameError = "Invalid name."
+                return@launch
+            }
+            nameError = null
+            if (mobile.isBlank()) {
                 mobileError = "Mobile number required."
                 return@launch
             }
@@ -63,7 +72,7 @@ class RegisterViewModel @Inject constructor(
                 return@launch
             }
             mobileError = null
-            if (password.isEmpty()) {
+            if (password.isBlank()) {
                 passwordError = "Password required."
                 return@launch
             }

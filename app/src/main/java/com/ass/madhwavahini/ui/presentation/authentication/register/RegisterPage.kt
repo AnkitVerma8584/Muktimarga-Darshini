@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -135,7 +136,8 @@ fun RegisterPage(
                     text = stringResource(id = R.string.has_account),
                     style = MaterialTheme.typography.labelMedium
                 )
-                Text(text = stringResource(id = R.string.register),
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = stringResource(id = R.string.login),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.error,
@@ -159,7 +161,7 @@ fun RegisterPage(
                         )
                     }) {
                         Text(
-                            text = stringResource(id = R.string.login),
+                            text = stringResource(id = R.string.register),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.SemiBold
                         )

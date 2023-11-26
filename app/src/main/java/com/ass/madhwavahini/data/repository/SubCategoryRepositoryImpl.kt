@@ -5,9 +5,10 @@ import com.ass.madhwavahini.data.local.dao.SubCategoryDao
 import com.ass.madhwavahini.data.local.mapper.mapToHomeSubCategoryList
 import com.ass.madhwavahini.data.local.mapper.mapToSubCategoryList
 import com.ass.madhwavahini.data.remote.apis.SubCategoryApi
+import com.ass.madhwavahini.domain.modals.HomeSubCategory
 import com.ass.madhwavahini.domain.repository.SubCategoryRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
-import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.components.SubCategoryState
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,8 +19,8 @@ class SubCategoryRepositoryImpl(
     private val userDataStore: UserDataStore
 ) : SubCategoryRepository {
 
-    override fun getSubCategory(categoryId: Int): Flow<SubCategoryState> = flow {
-        var state = SubCategoryState(isLoading = true)
+    override fun getSubCategory(categoryId: Int): Flow<UiStateList<HomeSubCategory>> = flow {
+        var state = UiStateList<HomeSubCategory>(isLoading = true)
         emit(state)
 
         val localSubCategories =
