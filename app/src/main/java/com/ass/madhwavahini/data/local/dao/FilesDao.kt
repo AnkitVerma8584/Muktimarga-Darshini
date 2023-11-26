@@ -10,7 +10,7 @@ abstract class FilesDao {
     protected abstract suspend fun insert(files: List<Files>)
 
     @Query("DELETE FROM files;")
-    protected abstract suspend fun delete()
+    abstract suspend fun delete()
 
     @Query("SELECT * FROM files WHERE catId=:catId AND SubCatId=:subCatId AND subToSubCatId=:subToSubCatId;")
     abstract suspend fun getFiles(catId: Int, subCatId: Int, subToSubCatId: Int): List<Files>

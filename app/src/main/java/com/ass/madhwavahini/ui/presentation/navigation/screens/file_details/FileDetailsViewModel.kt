@@ -16,6 +16,7 @@ import com.ass.madhwavahini.util.player.MyPlayer
 import com.ass.madhwavahini.util.player.PlaybackState
 import com.ass.madhwavahini.util.player.PlayerEvents
 import com.ass.madhwavahini.util.player.PlayerStates
+import com.ass.madhwavahini.util.print
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
@@ -98,14 +99,17 @@ class FileDetailsViewModel @Inject constructor(
     private fun readTextFile(file: File) {
         try {
             val br = BufferedReader(FileReader(file))
-            var line: String
+            var line: String?
             val text = mutableListOf<String>()
             while (br.readLine().also { line = it } != null) {
-                text.add(line)
+                line?.let { txt ->
+                    text.add(txt)
+                }
             }
             br.close()
             _text.update { text.toList() }
         } catch (e: Exception) {
+            e.print()
             _fileState.update {
                 it.copy(
                     isLoading = false,

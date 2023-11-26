@@ -2,6 +2,7 @@ package com.ass.madhwavahini.data.repository
 
 import android.app.Application
 import com.ass.madhwavahini.data.local.UserDataStore
+import com.ass.madhwavahini.data.local.dao.FilesDao
 import com.ass.madhwavahini.data.remote.apis.UserApi
 import com.ass.madhwavahini.domain.repository.UserRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.flow
 class UserRepositoryImpl(
     private val application: Application,
     private val userApi: UserApi,
-    private val userDataStore: UserDataStore
+    private val userDataStore: UserDataStore,
+    private val filesDao: FilesDao
 ) : UserRepository {
     override fun getUserId(phone: String): Flow<UiState<Int>> = flow {
         var state = UiState<Int>(isLoading = true)
@@ -77,10 +79,12 @@ class UserRepositoryImpl(
             state = if (result.isSuccessful && result.body() != null) {
                 if (result.body()!!.success) {
                     val data = result.body()?.data
+                    filesDao.delete()
+                    if (application.filesDir.isDirectory)
+                        for (file in application.filesDir.listFiles()!!) {
+                            file.delete()
+                        }
                     userDataStore.logout()
-                    if (application.filesDir.isDirectory) for (file in application.filesDir.listFiles()!!) {
-                        file.delete()
-                    }
                     state.copy(isLoading = false, data = data)
                 } else {
                     state.copy(

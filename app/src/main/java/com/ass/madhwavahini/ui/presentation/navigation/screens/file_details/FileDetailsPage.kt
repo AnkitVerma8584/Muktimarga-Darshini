@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -34,7 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
+import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.AudioToggleButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.BottomMusicBar
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.DocumentText
@@ -69,24 +69,23 @@ fun FileDetailsPage(
                     if ((scale * zoom) in 11.0f..60.0f) scale *= zoom
                 }
             }) {
-            if (state.isLoading) CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            state.error?.let {
-                Text(
-                    text = it.asString(),
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } ?: DocumentContent(
-                viewModel = viewModel,
-                scale = scale,
-                query = query,
-                scrollIndex = viewModel.getScrollIndex()
-            )
-
             if (viewModel.hasAudioFile)
                 AudioToggleButton(isDisplayingAudio = isDisplayingAudio) {
                     isDisplayingAudio = !isDisplayingAudio
                 }
+
+            if (state.isLoading)
+                Loading()
+
+            state.error?.ShowError()
+
+            DocumentContent(
+                viewModel = viewModel,
+                scale = scale,
+                query = query,
+                scrollIndex = viewModel.getScrollIndex(),
+                onRemoveIndex = viewModel::removeIndexFlag
+            )
         }
         if (viewModel.hasAudioFile)
             BottomMusicBar(viewModel, isDisplayingAudio)
@@ -97,69 +96,66 @@ fun FileDetailsPage(
 @Composable
 private fun BoxScope.DocumentContent(
     viewModel: FileDetailsViewModel,
-    query: String, scale: Float, scrollIndex: Int
+    query: String,
+    scale: Float,
+    scrollIndex: Int,
+    onRemoveIndex: () -> Unit
 ) {
     val text by viewModel.text.collectAsState()
     val searchedText by viewModel.searchedText.collectAsState()
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-
     val resources = LocalContext.current.resources
 
+    ScrollToTopButton(listState = listState, coroutineScope = coroutineScope)
 
-
-    if (text.isEmpty()) CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-    else {
-        SelectionContainer {
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                state = listState,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                if (query.length > 2) {
-                    item {
-                        Text(
-                            text = resources.getQuantityString(
-                                R.plurals.numberOfSearchResults,
-                                searchedText.size,
-                                searchedText.size
-                            ),
-                            modifier = Modifier.padding(8.dp),
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.labelMedium
-                        )
-                    }
-                    if (searchedText.isNotEmpty()) {
-                        items(searchedText) { content ->
-                            SearchedText(
-                                query = query,
-                                content = content,
-                                scale = scale,
-                                onClick = {
-                                    coroutineScope.launch {
-                                        listState.animateScrollToItem(searchedText.size + it)
-                                    }
-                                })
-                        }
+    SelectionContainer {
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            state = listState,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if (query.length > 2) {
+                item {
+                    Text(
+                        text = resources.getQuantityString(
+                            R.plurals.numberOfSearchResults,
+                            searchedText.size,
+                            searchedText.size
+                        ),
+                        modifier = Modifier.padding(8.dp),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
+                if (searchedText.isNotEmpty()) {
+                    items(searchedText) { content ->
+                        SearchedText(
+                            query = query,
+                            content = content,
+                            scale = scale,
+                            onClick = {
+                                coroutineScope.launch {
+                                    listState.animateScrollToItem(searchedText.size + it)
+                                }
+                            })
                     }
                 }
-                items(text) { item ->
-                    DocumentText(query = query, text = item, scale = scale)
-                }
+            }
+            items(text) { item ->
+                DocumentText(query = query, text = item, scale = scale)
             }
         }
-
-        ScrollToTopButton(listState = listState, coroutineScope = coroutineScope)
-
-        val totalItems by remember { derivedStateOf { listState.layoutInfo.totalItemsCount } }
-        if (text.isNotEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
-            LaunchedEffect(Unit) {
-                listState.animateScrollToItem(searchedText.size + scrollIndex)
-                viewModel.removeIndexFlag()
-            }
-        }
-
-
     }
+
+
+    val totalItems by remember { derivedStateOf { listState.layoutInfo.totalItemsCount } }
+    if (text.isNotEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
+        LaunchedEffect(Unit) {
+            listState.animateScrollToItem(searchedText.size + scrollIndex)
+            onRemoveIndex()
+        }
+    }
+
 }

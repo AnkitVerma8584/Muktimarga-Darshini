@@ -39,10 +39,6 @@ fun NavHostFragments(
     ) {
         composable(route = NavigationFragment.Home.route) {
             CategoryPage(windowSizeClass) {
-                if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
-                    return@CategoryPage
-                }
                 NavigationFragment.SubCategory.title = StringUtil.DynamicText(it.name)
                 navController.navigate("sub_category/${it.id}") {
                     popUpTo(navController.graph.findStartDestination().id) {
@@ -67,10 +63,6 @@ fun NavHostFragments(
             arguments = listOf(navArgument("cat_id") { type = NavType.IntType })
         ) {
             SubCategoryPage(onSubCategoryClicked = {
-                if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
-                    return@SubCategoryPage
-                }
                 NavigationFragment.SubToSubCategory.title = StringUtil.DynamicText(it.name)
                 navController.navigate("sub_to_sub_category/${it.catId}/${it.id}") {
                     launchSingleTop = true

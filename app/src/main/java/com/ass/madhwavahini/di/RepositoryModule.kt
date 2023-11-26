@@ -38,16 +38,17 @@ object RepositoryModule {
         userDataStore: UserDataStore,
         notificationHelper: NotificationHelper
     ): LoginRepository =
-        LoginRepositoryImpl(loginApi, userDataStore,notificationHelper)
+        LoginRepositoryImpl(loginApi, userDataStore, notificationHelper)
 
     @Provides
     @ViewModelScoped
     fun provideUserRepository(
         application: Application,
         userApi: UserApi,
-        userDataStore: UserDataStore
+        userDataStore: UserDataStore,
+        filesDao: FilesDao
     ): UserRepository =
-        UserRepositoryImpl(application, userApi, userDataStore)
+        UserRepositoryImpl(application, userApi, userDataStore, filesDao)
 
 
     @Provides
