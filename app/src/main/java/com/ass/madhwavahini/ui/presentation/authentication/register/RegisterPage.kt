@@ -45,6 +45,7 @@ import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.NameInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
 import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
+import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 
 @Composable
 fun RegisterPage(
@@ -65,7 +66,8 @@ fun RegisterPage(
             hostState = snackBarHostState
         ) { sb: SnackbarData ->
             MyCustomSnack(
-                text = sb.visuals.message
+                text = sb.visuals.message,
+                snackBarType = SnackBarType.getType(sb.visuals.actionLabel)
             ) {
                 snackBarHostState.currentSnackbarData?.dismiss()
             }
@@ -86,7 +88,8 @@ fun RegisterPage(
                     login.error?.let {
                         snackBarHostState.showSnackbar(
                             message = it.asString(ctx),
-                            duration = SnackbarDuration.Short
+                            duration = SnackbarDuration.Short,
+                            actionLabel = SnackBarType.ERROR.name
                         )
                     }
                 }

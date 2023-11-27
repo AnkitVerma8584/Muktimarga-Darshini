@@ -21,6 +21,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -55,6 +56,8 @@ import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.ui.presentation.MainViewModel
 import com.ass.madhwavahini.ui.presentation.common.Loading
+import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
+import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.ass.madhwavahini.ui.presentation.navigation.NavHostFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.madhwavahini.ui.presentation.payment.PaymentOptionsBottomSheet
@@ -91,7 +94,7 @@ fun Activity.MainPage(
             allScreens.find { it.route == navController.currentBackStackEntry?.destination?.route }
         }
     }
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
 
 
     val lifeCycleOwner = LocalLifecycleOwner.current
@@ -174,18 +177,24 @@ fun Activity.MainPage(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         style = MaterialTheme.typography.labelLarge
                     )
-                }, selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-                        mainViewModel.logout()
-                    }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                }, selected = false, onClick = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                    mainViewModel.logout()
+                }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
             }
         }) {
         Scaffold(modifier = Modifier.fillMaxSize(), snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(hostState = snackBarHostState) { sb: SnackbarData ->
+                MyCustomSnack(
+                    text = sb.visuals.message,
+                    snackBarType = SnackBarType.getType(sb.visuals.actionLabel)
+                ) {
+                    snackBarHostState.currentSnackbarData?.dismiss()
+                }
+            }
         }, topBar = {
             MyAppBar(
                 title = currentFragment?.title?.asString()
@@ -203,16 +212,17 @@ fun Activity.MainPage(
                     mainViewModel.paymentState.collectLatest { payment ->
                         payment.data?.let {
                             scope.launch {
-                                snackbarHostState.showSnackbar(
+                                snackBarHostState.showSnackbar(
                                     message = "Payment Verified.", duration = SnackbarDuration.Short
                                 )
                             }
                         }
                         payment.error?.let { txt ->
                             scope.launch {
-                                snackbarHostState.showSnackbar(
+                                snackBarHostState.showSnackbar(
                                     message = txt.asString(context = ctx),
-                                    duration = SnackbarDuration.Short
+                                    duration = SnackbarDuration.Short,
+                                    actionLabel = SnackBarType.ERROR.name
                                 )
                             }
                         }
@@ -233,9 +243,10 @@ fun Activity.MainPage(
                     isPaidCustomer = mainViewModel.user.isPaidCustomer,
                     onNavigationTriggered = {
                         scope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = "Purchase the pack to use.",
-                                duration = SnackbarDuration.Short
+                            snackBarHostState.showSnackbar(
+                                message = "Purchase the pack to view.",
+                                duration = SnackbarDuration.Short,
+                                actionLabel = SnackBarType.WARNING.name
                             )
                         }
                     })

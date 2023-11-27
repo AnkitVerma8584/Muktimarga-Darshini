@@ -39,6 +39,7 @@ import com.ass.madhwavahini.ui.presentation.authentication.password.screens.Mobi
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.OtpAuthScreen
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.ResetPasswordFragment
 import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
+import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.ass.madhwavahini.util.print
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -68,7 +69,8 @@ fun Activity.ResetPasswordFragment(
             hostState = snackBarHostState
         ) { sb: SnackbarData ->
             MyCustomSnack(
-                text = sb.visuals.message
+                text = sb.visuals.message,
+                snackBarType = SnackBarType.getType(sb.visuals.actionLabel)
             ) {
                 snackBarHostState.currentSnackbarData?.dismiss()
             }
@@ -82,7 +84,8 @@ fun Activity.ResetPasswordFragment(
                         is PasswordResetEvents.OnError -> {
                             snackBarHostState.showSnackbar(
                                 message = events.error.asString(ctx),
-                                duration = SnackbarDuration.Short
+                                duration = SnackbarDuration.Short,
+                                actionLabel = SnackBarType.ERROR.name
                             )
                         }
 
@@ -110,7 +113,8 @@ fun Activity.ResetPasswordFragment(
 
                         is PasswordResetEvents.OnPasswordReset -> {
                             snackBarHostState.showSnackbar(
-                                message = events.message, duration = SnackbarDuration.Short
+                                message = events.message,
+                                duration = SnackbarDuration.Short
                             )
                             onPasswordResetCompleted()
                         }
