@@ -54,11 +54,11 @@ class RegisterViewModel @Inject constructor(
 
     fun register(name: String, mobile: String, password: String) {
         viewModelScope.launch {
-            if (mobile.isBlank()) {
+            if (nameText.isBlank()) {
                 nameError = "Name required."
                 return@launch
             }
-            if (mobile.length > 50 || mobile.any { char -> char.isDigit() }) {
+            if (nameText.length > 50 || nameText.any { char -> char.isDigit() }) {
                 nameError = "Invalid name."
                 return@launch
             }

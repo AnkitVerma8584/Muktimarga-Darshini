@@ -37,8 +37,8 @@ fun SubToSubCategoryContent(
         return
     }
     // If there are no files then only show subToSubCategory error
-    subToSubCategory.error?.let {
-        if (files.data == null && !files.isLoading) {
+    files.error?.let {
+        if (subToSubCategory.data == null && !subToSubCategory.isLoading) {
             it.ShowError()
             return
         }

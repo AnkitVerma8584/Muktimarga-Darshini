@@ -109,7 +109,7 @@ private fun Activity.AuthenticationNavigation(
     ) {
         composable("login") {
             LoginPage(
-                sharedImage = { sharedImage() },
+                sharedImage = sharedImage,
                 onRegisterClicked = {
                     navController.navigate("register")
                 },
@@ -118,13 +118,16 @@ private fun Activity.AuthenticationNavigation(
             )
         }
         composable("register") {
-            RegisterPage(sharedImage = { sharedImage() },
+            RegisterPage(sharedImage = sharedImage,
                 onSignInClick = {
                     navController.navigateUp()
                 }, onNavigate = { navigateToMainActivity() })
         }
         composable("mobile_auth") {
-            ResetPasswordFragment(onPasswordResetCompleted = navController::navigateUp)
+            ResetPasswordFragment(
+                sharedImage = sharedImage,
+                onPasswordResetCompleted = navController::navigateUp
+            )
         }
     }
 }

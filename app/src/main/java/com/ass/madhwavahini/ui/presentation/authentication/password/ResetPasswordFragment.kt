@@ -6,13 +6,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
@@ -26,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
@@ -34,8 +31,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import coil.compose.rememberAsyncImagePainter
-import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.authentication.password.PasswordScreenState.NUMBER_VERIFICATION
 import com.ass.madhwavahini.ui.presentation.authentication.password.PasswordScreenState.OTP_STATE
@@ -58,7 +53,9 @@ import java.util.concurrent.TimeUnit
 
 @Composable
 fun Activity.ResetPasswordFragment(
-    viewModel: ResetPasswordViewModel = hiltViewModel(), onPasswordResetCompleted: () -> Unit
+    sharedImage: @Composable () -> Unit,
+    viewModel: ResetPasswordViewModel = hiltViewModel(),
+    onPasswordResetCompleted: () -> Unit
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -89,19 +86,25 @@ fun Activity.ResetPasswordFragment(
                             )
                         }
 
-                        PasswordResetEvents.OnNumberVerified -> getOtp(
-                            phoneNumber = viewModel.mobileText,
-                            onCodeSent = viewModel::setVerificationId,
-                            onVerified = viewModel::changeToResetScreen,
-                            onError = viewModel::setPasswordEventsError
-                        )
+                        PasswordResetEvents.OnNumberVerified -> {
+                            viewModel.setLoading(true)
+                            getOtp(
+                                phoneNumber = viewModel.mobileText,
+                                onCodeSent = viewModel::setVerificationId,
+                                onVerified = viewModel::changeToResetScreen,
+                                onError = viewModel::setPasswordEventsError
+                            )
+                        }
 
-                        is PasswordResetEvents.OnOtpVerifyClick -> verifyOtp(
-                            events.verificationId,
-                            events.otp,
-                            onMobileVerified = viewModel::changeToResetScreen,
-                            onError = viewModel::setPasswordEventsError
-                        )
+                        is PasswordResetEvents.OnOtpVerifyClick -> {
+                            viewModel.setLoading(true)
+                            verifyOtp(
+                                events.verificationId,
+                                events.otp,
+                                onMobileVerified = viewModel::changeToResetScreen,
+                                onError = viewModel::setPasswordEventsError
+                            )
+                        }
 
                         PasswordResetEvents.OnOtpVerified -> viewModel.changeToResetScreen()
 
@@ -126,12 +129,7 @@ fun Activity.ResetPasswordFragment(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(50.dp))
-            Image(
-                modifier = Modifier.size(190.dp),
-                contentScale = ContentScale.Crop,
-                painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
-                contentDescription = null
-            )
+            sharedImage()
             Spacer(modifier = Modifier.height(50.dp))
             AnimatedContent(
                 targetState = uiState, transitionSpec = {
@@ -180,10 +178,10 @@ private fun Activity.getOtp(
 
                 is FirebaseAuthMissingActivityForRecaptchaException -> {
                     // reCAPTCHA verification attempted with null Activity
-                    onError(StringUtil.DynamicText("Recaptha failed. Please try again."))
+                    onError(StringUtil.DynamicText("reCAPTCHA failed. Please try again."))
                 }
 
-                else -> onError(StringUtil.DynamicText("Invalid otp"))
+                else -> onError(StringUtil.DynamicText("Some unknown error occurred."))
             }
 
         }
