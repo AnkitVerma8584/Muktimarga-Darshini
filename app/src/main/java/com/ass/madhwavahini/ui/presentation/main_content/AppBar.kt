@@ -29,7 +29,6 @@ fun MyAppBar(
     isPaidCustomer: Boolean,
     onBuyClicked: () -> Unit
 ) {
-
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -43,22 +42,17 @@ fun MyAppBar(
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }, navigationIcon = {
-        if (isNavigationFragment) {
-            Icon(imageVector = Icons.Filled.Menu,
-                contentDescription = null,
-                modifier = Modifier
-                    .clickable { hamburgerIconClicked() }
-                    .padding(8.dp))
-        } else {
-            Icon(imageVector = Icons.Filled.ArrowBack,
-                contentDescription = null,
-                modifier = Modifier
-                    .clickable { navigationBackClicked() }
-                    .padding(8.dp))
-        }
+        Icon(imageVector = if (isNavigationFragment) Icons.Filled.Menu else Icons.Filled.ArrowBack,
+            contentDescription = null,
+            modifier = Modifier
+                .clickable { if (isNavigationFragment) hamburgerIconClicked() else navigationBackClicked() }
+                .padding(8.dp))
     }, actions = {
         if (!isPaidCustomer) IconButton(onClick = onBuyClicked) {
-            Text(text = "BUY")
+            Text(
+                text = "BUY",
+                style = MaterialTheme.typography.titleSmall
+            )
         }
     })
 }

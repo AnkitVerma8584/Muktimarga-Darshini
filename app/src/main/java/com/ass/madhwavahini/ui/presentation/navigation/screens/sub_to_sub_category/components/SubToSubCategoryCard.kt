@@ -21,11 +21,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
+import com.ass.madhwavahini.ui.presentation.common.getAnnotatedText
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyItemScope.SubToSubCategoryCard(
     data: HomeSubToSubCategory,
+    query: String,
     onClick: (HomeSubToSubCategory) -> Unit
 ) {
     ElevatedCard(modifier = Modifier
@@ -45,7 +47,7 @@ fun LazyItemScope.SubToSubCategoryCard(
                 modifier = Modifier.wrapContentWidth()
             ) {
                 Text(
-                    text = data.name,
+                    text = getAnnotatedText(text = data.name, query = query),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleMedium,

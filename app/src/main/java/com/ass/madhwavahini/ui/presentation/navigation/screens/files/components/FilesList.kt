@@ -53,7 +53,7 @@ fun FilesList(
             items(data, key = { it.id }) {
                 FileCard(
                     item = it,
-                    onFileClicked = onFileClicked
+                    onFileClicked = onFileClicked, query = query
                 )
             }
         }

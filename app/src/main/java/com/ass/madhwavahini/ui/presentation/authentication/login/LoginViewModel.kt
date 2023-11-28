@@ -47,23 +47,23 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun login(mobile: String, password: String) {
+    fun login() {
         viewModelScope.launch {
-            if (mobile.isEmpty()) {
+            if (mobileText.isEmpty()) {
                 mobileError = "Mobile number required."
                 return@launch
             }
-            if (mobile.length < 10 || !mobile.all { char -> char.isDigit() } || mobile[0] == '0') {
+            if (mobileText.length < 10 || !mobileText.all { char -> char.isDigit() } || mobileText[0] == '0') {
                 mobileError = "Invalid mobile number."
                 return@launch
             }
             mobileError = null
-            if (password.isEmpty()) {
+            if (passwordText.isEmpty()) {
                 passwordError = "Password required."
                 return@launch
             }
             passwordError = null
-            loginRepository.loginUser(mobile, password).collectLatest {
+            loginRepository.loginUser(mobileText, passwordText).collectLatest {
                 isLoading = it.isLoading
                 _userState.send(it)
             }

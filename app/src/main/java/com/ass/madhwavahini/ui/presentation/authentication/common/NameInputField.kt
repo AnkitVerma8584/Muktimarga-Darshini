@@ -42,9 +42,7 @@ fun NameInput(
         IconButton(
             onClick = { onValueChanged("") },
         ) {
-            Icon(
-                Icons.Default.Clear, contentDescription = null
-            )
+            Icon(Icons.Default.Clear, contentDescription = null)
         }
     }
     Text(

@@ -200,7 +200,7 @@ fun Activity.MainPage(
                 title = currentFragment?.title?.asString()
                     ?: stringResource(id = R.string.app_name),
                 hamburgerIconClicked = { scope.launch { drawerState.open() } },
-                navigationBackClicked = { navController.navigateUp() },
+                navigationBackClicked = navController::navigateUp,
                 isNavigationFragment = currentFragment?.icon != null,
                 isPaidCustomer = mainViewModel.user.isPaidCustomer,
                 onBuyClicked = mainViewModel::getOrder
@@ -258,7 +258,9 @@ fun Activity.MainPage(
 
 @Composable
 private fun MenuItem(
-    item: NavigationFragment, isSelected: Boolean, onMenuClick: (item: NavigationFragment) -> Unit
+    item: NavigationFragment,
+    isSelected: Boolean,
+    onMenuClick: (item: NavigationFragment) -> Unit
 ) {
     NavigationDrawerItem(icon = {
         item.icon?.let {
@@ -274,9 +276,10 @@ private fun MenuItem(
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             style = MaterialTheme.typography.labelLarge
         )
-    }, selected = isSelected, onClick = {
-        onMenuClick(item)
-    }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+    }, selected = isSelected,
+        onClick = {
+            onMenuClick(item)
+        }, modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
     )
 }
 

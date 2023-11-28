@@ -17,12 +17,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.domain.modals.HomeSubCategory
+import com.ass.madhwavahini.ui.presentation.common.getAnnotatedText
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyGridItemScope.SubCategoryCard(
     data: HomeSubCategory,
-    onClick: (HomeSubCategory) -> Unit
+    onClick: (HomeSubCategory) -> Unit,
+    query: String
 ) {
     ElevatedCard(modifier = Modifier
         .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -44,7 +46,7 @@ fun LazyGridItemScope.SubCategoryCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = data.name,
+                    text = getAnnotatedText(text = data.name, query = query),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 12.dp),

@@ -68,7 +68,11 @@ fun SubToSubCategoryContent(
                 NoSearchedResults(query, R.string.empty_sub_to_sub_categories)
             }
             else items(items = list, key = { it.uniqueKey }) { subCategory ->
-                SubToSubCategoryCard(data = subCategory, onClick = onSubToSubCategoryClick)
+                SubToSubCategoryCard(
+                    data = subCategory,
+                    onClick = onSubToSubCategoryClick,
+                    query = query
+                )
             }
         }
 
@@ -80,7 +84,7 @@ fun SubToSubCategoryContent(
                 NoSearchedResults(query, R.string.empty_files)
             }
             else items(list, key = { it.uniqueKey }) {
-                FileCard(item = it, onFileClicked = onFileClicked)
+                FileCard(item = it, onFileClicked = onFileClicked, query = query)
             }
         }
     }

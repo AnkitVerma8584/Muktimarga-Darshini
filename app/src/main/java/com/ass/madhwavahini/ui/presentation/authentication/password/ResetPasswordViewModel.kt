@@ -66,7 +66,7 @@ class ResetPasswordViewModel @Inject constructor(
             }
             mobileError = null
             userRepository.getUserId(phone = mobileText).collectLatest {
-                setLoading(it.isLoading)
+                setLoadingState(it.isLoading)
                 it.data?.let { id ->
                     userId = id
                     _passwordEvents.send(PasswordResetEvents.OnNumberVerified)
@@ -114,7 +114,7 @@ class ResetPasswordViewModel @Inject constructor(
             }
             confirmPasswordError = null
             userRepository.setPassword(userId!!, passwordText).collectLatest {
-                setLoading(it.isLoading)
+                setLoadingState(it.isLoading)
                 it.data?.let { msg ->
                     _passwordEvents.send(PasswordResetEvents.OnPasswordReset(msg))
                 }
@@ -126,18 +126,18 @@ class ResetPasswordViewModel @Inject constructor(
     }
 
     fun changeToResetScreen() {
-        setLoading(false)
+        setLoadingState(false)
         _uiState.value = PasswordScreenState.RESET_PASSWORD
     }
 
     fun setPasswordEventsError(error: StringUtil) {
         viewModelScope.launch {
-            setLoading(false)
+            setLoadingState(false)
             _passwordEvents.send(PasswordResetEvents.OnError(error))
         }
     }
 
-    fun setLoading(isLoadingState: Boolean) {
+    fun setLoadingState(isLoadingState: Boolean) {
         isLoading = isLoadingState
     }
 
@@ -158,7 +158,7 @@ class ResetPasswordViewModel @Inject constructor(
     }
 
     fun setVerificationId(newValue: String) {
-        setLoading(false)
+        setLoadingState(false)
         verificationIdToken = newValue
         _uiState.value = PasswordScreenState.OTP_STATE
     }

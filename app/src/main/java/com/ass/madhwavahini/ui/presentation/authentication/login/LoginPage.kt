@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
@@ -48,6 +49,7 @@ import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
 import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginPage(
     sharedImage: @Composable () -> Unit,
@@ -120,20 +122,18 @@ fun LoginPage(
                         error = viewModel.mobileError,
                         onValueChanged = viewModel::setMobile
                     )
-                    PasswordInput(focusManager = focusManager,
+                    PasswordInput(
+                        focusManager = focusManager,
                         focusRequester = focusRequester,
                         password = viewModel.passwordText,
                         passwordError = viewModel.passwordError,
                         onValueChanged = viewModel::setPassword,
-                        onDoneClicked = {
-                            viewModel.login(
-                                viewModel.mobileText, viewModel.passwordText
-                            )
-                        })
+                        onDoneClicked = viewModel::login
+                    )
 
                     Text(
                         modifier = Modifier
-                            .padding(horizontal = 24.dp)
+                            .padding(horizontal = 12.dp)
                             .align(Alignment.End)
                             .clickable {
                                 if (!viewModel.isLoading)
@@ -153,9 +153,8 @@ fun LoginPage(
                             CircularProgressIndicator()
                         } else {
                             Button(
-                                onClick = {
-                                    viewModel.login(viewModel.mobileText, viewModel.passwordText)
-                                }) {
+                                onClick = viewModel::login
+                            ) {
                                 Text(
                                     text = stringResource(id = R.string.login),
                                     style = MaterialTheme.typography.bodyLarge,

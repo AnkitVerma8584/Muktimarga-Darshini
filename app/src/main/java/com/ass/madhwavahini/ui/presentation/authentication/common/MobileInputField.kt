@@ -15,12 +15,15 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.ROUNDED_CORNER_RADIUS
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MobileInput(
     focusRequester: FocusRequester,
@@ -41,12 +45,14 @@ fun MobileInput(
     label: String = stringResource(id = R.string.phone_header),
     hint: String = stringResource(id = R.string.phone_hint),
     imeAction: ImeAction = ImeAction.Next,
+    onDoneClick: () -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
         capitalization = KeyboardCapitalization.None,
         autoCorrect = false,
         keyboardType = KeyboardType.Phone,
         imeAction = imeAction
-    )
+    ),
+    keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
 ) {
     val trailingIconView = @Composable {
         IconButton(
@@ -54,9 +60,7 @@ fun MobileInput(
                 onValueChanged("")
             },
         ) {
-            Icon(
-                Icons.Default.Clear, contentDescription = null
-            )
+            Icon(Icons.Default.Clear, contentDescription = null)
         }
     }
     Text(
@@ -78,8 +82,7 @@ fun MobileInput(
         ),
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .focusRequester(focusRequester)
-            .layoutId("mobile"),
+            .focusRequester(focusRequester),
         value = mobile,
         placeholder = {
             Text(
@@ -99,9 +102,15 @@ fun MobileInput(
             Icon(imageVector = Icons.Filled.Phone, contentDescription = null)
         },
         keyboardOptions = keyboardOptions,
-        keyboardActions = KeyboardActions(onNext = {
-            focusManager.moveFocus(FocusDirection.Down)
-        }),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+                onDoneClick()
+            },
+            onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            }),
         supportingText = {
             error?.let {
                 Text(

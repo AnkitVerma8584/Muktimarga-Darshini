@@ -53,7 +53,7 @@ fun CategoriesLandscape(
                     }
                 else
                     items(items = list, key = { it.id }) { category ->
-                        CategoryItem(data = category, onClick = onClick)
+                        CategoryItem(data = category, onClick = onClick,query=query)
                     }
 
             }

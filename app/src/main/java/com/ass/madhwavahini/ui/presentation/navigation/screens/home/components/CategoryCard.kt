@@ -17,12 +17,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.domain.modals.HomeCategory
+import com.ass.madhwavahini.ui.presentation.common.getAnnotatedText
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyItemScope.CategoryItem(
     data: HomeCategory,
-    onClick: (HomeCategory) -> Unit
+    onClick: (HomeCategory) -> Unit,
+    query: String
 ) {
     ElevatedCard(modifier = Modifier
         .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -40,7 +42,7 @@ fun LazyItemScope.CategoryItem(
                 contentDescription = null
             )
             Text(
-                text = data.name,
+                text = getAnnotatedText(text = data.name, query = query),
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 12.dp),
@@ -50,6 +52,7 @@ fun LazyItemScope.CategoryItem(
                 fontWeight = FontWeight.SemiBold
             )
         }
-
     }
 }
+
+

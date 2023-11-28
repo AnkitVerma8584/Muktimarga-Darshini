@@ -32,7 +32,8 @@ enum class SnackBarType {
             )
 
             ERROR -> Pair(
-                MaterialTheme.colorScheme.errorContainer, MaterialTheme.colorScheme.onErrorContainer
+                MaterialTheme.colorScheme.errorContainer,
+                MaterialTheme.colorScheme.onErrorContainer
             )
         }
 

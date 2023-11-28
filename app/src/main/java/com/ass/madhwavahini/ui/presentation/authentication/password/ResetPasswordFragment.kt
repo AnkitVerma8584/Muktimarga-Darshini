@@ -90,7 +90,7 @@ fun Activity.ResetPasswordFragment(
                         }
 
                         PasswordResetEvents.OnNumberVerified -> {
-                            viewModel.setLoading(true)
+                            viewModel.setLoadingState(true)
                             getOtp(
                                 phoneNumber = viewModel.mobileText,
                                 onCodeSent = viewModel::setVerificationId,
@@ -100,7 +100,7 @@ fun Activity.ResetPasswordFragment(
                         }
 
                         is PasswordResetEvents.OnOtpVerifyClick -> {
-                            viewModel.setLoading(true)
+                            viewModel.setLoadingState(true)
                             verifyOtp(
                                 events.verificationId,
                                 events.otp,

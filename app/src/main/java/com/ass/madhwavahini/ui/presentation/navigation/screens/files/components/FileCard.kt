@@ -18,11 +18,13 @@ import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
+import com.ass.madhwavahini.ui.presentation.common.getAnnotatedText
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyItemScope.FileCard(
     item: HomeFile,
+    query: String,
     onFileClicked: (homeFile: HomeFile, query: String, index: Int) -> Unit,
 ) {
     ElevatedCard(modifier = Modifier
@@ -43,7 +45,7 @@ fun LazyItemScope.FileCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = item.name,
+                    text = getAnnotatedText(text = item.name, query = query),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleMedium,

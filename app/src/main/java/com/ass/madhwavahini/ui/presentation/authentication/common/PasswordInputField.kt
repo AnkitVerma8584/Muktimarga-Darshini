@@ -57,9 +57,9 @@ fun PasswordInput(
         autoCorrect = false,
         keyboardType = KeyboardType.Password,
         imeAction = imeAction
-    )
+    ),
+    keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
 ) {
-    val keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
 
     var passwordVisible by rememberSaveable {
         mutableStateOf(false)

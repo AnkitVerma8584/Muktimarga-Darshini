@@ -47,7 +47,11 @@ fun SubCategoryPage(
                     }
                 else
                     items(items = subCategoriesList, key = { it.id }) { subCategory ->
-                        SubCategoryCard(data = subCategory, onClick = onSubCategoryClicked)
+                        SubCategoryCard(
+                            data = subCategory,
+                            onClick = onSubCategoryClicked,
+                            query = query
+                        )
                     }
             }
         }
