@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -108,8 +110,6 @@ private fun BoxScope.DocumentContent(
     val coroutineScope = rememberCoroutineScope()
     val resources = LocalContext.current.resources
 
-    ScrollToTopButton(listState = listState, coroutineScope = coroutineScope)
-
     SelectionContainer {
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
@@ -124,7 +124,7 @@ private fun BoxScope.DocumentContent(
                             searchedText.size,
                             searchedText.size
                         ),
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.labelMedium
                     )
@@ -141,6 +141,9 @@ private fun BoxScope.DocumentContent(
                                 }
                             })
                     }
+                    item {
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
             items(text) { item ->
@@ -149,8 +152,10 @@ private fun BoxScope.DocumentContent(
         }
     }
 
+    ScrollToTopButton(listState = listState, coroutineScope = coroutineScope)
 
     val totalItems by remember { derivedStateOf { listState.layoutInfo.totalItemsCount } }
+
     if (text.isNotEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
         LaunchedEffect(Unit) {
             listState.animateScrollToItem(searchedText.size + scrollIndex)

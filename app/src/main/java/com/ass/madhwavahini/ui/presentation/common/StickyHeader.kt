@@ -35,8 +35,8 @@ fun SearchedFileHeader(header: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 12.dp, bottom = 8.dp, end = 12.dp)
-            .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background)
+            .padding(start = 12.dp, bottom = 8.dp, end = 12.dp),
     ) {
         Image(
             modifier = Modifier.size(20.dp),

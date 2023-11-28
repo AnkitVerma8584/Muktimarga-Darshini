@@ -66,7 +66,6 @@ fun SearchedText(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        color = MaterialTheme.colorScheme.onBackground
+        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
     )
-
 }

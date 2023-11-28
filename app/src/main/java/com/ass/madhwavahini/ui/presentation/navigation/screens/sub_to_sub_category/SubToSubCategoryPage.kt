@@ -25,7 +25,6 @@ fun SubToSubCategoryPage(
     val searchedData by viewModel.searchedFilesData.collectAsState()
     val query by viewModel.query.collectAsState()
 
-
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
             hint = stringResource(id = R.string.sub_to_sub_cat_search),

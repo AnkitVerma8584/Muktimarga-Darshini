@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
@@ -40,7 +41,7 @@ fun BoxScope.ScrollToTopButton(
             .padding(16.dp),
         visible = shouldShowButton.value,
         enter = slideInVertically(animationSpec = tween(400), initialOffsetY = { it }) + fadeIn(),
-        exit = fadeOut(),
+        exit = slideOutVertically(animationSpec = tween(400), targetOffsetY = { it }) + fadeOut(),
         content = {
             IconButton(
                 onClick = {

@@ -56,6 +56,6 @@ fun DocumentText(
             fontSize = scale.sp,
             lineHeight = scale.sp * 1.5
         )
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }
