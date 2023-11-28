@@ -15,7 +15,7 @@ abstract class FilesDao {
     @Query("SELECT * FROM files WHERE catId=:catId AND SubCatId=:subCatId AND subToSubCatId=:subToSubCatId;")
     abstract suspend fun getFiles(catId: Int, subCatId: Int, subToSubCatId: Int): List<Files>
 
-    @Query("SELECT * FROM files WHERE catId=:catId AND subCatId=:subCatId;")
+    @Query("SELECT * FROM files WHERE catId=:catId AND subCatId=:subCatId AND subToSubCatId IS NULL;")
     abstract suspend fun getFiles(catId: Int, subCatId: Int): List<Files>
 
     @Transaction

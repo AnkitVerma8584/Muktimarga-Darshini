@@ -23,7 +23,7 @@ data class HomeFile(
     val type
         get():FileType {
             return if (fileUrl.endsWith(".pdf", true)) FileType.TYPE_PDF
-            else if (fileUrl.endsWith(".txt")) {
+            else if (fileUrl.endsWith(".txt",true)) {
                 return if (audioUrl.isNotBlank()) {
                     FileType.TYPE_AUDIO
                 } else FileType.TYPE_TEXT
