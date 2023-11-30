@@ -11,7 +11,6 @@ import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,10 +21,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.FastRewind
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,7 +35,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -162,10 +159,11 @@ private fun AudioControls(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
+        Spacer(modifier = Modifier.width(1.dp))
         SeekButton(imageVector = Icons.Default.FastRewind, onSeekBack)
         PlayPauseIcon(selectedTrack = selectedTrack, onClick = onPlayPauseClick)
         SeekButton(imageVector = Icons.Default.FastForward, onSeekForward)
-        SeekForward(onSeekForward)
+        Spacer(modifier = Modifier.width(1.dp))
     }
 }
 
@@ -185,41 +183,47 @@ private fun SeekButton(
 
 @OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
-private fun SeekForward(onClick: () -> Unit) {
-    val image = AnimatedImageVector.animatedVectorResource(R.drawable.seek_forward)
-    var atEnd by rememberSaveable { mutableStateOf(false) }
-    Image(
-        painter = rememberAnimatedVectorPainter(image, atEnd),
-        contentDescription = "Timer",
-        modifier = Modifier.clickable {
-            atEnd = !atEnd
-            onClick()
-        },
-        contentScale = ContentScale.Crop
-    )
-}
-
-@Composable
 fun PlayPauseIcon(selectedTrack: Track, onClick: () -> Unit) {
-    if (selectedTrack.state == PlayerStates.STATE_BUFFERING) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .size(size = 40.dp)
-                .padding(5.dp),
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
-        )
-    } else {
-        IconButton(
-            modifier = Modifier.size(48.dp),
-            onClick = onClick
-        ) {
-            Icon(
-                imageVector = if (selectedTrack.state == PlayerStates.STATE_PLAYING)
-                    Icons.Default.Pause
-                else Icons.Default.PlayArrow,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
+    val image = AnimatedImageVector.animatedVectorResource(R.drawable.play_pause)
+
+    when (selectedTrack.state) {
+        PlayerStates.STATE_BUFFERING -> {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(size = 40.dp)
+                    .padding(5.dp),
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
             )
+        }
+
+        PlayerStates.STATE_ERROR -> {
+            IconButton(
+                modifier = Modifier.size(48.dp),
+                onClick = onClick
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ErrorOutline,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
+        }
+
+        else -> {
+            IconButton(
+                modifier = Modifier.size(48.dp),
+                onClick = onClick
+            ) {
+                Icon(
+                    modifier = Modifier.size(36.dp),
+                    painter = rememberAnimatedVectorPainter(
+                        image,
+                        selectedTrack.state == PlayerStates.STATE_PLAYING
+                    ),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
         }
     }
 }

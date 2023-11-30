@@ -52,7 +52,7 @@ fun LazyGridItemScope.SubCategoryCard(
                         .padding(horizontal = 12.dp),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold
                 )
                 if (data.description.isNotBlank())

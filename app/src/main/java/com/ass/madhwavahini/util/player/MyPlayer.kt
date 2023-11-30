@@ -8,7 +8,6 @@ import com.ass.madhwavahini.util.player.PlayerStates.STATE_BUFFERING
 import com.ass.madhwavahini.util.player.PlayerStates.STATE_END
 import com.ass.madhwavahini.util.player.PlayerStates.STATE_ERROR
 import com.ass.madhwavahini.util.player.PlayerStates.STATE_IDLE
-import com.ass.madhwavahini.util.player.PlayerStates.STATE_NEXT_TRACK
 import com.ass.madhwavahini.util.player.PlayerStates.STATE_PAUSE
 import com.ass.madhwavahini.util.player.PlayerStates.STATE_PLAYING
 import com.ass.madhwavahini.util.player.PlayerStates.STATE_READY
@@ -74,7 +73,6 @@ class MyPlayer @Inject constructor(private val player: ExoPlayer) : Player.Liste
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
         super.onMediaItemTransition(mediaItem, reason)
         if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) {
-            playerState.tryEmit(STATE_NEXT_TRACK)
             playerState.tryEmit(STATE_PLAYING)
         }
     }

@@ -71,10 +71,6 @@ fun FileDetailsPage(
                     if ((scale * zoom) in 11.0f..60.0f) scale *= zoom
                 }
             }) {
-            if (viewModel.hasAudioFile)
-                AudioToggleButton(isDisplayingAudio = isDisplayingAudio) {
-                    isDisplayingAudio = !isDisplayingAudio
-                }
 
             if (state.isLoading)
                 Loading()
@@ -88,6 +84,11 @@ fun FileDetailsPage(
                 scrollIndex = viewModel.getScrollIndex(),
                 onRemoveIndex = viewModel::removeIndexFlag
             )
+            if (viewModel.hasAudioFile)
+                AudioToggleButton(isDisplayingAudio = isDisplayingAudio) {
+                    isDisplayingAudio = !isDisplayingAudio
+                }
+
         }
         if (viewModel.hasAudioFile)
             BottomMusicBar(viewModel, isDisplayingAudio)

@@ -38,7 +38,8 @@ fun LazyItemScope.FileCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Column(
                 modifier = Modifier.weight(1f),
@@ -48,7 +49,7 @@ fun LazyItemScope.FileCard(
                     text = getAnnotatedText(text = item.name, query = query),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold
                 )
                 if (item.description.isNotBlank())
@@ -57,8 +58,7 @@ fun LazyItemScope.FileCard(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Normal,
-                        modifier = Modifier.padding(horizontal = 6.dp)
+                        fontWeight = FontWeight.Normal
                     )
             }
             Image(

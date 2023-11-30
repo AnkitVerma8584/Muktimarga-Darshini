@@ -39,8 +39,4 @@ enum class PlayerStates {
      */
     STATE_PAUSE,
 
-    /**
-     * State when the player has moved to the next track.
-     */
-    STATE_NEXT_TRACK
 }

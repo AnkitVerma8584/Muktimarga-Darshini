@@ -1,10 +1,11 @@
 package com.ass.madhwavahini.ui.presentation.main_content
 
+import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
+import androidx.compose.animation.graphics.res.animatedVectorResource
+import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
+import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,9 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.R
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationGraphicsApi::class)
 @Composable
 fun MyAppBar(
     title: String,
@@ -29,6 +31,9 @@ fun MyAppBar(
     isPaidCustomer: Boolean,
     onBuyClicked: () -> Unit
 ) {
+    val image: AnimatedImageVector =
+        AnimatedImageVector.animatedVectorResource(R.drawable.hamburger_back)
+
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -42,7 +47,7 @@ fun MyAppBar(
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }, navigationIcon = {
-        Icon(imageVector = if (isNavigationFragment) Icons.Filled.Menu else Icons.Filled.ArrowBack,
+        Icon(painter = rememberAnimatedVectorPainter(image, isNavigationFragment),
             contentDescription = null,
             modifier = Modifier
                 .clickable { if (isNavigationFragment) hamburgerIconClicked() else navigationBackClicked() }
@@ -50,7 +55,7 @@ fun MyAppBar(
     }, actions = {
         if (!isPaidCustomer) IconButton(onClick = onBuyClicked) {
             Text(
-                text = "BUY",
+                text = "Buy",
                 style = MaterialTheme.typography.titleSmall
             )
         }

@@ -80,6 +80,7 @@ dependencies {
     implementation "androidx.compose.material3:material3-window-size-class:1.1.2"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.firebase:firebase-common-ktx:20.4.2'
+    implementation 'androidx.compose.animation:animation-graphics-android:1.5.4'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
