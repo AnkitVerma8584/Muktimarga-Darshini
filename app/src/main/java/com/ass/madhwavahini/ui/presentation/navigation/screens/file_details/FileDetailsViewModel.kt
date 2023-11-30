@@ -144,12 +144,12 @@ class FileDetailsViewModel @Inject constructor(
 
 
     private fun getTrackInfo(): Track {
-        val audioUrl = savedStateHandle.get<String>("audio_url") ?: ""
-        val audioImage = savedStateHandle.get<String>("audio_image") ?: ""
+        val audioUrl = savedStateHandle.get<String>("audio_url").getAudioUrl()
+        val audioImage = savedStateHandle.get<String>("audio_image").getAudioUrl()
         return if (audioUrl.isBlank()) Track() else
             Track(
-                trackUrl = audioUrl.getAudioUrl(),
-                trackImage = audioImage.getAudioUrl(),
+                trackUrl = audioUrl,
+                trackImage = audioImage
             )
     }
 

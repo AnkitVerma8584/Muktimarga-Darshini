@@ -1,6 +1,7 @@
 package com.ass.madhwavahini.di
 
 import android.app.Application
+import androidx.media3.common.AudioAttributes
 import androidx.media3.exoplayer.ExoPlayer
 import com.ass.madhwavahini.data.Constants.AUDIO_SKIP_TIME
 import com.ass.madhwavahini.util.player.MyPlayer
@@ -17,6 +18,7 @@ class AppModule {
     @ViewModelScoped
     @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
     fun provideExoPLayer(application: Application): ExoPlayer {
+
         return ExoPlayer.Builder(application)
             .setSeekBackIncrementMs(AUDIO_SKIP_TIME)
             .setSeekBackIncrementMs(AUDIO_SKIP_TIME)

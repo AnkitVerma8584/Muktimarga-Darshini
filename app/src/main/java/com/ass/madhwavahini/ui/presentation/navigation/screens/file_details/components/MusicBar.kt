@@ -12,6 +12,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.FastRewind
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -54,38 +56,25 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun BottomMusicBar(
-    musicViewModel: FileDetailsViewModel,
-    isDisplayingAudio: Boolean
+    musicViewModel: FileDetailsViewModel, isDisplayingAudio: Boolean
 ) {
     val selectedTrack = musicViewModel.currentTrack
-    AnimatedVisibility(
-        modifier = Modifier,
+    AnimatedVisibility(modifier = Modifier,
         visible = isDisplayingAudio,
-        enter = slideInVertically(
-            animationSpec = tween(400),
-            initialOffsetY = { it }) + fadeIn(),
+        enter = slideInVertically(animationSpec = tween(400), initialOffsetY = { it }) + fadeIn(),
         exit = fadeOut(),
         content = {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .padding(5.dp)
-                        .clip(RoundedCornerShape(5.dp)),
-                    contentScale = ContentScale.Crop,
-                    painter = rememberAsyncImagePainter(model = selectedTrack.trackImage),
-                    contentDescription = null
-                )
+
+                AudioImage(selectedTrack.trackImage)
                 Spacer(modifier = Modifier.width(15.dp))
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth(), verticalArrangement = Arrangement.Bottom
+                    modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Bottom
                 ) {
                     AudioSlider(playbackState = musicViewModel.playbackState) {
                         musicViewModel.onSeekBarPositionChanged(it)
@@ -102,11 +91,38 @@ fun BottomMusicBar(
 
 }
 
+@Composable
+private fun AudioImage(
+    imageUrl: String = ""
+) {
+    if (imageUrl.isBlank()) Box(
+        modifier = Modifier
+            .size(80.dp)
+            .padding(5.dp)
+            .background(color = MaterialTheme.colorScheme.tertiaryContainer)
+            .clip(RoundedCornerShape(5.dp)), contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = Icons.Default.MusicNote,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onTertiaryContainer
+        )
+    }
+    else Image(
+        modifier = Modifier
+            .size(80.dp)
+            .padding(5.dp)
+            .clip(RoundedCornerShape(5.dp)),
+        contentScale = ContentScale.Crop,
+        painter = rememberAsyncImagePainter(model = imageUrl),
+        contentDescription = null
+    )
+
+}
 
 @Composable
 private fun AudioSlider(
-    playbackState: StateFlow<PlaybackState>,
-    onSeekBarPositionChanged: (Long) -> Unit
+    playbackState: StateFlow<PlaybackState>, onSeekBarPositionChanged: (Long) -> Unit
 ) {
     val playbackStateValue = playbackState.collectAsState(initial = PlaybackState(0L, 0L)).value
     var currentMediaProgress = playbackStateValue.currentPlaybackPosition.toFloat()
@@ -129,8 +145,7 @@ private fun AudioSlider(
         modifier = Modifier.fillMaxWidth()
     )
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             color = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -154,8 +169,7 @@ private fun AudioControls(
     onSeekBack: () -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -169,8 +183,7 @@ private fun AudioControls(
 
 @Composable
 private fun SeekButton(
-    imageVector: ImageVector,
-    onClick: () -> Unit
+    imageVector: ImageVector, onClick: () -> Unit
 ) {
     IconButton(onClick = onClick) {
         Icon(
@@ -190,16 +203,15 @@ fun PlayPauseIcon(selectedTrack: Track, onClick: () -> Unit) {
         PlayerStates.STATE_BUFFERING -> {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .size(size = 40.dp)
-                    .padding(5.dp),
+                    .size(size = 48.dp)
+                    .padding(8.dp),
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
             )
         }
 
         PlayerStates.STATE_ERROR -> {
             IconButton(
-                modifier = Modifier.size(48.dp),
-                onClick = onClick
+                modifier = Modifier.size(48.dp), onClick = onClick
             ) {
                 Icon(
                     imageVector = Icons.Default.ErrorOutline,
@@ -211,14 +223,12 @@ fun PlayPauseIcon(selectedTrack: Track, onClick: () -> Unit) {
 
         else -> {
             IconButton(
-                modifier = Modifier.size(48.dp),
-                onClick = onClick
+                modifier = Modifier.size(48.dp), onClick = onClick
             ) {
                 Icon(
                     modifier = Modifier.size(36.dp),
                     painter = rememberAnimatedVectorPainter(
-                        image,
-                        selectedTrack.state == PlayerStates.STATE_PLAYING
+                        image, selectedTrack.state == PlayerStates.STATE_PLAYING
                     ),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
