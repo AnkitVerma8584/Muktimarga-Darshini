@@ -4,9 +4,14 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
+import androidx.compose.animation.graphics.res.animatedVectorResource
+import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
+import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,11 +47,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.Track
-import com.ass.madhwavahini.util.player.PlaybackState
-import com.ass.madhwavahini.util.player.PlayerStates
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.FileDetailsViewModel
 import com.ass.madhwavahini.util.formatTime
+import com.ass.madhwavahini.util.player.PlaybackState
+import com.ass.madhwavahini.util.player.PlayerStates
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
@@ -158,6 +165,7 @@ private fun AudioControls(
         SeekButton(imageVector = Icons.Default.FastRewind, onSeekBack)
         PlayPauseIcon(selectedTrack = selectedTrack, onClick = onPlayPauseClick)
         SeekButton(imageVector = Icons.Default.FastForward, onSeekForward)
+        SeekForward(onSeekForward)
     }
 }
 
@@ -173,6 +181,22 @@ private fun SeekButton(
             tint = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
+}
+
+@OptIn(ExperimentalAnimationGraphicsApi::class)
+@Composable
+private fun SeekForward(onClick: () -> Unit) {
+    val image = AnimatedImageVector.animatedVectorResource(R.drawable.seek_forward)
+    var atEnd by rememberSaveable { mutableStateOf(false) }
+    Image(
+        painter = rememberAnimatedVectorPainter(image, atEnd),
+        contentDescription = "Timer",
+        modifier = Modifier.clickable {
+            atEnd = !atEnd
+            onClick()
+        },
+        contentScale = ContentScale.Crop
+    )
 }
 
 @Composable

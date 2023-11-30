@@ -88,6 +88,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    implementation "androidx.compose.animation:animation-graphics:$compose_version"
 
     // Lifecycle + ViewModel & LiveData & coroutines
     def lifecycle_version = "2.6.2"
