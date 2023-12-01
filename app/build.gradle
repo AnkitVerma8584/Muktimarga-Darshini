@@ -59,7 +59,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.3'
+        kotlinCompilerExtensionVersion '1.5.5'
     }
     packagingOptions {
         resources {
@@ -129,17 +129,17 @@ dependencies {
 
     // Slider Compose
     implementation "com.flaviofaria:kenburnsview:1.0.7"
-    implementation "com.google.accompanist:accompanist-pager:0.13.0"
-    implementation "com.google.accompanist:accompanist-pager-indicators:0.13.0"
+    implementation 'com.google.accompanist:accompanist-pager:0.32.0'
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.32.0'
 
     //Room
-    def room = "2.6.0"
+    def room = "2.6.1"
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-ktx:$room"
     ksp "androidx.room:room-compiler:$room"
 
     //Pdf viewer
-    implementation 'com.github.mhiew:android-pdf-viewer:3.2.0-beta.1'
+    implementation 'com.github.mhiew:android-pdf-viewer:3.2.0-beta.3'
 
     //datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
