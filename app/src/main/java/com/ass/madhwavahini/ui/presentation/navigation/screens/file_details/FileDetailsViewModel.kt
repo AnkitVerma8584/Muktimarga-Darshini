@@ -54,7 +54,7 @@ class FileDetailsViewModel @Inject constructor(
     private val _fileDataQuery = MutableStateFlow(savedStateHandle["query"] ?: "")
     val fileDataQuery get() = _fileDataQuery.asStateFlow()
 
-    private val _text = MutableStateFlow(listOf<String>())
+    private val _text = MutableStateFlow<List<FileDocumentText>>(emptyList())
     val text = _text.asStateFlow()
 
     /////////////////////////////////  AUDIO  /////////////////////////////////
@@ -100,9 +100,11 @@ class FileDetailsViewModel @Inject constructor(
         try {
             val br = BufferedReader(FileReader(file))
             var line: String?
-            val text = mutableListOf<String>()
+            val text = mutableListOf<FileDocumentText>()
+            var index = 0
             while (br.readLine().also { line = it } != null) {
-                text.add(line!!)
+                index++
+                text.add(FileDocumentText(index, line!!))
             }
             br.close()
             _text.value = text.toList()
@@ -119,9 +121,7 @@ class FileDetailsViewModel @Inject constructor(
 
     val searchedText = combine(fileDataQuery, text) { query, list ->
         if (query.length > 2)
-            list.mapIndexed { index, s ->
-                FileDocumentText(index, s)
-            }.filter { s ->
+            list.filter { s ->
                 s.text.contains(query, ignoreCase = true)
             }
         else emptyList()

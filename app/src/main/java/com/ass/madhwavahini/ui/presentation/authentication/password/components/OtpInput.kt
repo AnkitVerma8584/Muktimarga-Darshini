@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,7 +41,8 @@ fun OtpView(
     containerRadius: Dp = 4.dp,
     containerSpacing: Dp = 4.dp,
     otpCount: Int = 6,
-    onOtpTextChange: (String) -> Unit
+    onOtpTextChange: (String) -> Unit,
+    onDoneClick: () -> Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -58,6 +60,7 @@ fun OtpView(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
             ),
+            keyboardActions = KeyboardActions(onDone = { onDoneClick() }),
             decorationBox = {
                 Row(horizontalArrangement = Arrangement.spacedBy(containerSpacing)) {
                     repeat(otpCount) { index ->
@@ -74,7 +77,7 @@ fun OtpView(
                 }
             }
         )
-        Spacer(modifier=Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         otpError?.let {
             Text(
                 text = it,

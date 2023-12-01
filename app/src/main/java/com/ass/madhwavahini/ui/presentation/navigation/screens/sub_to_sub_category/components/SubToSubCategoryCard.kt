@@ -47,7 +47,7 @@ fun LazyItemScope.SubToSubCategoryCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = getAnnotatedText(text = data.name, query = query),
+                    text = getAnnotatedText(text = data.name.trim(), query = query),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyLarge,

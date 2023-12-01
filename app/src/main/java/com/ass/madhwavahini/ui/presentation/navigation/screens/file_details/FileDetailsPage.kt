@@ -42,6 +42,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.comp
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.DocumentText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.ScrollToTopButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
+import com.ass.madhwavahini.util.print
 import kotlinx.coroutines.launch
 
 @Composable
@@ -138,6 +139,7 @@ private fun BoxScope.DocumentContent(
                             scale = scale,
                             onClick = {
                                 coroutineScope.launch {
+                                    "search ${searchedText.size} , click $it".print()
                                     listState.animateScrollToItem(searchedText.size + it)
                                 }
                             })
@@ -147,16 +149,30 @@ private fun BoxScope.DocumentContent(
                     }
                 }
             }
-            items(text) { item ->
-                DocumentText(query = query, text = item, scale = scale)
+            items(text, key = { it.index }) { item ->
+                if (item.text.isNotBlank())
+                    DocumentText(query = query, text = item.text, scale = scale)
+                else Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }
 
-    ScrollToTopButton(listState = listState, coroutineScope = coroutineScope)
+    val shouldShowButton by remember {
+        derivedStateOf { listState.firstVisibleItemIndex > 0 }
+    }
+
+    ScrollToTopButton(shouldShowButton = shouldShowButton, onClick = {
+        coroutineScope.launch {
+            listState.animateScrollToItem(index = 0)
+        }
+    })
 
     val totalItems by remember { derivedStateOf { listState.layoutInfo.totalItemsCount } }
 
+    if (query.length > 2 && scrollIndex == -1)
+        LaunchedEffect(key1 = query) {
+            listState.animateScrollToItem(0)
+        }
     if (text.isNotEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
         LaunchedEffect(Unit) {
             listState.animateScrollToItem(searchedText.size + scrollIndex)

@@ -46,7 +46,7 @@ fun LazyItemScope.FileCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = getAnnotatedText(text = item.name, query = query),
+                    text = getAnnotatedText(text = item.name.trim(), query = query),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyLarge,

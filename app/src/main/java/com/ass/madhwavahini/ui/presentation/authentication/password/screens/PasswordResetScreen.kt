@@ -23,6 +23,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
@@ -53,6 +54,7 @@ fun ResetPasswordFragment(
             password = viewModel.passwordText,
             passwordError = viewModel.passwordError,
             onValueChanged = viewModel::setPassword,
+            imeAction = ImeAction.Next,
             label = "Password",
             hint = "Enter a new password",
         )

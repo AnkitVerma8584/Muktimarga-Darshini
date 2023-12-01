@@ -46,7 +46,7 @@ fun LazyGridItemScope.SubCategoryCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = getAnnotatedText(text = data.name, query = query),
+                    text = getAnnotatedText(text = data.name.trim(), query = query),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 12.dp),

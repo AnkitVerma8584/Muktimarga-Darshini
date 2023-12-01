@@ -23,7 +23,6 @@ import androidx.compose.ui.util.lerp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.load
 import com.ass.madhwavahini.data.Constants.BANNER_SLIDE_TIME
-import com.ass.madhwavahini.util.print
 import com.flaviofaria.kenburnsview.KenBurnsView
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import kotlinx.coroutines.delay
@@ -45,7 +44,6 @@ fun Slider(
             while (true) {
                 yield()
                 delay(BANNER_SLIDE_TIME)
-                "BANNER MOVING".print()
                 try {
                     pagerState.animateScrollToPage(
                         page = (pagerState.currentPage + 1) % pagerState.pageCount,

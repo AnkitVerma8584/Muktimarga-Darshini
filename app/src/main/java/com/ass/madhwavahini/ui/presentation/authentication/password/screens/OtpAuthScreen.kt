@@ -41,7 +41,8 @@ fun OtpAuthScreen(
         OtpView(
             otpText = viewModel.otpText,
             otpError = viewModel.otpError,
-            onOtpTextChange = viewModel::setOtp
+            onOtpTextChange = viewModel::setOtp,
+            onDoneClick = viewModel::verifyOtp
         )
         Spacer(modifier = Modifier.height(30.dp))
         AnimatedContent(targetState = viewModel.isLoading, transitionSpec = {

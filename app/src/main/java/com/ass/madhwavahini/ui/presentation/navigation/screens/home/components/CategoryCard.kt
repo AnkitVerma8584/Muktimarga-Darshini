@@ -42,7 +42,7 @@ fun LazyItemScope.CategoryItem(
                 contentDescription = null
             )
             Text(
-                text = getAnnotatedText(text = data.name, query = query),
+                text = getAnnotatedText(text = data.name.trim(), query = query),
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 12.dp),

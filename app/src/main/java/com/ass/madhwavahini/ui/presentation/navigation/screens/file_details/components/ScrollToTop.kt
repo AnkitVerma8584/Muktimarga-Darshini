@@ -10,7 +10,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -18,37 +17,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun BoxScope.ScrollToTopButton(
-    listState: LazyListState,
-    coroutineScope: CoroutineScope
+    shouldShowButton: Boolean,
+    onClick: () -> Unit
 ) {
-    val shouldShowButton = remember {
-        derivedStateOf { listState.firstVisibleItemIndex > 0 }
-    }
+
     AnimatedVisibility(
         modifier = Modifier
             .align(Alignment.BottomEnd)
             .padding(16.dp),
-        visible = shouldShowButton.value,
+        visible = shouldShowButton,
         enter = slideInVertically(animationSpec = tween(400), initialOffsetY = { it }) + fadeIn(),
         exit = slideOutVertically(animationSpec = tween(400), targetOffsetY = { it }) + fadeOut(),
         content = {
             IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        listState.animateScrollToItem(index = 0)
-                    }
-                }, modifier = Modifier
+                onClick = onClick, modifier = Modifier
                     .size(54.dp)
                     .padding(8.dp)
                     .clip(CircleShape)
