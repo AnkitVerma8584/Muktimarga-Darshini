@@ -69,7 +69,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Activity.MainPage(
-    windowSizeClass: WindowSizeClass, mainViewModel: MainViewModel
+    windowSizeClass: WindowSizeClass,
+    mainViewModel: MainViewModel
 ) {
     val allScreens: List<NavigationFragment> = listOf(
         NavigationFragment.Home,

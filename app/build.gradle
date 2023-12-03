@@ -25,8 +25,8 @@ android {
         applicationId "com.ass.madhwavahini"
         minSdk 21
         targetSdk 34
-        versionCode 5
-        versionName "1.23.05"
+        versionCode 6
+        versionName "1.23.06"
         // type.year.iteration
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

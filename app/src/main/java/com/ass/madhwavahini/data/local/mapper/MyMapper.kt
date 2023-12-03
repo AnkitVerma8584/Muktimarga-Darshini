@@ -10,9 +10,7 @@ import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubCategory
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 
-fun List<String>.mapToBannerList(): List<Banner> = this.map {
-    Banner(it)
-}
+fun List<String>.mapToBannerList(): List<Banner> = this.map { Banner(it) }
 
 fun List<Banner>.mapToStringList(): List<String> = this.map { it.image }
 

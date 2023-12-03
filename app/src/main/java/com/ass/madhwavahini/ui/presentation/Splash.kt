@@ -41,7 +41,8 @@ internal fun SplashScreen(
         ), label = "scale animation"
     )
     Box(
-        contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
         Box(
             Modifier

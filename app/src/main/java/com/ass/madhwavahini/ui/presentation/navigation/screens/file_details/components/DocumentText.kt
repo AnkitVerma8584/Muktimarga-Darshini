@@ -17,12 +17,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 @Composable
 fun DocumentText(
-    query: String = "",
     text: String,
-    scale: Float = 1.0f,
+    query: String,
+    scale: Float,
     spanStyle: SpanStyle = SpanStyle(
         color = MaterialTheme.colorScheme.onPrimaryContainer,
         fontWeight = FontWeight.SemiBold,
@@ -33,7 +32,12 @@ fun DocumentText(
         derivedStateOf {
             buildAnnotatedString {
                 var start = 0
-                while (query.length > 2 && text.indexOf(query, start, ignoreCase = true) != -1) {
+                while (query.length > 2 && text.indexOf(
+                        query,
+                        start,
+                        ignoreCase = true
+                    ) != -1
+                ) {
                     val firstIndex = text.indexOf(query, start, true)
                     val end = firstIndex + query.length
                     append(text.substring(start, firstIndex))

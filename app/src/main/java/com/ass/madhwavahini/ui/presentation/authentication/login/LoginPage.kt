@@ -38,6 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -77,6 +78,7 @@ fun LoginPage(
         }
     }) { padding ->
         val res = ctx.resources
+
         LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userState.collect { login ->
@@ -97,6 +99,7 @@ fun LoginPage(
                 }
             }
         }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -107,12 +110,13 @@ fun LoginPage(
             Spacer(modifier = Modifier.height(50.dp))
             sharedImage()
             Spacer(modifier = Modifier.height(50.dp))
+
             AnimatedVisibility(
                 visibleState = remember {
                     MutableTransitionState(false)
                 }.apply { targetState = true },
-                enter = fadeIn(animationSpec = tween(durationMillis = 500)),
-                exit = fadeOut(animationSpec = tween(durationMillis = 500)),
+                enter = fadeIn(animationSpec = tween(durationMillis = 800)),
+                exit = fadeOut(animationSpec = tween(durationMillis = 800)),
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     MobileInput(
@@ -130,15 +134,15 @@ fun LoginPage(
                         onValueChanged = viewModel::setPassword,
                         onDoneClicked = viewModel::login
                     )
-
                     Text(
                         modifier = Modifier
                             .padding(horizontal = 12.dp)
                             .align(Alignment.End)
-                            .clickable {
-                                if (!viewModel.isLoading)
-                                    onForgetPassword()
-                            },
+                            .clickable(
+                                role = Role.Button,
+                                enabled = !viewModel.isLoading,
+                                onClick = onForgetPassword
+                            ),
                         text = stringResource(id = R.string.forgot_password),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium,
@@ -170,13 +174,17 @@ fun LoginPage(
                             style = MaterialTheme.typography.labelMedium
                         )
                         Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = stringResource(id = R.string.register),
+                        Text(
+                            text = stringResource(id = R.string.register),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.clickable {
-                                if (!viewModel.isLoading) onRegisterClicked.invoke()
-                            })
+                            modifier = Modifier.clickable(
+                                role = Role.Button,
+                                enabled = !viewModel.isLoading,
+                                onClick = onRegisterClicked
+                            )
+                        )
                     }
                 }
             }

@@ -80,9 +80,11 @@ private fun Details(
     @StringRes details: Int,
     onClick: () -> Unit = {}
 ) {
-    Row(modifier = Modifier
-        .fillMaxWidth(0.8f)
-        .clickable { onClick() }) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(0.8f)
+            .clickable(onClick = onClick)
+    ) {
         Icon(
             imageVector = icon,
             contentDescription = null,

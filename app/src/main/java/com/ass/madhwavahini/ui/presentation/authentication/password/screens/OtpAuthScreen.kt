@@ -53,9 +53,7 @@ fun OtpAuthScreen(
             if (loading) {
                 CircularProgressIndicator()
             } else {
-                Button(onClick = {
-                    viewModel.verifyOtp()
-                }) {
+                Button(onClick = viewModel::verifyOtp) {
                     Text(
                         text = stringResource(id = R.string.verify_otp),
                         style = MaterialTheme.typography.bodyLarge,

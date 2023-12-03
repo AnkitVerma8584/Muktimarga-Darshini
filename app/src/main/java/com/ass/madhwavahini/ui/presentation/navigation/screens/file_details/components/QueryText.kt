@@ -37,7 +37,12 @@ fun SearchedText(
         derivedStateOf {
             buildAnnotatedString {
                 var start = 0
-                while (query.length > 2 && text.indexOf(query, start, ignoreCase = true) != -1) {
+                while (query.length > 2 && text.indexOf(
+                        query,
+                        start,
+                        ignoreCase = true
+                    ) != -1
+                ) {
                     val firstIndex = text.indexOf(query, start, true)
                     val end = firstIndex + query.length
                     append(text.substring(start, firstIndex))

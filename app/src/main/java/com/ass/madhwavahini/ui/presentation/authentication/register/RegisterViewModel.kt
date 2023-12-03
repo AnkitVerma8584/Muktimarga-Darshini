@@ -52,7 +52,7 @@ class RegisterViewModel @Inject constructor(
     }
 
 
-    fun register(name: String, mobile: String, password: String) {
+    fun register() {
         viewModelScope.launch {
             if (nameText.isBlank()) {
                 nameError = "Name required."
@@ -63,22 +63,22 @@ class RegisterViewModel @Inject constructor(
                 return@launch
             }
             nameError = null
-            if (mobile.isBlank()) {
+            if (mobileText.isBlank()) {
                 mobileError = "Mobile number required."
                 return@launch
             }
-            if (mobile.length < 10 || !mobile.all { char -> char.isDigit() } || mobile[0] == '0') {
+            if (mobileText.length < 10 || !mobileText.all { char -> char.isDigit() } || mobileText[0] == '0') {
                 mobileError = "Invalid mobile number."
                 return@launch
             }
             mobileError = null
-            if (password.isBlank()) {
+            if (passwordText.isBlank()) {
                 passwordError = "Password required."
                 return@launch
             }
             passwordError = null
 
-            loginRepository.registerUser(name, mobile, password).collectLatest {
+            loginRepository.registerUser(nameText, mobileText, passwordText).collectLatest {
                 isLoading = it.isLoading
                 _registerState.send(it)
             }

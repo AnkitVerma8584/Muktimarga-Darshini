@@ -42,7 +42,6 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.comp
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.DocumentText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.ScrollToTopButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
-import com.ass.madhwavahini.util.print
 import kotlinx.coroutines.launch
 
 @Composable
@@ -118,37 +117,36 @@ private fun BoxScope.DocumentContent(
             state = listState,
             modifier = Modifier.fillMaxSize()
         ) {
-            if (query.length > 2) {
-                item {
-                    Text(
-                        text = resources.getQuantityString(
-                            R.plurals.numberOfSearchResults,
-                            searchedText.size,
-                            searchedText.size
-                        ),
-                        modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.labelMedium
-                    )
+            // if (query.length > 2) {
+            item {
+                Text(
+                    text = resources.getQuantityString(
+                        R.plurals.numberOfSearchResults,
+                        searchedText.size,
+                        searchedText.size
+                    ),
+                    modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+            if (searchedText.isNotEmpty()) {
+                items(searchedText) { content ->
+                    SearchedText(
+                        query = query,
+                        content = content,
+                        scale = scale,
+                        onClick = {
+                            coroutineScope.launch {
+                                listState.animateScrollToItem(searchedText.size + it)
+                            }
+                        })
                 }
-                if (searchedText.isNotEmpty()) {
-                    items(searchedText) { content ->
-                        SearchedText(
-                            query = query,
-                            content = content,
-                            scale = scale,
-                            onClick = {
-                                coroutineScope.launch {
-                                    "search ${searchedText.size} , click $it".print()
-                                    listState.animateScrollToItem(searchedText.size + it)
-                                }
-                            })
-                    }
-                    item {
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
+            //}
             items(text, key = { it.index }) { item ->
                 if (item.text.isNotBlank())
                     DocumentText(query = query, text = item.text, scale = scale)
@@ -167,17 +165,17 @@ private fun BoxScope.DocumentContent(
         }
     })
 
-    val totalItems by remember { derivedStateOf { listState.layoutInfo.totalItemsCount } }
+     val totalItems by remember { derivedStateOf { listState.layoutInfo.totalItemsCount } }
 
-    if (query.length > 2 && scrollIndex == -1)
-        LaunchedEffect(key1 = query) {
-            listState.animateScrollToItem(0)
-        }
-    if (text.isNotEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
-        LaunchedEffect(Unit) {
-            listState.animateScrollToItem(searchedText.size + scrollIndex)
-            onRemoveIndex()
-        }
-    }
+     if (query.length > 2 && scrollIndex == -1)
+         LaunchedEffect(key1 = query) {
+             listState.animateScrollToItem(0)
+         }
+     if (text.isNotEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
+         LaunchedEffect(Unit) {
+             listState.animateScrollToItem(searchedText.size + scrollIndex)
+             onRemoveIndex()
+         }
+     }
 
 }

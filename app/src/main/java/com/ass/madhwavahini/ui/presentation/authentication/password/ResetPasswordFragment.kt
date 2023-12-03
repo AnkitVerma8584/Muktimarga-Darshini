@@ -118,8 +118,6 @@ fun Activity.ResetPasswordFragment(
                             )
                             onPasswordResetCompleted()
                         }
-
-
                     }
                 }
             }

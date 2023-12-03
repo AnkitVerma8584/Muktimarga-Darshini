@@ -122,7 +122,8 @@ private fun AudioImage(
 
 @Composable
 private fun AudioSlider(
-    playbackState: StateFlow<PlaybackState>, onSeekBarPositionChanged: (Long) -> Unit
+    playbackState: StateFlow<PlaybackState>,
+    onSeekBarPositionChanged: (Long) -> Unit
 ) {
     val playbackStateValue = playbackState.collectAsState(initial = PlaybackState(0L, 0L)).value
     var currentMediaProgress = playbackStateValue.currentPlaybackPosition.toFloat()

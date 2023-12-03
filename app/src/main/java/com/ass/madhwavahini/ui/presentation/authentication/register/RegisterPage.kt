@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -122,18 +123,14 @@ fun RegisterPage(
                 error = viewModel.mobileError,
                 onValueChanged = viewModel::setMobile
             )
-            PasswordInput(focusManager = focusManager,
+            PasswordInput(
+                focusManager = focusManager,
                 focusRequester = focusRequester,
                 password = viewModel.passwordText,
                 passwordError = viewModel.passwordError,
                 onValueChanged = viewModel::setPassword,
-                onDoneClicked = {
-                    viewModel.register(
-                        viewModel.nameText,
-                        viewModel.mobileText,
-                        viewModel.passwordText
-                    )
-                })
+                onDoneClicked = viewModel::register
+            )
 
             Spacer(modifier = Modifier.height(5.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -142,13 +139,17 @@ fun RegisterPage(
                     style = MaterialTheme.typography.labelMedium
                 )
                 Spacer(modifier = Modifier.width(5.dp))
-                Text(text = stringResource(id = R.string.login),
+                Text(
+                    text = stringResource(id = R.string.login),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.clickable {
-                        onSignInClick.invoke()
-                    })
+                    modifier = Modifier.clickable(
+                        role = Role.Button,
+                        enabled = !viewModel.isLoading,
+                        onClick = onSignInClick
+                    )
+                )
             }
             Spacer(modifier = Modifier.height(50.dp))
             AnimatedContent(targetState = viewModel.isLoading, transitionSpec = {
@@ -159,12 +160,7 @@ fun RegisterPage(
                 if (loading) {
                     CircularProgressIndicator()
                 } else {
-                    Button(onClick = {
-                        viewModel.register(
-                            viewModel.nameText,
-                            viewModel.mobileText, viewModel.passwordText
-                        )
-                    }) {
+                    Button(onClick = viewModel::register) {
                         Text(
                             text = stringResource(id = R.string.register),
                             style = MaterialTheme.typography.bodyLarge,

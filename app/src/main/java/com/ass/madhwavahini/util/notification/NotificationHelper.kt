@@ -68,7 +68,7 @@ class NotificationHelper @Inject constructor(
             return
         }
 
-        val b: Icon? = null
+        val picture: Icon? = null
         val builder = NotificationCompat.Builder(context, CHANNEL_ONE_ID)
             .setContentTitle(title)
             .setContentText(body)
@@ -78,19 +78,24 @@ class NotificationHelper @Inject constructor(
             .setAutoCancel(true)
             .setLargeIcon(mIcon)
 
-        if (mIcon != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            builder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(mIcon).bigLargeIcon(b))
+        if (mIcon != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                builder.setStyle(
+                    NotificationCompat.BigPictureStyle().bigPicture(mIcon).bigLargeIcon(picture)
+                )
+            else
+                builder.setStyle(
+                    NotificationCompat.BigPictureStyle().bigPicture(mIcon).bigLargeIcon(mIcon)
+                )
         } else {
-            builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
+            builder.setStyle(
+                NotificationCompat.BigTextStyle().bigText(body)
+            )
         }
 
-
-        notify(id, builder.build())
+        getManager().notify(id, builder.build())
     }
 
-    private fun notify(id: Int, notification: Notification) {
-        getManager().notify(id, notification)
-    }
 
     private fun getManager(): NotificationManager {
         if (notificationManager == null) {

@@ -29,9 +29,7 @@ fun BoxScope.AudioToggleButton(
             .size(48.dp)
             .clip(CircleShape)
             .background(color = MaterialTheme.colorScheme.primary),
-        onClick = {
-            onButtonToggled()
-        }
+        onClick = onButtonToggled
     ) {
         Icon(
             imageVector = if (isDisplayingAudio) Icons.Default.VolumeOff else Icons.Default.VolumeUp,

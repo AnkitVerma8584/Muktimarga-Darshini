@@ -80,18 +80,6 @@ class UserDataStore @Inject constructor(
         return (preferences[USER_IS_PAID_CUSTOMER] ?: false)
     }
 
-    val userLoggedIn: Flow<Boolean> = dataStore.data
-        .catch { e ->
-            if (e is IOException) {
-                emit(emptyPreferences())
-            } else {
-                throw e
-            }
-        }
-        .map { preferences ->
-            preferences[USER_ID] != null
-        }.distinctUntilChanged()
-
     val userData: Flow<User> = dataStore.data
         .catch { e ->
             if (e is IOException) {

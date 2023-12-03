@@ -39,7 +39,7 @@ fun MyAppBar(
         navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
     ), title = {
         Text(
-            text = title,
+            text = title.trim(),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
             maxLines = 1,
