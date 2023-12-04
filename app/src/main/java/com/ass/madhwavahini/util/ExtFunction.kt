@@ -13,11 +13,13 @@ fun String.isInValidFile(): Boolean =
     !this.endsWith(".pdf", ignoreCase = true) && !this.endsWith(".txt", ignoreCase = true)
 
 fun Exception.getError(): StringUtil {
-    return StringUtil.StringResource(
-        if (this is IOException)
-            R.string.check_internet else
-            R.string.server_error
-    )
+    return if (this is IOException) {
+        StringUtil.StringResource(R.string.check_internet)
+    } else {
+        this.message?.let {
+            StringUtil.DynamicText(it)
+        } ?: StringUtil.StringResource(R.string.server_error)
+    }
 }
 
 fun Long.formatTime(): String {
