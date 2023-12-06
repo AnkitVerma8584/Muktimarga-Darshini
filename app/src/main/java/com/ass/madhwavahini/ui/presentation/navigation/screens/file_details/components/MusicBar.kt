@@ -9,6 +9,7 @@ import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -48,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.Track
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.FileDetailsViewModel
 import com.ass.madhwavahini.util.formatTime
 import com.ass.madhwavahini.util.player.PlaybackState
 import com.ass.madhwavahini.util.player.PlayerStates
@@ -56,34 +56,42 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun BottomMusicBar(
-    musicViewModel: FileDetailsViewModel, isDisplayingAudio: Boolean
+    selectedTrack: Track,
+    playbackState: StateFlow<PlaybackState>,
+    onSeekBarPositionChanged: (Long) -> Unit,
+    onPlayPauseClick: () -> Unit,
+    onSeekForward: () -> Unit,
+    onSeekBackward: () -> Unit,
+    isDisplayingAudio: Boolean
 ) {
-    val selectedTrack = musicViewModel.currentTrack
     AnimatedVisibility(modifier = Modifier,
         visible = isDisplayingAudio,
         enter = slideInVertically(animationSpec = tween(400), initialOffsetY = { it }) + fadeIn(),
-        exit = fadeOut(),
+        exit = slideOutVertically(animationSpec = tween(400), targetOffsetY = { it }) + fadeOut(),
         content = {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                    .padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 AudioImage(selectedTrack.trackImage)
                 Spacer(modifier = Modifier.width(15.dp))
                 Column(
-                    modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Bottom
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Bottom
                 ) {
-                    AudioSlider(playbackState = musicViewModel.playbackState) {
-                        musicViewModel.onSeekBarPositionChanged(it)
-                    }
+                    AudioSlider(
+                        playbackState = playbackState,
+                        onSeekBarPositionChanged = onSeekBarPositionChanged
+                    )
                     AudioControls(
                         selectedTrack = selectedTrack,
-                        onPlayPauseClick = musicViewModel::onPlayPauseClick,
-                        onSeekForward = musicViewModel::onSeekForward,
-                        onSeekBack = musicViewModel::onSeekBackward
+                        onPlayPauseClick = onPlayPauseClick,
+                        onSeekForward = onSeekForward,
+                        onSeekBack = onSeekBackward
                     )
                 }
             }
@@ -146,7 +154,8 @@ private fun AudioSlider(
         modifier = Modifier.fillMaxWidth()
     )
     Row(
-        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             color = MaterialTheme.colorScheme.onSecondaryContainer,

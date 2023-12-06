@@ -1,6 +1,7 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
@@ -56,21 +57,23 @@ fun SearchedText(
             }
         }
     }
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp)
-            .clickable { onClick(content.index) },
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onBackground,
-        text = annotatedString,
-        fontSize = scale.sp,
-        lineHeight = scale.sp * 1.4
-    )
-    Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
-    )
+    Column {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
+                .clickable { onClick(content.index) },
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            text = annotatedString,
+            fontSize = scale.sp,
+            lineHeight = scale.sp * 1.4
+        )
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
+        )
+    }
 }

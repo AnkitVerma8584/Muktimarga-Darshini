@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -25,7 +26,7 @@ import com.ass.madhwavahini.ui.presentation.common.getAnnotatedText
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LazyItemScope.SubToSubCategoryCard(
+fun LazyGridItemScope.SubToSubCategoryCard(
     data: HomeSubToSubCategory,
     query: String,
     onClick: (HomeSubToSubCategory) -> Unit

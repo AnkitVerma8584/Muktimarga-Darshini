@@ -3,7 +3,6 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.home
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,9 +30,7 @@ fun CategoryPage(
     val query by viewModel.categoryQuery.collectAsState()
 
     val configuration = LocalConfiguration.current
-    val shouldDisplayLandscape =
-        (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) &&
-                (windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact)
+    val shouldDisplayLandscape = (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
 
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(

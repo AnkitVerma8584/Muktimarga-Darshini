@@ -3,6 +3,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
@@ -10,9 +11,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.data.Constants.ADAPTIVE_GRID_SIZE
 import com.ass.madhwavahini.domain.modals.HomeSubCategory
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
@@ -40,9 +41,9 @@ fun SubCategoryPage(
 
         subCategories.data?.let { subCategoriesList ->
             Header(header = stringResource(id = R.string.sub_cat))
-            LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 300.dp)) {
+            LazyVerticalGrid(columns = GridCells.Adaptive(minSize = ADAPTIVE_GRID_SIZE)) {
                 if (subCategoriesList.isEmpty())
-                    item {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
                         NoSearchedResults(query, R.string.empty_subcategories)
                     }
                 else

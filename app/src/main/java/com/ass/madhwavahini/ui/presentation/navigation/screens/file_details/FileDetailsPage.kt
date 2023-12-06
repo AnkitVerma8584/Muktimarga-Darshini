@@ -91,7 +91,15 @@ fun FileDetailsPage(
 
         }
         if (viewModel.hasAudioFile)
-            BottomMusicBar(viewModel, isDisplayingAudio)
+            BottomMusicBar(
+                selectedTrack = viewModel.currentTrack,
+                playbackState = viewModel.playbackState,
+                onSeekBarPositionChanged = viewModel::onSeekBarPositionChanged,
+                onPlayPauseClick = viewModel::onPlayPauseClick,
+                onSeekForward = viewModel::onSeekForward,
+                onSeekBackward = viewModel::onSeekBackward,
+                isDisplayingAudio = isDisplayingAudio
+            )
 
     }
 }

@@ -58,7 +58,7 @@ sealed class NavigationFragment(
     )
 
     data object Pdf : NavigationFragment(
-        route = "pdf?file_id={file_id}&file_url={file_url}",
+        route = "pdf?file_id={file_id}&file_url={file_url}&audio_url={audio_url}&audio_image={audio_image}",
         title = StringUtil.StringResource(R.string.files_details)
     )
 }

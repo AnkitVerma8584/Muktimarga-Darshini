@@ -16,10 +16,10 @@ import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.AboutPage
-import com.ass.madhwavahini.ui.presentation.navigation.screens.home.CategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.contact.ContactPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.FileDetailsPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.FilePage
+import com.ass.madhwavahini.ui.presentation.navigation.screens.home.CategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.pdf.PdfScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
@@ -140,15 +140,31 @@ fun NavHostFragments(
         }
         composable(
             route = NavigationFragment.Pdf.route,
-            arguments = listOf(navArgument("file_id") { type = NavType.IntType },
-                navArgument("file_url") { type = NavType.StringType })
+            arguments = listOf(
+                navArgument("file_id") { type = NavType.IntType },
+                navArgument("file_url") { type = NavType.StringType },
+                navArgument("audio_url") {
+                    nullable = true
+                    type = NavType.StringType
+                    defaultValue = null
+                },
+                navArgument("audio_image") {
+                    nullable = true
+                    type = NavType.StringType
+                    defaultValue = null
+                }
+            )
         ) {
             PdfScreen()
         }
     }
 }
 
-private fun NavController.onFileClicked(homeFile: HomeFile, query: String, index: Int) {
+private fun NavController.onFileClicked(
+    homeFile: HomeFile,
+    query: String,
+    index: Int) {
+
     when (homeFile.type) {
         FileType.TYPE_TEXT -> {
             NavigationFragment.FileDetails.title = StringUtil.DynamicText(homeFile.name)
@@ -160,7 +176,7 @@ private fun NavController.onFileClicked(homeFile: HomeFile, query: String, index
 
         FileType.TYPE_PDF -> {
             NavigationFragment.Pdf.title = StringUtil.DynamicText(homeFile.name)
-            navigate("pdf?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}") {
+            navigate("pdf?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}&audio_url=${homeFile.audioUrl}&audio_image=${homeFile.audioImage}") {
                 launchSingleTop = true
                 restoreState = true
             }

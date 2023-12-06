@@ -28,7 +28,7 @@ fun DocumentText(
         background = MaterialTheme.colorScheme.primaryContainer
     )
 ) {
-    val annotatedString by remember(query) {
+    val annotatedString by remember {
         derivedStateOf {
             buildAnnotatedString {
                 var start = 0

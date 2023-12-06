@@ -1,15 +1,17 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.home.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.data.Constants.ADAPTIVE_GRID_SIZE
 import com.ass.madhwavahini.domain.modals.HomeCategory
 import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.ui.presentation.common.Header
@@ -18,7 +20,6 @@ import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.ShowError
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoriesLandscape(
     query: String,
@@ -35,27 +36,27 @@ fun CategoriesLandscape(
         banners.data?.let {
             Slider(
                 banner = it,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.weight(1f)
             )
         }
-        LazyColumn(
+        LazyVerticalGrid(
             modifier = modifier
                 .fillMaxHeight()
-                .weight(1f)
+                .weight(2f),
+            columns = GridCells.Adaptive(minSize = ADAPTIVE_GRID_SIZE)
         ) {
             categories.data?.let { list ->
-                stickyHeader {
+                item(span = { GridItemSpan(maxLineSpan) }) {
                     Header(header = stringResource(id = R.string.category))
                 }
                 if (list.isEmpty())
-                    item {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
                         NoSearchedResults(query = query, id = R.string.empty_categories)
                     }
                 else
                     items(items = list, key = { it.id }) { category ->
-                        CategoryItem(data = category, onClick = onClick,query=query)
+                        CategoryItem(data = category, onClick = onClick, query = query)
                     }
-
             }
             item {
                 categories.error?.ShowError()

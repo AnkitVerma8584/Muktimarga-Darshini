@@ -1,16 +1,18 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.files.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.data.Constants
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
@@ -18,7 +20,6 @@ import com.ass.madhwavahini.ui.presentation.common.SearchedFileHeader
 import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FilesList(
     searchedContent: List<FilesData>,
@@ -26,31 +27,29 @@ fun FilesList(
     query: String,
     onFileClicked: (homeFile: HomeFile, query: String, index: Int) -> Unit,
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
+    LazyVerticalGrid(
+        modifier = Modifier.fillMaxSize(),
+        columns = GridCells.Adaptive(minSize = Constants.ADAPTIVE_GRID_SIZE)
     ) {
         searchedContent.forEach { fileData ->
-            stickyHeader {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 SearchedFileHeader(header = fileData.homeFile.name)
             }
-            items(fileData.fileData, key = { it.index }) { text ->
-                SearchedText(
-                    query = query, content = text,
-                    onClick = {
-                        onFileClicked(fileData.homeFile, query, it)
-                    }
+            items(items = fileData.fileData, span = { GridItemSpan(maxLineSpan) }) { text ->
+                SearchedText(query = query, content = text,
+                    onClick = { onFileClicked(fileData.homeFile, query, it) }
                 )
             }
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Spacer(modifier = Modifier.height(15.dp))
             }
         }
 
-        stickyHeader {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             Header(header = stringResource(id = R.string.files))
         }
         if (data.isEmpty())
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 NoSearchedResults(query = query, id = R.string.empty_files)
             }
         else {
@@ -61,5 +60,42 @@ fun FilesList(
                 )
             }
         }
+
     }
+    /* LazyColumn(
+         modifier = Modifier.fillMaxSize()
+     ) {
+         searchedContent.forEach { fileData ->
+             stickyHeader {
+                 SearchedFileHeader(header = fileData.homeFile.name)
+             }
+             items(fileData.fileData) { text ->
+                 SearchedText(
+                     query = query, content = text,
+                     onClick = {
+                         onFileClicked(fileData.homeFile, query, it)
+                     }
+                 )
+             }
+             item {
+                 Spacer(modifier = Modifier.height(16.dp))
+             }
+         }
+
+         stickyHeader {
+             Header(header = stringResource(id = R.string.files))
+         }
+         if (data.isEmpty())
+             item {
+                 NoSearchedResults(query = query, id = R.string.empty_files)
+             }
+         else {
+             items(data, key = { it.uniqueKey }) {
+                 FileCard(
+                     item = it,
+                     onFileClicked = onFileClicked, query = query
+                 )
+             }
+         }
+     }*/
 }
