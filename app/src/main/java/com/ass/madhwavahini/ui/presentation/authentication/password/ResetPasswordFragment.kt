@@ -8,20 +8,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarData
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -38,7 +28,6 @@ import com.ass.madhwavahini.ui.presentation.authentication.password.PasswordScre
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.MobileAuthScreen
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.OtpAuthScreen
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.ResetPasswordFragment
-import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.ass.madhwavahini.util.print
 import com.google.firebase.FirebaseException
@@ -54,100 +43,75 @@ import java.util.concurrent.TimeUnit
 
 @Composable
 fun Activity.ResetPasswordFragment(
-    sharedImage: @Composable () -> Unit,
+    showSnack: (message: String, snackBarType: SnackBarType) -> Unit,
     viewModel: ResetPasswordViewModel = hiltViewModel(),
     onPasswordResetCompleted: () -> Unit
 ) {
-    val snackBarHostState = remember { SnackbarHostState() }
     val lifecycleOwner = LocalLifecycleOwner.current
     val ctx = LocalContext.current
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(snackbarHost = {
-        SnackbarHost(
-            hostState = snackBarHostState
-        ) { sb: SnackbarData ->
-            MyCustomSnack(
-                text = sb.visuals.message,
-                snackBarType = SnackBarType.getType(sb.visuals.actionLabel)
-            ) {
-                snackBarHostState.currentSnackbarData?.dismiss()
-            }
-        }
-    }) { padding ->
-        LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
-            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.passwordEvents.collectLatest { events ->
+    LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.passwordEvents.collectLatest { events ->
 
-                    when (events) {
-                        is PasswordResetEvents.OnError -> {
-                            snackBarHostState.showSnackbar(
-                                message = events.error.asString(ctx),
-                                duration = SnackbarDuration.Short,
-                                actionLabel = SnackBarType.ERROR.name
-                            )
-                        }
+                when (events) {
+                    is PasswordResetEvents.OnError -> {
+                        showSnack(
+                            events.error.asString(ctx),
+                            SnackBarType.ERROR
+                        )
+                    }
 
-                        PasswordResetEvents.OnNumberVerified -> {
-                            viewModel.setLoadingState(true)
-                            getOtp(
-                                phoneNumber = viewModel.mobileText,
-                                onCodeSent = viewModel::setVerificationId,
-                                onVerified = viewModel::changeToResetScreen,
-                                onError = viewModel::setPasswordEventsError
-                            )
-                        }
+                    PasswordResetEvents.OnNumberVerified -> {
+                        viewModel.setLoadingState(true)
+                        getOtp(
+                            phoneNumber = viewModel.mobileText,
+                            onCodeSent = viewModel::setVerificationId,
+                            onVerified = viewModel::changeToResetScreen,
+                            onError = viewModel::setPasswordEventsError
+                        )
+                    }
 
-                        is PasswordResetEvents.OnOtpVerifyClick -> {
-                            viewModel.setLoadingState(true)
-                            verifyOtp(
-                                events.verificationId,
-                                events.otp,
-                                onMobileVerified = viewModel::changeToResetScreen,
-                                onError = viewModel::setPasswordEventsError
-                            )
-                        }
+                    is PasswordResetEvents.OnOtpVerifyClick -> {
+                        viewModel.setLoadingState(true)
+                        verifyOtp(
+                            events.verificationId,
+                            events.otp,
+                            onMobileVerified = viewModel::changeToResetScreen,
+                            onError = viewModel::setPasswordEventsError
+                        )
+                    }
 
-                        PasswordResetEvents.OnOtpVerified -> viewModel.changeToResetScreen()
+                    PasswordResetEvents.OnOtpVerified -> viewModel.changeToResetScreen()
 
-                        is PasswordResetEvents.OnPasswordReset -> {
-                            snackBarHostState.showSnackbar(
-                                message = events.message,
-                                duration = SnackbarDuration.Short
-                            )
-                            onPasswordResetCompleted()
-                        }
+                    is PasswordResetEvents.OnPasswordReset -> {
+                        showSnack(
+                            events.message,
+                            SnackBarType.NORMAL
+                        )
+                        onPasswordResetCompleted()
                     }
                 }
             }
         }
+    }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(50.dp))
-            sharedImage()
-            Spacer(modifier = Modifier.height(50.dp))
-            AnimatedContent(
-                targetState = uiState, transitionSpec = {
-                    fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith fadeOut(
-                        animationSpec = tween(durationMillis = 300)
-                    )
-                }, label = "loading"
-            ) { state ->
-                when (state) {
-                    NUMBER_VERIFICATION -> MobileAuthScreen(viewModel = viewModel)
-                    OTP_STATE -> OtpAuthScreen(viewModel = viewModel)
-                    RESET_PASSWORD -> ResetPasswordFragment(viewModel = viewModel)
-                }
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        AnimatedContent(
+            targetState = uiState, transitionSpec = {
+                fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith fadeOut(
+                    animationSpec = tween(durationMillis = 300)
+                )
+            }, label = "loading"
+        ) { state ->
+            when (state) {
+                NUMBER_VERIFICATION -> MobileAuthScreen(viewModel = viewModel)
+                OTP_STATE -> OtpAuthScreen(viewModel = viewModel)
+                RESET_PASSWORD -> ResetPasswordFragment(viewModel = viewModel)
             }
-            Spacer(modifier = Modifier.height(50.dp))
         }
+        Spacer(modifier = Modifier.height(50.dp))
     }
 }
 
