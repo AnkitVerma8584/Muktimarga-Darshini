@@ -1,7 +1,7 @@
 package com.ass.madhwavahini.data.remote.mapper
 
 import com.ass.madhwavahini.domain.modals.HomeFile
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.modals.FileDocumentText
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.modals.FileDocumentText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 import com.ass.madhwavahini.util.print
 import kotlinx.coroutines.Dispatchers

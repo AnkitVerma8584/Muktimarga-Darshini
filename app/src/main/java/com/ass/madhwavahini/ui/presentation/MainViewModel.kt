@@ -77,7 +77,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun errorInPayment(error: String = "Some error occurred in payment.") {
+    fun showError(error: String = "Some error occurred.") {
         viewModelScope.launch {
             _paymentState.send(
                 UiState(

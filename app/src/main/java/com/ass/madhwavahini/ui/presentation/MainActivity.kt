@@ -9,13 +9,12 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.ass.madhwavahini.BuildConfig
@@ -25,6 +24,12 @@ import com.ass.madhwavahini.ui.presentation.authentication.AuthenticationActivit
 import com.ass.madhwavahini.ui.presentation.main_content.MainPage
 import com.ass.madhwavahini.ui.presentation.main_content.dialog.NotificationPermissionRationalDialog
 import com.ass.madhwavahini.ui.theme.MadhwaVahiniTheme
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -35,15 +40,23 @@ import org.json.JSONObject
 class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
 
     private val mainViewModel by viewModels<MainViewModel>()
+    private lateinit var appUpdateManager: AppUpdateManager
+    private val updateType = AppUpdateType.IMMEDIATE
+    private val updateLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult ->
+            if (result.resultCode != RESULT_OK) {
+                mainViewModel.showError("Update denied! Please update the app.")
+            }
+        }
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
             WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE
         )
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        checkForAppUpdates()
         setContent {
-            val windowSizeClass = calculateWindowSizeClass(this)
             MadhwaVahiniTheme {
                 val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission(),
@@ -56,10 +69,11 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
                         )
                     })
 
-                LaunchedEffect(key1 = true) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) notificationPermissionResultLauncher.launch(
-                        Manifest.permission.POST_NOTIFICATIONS
-                    )
+                LaunchedEffect(key1 = Unit) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                        notificationPermissionResultLauncher.launch(
+                            Manifest.permission.POST_NOTIFICATIONS
+                        )
                 }
 
                 if (mainViewModel.shouldShowPermissionRational) {
@@ -80,7 +94,7 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    MainPage(windowSizeClass, mainViewModel)
+                    MainPage(mainViewModel)
                 }
             }
         }
@@ -91,10 +105,39 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
     }
 
     override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-        mainViewModel.errorInPayment("Payment cancelled")
+        mainViewModel.showError("Payment cancelled")
+    }
+
+    private fun checkForAppUpdates() {
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+            val isUpdateAvailable = info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+            val isUpdateAllowed = info.isImmediateUpdateAllowed
+            if (isUpdateAvailable && isUpdateAllowed) {
+                appUpdateManager.startUpdateFlowForResult(
+                    info,
+                    updateLauncher,
+                    AppUpdateOptions.newBuilder(updateType).build()
+                )
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        appUpdateManager
+            .appUpdateInfo
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+                ) {
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        updateLauncher,
+                        AppUpdateOptions.newBuilder(updateType).build()
+                    )
+                }
+            }
     }
 }
-
 
 fun Activity.startPayment(
     paymentData: Payment, mainViewModel: MainViewModel
@@ -118,7 +161,7 @@ fun Activity.startPayment(
         options.put("retry", retryObj)
         checkout.open(this, options)
     } catch (e: Exception) {
-        mainViewModel.errorInPayment()
+        mainViewModel.showError()
     }
 }
 

@@ -1,7 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.common
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +22,6 @@ fun Header(header: String) {
         text = header,
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
             .padding(start = 16.dp, top = 16.dp),
         style = MaterialTheme.typography.titleMedium,
         fontWeight = FontWeight.SemiBold
@@ -35,7 +33,6 @@ fun SearchedFileHeader(header: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
             .padding(start = 12.dp, bottom = 8.dp, end = 12.dp),
     ) {
         Image(

@@ -62,6 +62,12 @@
 
     <!--Files details-->
     <string name="files_details">File Details</string>
+    <!--Language-->
+    <string name="en">English</string>
+    <string name="hi">हिन्दी</string>
+    <string name="kn">ಕನ್ನಡ</string>
+    <string name="te">తెలుగు</string>
+    <string name="ta">தமிழ்</string>
 
     <!--Contact-->
     <string name="sub_heading">In case of any difficulty or queries please contact us on the details below :</string>

@@ -26,7 +26,6 @@ class LanguageTranslator {
                 translatedText.value =
                     ResultOrError(task.result, if (task.isSuccessful) null else task.exception)
             }
-        // Start translation if any of the following change: input text, source lang, target lang.
         translatedText.addSource(sourceText) {
             translateText().addOnCompleteListener(processTranslation)
         }
@@ -57,10 +56,7 @@ class LanguageTranslator {
             }
         }
 
-    fun translateText(
-
-    ): Task<String> {
-
+    private fun translateText(): Task<String> {
         val textToTranslate = sourceText.value
         val destinationLanguage = targetLang.value
         if (destinationLanguage == TranslationLanguages.KANNADA || textToTranslate.isNullOrEmpty()) {

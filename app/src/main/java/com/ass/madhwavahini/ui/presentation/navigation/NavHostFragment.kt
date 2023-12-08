@@ -1,7 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -17,10 +16,10 @@ import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.AboutPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.contact.ContactPage
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.FileDetailsPage
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.pdf.PdfScreen
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.text.TextDocumentScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.FilePage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.home.CategoryPage
-import com.ass.madhwavahini.ui.presentation.navigation.screens.pdf.PdfScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.support.SupportPage
@@ -28,7 +27,6 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.support.SupportPa
 @Composable
 fun NavHostFragments(
     navController: NavHostController,
-    windowSizeClass: WindowSizeClass,
     isPaidCustomer: Boolean,
     onNavigationTriggered: () -> Unit
 ) {
@@ -38,7 +36,7 @@ fun NavHostFragments(
         startDestination = NavigationFragment.Home.route
     ) {
         composable(route = NavigationFragment.Home.route) {
-            CategoryPage(windowSizeClass) {
+            CategoryPage {
                 NavigationFragment.SubCategory.title = StringUtil.DynamicText(it.name)
                 navController.navigate("sub_category/${it.id}") {
                     popUpTo(navController.graph.findStartDestination().id) {
@@ -136,7 +134,7 @@ fun NavHostFragments(
                     defaultValue = -1
                 })
         ) {
-            FileDetailsPage()
+            TextDocumentScreen()
         }
         composable(
             route = NavigationFragment.Pdf.route,
@@ -163,7 +161,8 @@ fun NavHostFragments(
 private fun NavController.onFileClicked(
     homeFile: HomeFile,
     query: String,
-    index: Int) {
+    index: Int
+) {
 
     when (homeFile.type) {
         FileType.TYPE_TEXT -> {

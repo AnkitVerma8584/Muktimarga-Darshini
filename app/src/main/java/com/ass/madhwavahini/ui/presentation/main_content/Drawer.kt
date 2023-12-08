@@ -28,7 +28,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -69,7 +68,6 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Activity.MainPage(
-    windowSizeClass: WindowSizeClass,
     mainViewModel: MainViewModel
 ) {
     val allScreens: List<NavigationFragment> = listOf(
@@ -92,9 +90,10 @@ fun Activity.MainPage(
 
     val currentFragment by remember(currentDestination) {
         derivedStateOf {
-            allScreens.find { it.route == navController.currentBackStackEntry?.destination?.route }
+            allScreens.find { it.route == currentDestination?.route }
         }
     }
+
     val snackBarHostState = remember { SnackbarHostState() }
 
 
@@ -214,7 +213,8 @@ fun Activity.MainPage(
                         payment.data?.let {
                             scope.launch {
                                 snackBarHostState.showSnackbar(
-                                    message = "Payment Verified.", duration = SnackbarDuration.Short
+                                    message = "Payment Verified.",
+                                    duration = SnackbarDuration.Short
                                 )
                             }
                         }
@@ -239,8 +239,8 @@ fun Activity.MainPage(
                 if (mainViewModel.isLoading) {
                     Loading()
                 }
-                NavHostFragments(navController = navController,
-                    windowSizeClass = windowSizeClass,
+                NavHostFragments(
+                    navController = navController,
                     isPaidCustomer = mainViewModel.user.isPaidCustomer,
                     onNavigationTriggered = {
                         scope.launch {

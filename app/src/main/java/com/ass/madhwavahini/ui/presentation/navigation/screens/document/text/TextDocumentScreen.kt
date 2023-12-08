@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.file_details
+package com.ass.madhwavahini.ui.presentation.navigation.screens.document.text
 
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,16 +38,18 @@ import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.common.ShowError
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.AudioToggleButton
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.BottomMusicBar
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.DocumentText
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.ScrollToTopButton
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.AudioToggleButton
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.BottomMusicBar
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.DocumentText
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.LanguagePopUpBox
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.ScrollToTopButton
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.SearchedText
+import com.ass.madhwavahini.util.print
 import kotlinx.coroutines.launch
 
 @Composable
-fun FileDetailsPage(
-    viewModel: FileDetailsViewModel = hiltViewModel()
+fun TextDocumentScreen(
+    viewModel: TextDocumentViewModel = hiltViewModel()
 ) {
     val state by viewModel.fileState.collectAsState()
     val query by viewModel.fileDataQuery.collectAsState()
@@ -56,6 +59,12 @@ fun FileDetailsPage(
         mutableStateOf(false)
     }
 
+    val translatedText by viewModel.getTranslatedText().observeAsState()
+
+    LaunchedEffect(key1 = translatedText) {
+        translatedText.print()
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
             query = query,
@@ -63,6 +72,10 @@ fun FileDetailsPage(
             hint = "Search for any text...",
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
+        LanguagePopUpBox(onClick = viewModel::setTranslateLanguage)
+
+
+
         Box(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
@@ -106,7 +119,7 @@ fun FileDetailsPage(
 
 @Composable
 private fun BoxScope.DocumentContent(
-    viewModel: FileDetailsViewModel,
+    viewModel: TextDocumentViewModel,
     query: String,
     scale: Float,
     scrollIndex: Int,

@@ -18,7 +18,7 @@ fun getAnnotatedText(
         color = MaterialTheme.colorScheme.onPrimaryContainer,
         background = MaterialTheme.colorScheme.primaryContainer
     )
-): AnnotatedString = remember {
+): AnnotatedString = remember(query) {
     derivedStateOf {
         buildAnnotatedString {
             var start = 0

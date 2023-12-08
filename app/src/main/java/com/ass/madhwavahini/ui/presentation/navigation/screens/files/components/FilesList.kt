@@ -17,7 +17,7 @@ import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchedFileHeader
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.SearchedText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 
 @Composable

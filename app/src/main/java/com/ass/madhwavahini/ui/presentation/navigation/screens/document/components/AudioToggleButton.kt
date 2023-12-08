@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components
+package com.ass.madhwavahini.ui.presentation.navigation.screens.document.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxScope

@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.pdf
+package com.ass.madhwavahini.ui.presentation.navigation.screens.document.pdf
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +15,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.ShowError
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.AudioToggleButton
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.BottomMusicBar
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.AudioToggleButton
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.BottomMusicBar
 import com.github.barteksc.pdfviewer.PDFView
 
 @Composable

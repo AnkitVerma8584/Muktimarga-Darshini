@@ -21,7 +21,7 @@ import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchedFileHeader
 import com.ass.madhwavahini.ui.presentation.common.ShowError
-import com.ass.madhwavahini.ui.presentation.navigation.screens.file_details.components.SearchedText
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.SearchedText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.components.FileCard
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
 

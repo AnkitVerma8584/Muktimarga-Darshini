@@ -3,7 +3,6 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.home
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,7 +19,6 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.home.components.C
 
 @Composable
 fun CategoryPage(
-    windowSizeClass: WindowSizeClass,
     viewModel: CategoryViewModel = hiltViewModel(),
     onClick: (HomeCategory) -> Unit
 ) {
