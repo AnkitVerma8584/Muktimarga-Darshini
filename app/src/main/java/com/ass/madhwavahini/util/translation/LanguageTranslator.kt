@@ -77,7 +77,7 @@ class LanguageTranslator {
             }
     }
 
-    inner class ResultOrError(var result: String?, var error: Exception?)
+    data class ResultOrError(var result: String? = null, var error: Exception? = null)
 
     fun clear() {
         cachedTranslators.evictAll()
