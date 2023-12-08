@@ -3,8 +3,8 @@ package com.ass.muktimargadarshini.ui.presentation.navigation.screens.file_detai
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -58,7 +58,7 @@ fun SearchedText(
             color = MaterialTheme.colorScheme.onBackground,
             text = annotatedString
         )
-        HorizontalDivider(
+        Divider(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
