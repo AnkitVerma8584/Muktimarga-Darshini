@@ -21,7 +21,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.R
@@ -41,10 +41,8 @@ import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.AudioToggleButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.BottomMusicBar
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.DocumentText
-import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.LanguagePopUpBox
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.ScrollToTopButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.SearchedText
-import com.ass.madhwavahini.util.print
 import kotlinx.coroutines.launch
 
 @Composable
@@ -59,22 +57,20 @@ fun TextDocumentScreen(
         mutableStateOf(false)
     }
 
-    val translatedText by viewModel.getTranslatedText().observeAsState()
+    /* val translatedText by viewModel.getTranslatedText().observeAsState()
 
-    LaunchedEffect(key1 = translatedText) {
-        translatedText.print()
-    }
+     LaunchedEffect(key1 = translatedText) {
+         translatedText.print()
+     }*/
 
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
             query = query,
             onSearchQueryChanged = viewModel::updateQuery,
-            hint = "Search for any text...",
+            hint = stringResource(id = R.string.document_search),
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
-        LanguagePopUpBox(onClick = viewModel::setTranslateLanguage)
-
-
+        //LanguagePopUpBox(onClick = viewModel::setTranslateLanguage)
 
         Box(modifier = Modifier
             .fillMaxWidth()
@@ -152,7 +148,7 @@ private fun BoxScope.DocumentContent(
                     )
                 }
                 if (searchedText.isNotEmpty()) {
-                    items(searchedText) { content ->
+                    items(searchedText, key = { "item_${it.index}" }) { content ->
                         SearchedText(
                             query = query,
                             content = content,
@@ -194,6 +190,7 @@ private fun BoxScope.DocumentContent(
         LaunchedEffect(key1 = query) {
             listState.animateScrollToItem(0)
         }
+
     if (text.isNotEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
         LaunchedEffect(Unit) {
             listState.animateScrollToItem(searchedText.size + scrollIndex)

@@ -16,7 +16,6 @@ import com.ass.madhwavahini.util.player.MyPlayer
 import com.ass.madhwavahini.util.player.PlaybackState
 import com.ass.madhwavahini.util.player.PlayerEvents
 import com.ass.madhwavahini.util.player.PlayerStates
-import com.ass.madhwavahini.util.print
 import com.ass.madhwavahini.util.translation.LanguageTranslator
 import com.ass.madhwavahini.util.translation.TranslationLanguages
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -118,7 +117,6 @@ class TextDocumentViewModel @Inject constructor(
             _text.value = text.toList()
             languageTranslator.sourceText.postValue(sourceString.toString())
         } catch (e: Exception) {
-            e.print()
             _fileState.update {
                 it.copy(
                     isLoading = false,

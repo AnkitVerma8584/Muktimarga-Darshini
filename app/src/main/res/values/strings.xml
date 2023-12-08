@@ -59,6 +59,7 @@
     <!--Files-->
     <string name="files">Files</string>
     <string name="files_search">Search for any file</string>
+    <string name="document_search">Search for any word or line…</string>
 
     <!--Files details-->
     <string name="files_details">File Details</string>

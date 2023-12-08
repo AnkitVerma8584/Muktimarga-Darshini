@@ -15,7 +15,6 @@ import com.ass.madhwavahini.util.player.MyPlayer
 import com.ass.madhwavahini.util.player.PlaybackState
 import com.ass.madhwavahini.util.player.PlayerEvents
 import com.ass.madhwavahini.util.player.PlayerStates
-import com.ass.madhwavahini.util.print
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -62,7 +61,6 @@ class PdfViewModel @Inject constructor(
                 savedStateHandle.get<String>("file_url") ?: ""
             )
         }
-        currentTrack.print()
         if (currentTrack.trackUrl.isNotBlank()) {
             hasAudioFile = true
             myPlayer.initPlayer(currentTrack.trackUrl)

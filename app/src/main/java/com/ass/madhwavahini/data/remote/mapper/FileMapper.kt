@@ -3,7 +3,6 @@ package com.ass.madhwavahini.data.remote.mapper
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.modals.FileDocumentText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
-import com.ass.madhwavahini.util.print
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
@@ -24,7 +23,6 @@ suspend fun HomeFile.getFileToFilesData(file: File): FilesData? =
             br.close()
             FilesData(this@getFileToFilesData, text.toList())
         } catch (e: Exception) {
-            e.print()
             null
         }
     }
