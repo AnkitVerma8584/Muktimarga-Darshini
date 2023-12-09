@@ -49,7 +49,7 @@ fun MyAppBar(
     }, navigationIcon = {
         Icon(
             painter = rememberAnimatedVectorPainter(image, isNavigationFragment),
-            contentDescription = null,
+            contentDescription = if (isNavigationFragment) "Open Drawer" else "Navigate Back",
             modifier = Modifier
                 .clickable(onClick = if (isNavigationFragment) hamburgerIconClicked else navigationBackClicked)
                 .padding(8.dp)

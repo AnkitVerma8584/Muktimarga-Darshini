@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -28,8 +27,6 @@ private val Context.myDataStore: DataStore<Preferences> by preferencesDataStore(
 private val USER_ID = intPreferencesKey("user_id")
 private val USER_MOBILE = stringPreferencesKey("user_mobile")
 private val USER_NAME = stringPreferencesKey("user_name")
-private val USER_TRANSACTION_ID = stringPreferencesKey("user_transaction")
-private val USER_PAYMENT_AMOUNT = doublePreferencesKey("user_amount")
 private val USER_IS_PAID_CUSTOMER = booleanPreferencesKey("user_is_paid")
 private val USER_TOKEN = stringPreferencesKey("user_login_token")
 
@@ -43,12 +40,6 @@ class UserDataStore @Inject constructor(
             it[USER_ID] = user.userId
             it[USER_MOBILE] = user.userPhone
             it[USER_NAME] = user.userName
-            user.paymentId?.let { id ->
-                it[USER_TRANSACTION_ID] = id
-            }
-            user.paymentAmount?.let { amt ->
-                it[USER_PAYMENT_AMOUNT] = amt
-            }
             it[USER_IS_PAID_CUSTOMER] = user.isPaidCustomer
             it[USER_TOKEN] = user.token
         }
@@ -92,16 +83,12 @@ class UserDataStore @Inject constructor(
             val userId = preferences[USER_ID] ?: 0
             val userName = preferences[USER_NAME] ?: ""
             val userPhone = preferences[USER_MOBILE] ?: ""
-            val userPaymentId = preferences[USER_TRANSACTION_ID] ?: ""
-            val userPaymentAmount = preferences[USER_PAYMENT_AMOUNT] ?: 0.0
             val isPaid = preferences[USER_IS_PAID_CUSTOMER] ?: false
             val token = preferences[USER_TOKEN] ?: ""
             User(
                 userId = userId,
                 userName = userName,
                 userPhone = userPhone,
-                paymentId = userPaymentId,
-                paymentAmount = userPaymentAmount,
                 isPaidCustomer = isPaid,
                 token = token
             )

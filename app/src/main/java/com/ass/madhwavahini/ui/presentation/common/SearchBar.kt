@@ -58,7 +58,7 @@ fun SearchBar(
         ) {
             Icon(
                 Icons.Default.Clear,
-                contentDescription = null
+                contentDescription = "Clear search"
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.ass.madhwavahini.data.repository
 
+import com.ass.madhwavahini.data.Constants
 import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.data.remote.apis.LoginApi
 import com.ass.madhwavahini.domain.modals.User
@@ -9,6 +10,8 @@ import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.util.getError
 import com.ass.madhwavahini.util.notification.NotificationHelper
 import com.ass.madhwavahini.util.print
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -72,6 +75,7 @@ class LoginRepositoryImpl(
                 isLoading = false, error = e.getError()
             )
         } finally {
+            Firebase.messaging.subscribeToTopic(Constants.TOPIC)
             emit(state)
         }
     }

@@ -57,12 +57,6 @@ fun TextDocumentScreen(
         mutableStateOf(false)
     }
 
-    /* val translatedText by viewModel.getTranslatedText().observeAsState()
-
-     LaunchedEffect(key1 = translatedText) {
-         translatedText.print()
-     }*/
-
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
             query = query,

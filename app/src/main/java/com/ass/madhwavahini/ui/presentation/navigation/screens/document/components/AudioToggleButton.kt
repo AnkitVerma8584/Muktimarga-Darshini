@@ -34,7 +34,7 @@ fun BoxScope.AudioToggleButton(
         Icon(
             imageVector = if (isDisplayingAudio) Icons.Default.VolumeOff else Icons.Default.VolumeUp,
             tint = MaterialTheme.colorScheme.onPrimary,
-            contentDescription = null
+            contentDescription = "Toggle media bar"
         )
     }
 }

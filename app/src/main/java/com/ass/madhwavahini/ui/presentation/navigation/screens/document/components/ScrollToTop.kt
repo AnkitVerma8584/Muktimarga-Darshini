@@ -46,7 +46,7 @@ fun BoxScope.ScrollToTopButton(
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowUp,
                     tint = MaterialTheme.colorScheme.onPrimary,
-                    contentDescription = null
+                    contentDescription = "Scroll to top"
                 )
             }
         })

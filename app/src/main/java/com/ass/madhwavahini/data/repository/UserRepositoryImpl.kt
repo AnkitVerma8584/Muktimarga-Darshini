@@ -1,6 +1,7 @@
 package com.ass.madhwavahini.data.repository
 
 import android.app.Application
+import com.ass.madhwavahini.data.Constants
 import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.data.local.dao.FilesDao
 import com.ass.madhwavahini.data.remote.apis.UserApi
@@ -8,6 +9,8 @@ import com.ass.madhwavahini.domain.repository.UserRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.util.getError
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -101,6 +104,7 @@ class UserRepositoryImpl(
                 isLoading = false, error = e.getError()
             )
         } finally {
+            Firebase.messaging.unsubscribeFromTopic(Constants.TOPIC)
             emit(state)
         }
     }

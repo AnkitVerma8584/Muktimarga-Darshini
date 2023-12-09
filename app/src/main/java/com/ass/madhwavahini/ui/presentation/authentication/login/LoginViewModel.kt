@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ass.madhwavahini.BuildConfig
 import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.repository.LoginRepository
@@ -44,6 +45,11 @@ class LoginViewModel @Inject constructor(
                     _userState.send(it)
                 }
             }
+        }
+        if (BuildConfig.APPLICATION_ID == "com.ass.madhwavahini.alpha") {
+            mobileText = "8584060596"
+            passwordText = "q"
+            login()
         }
     }
 

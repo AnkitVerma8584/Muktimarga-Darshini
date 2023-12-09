@@ -16,8 +16,6 @@ import com.ass.madhwavahini.util.player.MyPlayer
 import com.ass.madhwavahini.util.player.PlaybackState
 import com.ass.madhwavahini.util.player.PlayerEvents
 import com.ass.madhwavahini.util.player.PlayerStates
-import com.ass.madhwavahini.util.translation.LanguageTranslator
-import com.ass.madhwavahini.util.translation.TranslationLanguages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
@@ -48,7 +46,6 @@ class TextDocumentViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel(), PlayerEvents {
 
-    private val languageTranslator: LanguageTranslator = LanguageTranslator()
 
     private val _fileState = MutableStateFlow(UiState<File>())
     val fileState = _fileState.asStateFlow()
@@ -105,17 +102,14 @@ class TextDocumentViewModel @Inject constructor(
             val text = mutableListOf<FileDocumentText>()
             var line: String?
             var index = 0
-            val sourceString = StringBuilder()
             while (br.readLine().also {
                     line = it
-                    sourceString.append(line)
                 } != null) {
                 index++
                 text.add(FileDocumentText(index, line!!))
             }
             br.close()
             _text.value = text.toList()
-            languageTranslator.sourceText.postValue(sourceString.toString())
         } catch (e: Exception) {
             _fileState.update {
                 it.copy(
@@ -143,12 +137,6 @@ class TextDocumentViewModel @Inject constructor(
     fun removeIndexFlag() {
         index = -1
     }
-
-    fun setTranslateLanguage(language: TranslationLanguages) {
-        languageTranslator.targetLang.value = language
-    }
-
-    fun getTranslatedText() = languageTranslator.translatedText
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**                                                AUDIO                                              */
@@ -211,7 +199,6 @@ class TextDocumentViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        languageTranslator.clear()
         myPlayer.releasePlayer()
     }
 }
