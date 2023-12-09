@@ -3,7 +3,8 @@ package com.ass.madhwavahini.data.repository
 import com.ass.madhwavahini.data.remote.apis.TranslateApi
 import com.ass.madhwavahini.domain.repository.TranslatorRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
-import com.ass.madhwavahini.domain.wrapper.UiState
+import com.ass.madhwavahini.domain.wrapper.UiStateList
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.modals.FileDocumentText
 import com.ass.madhwavahini.util.getError
 import com.ass.madhwavahini.util.translations.TranslationLanguages
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +17,12 @@ class TranslatorRepositoryImpl(
         text: String,
         source: TranslationLanguages,
         destination: TranslationLanguages
-    ): Flow<UiState<String>> = flow {
-        var state = UiState<String>(isLoading = true)
+    ): Flow<UiStateList<FileDocumentText>> = flow {
+
+        if (text.isBlank() || source == destination)
+            return@flow
+
+        var state = UiStateList<FileDocumentText>(isLoading = true)
         emit(state)
 
         //TODO TRY FETCHING FROM CACHE
@@ -34,8 +39,9 @@ class TranslatorRepositoryImpl(
                 )
             state = if (result.isSuccessful && result.body() != null) {
                 val data = result.body()!!
+                val list = List(data.split("\n").size) { index -> FileDocumentText(index, text) }
                 //TODO try caching the translation
-                state.copy(isLoading = false, data = data)
+                state.copy(isLoading = false, data = list)
             } else {
                 state.copy(
                     isLoading = false,

@@ -11,6 +11,7 @@ import com.ass.madhwavahini.data.repository.LoginRepositoryImpl
 import com.ass.madhwavahini.data.repository.PaymentRepositoryImpl
 import com.ass.madhwavahini.data.repository.SubCategoryRepositoryImpl
 import com.ass.madhwavahini.data.repository.SubToSubCategoryRepositoryImpl
+import com.ass.madhwavahini.data.repository.TranslatorRepositoryImpl
 import com.ass.madhwavahini.data.repository.UserRepositoryImpl
 import com.ass.madhwavahini.domain.repository.DocumentRepository
 import com.ass.madhwavahini.domain.repository.FilesRepository
@@ -19,6 +20,7 @@ import com.ass.madhwavahini.domain.repository.LoginRepository
 import com.ass.madhwavahini.domain.repository.PaymentRepository
 import com.ass.madhwavahini.domain.repository.SubCategoryRepository
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
+import com.ass.madhwavahini.domain.repository.TranslatorRepository
 import com.ass.madhwavahini.domain.repository.UserRepository
 import com.ass.madhwavahini.util.notification.NotificationHelper
 import dagger.Module
@@ -123,6 +125,14 @@ object RepositoryModule {
         application: Application
     ): DocumentRepository =
         DocumentRepositoryImpl(filesApi, application)
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideTranslatorRepository(
+        translateApi: TranslateApi
+    ): TranslatorRepository =
+        TranslatorRepositoryImpl(translateApi)
 
 
 }

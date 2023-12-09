@@ -1,20 +1,25 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.document.state_holder
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.domain.repository.DocumentRepository
+import com.ass.madhwavahini.domain.repository.TranslatorRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiState
+import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.modals.FileDocumentText
+import com.ass.madhwavahini.util.translations.TranslationLanguages
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,8 +31,25 @@ import java.io.IOException
 class TextStateHolder(
     scope: CoroutineScope,
     private val filesRepository: DocumentRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    translatorRepository: TranslatorRepository
 ) {
+    private val _sourceText = MutableStateFlow("")
+
+    private val _sourceLanguage = MutableStateFlow(TranslationLanguages.KANNADA)
+    private val _destinationLanguage = MutableStateFlow(TranslationLanguages.KANNADA)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val translatedTextState =
+        combine(_sourceText, _sourceLanguage, _destinationLanguage) { text, source, destination ->
+            Triple(text, source, destination)
+        }.transformLatest {
+            emitAll(translatorRepository.getTranslatedDocument(it.first, it.second, it.third))
+        }.flowOn(Dispatchers.Default).stateIn(
+            scope, SharingStarted.WhileSubscribed(5000), UiStateList()
+        )
+
+
     private val _fileState = MutableStateFlow(UiState<File>())
     val fileState = _fileState.asStateFlow()
 
@@ -38,7 +60,6 @@ class TextStateHolder(
 
     private val _text = MutableStateFlow<List<FileDocumentText>>(emptyList())
     val text = _text.asStateFlow()
-
 
     init {
         scope.launch(Dispatchers.IO) {
@@ -63,14 +84,18 @@ class TextStateHolder(
             val br = BufferedReader(FileReader(file))
             val text = mutableListOf<FileDocumentText>()
             var line: String?
+            val textContent = StringBuilder()
+
             var index = 0
             while (br.readLine().also {
                     line = it
+                    textContent.append(line)
                 } != null) {
                 index++
                 text.add(FileDocumentText(index, line!!))
             }
             br.close()
+            _sourceText.value = textContent.toString()
             _text.value = text.toList()
         } catch (e: Exception) {
             _fileState.update {
@@ -98,5 +123,10 @@ class TextStateHolder(
 
     fun removeIndexFlag() {
         index = -1
+    }
+
+
+    fun setDesinationLanguage(language: TranslationLanguages) {
+        _destinationLanguage.value = language
     }
 }

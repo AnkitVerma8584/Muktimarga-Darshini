@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ass.madhwavahini.domain.repository.DocumentRepository
+import com.ass.madhwavahini.domain.repository.TranslatorRepository
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.state_holder.AudioStateHolder
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.state_holder.TextStateHolder
 import com.ass.madhwavahini.util.player.MyPlayer
@@ -14,11 +15,12 @@ import javax.inject.Inject
 class TextDocumentViewModel @Inject constructor(
     filesRepository: DocumentRepository,
     myPlayer: MyPlayer,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    translatorRepository: TranslatorRepository
 ) : ViewModel() {
 
     val textStateHolder: TextStateHolder =
-        TextStateHolder(viewModelScope, filesRepository, savedStateHandle)
+        TextStateHolder(viewModelScope, filesRepository, savedStateHandle, translatorRepository)
 
     val audioStateHolder: AudioStateHolder =
         AudioStateHolder(viewModelScope, myPlayer, savedStateHandle)
