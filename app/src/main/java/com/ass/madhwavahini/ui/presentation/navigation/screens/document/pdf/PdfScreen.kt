@@ -47,18 +47,20 @@ fun PdfScreen(
                             .weight(1f)
                     )
                 }
-                if (pdfViewModel.hasAudioFile)
-                    BottomMusicBar(
-                        selectedTrack = pdfViewModel.currentTrack,
-                        playbackState = pdfViewModel.playbackState,
-                        onSeekBarPositionChanged = pdfViewModel::onSeekBarPositionChanged,
-                        onPlayPauseClick = pdfViewModel::onPlayPauseClick,
-                        onSeekForward = pdfViewModel::onSeekForward,
-                        onSeekBackward = pdfViewModel::onSeekBackward,
-                        isDisplayingAudio = isDisplayingAudio
-                    )
+                pdfViewModel.audioStateHolder.apply {
+                    if (hasAudioFile)
+                        BottomMusicBar(
+                            selectedTrack = currentTrack,
+                            playbackState = playbackState,
+                            onSeekBarPositionChanged = ::onSeekBarPositionChanged,
+                            onPlayPauseClick = ::onPlayPauseClick,
+                            onSeekForward = ::onSeekForward,
+                            onSeekBackward = ::onSeekBackward,
+                            isDisplayingAudio = isDisplayingAudio
+                        )
+                }
             }
-            if (pdfViewModel.hasAudioFile)
+            if (pdfViewModel.audioStateHolder.hasAudioFile)
                 AudioToggleButton(isDisplayingAudio = isDisplayingAudio) {
                     isDisplayingAudio = !isDisplayingAudio
                 }

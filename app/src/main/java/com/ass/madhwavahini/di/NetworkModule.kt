@@ -22,16 +22,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideDeviceId(
-        application: Application
-    ): String =
-        Settings.Secure.getString(application.contentResolver, Settings.Secure.ANDROID_ID)
-
-    @Provides
-    @Singleton
     fun getOkHttpClient(
-        deviceId: String
+        application: Application
     ): OkHttpClient.Builder {
+        val deviceId = Settings.Secure.getString(application.contentResolver, Settings.Secure.ANDROID_ID)
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(Interceptor {
             val request =
@@ -53,6 +47,7 @@ object NetworkModule {
         .addConverterFactory(GsonConverterFactory.create())
         .client(client.build())
         .build()
+
 
     @Provides
     @Singleton
@@ -88,6 +83,15 @@ object NetworkModule {
     @Singleton
     fun provideFilesDao(@MukitimargaDarshini retrofit: Retrofit): FilesApi =
         retrofit.create(FilesApi::class.java)
+
+    @Provides
+    @Singleton
+    @MukitimargaDarshini
+    fun provideTranslationDao(): TranslateApi = Retrofit.Builder()
+        .baseUrl(Api.TRANSLATION_BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(TranslateApi::class.java)
 
 }
 

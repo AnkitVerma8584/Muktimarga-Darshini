@@ -34,6 +34,7 @@ import com.ass.madhwavahini.R
 internal fun SplashScreen(
     sharedImage: @Composable () -> Unit
 ) {
+
     val infiniteTransition = rememberInfiniteTransition(label = "scale animation")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f, targetValue = 1.2f, animationSpec = infiniteRepeatable(

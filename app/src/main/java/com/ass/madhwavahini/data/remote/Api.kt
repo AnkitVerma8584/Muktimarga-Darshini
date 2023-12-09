@@ -3,7 +3,11 @@ package com.ass.madhwavahini.data.remote
 object Api {
 
     const val BASE_URL = "https://srssvvt.in/madhvavahini/"
+    const val TRANSLATION_BASE_URL = "https://aksharamukha-plugin.appspot.com/"
+
     private const val API = "app/apis"
+    const val TRANSLATE = "api/public"
+
     fun String.getDocumentExtension(): String = "uploads/documents/$this"
     fun String?.getAudioUrl(): String {
         return if (this.isNullOrBlank()) ""

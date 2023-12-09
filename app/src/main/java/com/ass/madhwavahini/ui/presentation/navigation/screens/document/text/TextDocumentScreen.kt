@@ -43,14 +43,15 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.document.componen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.DocumentText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.ScrollToTopButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.SearchedText
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.state_holder.TextStateHolder
 import kotlinx.coroutines.launch
 
 @Composable
 fun TextDocumentScreen(
     viewModel: TextDocumentViewModel = hiltViewModel()
 ) {
-    val state by viewModel.fileState.collectAsState()
-    val query by viewModel.fileDataQuery.collectAsState()
+    val state by viewModel.textStateHolder.fileState.collectAsState()
+    val query by viewModel.textStateHolder.fileDataQuery.collectAsState()
     var scale by rememberSaveable { mutableFloatStateOf(16f) }
 
     var isDisplayingAudio by rememberSaveable {
@@ -60,12 +61,10 @@ fun TextDocumentScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
             query = query,
-            onSearchQueryChanged = viewModel::updateQuery,
+            onSearchQueryChanged = viewModel.textStateHolder::updateQuery,
             hint = stringResource(id = R.string.document_search),
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
-        //LanguagePopUpBox(onClick = viewModel::setTranslateLanguage)
-
         Box(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
@@ -81,26 +80,26 @@ fun TextDocumentScreen(
             state.error?.ShowError()
 
             DocumentContent(
-                viewModel = viewModel,
+                stateHolder = viewModel.textStateHolder,
                 scale = scale,
                 query = query,
-                scrollIndex = viewModel.getScrollIndex(),
-                onRemoveIndex = viewModel::removeIndexFlag
+                scrollIndex = viewModel.textStateHolder.getScrollIndex(),
+                onRemoveIndex = viewModel.textStateHolder::removeIndexFlag
             )
-            if (viewModel.hasAudioFile)
+            if (viewModel.audioStateHolder.hasAudioFile)
                 AudioToggleButton(isDisplayingAudio = isDisplayingAudio) {
                     isDisplayingAudio = !isDisplayingAudio
                 }
 
         }
-        if (viewModel.hasAudioFile)
+        if (viewModel.audioStateHolder.hasAudioFile)
             BottomMusicBar(
-                selectedTrack = viewModel.currentTrack,
-                playbackState = viewModel.playbackState,
-                onSeekBarPositionChanged = viewModel::onSeekBarPositionChanged,
-                onPlayPauseClick = viewModel::onPlayPauseClick,
-                onSeekForward = viewModel::onSeekForward,
-                onSeekBackward = viewModel::onSeekBackward,
+                selectedTrack = viewModel.audioStateHolder.currentTrack,
+                playbackState = viewModel.audioStateHolder.playbackState,
+                onSeekBarPositionChanged = viewModel.audioStateHolder::onSeekBarPositionChanged,
+                onPlayPauseClick = viewModel.audioStateHolder::onPlayPauseClick,
+                onSeekForward = viewModel.audioStateHolder::onSeekForward,
+                onSeekBackward = viewModel.audioStateHolder::onSeekBackward,
                 isDisplayingAudio = isDisplayingAudio
             )
 
@@ -109,14 +108,14 @@ fun TextDocumentScreen(
 
 @Composable
 private fun BoxScope.DocumentContent(
-    viewModel: TextDocumentViewModel,
+    stateHolder: TextStateHolder,
     query: String,
     scale: Float,
     scrollIndex: Int,
     onRemoveIndex: () -> Unit
 ) {
-    val text by viewModel.text.collectAsState()
-    val searchedText by viewModel.searchedText.collectAsState()
+    val text by stateHolder.text.collectAsState()
+    val searchedText by stateHolder.searchedText.collectAsState()
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
