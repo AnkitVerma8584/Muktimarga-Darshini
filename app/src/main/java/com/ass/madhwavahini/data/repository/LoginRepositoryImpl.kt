@@ -8,6 +8,7 @@ import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.util.getError
 import com.ass.madhwavahini.util.notification.NotificationHelper
+import com.ass.madhwavahini.util.print
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -37,6 +38,7 @@ class LoginRepositoryImpl(
                 )
             }
         } catch (e: Exception) {
+            e.print()
             state = state.copy(
                 isLoading = false, error = e.getError()
             )

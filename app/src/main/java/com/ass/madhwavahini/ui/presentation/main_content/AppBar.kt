@@ -47,11 +47,13 @@ fun MyAppBar(
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }, navigationIcon = {
-        Icon(painter = rememberAnimatedVectorPainter(image, isNavigationFragment),
+        Icon(
+            painter = rememberAnimatedVectorPainter(image, isNavigationFragment),
             contentDescription = null,
             modifier = Modifier
-                .clickable { if (isNavigationFragment) hamburgerIconClicked() else navigationBackClicked() }
-                .padding(8.dp))
+                .clickable(onClick = if (isNavigationFragment) hamburgerIconClicked else navigationBackClicked)
+                .padding(8.dp)
+        )
     }, actions = {
         if (!isPaidCustomer) IconButton(onClick = onBuyClicked) {
             Text(

@@ -165,8 +165,8 @@ private fun Activity.AuthenticationNavigation(
                 visibleState = remember {
                     MutableTransitionState(false)
                 }.apply { targetState = true },
-                enter = fadeIn(animationSpec = tween(durationMillis = 800)),
-                exit = fadeOut(animationSpec = tween(durationMillis = 800)),
+                enter = fadeIn(animationSpec = tween(durationMillis = 500)),
+                exit = fadeOut(animationSpec = tween(durationMillis = 500)),
             ) {
                 NavHost(
                     navController = navController,

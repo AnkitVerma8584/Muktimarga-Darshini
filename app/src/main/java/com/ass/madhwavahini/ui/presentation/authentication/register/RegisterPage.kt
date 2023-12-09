@@ -55,15 +55,15 @@ fun RegisterPage(
     val res = LocalContext.current.resources
     LaunchedEffect(key1 = lifecycleOwner.lifecycle) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            viewModel.registerState.collect { login ->
-                login.data?.let {
+            viewModel.registerState.collect { register ->
+                register.data?.let {
                     onNavigate()
                     showSnack(
                         res.getString(R.string.signin_success),
                         SnackBarType.NORMAL
                     )
                 }
-                login.error?.let {
+                register.error?.let {
                     showSnack(
                         it.asString(ctx),
                         SnackBarType.ERROR
@@ -134,7 +134,6 @@ fun RegisterPage(
                         fontWeight = FontWeight.SemiBold
                     )
                 }
-
             }
         }
         Spacer(modifier = Modifier.height(50.dp))

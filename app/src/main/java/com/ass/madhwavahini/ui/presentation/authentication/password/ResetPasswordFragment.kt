@@ -29,7 +29,6 @@ import com.ass.madhwavahini.ui.presentation.authentication.password.screens.Mobi
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.OtpAuthScreen
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.ResetPasswordFragment
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
-import com.ass.madhwavahini.util.print
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -187,7 +186,6 @@ private fun Activity.verifyOtp(
                     onError(StringUtil.DynamicText("Invalid otp"))
                     return@addOnCompleteListener
                 }
-                task.exception.print()
                 onError(StringUtil.DynamicText("Something went wrong"))
             }
         }

@@ -70,6 +70,7 @@ import kotlinx.coroutines.launch
 fun Activity.MainPage(
     mainViewModel: MainViewModel
 ) {
+
     val allScreens: List<NavigationFragment> = listOf(
         NavigationFragment.Home,
         NavigationFragment.About,
@@ -95,7 +96,6 @@ fun Activity.MainPage(
     }
 
     val snackBarHostState = remember { SnackbarHostState() }
-
 
     val lifeCycleOwner = LocalLifecycleOwner.current
 
@@ -199,7 +199,9 @@ fun Activity.MainPage(
             MyAppBar(
                 title = currentFragment?.title?.asString()
                     ?: stringResource(id = R.string.app_name),
-                hamburgerIconClicked = { scope.launch { drawerState.open() } },
+                hamburgerIconClicked = {
+                    scope.launch { drawerState.open() }
+                },
                 navigationBackClicked = navController::navigateUp,
                 isNavigationFragment = currentFragment?.icon != null,
                 isPaidCustomer = mainViewModel.user.isPaidCustomer,

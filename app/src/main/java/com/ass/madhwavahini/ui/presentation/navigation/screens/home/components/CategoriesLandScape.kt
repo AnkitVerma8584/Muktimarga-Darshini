@@ -28,15 +28,16 @@ fun CategoriesLandscape(
     categories: UiStateList<HomeCategory>,
     onClick: (HomeCategory) -> Unit
 ) {
-    Row(modifier = modifier.fillMaxSize()) {
+    if (categories.isLoading && banners.isLoading) {
+        Loading()
+        return
+    }
 
-        if (categories.isLoading && banners.isLoading) {
-            Loading()
-        }
+    Row(modifier = modifier.fillMaxSize()) {
         banners.data?.let {
             Slider(
                 banner = it,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1.2f)
             )
         }
         LazyVerticalGrid(

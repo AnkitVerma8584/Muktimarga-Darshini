@@ -50,7 +50,9 @@ enum class SnackBarType {
 
 @Composable
 fun MyCustomSnack(
-    text: String, snackBarType: SnackBarType = SnackBarType.NORMAL, onDismiss: () -> Unit
+    text: String,
+    snackBarType: SnackBarType = SnackBarType.NORMAL,
+    onDismiss: () -> Unit
 ) {
     Snackbar(containerColor = snackBarType.color.first,
         contentColor = snackBarType.color.second,

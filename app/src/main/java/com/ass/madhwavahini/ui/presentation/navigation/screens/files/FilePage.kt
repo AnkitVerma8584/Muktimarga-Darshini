@@ -44,7 +44,7 @@ fun FilePage(
             FilesList(
                 searchedContent = searchedData,
                 data = it,
-                query,
+                query={query},
                 onFileClicked = onFileClicked
             )
         }

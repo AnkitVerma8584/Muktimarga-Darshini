@@ -43,9 +43,8 @@ fun Activity.PaymentOptionsBottomSheet(
             PaymentOption(
                 icon = R.drawable.ic_razorpay,
                 text = "Pay via Razorpay",
-                modifier = Modifier.clickable {
-                    onRazorpayModeClicked.invoke()
-                })
+                modifier = Modifier.clickable(onClick = onRazorpayModeClicked)
+            )
             Spacer(modifier = Modifier.height(30.dp))
             PaymentOption(icon = R.drawable.ic_upi, text = "Pay via Upi")
 

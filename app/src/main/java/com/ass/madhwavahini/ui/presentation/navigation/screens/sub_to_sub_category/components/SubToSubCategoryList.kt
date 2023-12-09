@@ -55,7 +55,8 @@ fun SubToSubCategoryContent(
             item(span = { GridItemSpan(maxLineSpan) }) {
                 SearchedFileHeader(header = fileData.homeFile.name)
             }
-            items(items = fileData.fileData, span = { GridItemSpan(maxLineSpan) }) { text ->
+            items(items = fileData.fileData,
+                span = { GridItemSpan(maxLineSpan) }) { text ->
                 SearchedText(query = query, content = text,
                     onClick = { onFileClicked(fileData.homeFile, query, it) }
                 )
@@ -93,52 +94,5 @@ fun SubToSubCategoryContent(
             }
         }
     }
-
-    /* LazyColumn(
-         modifier = Modifier.fillMaxSize()
-     ) {
-
-         searchedContent.forEach { fileData ->
-             stickyHeader {
-                 SearchedFileHeader(header = fileData.homeFile.name)
-             }
-             items(fileData.fileData) { text ->
-                 SearchedText(query = query, content = text,
-                     onClick = { onFileClicked(fileData.homeFile, query, it) }
-                 )
-             }
-             item {
-                 Spacer(modifier = Modifier.height(15.dp))
-             }
-         }
-
-         subToSubCategory.data?.let { list ->
-             stickyHeader {
-                 Header(stringResource(id = R.string.sub_to_sub_cat))
-             }
-             if (list.isEmpty()) item {
-                 NoSearchedResults(query, R.string.empty_sub_to_sub_categories)
-             }
-             else items(items = list, key = { it.uniqueKey }) { subCategory ->
-                 SubToSubCategoryCard(
-                     data = subCategory,
-                     onClick = onSubToSubCategoryClick,
-                     query = query
-                 )
-             }
-         }
-
-         files.data?.let { list ->
-             stickyHeader {
-                 Header(stringResource(id = R.string.files))
-             }
-             if (list.isEmpty()) item {
-                 NoSearchedResults(query, R.string.empty_files)
-             }
-             else items(list, key = { it.uniqueKey }) {
-                 FileCard(item = it, onFileClicked = onFileClicked, query = query)
-             }
-         }
-     }*/
 }
 

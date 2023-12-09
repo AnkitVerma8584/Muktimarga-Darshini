@@ -44,7 +44,7 @@ fun MobileInput(
     label: String = stringResource(id = R.string.phone_header),
     hint: String = stringResource(id = R.string.phone_hint),
     imeAction: ImeAction = ImeAction.Next,
-    onDoneClick: () -> Unit = {},
+    onDoneClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
         capitalization = KeyboardCapitalization.None,
         autoCorrect = false,
@@ -105,7 +105,9 @@ fun MobileInput(
             onDone = {
                 keyboardController?.hide()
                 focusManager.clearFocus()
-                onDoneClick()
+                if (onDoneClick != null) {
+                    onDoneClick()
+                }
             },
             onNext = {
                 focusManager.moveFocus(FocusDirection.Down)

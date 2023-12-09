@@ -24,7 +24,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.File
 fun FilesList(
     searchedContent: List<FilesData>,
     data: List<HomeFile>,
-    query: String,
+    query: () -> String,
     onFileClicked: (homeFile: HomeFile, query: String, index: Int) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -36,8 +36,14 @@ fun FilesList(
                 SearchedFileHeader(header = fileData.homeFile.name)
             }
             items(items = fileData.fileData, span = { GridItemSpan(maxLineSpan) }) { text ->
-                SearchedText(query = query, content = text,
-                    onClick = { onFileClicked(fileData.homeFile, query, it) }
+                SearchedText(query = query(), content = text,
+                    onClick = {
+                        onFileClicked(
+                            fileData.homeFile,
+                            query(),
+                            it
+                        )
+                    }
                 )
             }
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -50,52 +56,15 @@ fun FilesList(
         }
         if (data.isEmpty())
             item(span = { GridItemSpan(maxLineSpan) }) {
-                NoSearchedResults(query = query, id = R.string.empty_files)
+                NoSearchedResults(query = query(), id = R.string.empty_files)
             }
         else {
             items(data, key = { it.uniqueKey }) {
                 FileCard(
                     item = it,
-                    onFileClicked = onFileClicked, query = query
+                    onFileClicked = onFileClicked, query = query()
                 )
             }
         }
-
     }
-    /* LazyColumn(
-         modifier = Modifier.fillMaxSize()
-     ) {
-         searchedContent.forEach { fileData ->
-             stickyHeader {
-                 SearchedFileHeader(header = fileData.homeFile.name)
-             }
-             items(fileData.fileData) { text ->
-                 SearchedText(
-                     query = query, content = text,
-                     onClick = {
-                         onFileClicked(fileData.homeFile, query, it)
-                     }
-                 )
-             }
-             item {
-                 Spacer(modifier = Modifier.height(16.dp))
-             }
-         }
-
-         stickyHeader {
-             Header(header = stringResource(id = R.string.files))
-         }
-         if (data.isEmpty())
-             item {
-                 NoSearchedResults(query = query, id = R.string.empty_files)
-             }
-         else {
-             items(data, key = { it.uniqueKey }) {
-                 FileCard(
-                     item = it,
-                     onFileClicked = onFileClicked, query = query
-                 )
-             }
-         }
-     }*/
 }
