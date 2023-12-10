@@ -41,6 +41,7 @@ import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.AudioToggleButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.BottomMusicBar
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.DocumentText
+import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.LanguagePopUpBox
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.ScrollToTopButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.SearchedText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.state_holder.TextStateHolder
@@ -65,6 +66,7 @@ fun TextDocumentScreen(
             hint = stringResource(id = R.string.document_search),
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
+        LanguagePopUpBox(onClick = viewModel.textStateHolder::setDestinationLanguage)
         Box(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
@@ -102,7 +104,6 @@ fun TextDocumentScreen(
                 onSeekBackward = viewModel.audioStateHolder::onSeekBackward,
                 isDisplayingAudio = isDisplayingAudio
             )
-
     }
 }
 
@@ -114,53 +115,61 @@ private fun BoxScope.DocumentContent(
     scrollIndex: Int,
     onRemoveIndex: () -> Unit
 ) {
-    val text by stateHolder.text.collectAsState()
+    val textState by stateHolder.translatedTextState.collectAsState()
     val searchedText by stateHolder.searchedText.collectAsState()
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val resources = LocalContext.current.resources
+    val text = textState.data
 
-    SelectionContainer {
-        LazyColumn(
-            contentPadding = PaddingValues(16.dp),
-            state = listState,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            if (query.length > 2) {
-                item {
-                    Text(
-                        text = resources.getQuantityString(
-                            R.plurals.numberOfSearchResults,
-                            searchedText.size,
-                            searchedText.size
-                        ),
-                        modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                }
-                if (searchedText.isNotEmpty()) {
-                    items(searchedText, key = { "item_${it.index}" }) { content ->
-                        SearchedText(
-                            query = query,
-                            content = content,
-                            scale = scale,
-                            onClick = {
-                                coroutineScope.launch {
-                                    listState.animateScrollToItem(searchedText.size + it)
-                                }
-                            })
-                    }
+    if (textState.isLoading) {
+        Loading()
+        return
+    }
+
+    text?.let {
+        SelectionContainer {
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+                state = listState,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                if (query.length > 2) {
                     item {
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = resources.getQuantityString(
+                                R.plurals.numberOfSearchResults,
+                                searchedText.size,
+                                searchedText.size
+                            ),
+                            modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                    if (searchedText.isNotEmpty()) {
+                        items(searchedText, key = { "item_${it.index}" }) { content ->
+                            SearchedText(
+                                query = query,
+                                content = content,
+                                scale = scale,
+                                onClick = {
+                                    coroutineScope.launch {
+                                        listState.animateScrollToItem(searchedText.size + it)
+                                    }
+                                })
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
                     }
                 }
-            }
-            items(text, key = { it.index }) { item ->
-                if (item.text.isNotBlank())
-                    DocumentText(query = query, text = item.text, scale = scale)
-                else Spacer(modifier = Modifier.height(24.dp))
+                items(text, key = { it.uniqueKey }) { item ->
+                    if (item.text.isNotBlank())
+                        DocumentText(query = query, text = item.text, scale = scale)
+                    else Spacer(modifier = Modifier.height(24.dp))
+                }
             }
         }
     }
@@ -184,11 +193,10 @@ private fun BoxScope.DocumentContent(
             listState.animateScrollToItem(0)
         }
 
-    if (text.isNotEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
+    if (!text.isNullOrEmpty() && searchedText.isNotEmpty() && (searchedText.size + scrollIndex) < totalItems && scrollIndex != -1) {
         LaunchedEffect(Unit) {
             listState.animateScrollToItem(searchedText.size + scrollIndex)
             onRemoveIndex()
         }
     }
-
 }

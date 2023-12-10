@@ -6,7 +6,6 @@ import com.ass.madhwavahini.domain.repository.TranslatorRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.domain.wrapper.UiStateList
-import com.ass.madhwavahini.ui.presentation.navigation.screens.document.modals.FileDocumentText
 import com.ass.madhwavahini.util.translations.TranslationLanguages
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +34,6 @@ class TextStateHolder(
     translatorRepository: TranslatorRepository
 ) {
     private val _sourceText = MutableStateFlow("")
-
     private val _sourceLanguage = MutableStateFlow(TranslationLanguages.KANNADA)
     private val _destinationLanguage = MutableStateFlow(TranslationLanguages.KANNADA)
 
@@ -49,7 +47,6 @@ class TextStateHolder(
             scope, SharingStarted.WhileSubscribed(5000), UiStateList()
         )
 
-
     private val _fileState = MutableStateFlow(UiState<File>())
     val fileState = _fileState.asStateFlow()
 
@@ -58,8 +55,6 @@ class TextStateHolder(
     private val _fileDataQuery = MutableStateFlow(savedStateHandle["query"] ?: "")
     val fileDataQuery get() = _fileDataQuery.asStateFlow()
 
-    private val _text = MutableStateFlow<List<FileDocumentText>>(emptyList())
-    val text = _text.asStateFlow()
 
     init {
         scope.launch(Dispatchers.IO) {
@@ -82,21 +77,18 @@ class TextStateHolder(
     private suspend fun readTextFile(file: File) = withContext(Dispatchers.IO) {
         try {
             val br = BufferedReader(FileReader(file))
-            val text = mutableListOf<FileDocumentText>()
+            //  val text = mutableListOf<FileDocumentText>()
             var line: String?
             val textContent = StringBuilder()
-
-            var index = 0
-            while (br.readLine().also {
-                    line = it
-                    textContent.append(line)
-                } != null) {
-                index++
-                text.add(FileDocumentText(index, line!!))
+            //   var index = 0
+            while (br.readLine().also { line = it } != null) {
+                textContent.append(line).append("\n")
+                // index++
+                // text.add(FileDocumentText(index, line!!))
             }
             br.close()
             _sourceText.value = textContent.toString()
-            _text.value = text.toList()
+            // _text.value = text.toList()
         } catch (e: Exception) {
             _fileState.update {
                 it.copy(
@@ -108,10 +100,10 @@ class TextStateHolder(
         }
     }
 
-    val searchedText = combine(fileDataQuery, text) { query, list ->
-        if (query.length > 2) list.filter { s ->
+    val searchedText = combine(fileDataQuery, translatedTextState) { query, list ->
+        if (query.length > 2) list.data?.filter { s ->
             s.text.contains(query, ignoreCase = true)
-        }
+        } ?: emptyList()
         else emptyList()
     }.flowOn(Dispatchers.Default).stateIn(scope, SharingStarted.WhileSubscribed(1000), emptyList())
 
@@ -125,8 +117,7 @@ class TextStateHolder(
         index = -1
     }
 
-
-    fun setDesinationLanguage(language: TranslationLanguages) {
+    fun setDestinationLanguage(language: TranslationLanguages) {
         _destinationLanguage.value = language
     }
 }

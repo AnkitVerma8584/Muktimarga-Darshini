@@ -25,7 +25,6 @@ class TextDocumentViewModel @Inject constructor(
     val audioStateHolder: AudioStateHolder =
         AudioStateHolder(viewModelScope, myPlayer, savedStateHandle)
 
-
     override fun onCleared() {
         super.onCleared()
         audioStateHolder.clearPlayer()

@@ -1,5 +1,5 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.document.components
-/*
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
@@ -16,7 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.ass.madhwavahini.util.translation.TranslationLanguages
+import com.ass.madhwavahini.util.translations.TranslationLanguages
 
 @Composable
 fun LanguagePopUpBox(
@@ -52,4 +52,3 @@ fun LanguagePopUpBox(
     }
 }
 
-*/

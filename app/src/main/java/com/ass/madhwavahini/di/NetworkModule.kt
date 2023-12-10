@@ -12,6 +12,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -25,7 +26,8 @@ object NetworkModule {
     fun getOkHttpClient(
         application: Application
     ): OkHttpClient.Builder {
-        val deviceId = Settings.Secure.getString(application.contentResolver, Settings.Secure.ANDROID_ID)
+        val deviceId =
+            Settings.Secure.getString(application.contentResolver, Settings.Secure.ANDROID_ID)
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(Interceptor {
             val request =
@@ -86,9 +88,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @MukitimargaDarshini
     fun provideTranslationDao(): TranslateApi = Retrofit.Builder()
         .baseUrl(Api.TRANSLATION_BASE_URL)
+        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(TranslateApi::class.java)

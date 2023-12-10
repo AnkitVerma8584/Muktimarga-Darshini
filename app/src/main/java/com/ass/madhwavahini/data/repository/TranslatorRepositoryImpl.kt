@@ -18,18 +18,16 @@ class TranslatorRepositoryImpl(
         source: TranslationLanguages,
         destination: TranslationLanguages
     ): Flow<UiStateList<FileDocumentText>> = flow {
-
-        if (text.isBlank() || source == destination)
-            return@flow
-
         var state = UiStateList<FileDocumentText>(isLoading = true)
         emit(state)
+        if (text.isBlank() || source == destination) {
+            val list = text.split("\n").mapIndexed { index, s ->
+                FileDocumentText("${destination.name}_$index", index, s)
+            }
+            emit(UiStateList(data = list))
+            return@flow
+        }
 
-        //TODO TRY FETCHING FROM CACHE
-        /*if (localFiles.isNotEmpty()) {
-            state = state.copy(isLoading = false, data = localFiles)
-            emit(state)
-        }*/
         try {
             val result =
                 translateApi.translateText(
@@ -39,7 +37,9 @@ class TranslatorRepositoryImpl(
                 )
             state = if (result.isSuccessful && result.body() != null) {
                 val data = result.body()!!
-                val list = List(data.split("\n").size) { index -> FileDocumentText(index, text) }
+                val list = data.split("\n").mapIndexed { index, s ->
+                    FileDocumentText("${destination.name}_$index", index, s)
+                }
                 //TODO try caching the translation
                 state.copy(isLoading = false, data = list)
             } else {
@@ -53,8 +53,7 @@ class TranslatorRepositoryImpl(
                 isLoading = false,
                 error = e.getError()
             )
-        } finally {
-            emit(state)
         }
+        emit(state)
     }
 }
