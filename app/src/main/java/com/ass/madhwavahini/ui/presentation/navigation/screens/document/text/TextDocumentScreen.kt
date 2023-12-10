@@ -41,7 +41,6 @@ import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.AudioToggleButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.BottomMusicBar
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.DocumentText
-import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.LanguagePopUpBox
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.ScrollToTopButton
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.components.SearchedText
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.state_holder.TextStateHolder
@@ -66,7 +65,6 @@ fun TextDocumentScreen(
             hint = stringResource(id = R.string.document_search),
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
-        LanguagePopUpBox(onClick = viewModel.textStateHolder::setDestinationLanguage)
         Box(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
@@ -128,6 +126,7 @@ private fun BoxScope.DocumentContent(
         return
     }
 
+
     text?.let {
         SelectionContainer {
             LazyColumn(
@@ -184,7 +183,9 @@ private fun BoxScope.DocumentContent(
             coroutineScope.launch {
                 listState.animateScrollToItem(index = 0)
             }
-        })
+        },
+        onTranslateClick = stateHolder::setDestinationLanguage
+    )
 
     val totalItems by remember { derivedStateOf { listState.layoutInfo.totalItemsCount } }
 

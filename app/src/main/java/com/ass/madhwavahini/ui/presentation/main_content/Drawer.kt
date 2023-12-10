@@ -244,12 +244,12 @@ fun Activity.MainPage(
                 NavHostFragments(
                     navController = navController,
                     isPaidCustomer = mainViewModel.user.isPaidCustomer,
-                    onNavigationTriggered = {
+                    onErrorTriggered = { message,type->
                         scope.launch {
                             snackBarHostState.showSnackbar(
-                                message = "Purchase the pack to view.",
+                                message = message ,
                                 duration = SnackbarDuration.Short,
-                                actionLabel = SnackBarType.WARNING.name
+                                actionLabel = type.name
                             )
                         }
                     })

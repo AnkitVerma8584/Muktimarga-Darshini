@@ -7,6 +7,7 @@ import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.util.translations.TranslationLanguages
+import com.google.mlkit.nl.languageid.LanguageIdentification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -77,18 +78,14 @@ class TextStateHolder(
     private suspend fun readTextFile(file: File) = withContext(Dispatchers.IO) {
         try {
             val br = BufferedReader(FileReader(file))
-            //  val text = mutableListOf<FileDocumentText>()
             var line: String?
             val textContent = StringBuilder()
-            //   var index = 0
             while (br.readLine().also { line = it } != null) {
                 textContent.append(line).append("\n")
-                // index++
-                // text.add(FileDocumentText(index, line!!))
             }
             br.close()
             _sourceText.value = textContent.toString()
-            // _text.value = text.toList()
+            identifySource(text = textContent.toString())
         } catch (e: Exception) {
             _fileState.update {
                 it.copy(
@@ -99,6 +96,7 @@ class TextStateHolder(
             }
         }
     }
+
 
     val searchedText = combine(fileDataQuery, translatedTextState) { query, list ->
         if (query.length > 2) list.data?.filter { s ->
@@ -119,5 +117,37 @@ class TextStateHolder(
 
     fun setDestinationLanguage(language: TranslationLanguages) {
         _destinationLanguage.value = language
+    }
+
+    private fun identifySource(text: String) {
+        val languageIdentifier = LanguageIdentification.getClient()
+        languageIdentifier.identifyLanguage(text).addOnSuccessListener { languageCode ->
+            when (languageCode) {
+                "kn" -> {
+                    _sourceLanguage.value = TranslationLanguages.KANNADA
+                    _destinationLanguage.value = TranslationLanguages.KANNADA
+                }
+
+                "ne", "sa", "hi" -> {
+                    _sourceLanguage.value = TranslationLanguages.SANSKRIT
+                    _destinationLanguage.value = TranslationLanguages.SANSKRIT
+                }
+
+                "te" -> {
+                    _sourceLanguage.value = TranslationLanguages.TELEGU
+                    _destinationLanguage.value = TranslationLanguages.TELEGU
+                }
+
+                "ta" -> {
+                    _sourceLanguage.value = TranslationLanguages.TAMIL
+                    _destinationLanguage.value = TranslationLanguages.TAMIL
+                }
+
+                "en" -> {
+                    _sourceLanguage.value = TranslationLanguages.ENGLISH
+                    _destinationLanguage.value = TranslationLanguages.ENGLISH
+                }
+            }
+        }
     }
 }

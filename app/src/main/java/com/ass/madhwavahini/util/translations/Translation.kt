@@ -6,8 +6,8 @@ import com.ass.madhwavahini.R
 enum class TranslationLanguages(
     @StringRes val displayName: Int,
     val languageCode: String,
-    val preoptions:List<String> = emptyList(),
-    val postOptions:List<String> = emptyList()
+    val preoptions: List<String> = emptyList(),
+    val postOptions: List<String> = emptyList()
 ) {
     ENGLISH(R.string.en, "HK"),
     KANNADA(R.string.kn, "Kannada"),

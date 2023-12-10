@@ -8,6 +8,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -21,33 +22,43 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.util.translations.TranslationLanguages
 
 @Composable
 fun BoxScope.ScrollToTopButton(
     shouldShowButton: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onTranslateClick: (TranslationLanguages) -> Unit
 ) {
-
-    AnimatedVisibility(
+    Column(
         modifier = Modifier
             .align(Alignment.BottomEnd)
             .padding(16.dp),
-        visible = shouldShowButton,
-        enter = slideInVertically(animationSpec = tween(400), initialOffsetY = { it }) + fadeIn(),
-        exit = slideOutVertically(animationSpec = tween(400), targetOffsetY = { it }) + fadeOut(),
-        content = {
-            IconButton(
-                onClick = onClick, modifier = Modifier
-                    .size(54.dp)
-                    .padding(8.dp)
-                    .clip(CircleShape)
-                    .background(color = MaterialTheme.colorScheme.primary)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowUp,
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                    contentDescription = "Scroll to top"
-                )
-            }
-        })
+    ) {
+        AnimatedVisibility(
+            visible = shouldShowButton,
+            enter = slideInVertically(
+                animationSpec = tween(400),
+                initialOffsetY = { it }) + fadeIn(),
+            exit = slideOutVertically(
+                animationSpec = tween(400),
+                targetOffsetY = { it }) + fadeOut(),
+            content = {
+                IconButton(
+                    onClick = onClick, modifier = Modifier
+                        .size(54.dp)
+                        .padding(8.dp)
+                        .clip(CircleShape)
+                        .background(color = MaterialTheme.colorScheme.primary)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowUp,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        contentDescription = "Scroll to top"
+                    )
+                }
+            })
+
+        LanguagePopUpBox(onClick = onTranslateClick)
+    }
 }

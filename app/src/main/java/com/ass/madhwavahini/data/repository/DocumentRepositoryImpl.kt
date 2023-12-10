@@ -29,13 +29,13 @@ class DocumentRepositoryImpl(
             )
         }
         emit(state)
+        val file = File(application.filesDir, homeFileName)
+        if (file.exists()) {
+            state = state.copy(isLoading = false, data = file)
+            emit(state)
+            return@flow
+        }
         try {
-            val file = File(application.filesDir, homeFileName)
-            if (file.exists()) {
-                state = state.copy(isLoading = false, data = file)
-                emit(state)
-                return@flow
-            }
             val result = filesApi.getFilesData(homeFileUrl.getDocumentExtension())
             val body: ResponseBody? = result.body()
 

@@ -165,8 +165,8 @@ private fun Activity.AuthenticationNavigation(
                 visibleState = remember {
                     MutableTransitionState(false)
                 }.apply { targetState = true },
-                enter = fadeIn(animationSpec = tween(durationMillis = 500)),
-                exit = fadeOut(animationSpec = tween(durationMillis = 500)),
+                enter = fadeIn(animationSpec = tween(durationMillis = 300)),
+                exit = fadeOut(animationSpec = tween(durationMillis = 300)),
             ) {
                 NavHost(
                     navController = navController,
@@ -200,6 +200,11 @@ private fun Activity.AuthenticationNavigation(
             }
         }
     }
+}
+
+@Composable
+private fun NavigationFragments() {
+
 }
 
 private fun Activity.navigateToMainActivity() {

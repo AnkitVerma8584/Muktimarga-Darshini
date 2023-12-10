@@ -32,7 +32,7 @@ import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswor
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ResetPasswordFragment(
+fun ResetPasswordModule(
     viewModel: ResetPasswordViewModel
 ) {
     val focusRequester: FocusRequester = remember { FocusRequester() }

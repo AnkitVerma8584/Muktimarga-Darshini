@@ -27,7 +27,7 @@ import com.ass.madhwavahini.ui.presentation.authentication.password.PasswordScre
 import com.ass.madhwavahini.ui.presentation.authentication.password.PasswordScreenState.RESET_PASSWORD
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.MobileAuthScreen
 import com.ass.madhwavahini.ui.presentation.authentication.password.screens.OtpAuthScreen
-import com.ass.madhwavahini.ui.presentation.authentication.password.screens.ResetPasswordFragment
+import com.ass.madhwavahini.ui.presentation.authentication.password.screens.ResetPasswordModule
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -107,7 +107,7 @@ fun Activity.ResetPasswordFragment(
             when (state) {
                 NUMBER_VERIFICATION -> MobileAuthScreen(viewModel = viewModel)
                 OTP_STATE -> OtpAuthScreen(viewModel = viewModel)
-                RESET_PASSWORD -> ResetPasswordFragment(viewModel = viewModel)
+                RESET_PASSWORD -> ResetPasswordModule(viewModel = viewModel)
             }
         }
         Spacer(modifier = Modifier.height(50.dp))

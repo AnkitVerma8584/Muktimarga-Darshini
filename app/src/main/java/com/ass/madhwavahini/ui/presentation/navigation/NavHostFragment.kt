@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.wrapper.StringUtil
+import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.ass.madhwavahini.ui.presentation.navigation.modal.NavigationFragment
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.AboutPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.contact.ContactPage
@@ -28,7 +29,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.support.SupportPa
 fun NavHostFragments(
     navController: NavHostController,
     isPaidCustomer: Boolean,
-    onNavigationTriggered: () -> Unit
+    onErrorTriggered: (message: String, type: SnackBarType) -> Unit
 ) {
     NavHost(
         modifier = Modifier.fillMaxSize(),
@@ -75,7 +76,7 @@ fun NavHostFragments(
         ) {
             SubToSubCategoryPage(onSubToSubCategoryClick = { subToSubCat ->
                 if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
+                    onErrorTriggered("Please purchase the pack to view", SnackBarType.WARNING)
                     return@SubToSubCategoryPage
                 }
 
@@ -87,7 +88,7 @@ fun NavHostFragments(
                 }
             }, onFileClicked = { homeFile, query, index ->
                 if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
+                    onErrorTriggered("Please purchase the pack to view", SnackBarType.WARNING)
                     return@SubToSubCategoryPage
                 }
 
@@ -103,7 +104,7 @@ fun NavHostFragments(
         ) {
             FilePage(onFileClicked = { homeFile, query, index ->
                 if (!isPaidCustomer) {
-                    onNavigationTriggered.invoke()
+                    onErrorTriggered("Please purchase the pack to view", SnackBarType.WARNING)
                     return@FilePage
                 }
                 navController.onFileClicked(homeFile, query, index)
