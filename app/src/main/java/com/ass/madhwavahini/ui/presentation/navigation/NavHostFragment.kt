@@ -24,6 +24,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.home.CategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.support.SupportPage
+import com.ass.madhwavahini.ui_new.home.HomePage
 
 @Composable
 fun NavHostFragments(
@@ -37,6 +38,17 @@ fun NavHostFragments(
         startDestination = NavigationFragment.Home.route
     ) {
         composable(route = NavigationFragment.Home.route) {
+            HomePage { route ->
+                navController.navigate(route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+        }
+        composable(route = NavigationFragment.Category.route) {
             CategoryPage {
                 NavigationFragment.SubCategory.title = StringUtil.DynamicText(it.name)
                 navController.navigate("sub_category/${it.id}") {

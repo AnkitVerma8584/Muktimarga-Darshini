@@ -20,6 +20,7 @@ sealed class NavigationFragment(
         icon = Icons.Outlined.Home
     )
 
+
     data object About : NavigationFragment(
         route = "about",
         title = StringUtil.StringResource(R.string.about),
@@ -36,6 +37,11 @@ sealed class NavigationFragment(
         route = "support",
         title = StringUtil.StringResource(R.string.support),
         icon = Icons.Default.SupportAgent
+    )
+
+    data object Category : NavigationFragment(
+        route = "category",
+        title = StringUtil.StringResource(R.string.category)
     )
 
     data object SubCategory : NavigationFragment(
