@@ -1,39 +1,74 @@
 <resources>
     <string name="app_name">Madhva Vahini</string>
+    <string name="splash_description">Developed by Aishwarya Software, Bengaluru</string>
+    <string name="app_version">v %s</string>
     <!--Errors-->
-    <string name="empty_categories">No categories found</string>
-    <string name="empty_banners">No banners found</string>
+    <string name="empty_categories">No categories found for query %s</string>
+    <string name="empty_subcategories">No sub-categories found for query %s</string>
+    <string name="empty_sub_to_sub_categories">No sub-to-sub-categories found for query %s</string>
+    <string name="empty_files">No files found for query %s</string>
+    <string name="check_internet">Please check your internet connection.</string>
+    <string name="server_error">Some server error occurred</string>
+
+    <!--Search-->
+    <plurals name="numberOfSearchResults">
+        <item quantity="one">%d result found.</item>
+        <item quantity="other">%d results found.</item>
+    </plurals>
+
+    <!--Authentication-->
+    <string name="login">Sign In</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="has_account">Already have an account ? </string>
+    <string name="no_account">Don\'t have an account yet ? </string>
+    <string name="register">Sign Up</string>
+    <string name="name_header">Name</string>
+    <string name="name_hint">Enter your full name</string>
+    <string name="phone_header">Mobile number</string>
+    <string name="phone_hint">Enter your mobile number</string>
+    <string name="password_header">Password</string>
+    <string name="password_hint">Enter password</string>
+    <string name="login_success">Logged in successfully.</string>
+    <string name="signin_success">Signed in successfully.</string>
+
+    <string name="get_otp">Get Otp</string>
+    <string name="verify_otp">Verify Otp</string>
+    <string name="reset_password">Reset Password</string>
 
     <!--Menu-->
+    <string name="welcome">Welcome %s,</string>
     <string name="menu">Menu</string>
     <string name="home">Home</string>
     <string name="about">About us</string>
     <string name="contact_us">Contact Us</string>
     <string name="support">Support</string>
-
-    <!--Language-->
-    <string name="en" translatable="false">English</string>
-    <string name="hi" translatable="false">हिन्दी</string>
-    <string name="kn" translatable="false">ಕನ್ನಡ</string>
-    <string name="sa" translatable="false">संस्कृत</string>
+    <string name="logout">Logout</string>
 
     <!--Category-->
     <string name="category">Categories</string>
     <string name="category_search">Search for any category</string>
 
     <!--Sub Category-->
-    <string name="sub_cat" translatable="false">Sub Categories</string>
-    <string name="sub_cat_search" translatable="false">Search for any category</string>
+    <string name="sub_cat">Sub Categories</string>
+    <string name="sub_cat_search">Search for any sub-category</string>
 
     <!--Sub to sub Category-->
-    <string name="sub_to_sub_cat" translatable="false">Sub to sub Categories</string>
-    <string name="sub_to_sub_cat_search" translatable="false">Search for any category</string>
+    <string name="sub_to_sub_cat">Sub to sub categories</string>
+    <string name="sub_to_sub_cat_search">Search for any category or files</string>
 
     <!--Files-->
-    <string name="files" translatable="false">Files</string>
+    <string name="files">Files</string>
+    <string name="files_search">Search for any file</string>
+    <string name="document_search">Search for any word or line…</string>
 
     <!--Files details-->
-    <string name="files_details" translatable="false">File Details</string>
+    <string name="files_details">File Details</string>
+    <!--Language-->
+    <string name="en">English</string>
+    <string name="sa">संस्कृत</string>
+    <string name="kn">ಕನ್ನಡ</string>
+    <string name="te">తెలుగు</string>
+    <string name="ta">தமிழ்</string>
 
     <!--Contact-->
     <string name="sub_heading">In case of any difficulty or queries please contact us on the details below :</string>
@@ -53,88 +88,35 @@
     <string name="contact_mail">aishwaryasoftware22@gmail.com</string>
 
     <string name="about_us_header">ಮಧ್ವ ವಾಹಿನಿ</string>
-    <string name="about_us">ಎಲ್ಲಾ ಸದ್ಭಕ್ತರಿಗೂ ಸ್ವಾಗತ ! ಈ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಎಲ್ಲಾ ಸದ್ಭಕ್ತರ ಪ್ರತಿ ನಿತ್ಯ  ಮಂತ್ರ ಸ್ತೋತ್ರ  ಸುಳಾದಿಗಳ ಹಾಡುಗಳ ಪಾರಾಯಣಕ್ಕಾಗಿ ನಿರ್ಮಾಣ ಮಾಡಲಾಗಿದೆ. ಈ ಅಪ್ಲಿಕೇಶನ್ ಅಲ್ಲಿ ಯಾವ ದೇವರ ಹಾಡುಗಳು ಮತ್ತು ಸ್ತೋತ್ರಗಳು  ಬೇಕಾದರೂ ಸೆಲೆಕ್ಟ್ ಮಾಡಿಕೊಂಡು , ಆ ದೇವರ ಹಾಡುಗಳನ್ನು , ಸ್ತೋತ್ರಗಳನ್ನು ಓಪನ್ ಮಾಡಿಕೊಂಡು ಪಾರಾಯಣ ಮಾಡಬಹುದು. ಈ ಅಪ್ಲಿಕೇಶನ್ ನಲ್ಲಿ ಇರುವ ಎಲ್ಲಾ ಕಂಟೆಂಟ್ ಅನ್ನು ಸಂಸ್ಕೃತ , ಕನ್ನಡ , ತೆಲುಗು , ಇಂಗ್ಲಿಷ್ ಮತ್ತು ತಮಿಳ ಭಾಷೆಗಳಲ್ಲಿ ಲ್ಯಾಂಗ್ವೇಜ್ ಟ್ರಾನ್ಸ್ಲೇಟರ್ ಎಂಬ ಆಪ್ಷನ್ ಅನ್ನು ಬಳಿಸಿಕೊಂಡು ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಬಳಿಸಬಹುದು. ಈ ಅಪ್ಲಿಕೇಶನ್ ಅಲ್ಲಿ ಇರುವ ಎಲ್ಲಾ ಕಂಟೆಂಟ್ ಅನ್ನು ಒಂದು ಬಾರಿ ಪೇಮೆಂಟ್ ಪೇಜ್ ಅಲ್ಲಿ ತೋರಿಸಿರುವ  ಹಣವನ್ನು ಪಾವತಿ ಮಾಡಿ ಬಳಿಸಬಹುದು. ಅಪ್ಲಿಕೇಶನ್ ಅಲ್ಲಿ ಇರುವ ಕಂಟೆಂಟ್ ಅಲ್ಲದೆ ಭವಿಷ್ಯತ್ ಅಲ್ಲಿ ಹಾಕುವ ಕಂಟೆಂಟ್ ಕೂಡ ಉಚಿತವಾಗಿ ಉಪಯೋಗಿಸಬಹುದು. ಎಲ್ಲಾ ಸದ್ಭಕ್ತರು ಈ ಮಧ್ವ ವಾಹಿನಿ ಅಪ್ಲಿಕೇಶನ್ ನ ಬಳಿಸಿ ದೈನಿಂದಿನ ಜೀವನದಲ್ಲಿ ಉಪಯೋಗ ಪಡೆಯಬಹುದು.</string>
+    <string name="about_us">ಎಲ್ಲಾ ಸದ್ಭಕ್ತರಿಗೂ ಸ್ವಾಗತ !
+ಈ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಎಲ್ಲಾ ಸದ್ಭಕ್ತರ ಪ್ರತಿ ನಿತ್ಯ  ಮಂತ್ರ ಸ್ತೋತ್ರ  ಸುಳಾದಿಗಳ ಹಾಡುಗಳ ಪಾರಾಯಣಕ್ಕಾಗಿ ನಿರ್ಮಾಣ ಮಾಡಲಾಗಿದೆ. ಈ ಅಪ್ಲಿಕೇಶನ್ ಅಲ್ಲಿ ಯಾವ ದೇವರ ಹಾಡುಗಳು ಮತ್ತು ಸ್ತೋತ್ರಗಳು  ಬೇಕಾದರೂ ಸೆಲೆಕ್ಟ್ ಮಾಡಿಕೊಂಡು , ಆ ದೇವರ ಹಾಡುಗಳನ್ನು , ಸ್ತೋತ್ರಗಳನ್ನು ಓಪನ್ ಮಾಡಿಕೊಂಡು ಪಾರಾಯಣ ಮಾಡಬಹುದು. ಈ ಅಪ್ಲಿಕೇಶನ್ ನಲ್ಲಿ ಇರುವ ಎಲ್ಲಾ ಕಂಟೆಂಟ್ ಅನ್ನು ಸಂಸ್ಕೃತ , ಕನ್ನಡ , ತೆಲುಗು , ಇಂಗ್ಲಿಷ್ ಮತ್ತು ತಮಿಳ ಭಾಷೆಗಳಲ್ಲಿ ಲ್ಯಾಂಗ್ವೇಜ್ ಟ್ರಾನ್ಸ್ಲೇಟರ್ ಎಂಬ ಆಪ್ಷನ್ ಅನ್ನು ಬಳಿಸಿಕೊಂಡು ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಬಳಿಸಬಹುದು. ಈ ಅಪ್ಲಿಕೇಶನ್ ಅಲ್ಲಿ ಇರುವ ಎಲ್ಲಾ ಕಂಟೆಂಟ್ ಅನ್ನು ಒಂದು ಬಾರಿ ಪೇಮೆಂಟ್ ಪೇಜ್ ಅಲ್ಲಿ ತೋರಿಸಿರುವ  ಹಣವನ್ನು ಪಾವತಿ ಮಾಡಿ ಬಳಿಸಬಹುದು. ಅಪ್ಲಿಕೇಶನ್ ಅಲ್ಲಿ ಇರುವ ಕಂಟೆಂಟ್ ಅಲ್ಲದೆ ಭವಿಷ್ಯತ್ ಅಲ್ಲಿ ಹಾಕುವ ಕಂಟೆಂಟ್ ಕೂಡ ಉಚಿತವಾಗಿ ಉಪಯೋಗಿಸಬಹುದು. ಎಲ್ಲಾ ಸದ್ಭಕ್ತರು ಈ ಮಧ್ವ ವಾಹಿನಿ ಅಪ್ಲಿಕೇಶನ್ ನ ಬಳಿಸಿ ದೈನಿಂದಿನ ಜೀವನದಲ್ಲಿ ಉಪಯೋಗ ಪಡೆಯಬಹುದು.
+</string>
 
     <string name="terms_and_condition">Terms and condition</string>
     <string name="google_play">Google Play Services</string>
-    <string name="terms_and_conditions_body1">By downloading or using the app, these terms will automatically apply to you –
-you should make sure therefore that you read them carefully before using the
-app. You’re not allowed to copy or modify the app, any part of the app, or our
-trademarks in any way. You’re not allowed to attempt to extract the source code
-of the app, and you also shouldn’t try to translate the app into other languages or
-make derivative versions. The app itself, and all the trademarks, copyright,
-database rights, and other intellectual property rights related to it, still belong to
-Aishwarya Software Solutions , Bengaluru.
-Aishwarya Software Solutions , Bengaluru is committed to ensuring that the app
-is as useful and efficient as possible. For that reason, we reserve the right to
-make changes to the app or to charge for its services, at any time and for any
-reason. We will never charge you for the app or its services without making it
-very clear to you exactly what you’re paying for.
-The Madhva Vahini app stores and processes personal data that you have
-provided to us, to provide our Service. It’s your responsibility to keep your phone
-and access to the app secure. We therefore recommend that you do not jailbreak
-or root your phone, which is the process of removing software restrictions and
-limitations imposed by the official operating system of your device. It could make
-your phone vulnerable to malware/viruses/malicious programs, compromise your
-phone’s security features and it could mean that the Madhva Vahini app won’t
-work properly or at all.
-The app does use third-party services that declare their Terms and Conditions.
-Link to Terms and Conditions of third-party service providers used by the app</string>
+    <string name="tnc">Thank you for accessing/shopping at Madhwa Vahini app (https://play.google.com/store/apps/details?id=com.ass.madhwavahini). This mobile application  is owned by Aishwarya Software Solutions (hereinafter referred to as “https://aishwaryasoftware.in/”). By accessing, shopping on this app, you indicate your unconditional acceptance of these terms &amp; conditions. We reserve this right, in our sole discretion, to update or revise these terms &amp; conditions. Continued use of the app following the posting of any changes to the ‘terms &amp; conditions’, constitutes your acceptance of those changes. At “https://play.google.com/store/apps/details?id=com.ass.madhwavahini-”, we try our best to create a space where you can explore and shop for all your favorite things in a safe and secure environment. All products and information displayed on “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” constitutes an "invitation to offer". “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” reserves the right to accept or reject your offer. Your order for purchase, constitutes your "offer" which shall be subject to the terms and conditions as listed below.</string>
+    <string name="tnc_header_1">1. Eligibility to use our app</string>
+    <string name="tnc_header_2">2. Membership</string>
+    <string name="tnc_header_3">3. Electronic Communications</string>
+    <string name="tnc_header_4">4. Reviews, Feedback, Submissions</string>
+    <string name="tnc_header_5">5. Accuracy of Content/ Information of Products on the Web app</string>
 
-    <string name="terms_and_conditions_body2">
-        You should be aware that there are certain things that Aishwarya Software
-Solutions , Bengaluru will not take responsibility for. Certain functions of the app
-will require the app to have an active internet connection. The connection can be
-Wi-Fi or provided by your mobile network provider, but Aishwarya Software
-Solutions , Bengaluru cannot take responsibility for the app not working at full
-functionality if you don’t have access to Wi-Fi, and you don’t have any of your
-data allowance left.
-
-If you’re using the app outside of an area with Wi-Fi, you should remember that
-the terms of the agreement with your mobile network provider will still apply. As a
-result, you may be charged by your mobile provider for the cost of data for the
-duration of the connection while accessing the app, or other third-party charges.
-In using the app, you’re accepting responsibility for any such charges, including
-roaming data charges if you use the app outside of your home territory (i.e.
-region or country) without turning off data roaming. If you are not the bill payer for
-the device on which you’re using the app, please be aware that we assume that
-you have received permission from the bill payer for using the app.
-Along the same lines, Aishwarya Software Solutions , Bengaluru cannot always
-take responsibility for the way you use the app i.e. You need to make sure that
-your device stays charged – if it runs out of battery and you can’t turn it on to
-avail the Service, Aishwarya Software Solutions , Bengaluru cannot accept
-responsibility.
-With respect to Aishwarya Software Solutions , Bengaluru’s responsibility for
-your use of the app, when you’re using the app, it’s important to bear in mind that
-although we endeavor to ensure that it is updated and correct at all times, we do
-rely on third parties to provide information to us so that we can make it available
-to you. Aishwarya Software Solutions , Bengaluru accepts no liability for any loss,
-direct or indirect, you experience as a result of relying wholly on this functionality
-of the app.
-At some point, we may wish to update the app. The app is currently available on
-Android – the requirements for the system(and for any additional systems we
-decide to extend the availability of the app to) may change, and you’ll need to
-download the updates if you want to keep using the app. Aishwarya Software
-Solutions , Bengaluru does not promise that it will always update the app so that
-it is relevant to you and/or works with the Android version that you have installed
-on your device. However, you promise to always accept updates to the
-application when offered to you, We may also wish to stop providing the app, and
-may terminate use of it at any time without giving notice of termination to you.
-Unless we tell you otherwise, upon any termination, (a) the rights and licenses
-granted to you in these terms will end; (b) you must stop using the app, and (if
-needed) delete it from your device.
-    </string>
+    <string name="tnc_body_1">Use of the app is available only to persons who can legally enter into contracts under applicable laws. Persons who are "incompetent to contract", within the meaning of the Indian Contract Act, 1872 including un-discharged insolvents etc. are not eligible to use the app. “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” reserves the right to terminate your access to the app if it discovers that you are under the age of 18 years or suffers from any other disability, as recognized under Indian Contract Act, 1872.</string>
+    <string name="tnc_body_2">Although it\'s not essential to have an account to shop with “https://play.google.com/store/apps/details?id=com.ass.madhwavahini”, you can shop as a guest. As a member, you agree to provide true, accurate, current, and complete information about yourself as prompted by the app\'s registration form. Registration where prohibited under any law shall be void. “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” reserves the right to revoke or terminate your registration for any reason at any time, without notice.</string>
+    <string name="tnc_body_3">When you use the app or send emails or other data, information or communicate to us, you agree and understand that you are communicating with us electronically and give your consent to receive communications electronically from us periodically, when required.</string>
+    <string name="tnc_body_4">All reviews, comments, feedback, postcards, suggestions, ideas, and other submissions disclosed, submitted or offered to “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” directly or otherwise disclosed, submitted or offered in connection with your use of this app (collectively referred to "Comments") will remain “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” property. Such disclosure, submission or offer of any comments shall constitute an assignment to “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” of all worldwide rights, titles and interests in all copyrights and other intellectual properties in the comments,thus, it exclusively owns all such rights, titles and interests and shall not be limited in any way in its use, commercial or otherwise. “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” will be entitled to use, reproduce, disclose, modify, adapt, create derivative works from, publish, display and distribute any comments you submit for any purpose whatsoever, without restriction and without compensating you in any way. “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” is and shall be under no obligation (1) to maintain any Comments in confidence; or (2) to pay you any compensation for any Comments; or (3) to respond to any Comments. You agree that any comments submitted by you to the app will not violate this policy or any right of any third party, including copyright, trademark, privacy or other personal or proprietary right(s), and will not cause injury to any person or entity. You further agree that no comments submitted by you to the app will be libelous or otherwise unlawful, threatening, abusive or obscene material, or contain software viruses, political campaigning, commercial solicitation, chain letters, mass mailings or any form of "spam".
+“https://play.google.com/store/apps/details?id=com.ass.madhwavahini” does not regularly review posted comments, but does reserve the right (but not the obligation) to monitor and edit or remove any comment submitted to the app. You grant “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” the right to use the name that you submit in connection with any of the posted comments. You agree not to use a false email address, impersonate any person or entity, or otherwise mislead as to the origin of any Comments you submit. You are and shall remain solely responsible for the content of any comments you make and you agree to indemnify “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” and its affiliates for all claims resulting from any Comments you submit, we take no responsibility and assume no liability for any comments submitted by you or any third party.
+</string>
+    <string name="tnc_body_5">While “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” strives to provide accurate product and pricing information, typographical errors may occur. In the event that a product is listed at an incorrect price or with incorrect information due to an error in pricing or product information, “https://play.google.com/store/apps/details?id=com.ass.madhwavahini” shall have the right, on our sole discretion, to modify the price of the products, or information of the products or to refuse or cancel any orders placed for that product, unless the product has already been dispatched. In the event.</string>
 
     <string name="tnc_changes">Changes to This Terms and Conditions</string>
     <string name="tnc_changes_body">We may update our Terms and Conditions from time to time. Thus, you are
 advised to review this page periodically for any changes. We will notify you of
 any changes by posting the new Terms and Conditions on this page.
-These terms and conditions are effective as of 2023-02-13.</string>
+These terms and conditions are effective as of 2023-12-11.</string>
 
     <string name="tnc_contact_us">If you have any questions or suggestions about our Terms and Conditions, do
 not hesitate to contact us at </string>
-
-
 
 
     <!--////////////////////////////////////////////////////////////////////-->
@@ -183,6 +165,8 @@ This policy is effective as of 2023-02-13
 Contact Us
 If you have any questions or suggestions about our Privacy Policy, do not
 hesitate to contact us at aishwaryasoftware22@gmail.com.</string>
+
+
     <string name="refund">Refund Policy</string>
     <string name="refund_policy_body">Since the Mobile Application offers non-tangible, irrevocable goods we do not
 provide refunds after the product is purchased, which you acknowledge prior to
@@ -202,5 +186,6 @@ acknowledge prior to purchasing any product in the Mobile Application.
         If you have any questions, concerns, or complaints regarding this refund policy,
 we encourage you to contact us using the details below:
     </string>
+
 
 </resources>
