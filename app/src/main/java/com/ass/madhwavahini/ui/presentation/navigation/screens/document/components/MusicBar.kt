@@ -103,12 +103,14 @@ fun BottomMusicBar(
 private fun AudioImage(
     imageUrl: String = ""
 ) {
-    if (imageUrl.isBlank()) Box(
+    if (imageUrl.isBlank())
+        Box(
         modifier = Modifier
             .size(80.dp)
             .padding(5.dp)
-            .background(color = MaterialTheme.colorScheme.tertiaryContainer)
-            .clip(RoundedCornerShape(5.dp)), contentAlignment = Alignment.Center
+            .clip(RoundedCornerShape(5.dp))
+            .background(color = MaterialTheme.colorScheme.tertiaryContainer),
+        contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = Icons.Default.MusicNote,

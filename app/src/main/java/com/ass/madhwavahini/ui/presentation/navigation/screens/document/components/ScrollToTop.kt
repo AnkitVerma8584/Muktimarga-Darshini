@@ -26,7 +26,7 @@ import com.ass.madhwavahini.util.translations.TranslationLanguages
 
 @Composable
 fun BoxScope.ScrollToTopButton(
-    shouldShowButton: Boolean,
+    shouldScrollToTop: Boolean,
     onClick: () -> Unit,
     onTranslateClick: (TranslationLanguages) -> Unit
 ) {
@@ -36,7 +36,7 @@ fun BoxScope.ScrollToTopButton(
             .padding(16.dp),
     ) {
         AnimatedVisibility(
-            visible = shouldShowButton,
+            visible = shouldScrollToTop,
             enter = slideInVertically(
                 animationSpec = tween(400),
                 initialOffsetY = { it }) + fadeIn(),

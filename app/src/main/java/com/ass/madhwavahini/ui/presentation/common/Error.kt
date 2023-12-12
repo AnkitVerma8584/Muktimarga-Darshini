@@ -2,6 +2,7 @@ package com.ass.madhwavahini.ui.presentation.common
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
@@ -54,4 +56,20 @@ fun StringUtil.ShowError() {
             textAlign = TextAlign.Center
         )
     }
+    return
+}
+
+@Composable
+fun StringUtil.ShowBottomBarError() {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.errorContainer)
+            .padding(6.dp),
+        text = this@ShowBottomBarError.asString(),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onErrorContainer,
+        textAlign = TextAlign.Center,
+        fontWeight = FontWeight.Medium
+    )
 }

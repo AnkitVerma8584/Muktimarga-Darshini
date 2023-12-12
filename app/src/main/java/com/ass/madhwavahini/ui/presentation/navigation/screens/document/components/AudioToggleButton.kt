@@ -2,6 +2,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.document.compone
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -20,12 +21,13 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BoxScope.AudioToggleButton(
     isDisplayingAudio: Boolean,
+    padding: PaddingValues = PaddingValues(top = 116.dp, end = 16.dp),
     onButtonToggled: () -> Unit
 ) {
     IconButton(
         modifier = Modifier
             .align(Alignment.TopEnd)
-            .padding(16.dp)
+            .padding(padding)
             .size(48.dp)
             .clip(CircleShape)
             .background(color = MaterialTheme.colorScheme.primary),

@@ -59,7 +59,10 @@ fun MyCustomSnack(
         dismissActionContentColor = snackBarType.color.second,
         dismissAction = {
             IconButton(onClick = onDismiss) {
-                Icon(imageVector = Icons.Default.Close, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Dismiss Error"
+                )
             }
         }) {
         Text(

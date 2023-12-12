@@ -5,21 +5,17 @@ import com.ass.madhwavahini.domain.repository.DocumentRepository
 import com.ass.madhwavahini.domain.repository.TranslatorRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiState
-import com.ass.madhwavahini.domain.wrapper.UiStateList
+import com.ass.madhwavahini.util.translations.MyTranslator
 import com.ass.madhwavahini.util.translations.TranslationLanguages
-import com.google.mlkit.nl.languageid.LanguageIdentification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,19 +30,7 @@ class TextStateHolder(
     savedStateHandle: SavedStateHandle,
     translatorRepository: TranslatorRepository
 ) {
-    private val _sourceText = MutableStateFlow("")
-    private val _sourceLanguage = MutableStateFlow(TranslationLanguages.KANNADA)
-    private val _destinationLanguage = MutableStateFlow(TranslationLanguages.KANNADA)
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val translatedTextState =
-        combine(_sourceText, _sourceLanguage, _destinationLanguage) { text, source, destination ->
-            Triple(text, source, destination)
-        }.transformLatest {
-            emitAll(translatorRepository.getTranslatedDocument(it.first, it.second, it.third))
-        }.flowOn(Dispatchers.Default).stateIn(
-            scope, SharingStarted.WhileSubscribed(5000), UiStateList()
-        )
+    private val myTranslator = MyTranslator(scope, translatorRepository)
 
     private val _fileState = MutableStateFlow(UiState<File>())
     val fileState = _fileState.asStateFlow()
@@ -55,7 +39,6 @@ class TextStateHolder(
 
     private val _fileDataQuery = MutableStateFlow(savedStateHandle["query"] ?: "")
     val fileDataQuery get() = _fileDataQuery.asStateFlow()
-
 
     init {
         scope.launch(Dispatchers.IO) {
@@ -84,8 +67,7 @@ class TextStateHolder(
                 textContent.append(line).append("\n")
             }
             br.close()
-            _sourceText.value = textContent.toString()
-            identifySource(text = textContent.toString())
+            myTranslator.setSourceText(textContent.toString())
         } catch (e: Exception) {
             _fileState.update {
                 it.copy(
@@ -97,8 +79,7 @@ class TextStateHolder(
         }
     }
 
-
-    val searchedText = combine(fileDataQuery, translatedTextState) { query, list ->
+    val searchedText = combine(fileDataQuery, myTranslator.translatedTextState) { query, list ->
         if (query.length > 2) list.data?.filter { s ->
             s.text.contains(query, ignoreCase = true)
         } ?: emptyList()
@@ -116,38 +97,9 @@ class TextStateHolder(
     }
 
     fun setDestinationLanguage(language: TranslationLanguages) {
-        _destinationLanguage.value = language
+        myTranslator.setDestinationLanguage(language)
     }
 
-    private fun identifySource(text: String) {
-        val languageIdentifier = LanguageIdentification.getClient()
-        languageIdentifier.identifyLanguage(text).addOnSuccessListener { languageCode ->
-            when (languageCode) {
-                "kn" -> {
-                    _sourceLanguage.value = TranslationLanguages.KANNADA
-                    _destinationLanguage.value = TranslationLanguages.KANNADA
-                }
+    fun getTranslationTextState() = myTranslator.translatedTextState
 
-                "ne", "sa", "hi" -> {
-                    _sourceLanguage.value = TranslationLanguages.SANSKRIT
-                    _destinationLanguage.value = TranslationLanguages.SANSKRIT
-                }
-
-                "te" -> {
-                    _sourceLanguage.value = TranslationLanguages.TELEGU
-                    _destinationLanguage.value = TranslationLanguages.TELEGU
-                }
-
-                "ta" -> {
-                    _sourceLanguage.value = TranslationLanguages.TAMIL
-                    _destinationLanguage.value = TranslationLanguages.TAMIL
-                }
-
-                "en" -> {
-                    _sourceLanguage.value = TranslationLanguages.ENGLISH
-                    _destinationLanguage.value = TranslationLanguages.ENGLISH
-                }
-            }
-        }
-    }
 }

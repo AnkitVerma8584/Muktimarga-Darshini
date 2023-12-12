@@ -23,11 +23,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.model.Content
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.model.TextBody
+import com.ass.madhwavahini.ui.presentation.navigation.screens.about.model.aboutBody
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.model.refundBody
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.model.tabs
 import com.ass.madhwavahini.ui.presentation.navigation.screens.about.model.termsAndConditionBody
@@ -79,20 +84,22 @@ fun ContentPage(
     content: Content
 ) {
     val body = listOf(
+        aboutBody(),
         termsAndConditionBody(),
         refundBody(),
         termsAndConditionBody(),
-        refundBody(),
-        termsAndConditionBody()
+        refundBody()
     )
-    AnimatedContent(targetState = content,
+    AnimatedContent(
+        targetState = content,
         transitionSpec = {
-        slideInHorizontally(initialOffsetX = {
-            if (targetState.index > initialState.index) it else -it
-        }) togetherWith slideOutHorizontally(targetOffsetX = {
-            if (targetState.index > initialState.index) -it else it
-        })
-    }, label = "about") { targetCount ->
+            slideInHorizontally(initialOffsetX = {
+                if (targetState.index > initialState.index) it else -it
+            }) togetherWith slideOutHorizontally(targetOffsetX = {
+                if (targetState.index > initialState.index) -it else it
+            })
+        }, label = "about"
+    ) { targetCount ->
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.height(15.dp))
             Text(

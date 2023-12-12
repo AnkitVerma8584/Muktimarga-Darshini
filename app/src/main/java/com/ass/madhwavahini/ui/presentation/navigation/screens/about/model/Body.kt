@@ -32,54 +32,88 @@ val tabs = listOf(
 )
 
 @Composable
-fun termsAndConditionBody(): AnnotatedString = buildAnnotatedString {
-    withStyle(SpanStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)) {
-        append(stringResource(id = R.string.terms_and_conditions_body1))
-    }
-    pushStringAnnotation(tag = "url", annotation = "https://policies.google.com/terms")
-    withStyle(style = SpanStyle(color = Color.Blue)) {
-        append("\nGoogle play services\n")
-    }
-    pop()
-    withStyle(SpanStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)) {
-        append(stringResource(id = R.string.terms_and_conditions_body2))
-    }
+fun aboutBody(): AnnotatedString = buildAnnotatedString {
     withStyle(
-        SpanStyle(
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+        SpanStyle(color = MaterialTheme.colorScheme.onBackground)
     ) {
-        append("\n\n")
-        append(stringResource(id = R.string.tnc_changes))
-        append("\n")
-    }
-    withStyle(SpanStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)) {
-        append(stringResource(id = R.string.tnc_changes_body))
-    }
-    withStyle(
-        SpanStyle(
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
+        append(
+            stringResource(id = R.string.about_us)
         )
-    ) {
-        append("\n\n")
-        append(stringResource(id = R.string.contact_us))
-        append("\n")
     }
-    withStyle(SpanStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)) {
-        append(stringResource(id = R.string.tnc_contact_us))
-    }
-    append("\n")
-    pushStringAnnotation(tag = "mail", annotation = stringResource(id = R.string.contact_mail))
-    withStyle(style = SpanStyle(color = Color.Blue)) {
-        append(stringResource(id = R.string.contact_mail))
-    }
-    pop()
-    toAnnotatedString()
 }
+
+@Composable
+fun termsAndConditionBody(): AnnotatedString {
+
+    val tncBody = listOf(
+        Pair(R.string.tnc_header_1, R.string.tnc_body_1),
+        Pair(R.string.tnc_header_2, R.string.tnc_body_2),
+        Pair(R.string.tnc_header_3, R.string.tnc_body_3),
+        Pair(R.string.tnc_header_4, R.string.tnc_body_4),
+        Pair(R.string.tnc_header_5, R.string.tnc_body_5)
+    )
+
+    return buildAnnotatedString {
+        withStyle(SpanStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)) {
+            append(stringResource(id = R.string.tnc))
+        }
+
+        append("\n\n")
+        tncBody.forEach {
+            withStyle(
+                SpanStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground
+                )
+            ) {
+                append(stringResource(id = it.first))
+            }
+            append("\n\n")
+            withStyle(SpanStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)) {
+                append(stringResource(id = it.second))
+            }
+            append("\n\n\n\n")
+        }
+        withStyle(
+            SpanStyle(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        ) {
+            append("\n\n\n")
+            append(stringResource(id = R.string.tnc_changes))
+            append("\n\n")
+        }
+        withStyle(SpanStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)) {
+            append(stringResource(id = R.string.tnc_changes_body))
+        }
+        append("\n\n\n\n")
+        withStyle(
+            SpanStyle(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        ) {
+
+            append(stringResource(id = R.string.contact_us))
+
+        }
+        append("\n\n")
+        withStyle(SpanStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)) {
+            append(stringResource(id = R.string.tnc_contact_us))
+        }
+        append(" ")
+        pushStringAnnotation(tag = "mail", annotation = stringResource(id = R.string.contact_mail))
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.tertiary)) {
+            append(stringResource(id = R.string.contact_mail))
+        }
+        pop()
+        toAnnotatedString()
+    }
+}
+
 
 @Composable
 fun refundBody(): AnnotatedString = buildAnnotatedString {
@@ -102,7 +136,7 @@ fun refundBody(): AnnotatedString = buildAnnotatedString {
     }
     append("\n")
     pushStringAnnotation(tag = "mail", annotation = stringResource(id = R.string.contact_mail))
-    withStyle(style = SpanStyle(color = Color.Blue)) {
+    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.tertiary)) {
         append(stringResource(id = R.string.contact_mail))
     }
     pop()

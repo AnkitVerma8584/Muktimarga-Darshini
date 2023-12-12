@@ -57,7 +57,7 @@ fun DocumentText(
         color = MaterialTheme.colorScheme.onBackground,
         text = annotatedString,
         fontSize = scale.sp,
-        lineHeight = scale.sp * 1.5
+        lineHeight = scale.sp * 1.6
     )
     Spacer(modifier = Modifier.height(8.dp))
 
