@@ -1,5 +1,6 @@
 package com.ass.madhwavahini.ui_new.gallery
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GalleryPage() {
     LazyVerticalStaggeredGrid(
@@ -20,13 +22,14 @@ fun GalleryPage() {
         verticalItemSpacing = 4.dp,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         content = {
-            items(imageUrls) { photo ->
+            items(imageUrls, key = { it.first }) { photo ->
                 AsyncImage(
-                    model = photo,
+                    model = photo.second,
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .animateItemPlacement()
                         .wrapContentHeight()
                 )
             }
@@ -71,5 +74,4 @@ val imageUrls = listOf(
     "https://source.unsplash.com/2400x1800/?fitness",
     "https://source.unsplash.com/2200x1800/?science",
     "https://source.unsplash.com/2100x1800/?people",
-
-    )
+).mapIndexed { index, s -> Pair(index, s) }

@@ -20,7 +20,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.screens.home.components.C
 @Composable
 fun CategoryPage(
     viewModel: CategoryViewModel = hiltViewModel(),
-    onClick: (HomeCategory) -> Unit
+    onClick: (HomeCategory) -> Unit = {}
 ) {
     val banners by viewModel.bannerState.collectAsStateWithLifecycle()
     val categories by viewModel.categoryState.collectAsStateWithLifecycle()

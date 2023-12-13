@@ -5,55 +5,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
-import com.ass.madhwavahini.ui.presentation.navigation.modal.NavigationFragment
-import com.ass.madhwavahini.ui.presentation.navigation.screens.about.AboutPage
-import com.ass.madhwavahini.ui.presentation.navigation.screens.contact.ContactPage
+import com.ass.madhwavahini.ui.presentation.navigation.modal.CategoryNavigationFragments
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.pdf.PdfScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.text.TextDocumentScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.FilePage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.home.CategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
-import com.ass.madhwavahini.ui.presentation.navigation.screens.support.SupportPage
-import com.ass.madhwavahini.ui_new.gallery.GalleryPage
 
 @Composable
-fun NavHostFragments(
-    navController: NavHostController,
+fun CategoryNavHostFragment(
     isPaidCustomer: Boolean,
     onErrorTriggered: (message: String, type: SnackBarType) -> Unit
 ) {
+    val categoryNavController = rememberNavController()
     NavHost(
         modifier = Modifier.fillMaxSize(),
-        navController = navController,
-        startDestination = NavigationFragment.Home.route
+        navController = categoryNavController,
+        startDestination = CategoryNavigationFragments.Category.route
     ) {
-        composable(route = NavigationFragment.Home.route) {
-            GalleryPage()
-            /*HomePage { route ->
-                navController.navigate(route) {
-                    popUpTo(navController.graph.findStartDestination().id) {
-                        saveState = true
-                    }
-                    launchSingleTop = true
-                    restoreState = true
-                }
-            }*/
-        }
-        composable(route = NavigationFragment.Category.route) {
+        composable(route = CategoryNavigationFragments.Category.route) {
             CategoryPage {
-                NavigationFragment.SubCategory.title = StringUtil.DynamicText(it.name)
-                navController.navigate("sub_category/${it.id}") {
-                    popUpTo(navController.graph.findStartDestination().id) {
+                CategoryNavigationFragments.SubCategory.title = StringUtil.DynamicText(it.name)
+                categoryNavController.navigate("sub_category/${it.id}") {
+                    popUpTo(categoryNavController.graph.findStartDestination().id) {
                         saveState = true
                     }
                     launchSingleTop = true
@@ -61,29 +45,20 @@ fun NavHostFragments(
                 }
             }
         }
-        composable(route = NavigationFragment.About.route) {
-            AboutPage()
-        }
-        composable(route = NavigationFragment.Contact.route) {
-            ContactPage()
-        }
-        composable(route = NavigationFragment.Support.route) {
-            SupportPage()
-        }
         composable(
-            route = NavigationFragment.SubCategory.route,
+            route = CategoryNavigationFragments.SubCategory.route,
             arguments = listOf(navArgument("cat_id") { type = NavType.IntType })
         ) {
             SubCategoryPage(onSubCategoryClicked = {
-                NavigationFragment.SubToSubCategory.title = StringUtil.DynamicText(it.name)
-                navController.navigate("sub_to_sub_category/${it.catId}/${it.id}") {
+                CategoryNavigationFragments.SubToSubCategory.title = StringUtil.DynamicText(it.name)
+                categoryNavController.navigate("sub_to_sub_category/${it.catId}/${it.id}") {
                     launchSingleTop = true
                     restoreState = true
                 }
             })
         }
         composable(
-            route = NavigationFragment.SubToSubCategory.route,
+            route = CategoryNavigationFragments.SubToSubCategory.route,
             arguments = listOf(navArgument("cat_id") { type = NavType.IntType },
                 navArgument("sub_cat_id") { type = NavType.IntType })
         ) {
@@ -93,9 +68,9 @@ fun NavHostFragments(
                     return@SubToSubCategoryPage
                 }
 
-                NavigationFragment.Files.title = StringUtil.DynamicText(subToSubCat.name)
+                CategoryNavigationFragments.Files.title = StringUtil.DynamicText(subToSubCat.name)
 
-                navController.navigate("files/${subToSubCat.catId}/${subToSubCat.subCatId}/${subToSubCat.id}") {
+                categoryNavController.navigate("files/${subToSubCat.catId}/${subToSubCat.subCatId}/${subToSubCat.id}") {
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -105,12 +80,12 @@ fun NavHostFragments(
                     return@SubToSubCategoryPage
                 }
 
-                navController.onFileClicked(homeFile, query, index)
+                categoryNavController.onFileClicked(homeFile, query, index)
 
             })
         }
         composable(
-            route = NavigationFragment.Files.route,
+            route = CategoryNavigationFragments.Files.route,
             arguments = listOf(navArgument("cat_id") { type = NavType.IntType },
                 navArgument("sub_cat_id") { type = NavType.IntType },
                 navArgument("sub_to_sub_cat_id") { type = NavType.IntType })
@@ -120,12 +95,12 @@ fun NavHostFragments(
                     onErrorTriggered("Please purchase the pack to view", SnackBarType.WARNING)
                     return@FilePage
                 }
-                navController.onFileClicked(homeFile, query, index)
+                categoryNavController.onFileClicked(homeFile, query, index)
             })
         }
 
         composable(
-            route = NavigationFragment.FileDetails.route,
+            route = CategoryNavigationFragments.FileDetails.route,
             arguments = listOf(
                 navArgument("file_id") { type = NavType.IntType },
                 navArgument("file_url") { type = NavType.StringType },
@@ -151,7 +126,7 @@ fun NavHostFragments(
             TextDocumentScreen()
         }
         composable(
-            route = NavigationFragment.Pdf.route,
+            route = CategoryNavigationFragments.Pdf.route,
             arguments = listOf(
                 navArgument("file_id") { type = NavType.IntType },
                 navArgument("file_url") { type = NavType.StringType },
@@ -180,7 +155,7 @@ private fun NavController.onFileClicked(
 
     when (homeFile.type) {
         FileType.TYPE_TEXT -> {
-            NavigationFragment.FileDetails.title = StringUtil.DynamicText(homeFile.name)
+            CategoryNavigationFragments.FileDetails.title = StringUtil.DynamicText(homeFile.name)
             navigate("file_details?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}&query=$query&index=$index") {
                 launchSingleTop = true
                 restoreState = true
@@ -188,7 +163,7 @@ private fun NavController.onFileClicked(
         }
 
         FileType.TYPE_PDF -> {
-            NavigationFragment.Pdf.title = StringUtil.DynamicText(homeFile.name)
+            CategoryNavigationFragments.Pdf.title = StringUtil.DynamicText(homeFile.name)
             navigate("pdf?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}&audio_url=${homeFile.audioUrl}&audio_image=${homeFile.audioImage}") {
                 launchSingleTop = true
                 restoreState = true
@@ -196,7 +171,7 @@ private fun NavController.onFileClicked(
         }
 
         FileType.TYPE_AUDIO -> {
-            NavigationFragment.FileDetails.title = StringUtil.DynamicText(homeFile.name)
+            CategoryNavigationFragments.FileDetails.title = StringUtil.DynamicText(homeFile.name)
             navigate("file_details?file_id=${homeFile.id}&file_url=${homeFile.fileUrl}&audio_url=${homeFile.audioUrl}&audio_image=${homeFile.audioImage}&query=$query&index=$index") {
                 launchSingleTop = true
                 restoreState = true
