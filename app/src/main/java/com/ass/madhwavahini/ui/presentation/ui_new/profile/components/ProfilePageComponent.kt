@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui_new.profile.components
+package com.ass.madhwavahini.ui.presentation.ui_new.profile.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

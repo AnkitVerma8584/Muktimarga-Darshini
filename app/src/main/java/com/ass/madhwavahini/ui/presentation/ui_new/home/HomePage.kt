@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui_new.home
+package com.ass.madhwavahini.ui.presentation.ui_new.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.TempleHindu
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
@@ -21,17 +22,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import com.ass.madhwavahini.ui.presentation.navigation.modal.BottomNavigationFragments
+import com.ass.madhwavahini.ui.presentation.navigation.modal.HomeNavigationFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.bottomNavigationFragmentsList
 import com.ass.madhwavahini.ui.theme.sh12
-import com.ass.madhwavahini.ui_new.home.components.HomePageHeader
-import com.ass.madhwavahini.ui_new.home.components.HomePageMessage
-import com.ass.madhwavahini.ui_new.home.components.HomePageNavigationCard
+import com.ass.madhwavahini.ui.presentation.ui_new.home.components.HomePageHeader
+import com.ass.madhwavahini.ui.presentation.ui_new.home.components.HomePageMessage
+import com.ass.madhwavahini.ui.presentation.ui_new.home.components.HomePageNavigationCard
 
 @Composable
 fun HomePage(
+    onRootNavigation: (route: String) -> Unit,
     onNavigate: (route: String) -> Unit
 ) {
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column {
         HomePageHeader()
         sh12()
         LazyVerticalGrid(
@@ -48,7 +51,7 @@ fun HomePage(
                     cardTitle = "Category",
                     cardDescription = "Explore the vast "
                 ) {
-                    onNavigate(BottomNavigationFragments.Category.route)
+                    onRootNavigation(BottomNavigationFragments.Category.route)
                 }
             }
             item {
@@ -57,7 +60,7 @@ fun HomePage(
                     cardTitle = "Panchanga",
                     cardDescription = "The Hindu calendar"
                 ) {
-
+                    onNavigate(HomeNavigationFragments.Panchanga.route)
                 }
             }
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -67,7 +70,7 @@ fun HomePage(
                     cardTitle = "Aradhna",
                     cardDescription = "The Hindu prayers"
                 ) {
-                    onNavigate(BottomNavigationFragments.Aradhna.route)
+                    onNavigate(HomeNavigationFragments.Aradhna.route)
                 }
             }
         }
@@ -75,24 +78,6 @@ fun HomePage(
     }
 }
 
-@Composable
-fun MyBottomNavigation(
-    navBackStackEntry: NavBackStackEntry?,
-    onNavigate: (route: String) -> Unit
-) {
-    NavigationBar(
-        modifier = Modifier.padding(16.dp).clip(RoundedCornerShape(12.dp))
-    ) {
-        bottomNavigationFragmentsList.forEach { item ->
-            val isSelected: Boolean = item.route == navBackStackEntry?.destination?.route
-            NavigationBarItem(
-                selected = isSelected,
-                label = { Text(text = item.title.asString()) },
-                onClick = { onNavigate(item.route) },
-                icon = { Icon(imageVector = item.icon, contentDescription = item.title.asString()) }
-            )
-        }
-    }
-}
+
 
 

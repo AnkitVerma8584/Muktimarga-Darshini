@@ -5,14 +5,15 @@ import com.ass.madhwavahini.data.local.modals.Category
 import com.ass.madhwavahini.data.local.modals.Files
 import com.ass.madhwavahini.data.local.modals.SubCategory
 import com.ass.madhwavahini.data.local.modals.SubToSubCategory
+import com.ass.madhwavahini.domain.modals.Gallery
 import com.ass.madhwavahini.domain.modals.HomeCategory
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubCategory
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 
-fun List<String>.mapToBannerList(): List<Banner> = this.map { Banner(it) }
+fun List<Gallery>.mapToBannerList(): List<Banner> = this.map { Banner(it.id, it.image) }
 
-fun List<Banner>.mapToStringList(): List<String> = this.map { it.image }
+fun List<Banner>.mapToGalleryList(): List<Gallery> = this.map { Gallery(it.id, it.image) }
 
 fun List<HomeCategory>.mapToCategory(): List<Category> = this.map {
     Category(it.id, it.name, it.image)

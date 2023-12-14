@@ -1,10 +1,9 @@
 package com.ass.madhwavahini.ui.presentation.common
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -15,7 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -25,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -40,7 +37,7 @@ import com.ass.madhwavahini.ui.theme.ShowPreview
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SearchBar(
+fun ColumnScope.SearchBar(
     modifier: Modifier = Modifier,
     hint: String = "",
     query: String,
@@ -57,80 +54,53 @@ fun SearchBar(
             onClick = { onSearchQueryChanged("") },
         ) {
             Icon(
-                Icons.Default.Clear,
-                contentDescription = "Clear search"
+                Icons.Default.Clear, contentDescription = "Clear search"
             )
         }
     }
-
-    val gradient = listOf(
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 1f),
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f),
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.05f)
-    )
-
-    Column(
-        modifier = Modifier
+    OutlinedTextField(shape = RoundedCornerShape(12.dp),
+        modifier = modifier
+            .align(Alignment.CenterHorizontally)
             .fillMaxWidth()
-            .background(Brush.verticalGradient(gradient)),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        OutlinedTextField(
-            shape = RoundedCornerShape(12.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = MaterialTheme.colorScheme.onBackground,
-                unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
-                unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                focusedContainerColor = MaterialTheme.colorScheme.background,
-                focusedBorderColor = MaterialTheme.colorScheme.background,
-                unfocusedBorderColor = MaterialTheme.colorScheme.background
-            ),
-            modifier = modifier
-                .fillMaxWidth(0.9f)
-                .focusRequester(focusRequester),
-            value = query,
-            placeholder = {
-                Text(
-                    hint,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            },
-            trailingIcon = if (query.isNotBlank()) trailingIconView else null,
-            singleLine = true, maxLines = 1,
-            onValueChange = { onSearchQueryChanged(it) },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = null
-                )
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                capitalization = KeyboardCapitalization.Sentences,
-                autoCorrect = false,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                    onSearchPressed()
-                }),
-            supportingText = {
-                if (query.length in 1 until minimumLetter)
-                    Text(
-                        text = "Minimum $minimumLetter characters required to search in files.",
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.error
-                    )
-            }
-        )
-        Spacer(modifier = Modifier.height(28.dp))
-    }
+            .wrapContentHeight()
+            .focusRequester(focusRequester),
+        value = query,
+        placeholder = {
+            Text(
+                hint,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        trailingIcon = if (query.isNotBlank()) trailingIconView else null,
+        singleLine = true,
+        maxLines = 1,
+        onValueChange = { onSearchQueryChanged(it) },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search, contentDescription = null
+            )
+        },
+        keyboardOptions = KeyboardOptions.Default.copy(
+            capitalization = KeyboardCapitalization.Sentences,
+            autoCorrect = false,
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Search
+        ),
+        keyboardActions = KeyboardActions(onSearch = {
+            keyboardController?.hide()
+            focusManager.clearFocus()
+            onSearchPressed()
+        }),
+        supportingText = {
+            if (query.length in 1 until minimumLetter) Text(
+                text = "Minimum $minimumLetter characters required to search in files.",
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.error
+            )
+        })
 }
 
 
@@ -138,7 +108,9 @@ fun SearchBar(
 @Composable
 private fun SearchViewPreview() {
     ShowPreview {
-        SearchBar(query = "")
+        Column {
+            SearchBar(query = "")
+        }
     }
 }
 

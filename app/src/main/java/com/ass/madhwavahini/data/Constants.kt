@@ -8,6 +8,7 @@ object Constants {
     const val SPLASH_TIMEOUT: Long = 2000
     const val AUDIO_SKIP_TIME: Long = 10000
     const val BANNER_SLIDE_TIME: Long = 5000L
+    val GALLERY_ADAPTIVE_SIZE = 150.dp
     val ADAPTIVE_GRID_SIZE = 400.dp
 
     const val TOPIC = "madhwavahini_topic"

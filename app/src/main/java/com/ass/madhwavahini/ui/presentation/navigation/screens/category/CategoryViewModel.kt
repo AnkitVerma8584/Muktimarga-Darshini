@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui.presentation.navigation.screens.home
+package com.ass.madhwavahini.ui.presentation.navigation.screens.category
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,14 +22,6 @@ class CategoryViewModel @Inject constructor(
     private val _categoryState =
         homeRepository.getCategoryState().flowOn(IO)
 
-    private val _bannerState =
-        homeRepository.getBannerState().flowOn(IO)
-
-    val bannerState = _bannerState.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
-        UiStateList()
-    )
 
     private val _categoryQuery = MutableStateFlow("")
     val categoryQuery get() = _categoryQuery.asStateFlow()

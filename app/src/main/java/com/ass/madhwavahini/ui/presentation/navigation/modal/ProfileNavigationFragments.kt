@@ -26,12 +26,12 @@ sealed class ProfileNavigationFragments(
         route = "contact",
         title = StringUtil.StringResource(R.string.contact_us)
     )
-
 }
+/*
 
 val profileFragmentsList: List<ProfileNavigationFragments> = listOf(
     ProfileNavigationFragments.Profile,
     ProfileNavigationFragments.AboutUs,
     ProfileNavigationFragments.Support,
     ProfileNavigationFragments.ContactUs
-)
+)*/

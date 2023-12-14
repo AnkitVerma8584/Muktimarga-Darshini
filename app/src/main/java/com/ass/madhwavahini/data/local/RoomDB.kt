@@ -16,7 +16,7 @@ import com.ass.madhwavahini.data.local.modals.SubToSubCategory
 @Database(
     entities = [Banner::class, Category::class, SubCategory::class, SubToSubCategory::class, Files::class],
     exportSchema = false,
-    version = 2
+    version = 3
 )
 abstract class RoomDB : RoomDatabase() {
     abstract fun getBannerDao(): BannerDao

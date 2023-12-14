@@ -77,7 +77,7 @@ private val darkColors = darkColorScheme(
 )
 
 @Composable
-fun MadhwaVahiniTheme(
+internal fun MadhwaVahiniTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {

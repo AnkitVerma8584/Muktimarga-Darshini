@@ -169,18 +169,15 @@ private fun Activity.AuthenticationNavigation(
                 exit = fadeOut(animationSpec = tween(durationMillis = 300)),
             ) {
                 NavHost(
-                    navController = navController,
-                    startDestination = "login"
+                    navController = navController, startDestination = "login"
                 ) {
                     composable("login") {
-                        LoginPage(
-                            showSnack = ::showSnack,
+                        LoginPage(showSnack = ::showSnack,
                             onRegisterClicked = {
                                 navController.navigate("register")
                             },
                             onNavigate = ::navigateToMainActivity,
-                            onForgetPassword = { navController.navigate("mobile_auth") }
-                        )
+                            onForgetPassword = { navController.navigate("mobile_auth") })
                     }
                     composable("register") {
                         RegisterPage(

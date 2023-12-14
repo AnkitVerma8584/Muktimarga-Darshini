@@ -36,7 +36,6 @@ import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.ass.madhwavahini.ui.presentation.navigation.BottomNavHostFragment
 import com.ass.madhwavahini.ui.presentation.payment.PaymentOptionsBottomSheet
 import com.ass.madhwavahini.ui.presentation.startPayment
-import com.ass.madhwavahini.ui_new.home.MyBottomNavigation
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -86,8 +85,11 @@ fun Activity.MainPage(
     }, bottomBar = {
         MyBottomNavigation(navBackStackEntry, onNavigate = {
             rootNavHostController.navigate(it) {
-                popUpTo(rootNavHostController.graph.findStartDestination().id)
+                popUpTo(rootNavHostController.graph.findStartDestination().id) {
+                    saveState = true
+                }
                 launchSingleTop = true
+                restoreState = true
             }
         })
     }) { padding ->
@@ -98,8 +100,7 @@ fun Activity.MainPage(
                     payment.data?.let {
                         scope.launch {
                             snackBarHostState.showSnackbar(
-                                message = "Payment Verified.",
-                                duration = SnackbarDuration.Short
+                                message = "Payment Verified.", duration = SnackbarDuration.Short
                             )
                         }
                     }
@@ -118,15 +119,15 @@ fun Activity.MainPage(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
-            contentAlignment = Alignment.Center
+                .padding(padding), contentAlignment = Alignment.Center
         ) {
             if (mainViewModel.isLoading) {
                 Loading()
             }
-            BottomNavHostFragment(
-                navController = rootNavHostController,
+
+            BottomNavHostFragment(navController = rootNavHostController,
                 isPaidCustomer = mainViewModel.user.isPaidCustomer,
+                onLogout = mainViewModel::logout,
                 onErrorTriggered = { message, type ->
                     scope.launch {
                         snackBarHostState.showSnackbar(
@@ -138,6 +139,4 @@ fun Activity.MainPage(
                 })
         }
     }
-
 }
-

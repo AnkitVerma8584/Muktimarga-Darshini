@@ -18,7 +18,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.modal.CategoryNavigationF
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.pdf.PdfScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.document.text.TextDocumentScreen
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.FilePage
-import com.ass.madhwavahini.ui.presentation.navigation.screens.home.CategoryPage
+import com.ass.madhwavahini.ui.presentation.navigation.screens.category.CategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_category.SubCategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.SubToSubCategoryPage
 

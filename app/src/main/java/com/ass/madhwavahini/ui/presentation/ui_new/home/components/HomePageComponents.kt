@@ -1,4 +1,4 @@
-package com.ass.madhwavahini.ui_new.home.components
+package com.ass.madhwavahini.ui.presentation.ui_new.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -4,4 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "banner")
-data class Banner(@PrimaryKey val image: String)
+data class Banner(
+    @PrimaryKey val id: Int,
+    val image: String
+)

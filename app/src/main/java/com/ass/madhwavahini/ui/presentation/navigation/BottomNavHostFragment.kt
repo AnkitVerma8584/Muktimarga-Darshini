@@ -7,8 +7,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -17,14 +19,14 @@ import androidx.navigation.compose.composable
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.ass.madhwavahini.ui.presentation.navigation.modal.BottomNavigationFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.bottomNavigationFragmentsList
-import com.ass.madhwavahini.ui_new.aradhna.AradhnaPage
-import com.ass.madhwavahini.ui_new.home.HomePage
-import com.ass.madhwavahini.ui_new.profile.ProfilePage
+import com.ass.madhwavahini.ui.presentation.ui_new.gallery.GalleryPage
+import com.ass.madhwavahini.ui.presentation.ui_new.profile.ProfilePage
 
 @Composable
 fun BottomNavHostFragment(
     navController: NavHostController,
     isPaidCustomer: Boolean,
+    onLogout: () -> Unit,
     onErrorTriggered: (message: String, type: SnackBarType) -> Unit
 ) {
 
@@ -48,7 +50,9 @@ fun BottomNavHostFragment(
         }
 
     NavHost(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         navController = navController,
         startDestination = BottomNavigationFragments.Home.route,
         enterTransition = { getInAnimation() },
@@ -59,7 +63,7 @@ fun BottomNavHostFragment(
         popExitTransition = { getOutAnimation() },
     ) {
         composable(route = BottomNavigationFragments.Home.route) {
-            HomePage { route ->
+            HomeNavHostFragment { route ->
                 navController.navigate(route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
@@ -75,11 +79,11 @@ fun BottomNavHostFragment(
                 isPaidCustomer = isPaidCustomer, onErrorTriggered = onErrorTriggered
             )
         }
-        composable(route = BottomNavigationFragments.Aradhna.route) {
-            AradhnaPage()
+        composable(route = BottomNavigationFragments.Gallery.route) {
+            GalleryPage()
         }
         composable(route = BottomNavigationFragments.Profile.route) {
-            ProfilePage()
+            ProfilePage(onLogout = onLogout)
         }
     }
 }

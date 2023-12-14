@@ -4,9 +4,10 @@ import com.ass.madhwavahini.data.local.dao.BannerDao
 import com.ass.madhwavahini.data.local.dao.CategoryDao
 import com.ass.madhwavahini.data.local.mapper.mapToBannerList
 import com.ass.madhwavahini.data.local.mapper.mapToCategory
+import com.ass.madhwavahini.data.local.mapper.mapToGalleryList
 import com.ass.madhwavahini.data.local.mapper.mapToHomeCategoryList
-import com.ass.madhwavahini.data.local.mapper.mapToStringList
 import com.ass.madhwavahini.data.remote.apis.HomeApi
+import com.ass.madhwavahini.domain.modals.Gallery
 import com.ass.madhwavahini.domain.modals.HomeCategory
 import com.ass.madhwavahini.domain.repository.HomeRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
@@ -67,11 +68,11 @@ class HomeRepositoryImpl(
         }
     }
 
-    override fun getBannerState(): Flow<UiStateList<String>> = flow {
-        var state = UiStateList<String>(isLoading = true)
+    override fun getBannerState(): Flow<UiStateList<Gallery>> = flow {
+        var state = UiStateList<Gallery>(isLoading = true)
         emit(state)
 
-        val localBanners = bannerDao.getBanners().mapToStringList()
+        val localBanners = bannerDao.getBanners().mapToGalleryList()
 
         if (localBanners.isNotEmpty()) {
             state = state.copy(isLoading = false, data = localBanners)

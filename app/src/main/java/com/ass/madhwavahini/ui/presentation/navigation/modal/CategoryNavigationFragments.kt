@@ -36,6 +36,7 @@ sealed class CategoryNavigationFragments(
         title = StringUtil.StringResource(R.string.files_details)
     )
 }
+/*
 
 val categoryFragmentsList: List<CategoryNavigationFragments> = listOf(
     CategoryNavigationFragments.Category,
@@ -45,3 +46,4 @@ val categoryFragmentsList: List<CategoryNavigationFragments> = listOf(
     CategoryNavigationFragments.FileDetails,
     CategoryNavigationFragments.Pdf
 )
+*/
