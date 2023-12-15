@@ -4,6 +4,7 @@ import android.app.Application
 import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.data.local.dao.*
 import com.ass.madhwavahini.data.remote.apis.*
+import com.ass.madhwavahini.data.repository.AradhnaRepositoryImpl
 import com.ass.madhwavahini.data.repository.DocumentRepositoryImpl
 import com.ass.madhwavahini.data.repository.FilesRepositoryImpl
 import com.ass.madhwavahini.data.repository.HomeRepositoryImpl
@@ -13,6 +14,7 @@ import com.ass.madhwavahini.data.repository.SubCategoryRepositoryImpl
 import com.ass.madhwavahini.data.repository.SubToSubCategoryRepositoryImpl
 import com.ass.madhwavahini.data.repository.TranslatorRepositoryImpl
 import com.ass.madhwavahini.data.repository.UserRepositoryImpl
+import com.ass.madhwavahini.domain.repository.AradhnaRepository
 import com.ass.madhwavahini.domain.repository.DocumentRepository
 import com.ass.madhwavahini.domain.repository.FilesRepository
 import com.ass.madhwavahini.domain.repository.HomeRepository
@@ -77,11 +79,18 @@ object RepositoryModule {
     @Provides
     @ViewModelScoped
     fun provideSubCategoryRepository(
-        userDataStore: UserDataStore,
         subCategoryApi: SubCategoryApi,
         subCategoryDao: SubCategoryDao
     ): SubCategoryRepository =
-        SubCategoryRepositoryImpl(subCategoryApi, subCategoryDao, userDataStore)
+        SubCategoryRepositoryImpl(subCategoryApi, subCategoryDao)
+
+    @Provides
+    @ViewModelScoped
+    fun provideAradhnaRepository(
+        aradhnaApi: AradhnaApi,
+        aradhnaDao: AradhnaDao
+    ): AradhnaRepository =
+        AradhnaRepositoryImpl(aradhnaApi, aradhnaDao)
 
 
     @Provides

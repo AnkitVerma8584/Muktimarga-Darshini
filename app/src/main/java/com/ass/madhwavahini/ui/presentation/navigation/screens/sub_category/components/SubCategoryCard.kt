@@ -33,7 +33,6 @@ fun LazyGridItemScope.SubCategoryCard(
     query: String
 ) {
     ElevatedCard(modifier = Modifier
-        .padding(horizontal = 12.dp, vertical = 8.dp)
         .animateItemPlacement()
         .fillMaxWidth()
         .clickable { onClick(data) }) {

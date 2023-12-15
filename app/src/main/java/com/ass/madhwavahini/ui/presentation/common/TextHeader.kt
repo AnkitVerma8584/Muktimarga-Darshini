@@ -22,7 +22,7 @@ fun Header(header: String) {
         text = header,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, top = 16.dp),
+            .padding(bottom = 8.dp),
         style = MaterialTheme.typography.titleMedium,
         fontWeight = FontWeight.SemiBold
     )
@@ -33,7 +33,7 @@ fun SearchedFileHeader(header: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 12.dp, bottom = 8.dp, end = 12.dp),
+            .padding(bottom = 8.dp),
     ) {
         Image(
             modifier = Modifier.size(20.dp),

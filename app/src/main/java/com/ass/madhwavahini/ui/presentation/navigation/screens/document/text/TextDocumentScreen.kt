@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,7 +61,7 @@ fun TextDocumentScreen(
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column {
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             SearchBar(
                 query = query,
                 onSearchQueryChanged = viewModel.textStateHolder::updateQuery,
@@ -133,7 +132,7 @@ private fun ColumnScope.DocumentContent(
         }) {
         SelectionContainer {
             LazyColumn(
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(vertical = 16.dp),
                 state = listState,
                 modifier = Modifier.fillMaxSize()
             ) {

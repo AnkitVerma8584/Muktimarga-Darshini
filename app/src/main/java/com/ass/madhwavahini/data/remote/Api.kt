@@ -20,6 +20,7 @@ object Api {
     const val PAYMENT = "$API/order.php"
     const val GET_BANNER = "$API/banner.php"
     const val GET_CATEGORY = "$API/category.php"
+    const val GET_ARADHNAS = "$API/aradhna.php"
     const val GET_SUBCATEGORIES = "$API/sub_category.php"
     const val GET_SUB_TO_SUBCATEGORIES = "$API/sub_to_sub_category.php"
     const val GET_FILES = "$API/files.php"

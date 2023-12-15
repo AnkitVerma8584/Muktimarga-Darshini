@@ -6,41 +6,41 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ass.madhwavahini.ui.presentation.navigation.modal.BottomNavigationFragments
-import com.ass.madhwavahini.ui.presentation.navigation.modal.CategoryNavigationFragments
-import com.ass.madhwavahini.ui.presentation.navigation.screens.category.CategoryPage
-import com.ass.madhwavahini.ui.presentation.ui_new.gallery.GalleryPage
+import com.ass.madhwavahini.domain.modals.User
+import com.ass.madhwavahini.ui.presentation.navigation.modal.ProfileNavigationFragments
+import com.ass.madhwavahini.ui.presentation.navigation.screens.about.AboutPage
+import com.ass.madhwavahini.ui.presentation.navigation.screens.contact.ContactPage
+import com.ass.madhwavahini.ui.presentation.navigation.screens.support.SupportPage
 import com.ass.madhwavahini.ui.presentation.ui_new.profile.ProfilePage
 
 @Composable
-fun ProfileNavHostFragment() {
+fun ProfileNavHostFragment(
+    user:User,
+    onLogOut: () -> Unit
+) {
     val profileNavController = rememberNavController()
     NavHost(
         modifier = Modifier.fillMaxSize(),
         navController = profileNavController,
-        startDestination = BottomNavigationFragments.Home.route
+        startDestination = ProfileNavigationFragments.Profile.route
     ) {
 
-        composable(route = BottomNavigationFragments.Home.route) {
-           /* HomePage { route ->
-                profileNavController.navigate(route) {
-                    popUpTo(profileNavController.graph.findStartDestination().id) {
-                        saveState = true
-                    }
-                    launchSingleTop = true
-                    restoreState = true
-                }
-            }*/
+        composable(route = ProfileNavigationFragments.Profile.route) {
+            ProfilePage(user=user,onLogout = onLogOut) { route ->
+                profileNavController.navigate(route)
+            }
         }
 
-        composable(route = CategoryNavigationFragments.Category.route) {
-            CategoryPage()
+        composable(route = ProfileNavigationFragments.AboutUs.route) {
+            AboutPage()
         }
-        composable(route = BottomNavigationFragments.Gallery.route) {
-            GalleryPage()
+
+        composable(route = ProfileNavigationFragments.ContactUs.route) {
+            ContactPage()
         }
-        composable(route = BottomNavigationFragments.Profile.route) {
-            //ProfilePage()
+        composable(route = ProfileNavigationFragments.Support.route) {
+            SupportPage()
         }
+
     }
 }

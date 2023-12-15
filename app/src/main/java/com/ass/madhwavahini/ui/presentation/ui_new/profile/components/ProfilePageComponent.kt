@@ -4,39 +4,42 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-
+import com.ass.madhwavahini.ui.theme.sw16
 
 @Composable
-fun SettingOptions(text: String, onClick: () -> Unit) {
+fun SettingOptions(text: String, icon: ImageVector, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp)
             .clickable(onClick = onClick)
+            .padding(vertical = 12.dp)
     ) {
-        Text(text = text, modifier = Modifier.weight(1f))
+        sw16()
         Icon(
-            imageVector = Icons.Default.KeyboardArrowRight,
+            imageVector = icon,
             contentDescription = null
         )
+        sw16()
+        Text(text = text, modifier = Modifier.weight(1f))
     }
 }
 
 @Composable
-fun MyRow(title: String, body: String) {
+fun MyRow(text: String, icon: ImageVector) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 12.dp)
     ) {
-        Text(text = title, modifier = Modifier.weight(1f))
-        Text(text = body, modifier = Modifier.weight(1.5f))
+        sw16()
+        Icon(imageVector = icon, contentDescription = null)
+        sw16()
+        Text(text = text, modifier = Modifier.weight(1f))
     }
 }

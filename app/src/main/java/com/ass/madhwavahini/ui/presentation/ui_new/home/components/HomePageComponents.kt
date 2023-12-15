@@ -3,17 +3,16 @@ package com.ass.madhwavahini.ui.presentation.ui_new.home.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -22,39 +21,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.ui.theme.ShowPreview
+import com.ass.madhwavahini.ui.theme.UiModePreviews
 import com.ass.madhwavahini.ui.theme.sh12
 
-@Composable
-fun HomePageHeader() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column {
-            Text(
-                text = "Good morning",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = "Dummy User",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                imageVector = Icons.Outlined.Notifications,
-                contentDescription = "Notification"
-            )
-        }
-    }
-}
 
 @Composable
 fun HomePageMessage() {
@@ -100,43 +74,69 @@ fun HomePageNavigationCard(
     cardDescription: String,
     onCardClick: () -> Unit
 ) {
+
     ElevatedCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.onSurface
-        ),
-        modifier = Modifier
+        ), modifier = Modifier
             .aspectRatio(aspectRatio)
             .clickable(onClick = onCardClick)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Bottom
-        ) {
+        Box {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                        .padding(16.dp),
+                    imageVector = icon,
+                    contentDescription = null
+                )
+                sh12()
+                Text(
+                    text = cardTitle,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = cardDescription,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Normal,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+            }
             Icon(
                 modifier = Modifier
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                    .padding(16.dp),
-                imageVector = icon,
-                contentDescription = null
+                    .fillMaxSize(0.5f)
+                    .offset(10.dp, (-10).dp)
+                    .align(Alignment.TopEnd)
+                    .graphicsLayer {
+                        rotationZ = -45f
+                        alpha = 0.02f
+                    }, imageVector = icon, contentDescription = null
             )
-            sh12()
-            Text(
-                text = cardTitle,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = cardDescription,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Normal,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
         }
+    }
+
+
+}
+
+@UiModePreviews
+@Composable
+fun HomePageNavigationCardPreview() {
+    ShowPreview {
+        HomePageNavigationCard(
+            icon = Icons.Outlined.Category,
+            cardTitle = "Category",
+            cardDescription = "This is description"
+        ) {}
     }
 }

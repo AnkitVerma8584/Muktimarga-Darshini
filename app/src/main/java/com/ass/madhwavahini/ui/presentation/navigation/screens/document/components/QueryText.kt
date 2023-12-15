@@ -61,7 +61,7 @@ fun SearchedText(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = 8.dp)
                 .clickable { onClick(content.index) },
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,

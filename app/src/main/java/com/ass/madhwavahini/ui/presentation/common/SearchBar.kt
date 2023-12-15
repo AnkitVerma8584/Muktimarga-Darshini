@@ -1,7 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.common
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,7 +16,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -37,11 +35,9 @@ import com.ass.madhwavahini.ui.theme.ShowPreview
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ColumnScope.SearchBar(
-    modifier: Modifier = Modifier,
+fun SearchBar(
     hint: String = "",
     query: String,
-    onSearchPressed: () -> Unit = {},
     onSearchQueryChanged: (String) -> Unit = {},
     minimumLetter: Int = 0
 ) {
@@ -51,19 +47,22 @@ fun ColumnScope.SearchBar(
 
     val trailingIconView = @Composable {
         IconButton(
-            onClick = { onSearchQueryChanged("") },
+            onClick = {
+                if (query.isNotBlank())
+                    onSearchQueryChanged("")
+            },
         ) {
             Icon(
                 Icons.Default.Clear, contentDescription = "Clear search"
             )
         }
     }
-    OutlinedTextField(shape = RoundedCornerShape(12.dp),
-        modifier = modifier
-            .align(Alignment.CenterHorizontally)
+    OutlinedTextField(
+        modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .focusRequester(focusRequester),
+        shape = RoundedCornerShape(12.dp),
         value = query,
         placeholder = {
             Text(
@@ -91,7 +90,6 @@ fun ColumnScope.SearchBar(
         keyboardActions = KeyboardActions(onSearch = {
             keyboardController?.hide()
             focusManager.clearFocus()
-            onSearchPressed()
         }),
         supportingText = {
             if (query.length in 1 until minimumLetter) Text(

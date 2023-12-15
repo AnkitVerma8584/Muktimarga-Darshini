@@ -73,6 +73,10 @@ fun Activity.MainPage(
             })
     }
 
+    var shouldShowBottomBar by remember {
+        mutableStateOf(true)
+    }
+
     Scaffold(modifier = Modifier.fillMaxSize(), snackbarHost = {
         SnackbarHost(hostState = snackBarHostState) { sb: SnackbarData ->
             MyCustomSnack(
@@ -83,15 +87,17 @@ fun Activity.MainPage(
             }
         }
     }, bottomBar = {
-        MyBottomNavigation(navBackStackEntry, onNavigate = {
-            rootNavHostController.navigate(it) {
-                popUpTo(rootNavHostController.graph.findStartDestination().id) {
-                    saveState = true
+        if (shouldShowBottomBar) {
+            MyBottomNavigation(navBackStackEntry, onNavigate = {
+                rootNavHostController.navigate(it) {
+                    popUpTo(rootNavHostController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
                 }
-                launchSingleTop = true
-                restoreState = true
-            }
-        })
+            })
+        }
     }) { padding ->
         val ctx = LocalContext.current
         LaunchedEffect(key1 = lifeCycleOwner.lifecycle) {
@@ -126,8 +132,11 @@ fun Activity.MainPage(
             }
 
             BottomNavHostFragment(navController = rootNavHostController,
-                isPaidCustomer = mainViewModel.user.isPaidCustomer,
+                user = mainViewModel.user,
                 onLogout = mainViewModel::logout,
+                onBottomBarStateChange = {
+                    shouldShowBottomBar = it
+                },
                 onErrorTriggered = { message, type ->
                     scope.launch {
                         snackBarHostState.showSnackbar(

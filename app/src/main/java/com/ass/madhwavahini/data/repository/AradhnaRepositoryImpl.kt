@@ -1,43 +1,42 @@
 package com.ass.madhwavahini.data.repository
 
-import com.ass.madhwavahini.data.local.dao.SubCategoryDao
-import com.ass.madhwavahini.data.local.mapper.mapToHomeSubCategoryList
-import com.ass.madhwavahini.data.local.mapper.mapToSubCategoryList
-import com.ass.madhwavahini.data.remote.apis.SubCategoryApi
-import com.ass.madhwavahini.domain.modals.HomeSubCategory
-import com.ass.madhwavahini.domain.repository.SubCategoryRepository
+import com.ass.madhwavahini.data.local.dao.AradhnaDao
+import com.ass.madhwavahini.data.local.mapper.mapToAradhnas
+import com.ass.madhwavahini.data.local.mapper.mapToHomeAradhnas
+import com.ass.madhwavahini.data.remote.apis.AradhnaApi
+import com.ass.madhwavahini.domain.modals.HomeAradhna
+import com.ass.madhwavahini.domain.repository.AradhnaRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class SubCategoryRepositoryImpl(
-    private val subCategoryApi: SubCategoryApi,
-    private val subCategoryDao: SubCategoryDao
-) : SubCategoryRepository {
+class AradhnaRepositoryImpl(
+    private val aradhnaApi: AradhnaApi,
+    private val aradhnaDao: AradhnaDao
+) : AradhnaRepository {
 
-    override fun getSubCategory(categoryId: Int): Flow<UiStateList<HomeSubCategory>> = flow {
-        var state = UiStateList<HomeSubCategory>(isLoading = true)
+    override fun getAradhnas(): Flow<UiStateList<HomeAradhna>> = flow {
+        var state = UiStateList<HomeAradhna>(isLoading = true)
         emit(state)
 
-        val localSubCategories =
-            subCategoryDao.getSubCategories(categoryId).mapToHomeSubCategoryList()
+        val localAradhnas = aradhnaDao.getAradhnas().mapToHomeAradhnas()
 
-        if (localSubCategories.isNotEmpty()) {
+        if (localAradhnas.isNotEmpty()) {
             state = state.copy(
                 isLoading = false,
-                data = localSubCategories
+                data = localAradhnas
             )
             emit(state)
         }
         try {
-            val result = subCategoryApi.getSubCategories(categoryId)
+            val result = aradhnaApi.getAradhnas()
             if (result.isSuccessful && result.body() != null) {
                 state = if (result.body()!!.success) {
                     val data = result.body()?.data!!
-                    if (localSubCategories != data) {
-                        subCategoryDao.insertSubCategory(data.mapToSubCategoryList())
+                    if (localAradhnas != data) {
+                        aradhnaDao.insertAradhnas(data.mapToAradhnas())
                     } else return@flow
                     state.copy(isLoading = false, data = data)
                 } else {
@@ -53,7 +52,7 @@ class SubCategoryRepositoryImpl(
                 )
             }
         } catch (e: Exception) {
-            if (localSubCategories.isEmpty())
+            if (localAradhnas.isEmpty())
                 state = state.copy(
                     isLoading = false,
                     error = e.getError()

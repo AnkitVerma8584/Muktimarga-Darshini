@@ -11,9 +11,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.MINIMUM_SEARCH_CHAR
 import com.ass.madhwavahini.domain.modals.HomeFile
-import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
+import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.screens.files.components.FilesList
 
 @Composable
@@ -35,6 +35,7 @@ fun FilePage(
             onSearchQueryChanged = viewModel::queryChanged,
             minimumLetter = MINIMUM_SEARCH_CHAR
         )
+
         if (files.isLoading)
             Loading()
 
@@ -44,7 +45,7 @@ fun FilePage(
             FilesList(
                 searchedContent = searchedData,
                 data = it,
-                query={query},
+                query = { query },
                 onFileClicked = onFileClicked
             )
         }

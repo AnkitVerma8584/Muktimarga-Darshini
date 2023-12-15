@@ -1,11 +1,13 @@
 package com.ass.madhwavahini.data.local.mapper
 
+import com.ass.madhwavahini.data.local.modals.Aradhna
 import com.ass.madhwavahini.data.local.modals.Banner
 import com.ass.madhwavahini.data.local.modals.Category
 import com.ass.madhwavahini.data.local.modals.Files
 import com.ass.madhwavahini.data.local.modals.SubCategory
 import com.ass.madhwavahini.data.local.modals.SubToSubCategory
 import com.ass.madhwavahini.domain.modals.Gallery
+import com.ass.madhwavahini.domain.modals.HomeAradhna
 import com.ass.madhwavahini.domain.modals.HomeCategory
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubCategory
@@ -22,6 +24,12 @@ fun List<HomeCategory>.mapToCategory(): List<Category> = this.map {
 fun List<Category>.mapToHomeCategoryList(): List<HomeCategory> = this.map { cat ->
     HomeCategory(cat.id, cat.name, cat.image)
 }
+
+fun List<Aradhna>.mapToHomeAradhnas(): List<HomeAradhna> =
+    this.map { HomeAradhna(it.id, it.title, it.description, it.image) }
+
+fun List<HomeAradhna>.mapToAradhnas(): List<Aradhna> =
+    this.map { Aradhna(it.id, it.title, it.description, it.image) }
 
 fun List<HomeSubCategory>.mapToSubCategoryList(): List<SubCategory> = this.map {
     SubCategory(it.id, it.catId, it.name, it.description, it.image)

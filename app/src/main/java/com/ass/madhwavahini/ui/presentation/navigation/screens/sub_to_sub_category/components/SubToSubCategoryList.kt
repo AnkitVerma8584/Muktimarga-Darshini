@@ -1,5 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.navigation.screens.sub_to_sub_category.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -49,7 +50,8 @@ fun SubToSubCategoryContent(
 
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Adaptive(minSize = Constants.ADAPTIVE_GRID_SIZE)
+        columns = GridCells.Adaptive(minSize = Constants.ADAPTIVE_GRID_SIZE),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         searchedContent.forEach { fileData ->
             item(span = { GridItemSpan(maxLineSpan) }) {

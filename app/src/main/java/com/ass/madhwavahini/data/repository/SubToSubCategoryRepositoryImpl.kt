@@ -53,7 +53,6 @@ class SubToSubCategoryRepositoryImpl(
 
         try {
             val result = subToSubCategoryApi.getSubToSubCategories(
-                userDataStore.getId(),
                 categoryId,
                 subCategoryId
             )

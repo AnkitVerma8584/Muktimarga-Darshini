@@ -3,6 +3,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.screens.category
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,7 +19,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants
 import com.ass.madhwavahini.domain.modals.HomeCategory
-import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
@@ -32,8 +32,9 @@ fun CategoryPage(
 ) {
     val categories by viewModel.categoryState.collectAsStateWithLifecycle()
     val query by viewModel.categoryQuery.collectAsState()
-
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 16.dp)) {
         SearchBar(
             hint = stringResource(id = R.string.category_search),
             query = query,
@@ -43,16 +44,15 @@ fun CategoryPage(
             Loading()
             return
         }
-
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = Constants.GALLERY_ADAPTIVE_SIZE),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             categories.data?.let { list ->
-                item(span = { GridItemSpan(maxLineSpan) }) {
+                /*item(span = { GridItemSpan(maxLineSpan) }) {
                     Header(header = stringResource(id = R.string.category))
-                }
+                }*/
                 if (list.isEmpty())
                     item(span = { GridItemSpan(maxLineSpan) }) {
                         NoSearchedResults(query = query, id = R.string.empty_categories)

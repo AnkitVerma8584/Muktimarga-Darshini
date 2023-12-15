@@ -10,7 +10,6 @@ import retrofit2.http.Query
 interface SubToSubCategoryApi {
     @GET(Api.GET_SUB_TO_SUBCATEGORIES)
     suspend fun getSubToSubCategories(
-        @Query("user_id") userId: Int,
         @Query("cat_id") categoryId: Int,
         @Query("sub_cat_id") subCategoryId: Int
     ): Response<ResultList<HomeSubToSubCategory>>

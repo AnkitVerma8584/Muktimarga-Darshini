@@ -23,6 +23,7 @@ import com.github.barteksc.pdfviewer.PDFView
 
 @Composable
 fun PdfScreen(
+    onNavigateBack: () -> Unit,
     pdfViewModel: PdfViewModel = hiltViewModel()
 ) {
     val pdfState by pdfViewModel.pdfState.collectAsState()
@@ -32,6 +33,7 @@ fun PdfScreen(
     }
 
     if (pdfState.isLoading) Loading()
+
     else {
         Box {
             Column(modifier = Modifier.fillMaxSize()) {

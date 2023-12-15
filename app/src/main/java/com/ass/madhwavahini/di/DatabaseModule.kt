@@ -34,6 +34,9 @@ object DatabaseModule {
     @Provides
     fun provideCategoryDao(db: RoomDB): CategoryDao = db.getCategoryDao()
 
+    @Singleton
+    @Provides
+    fun provideAradhnaDao(db: RoomDB): AradhnaDao = db.getAradhnaDao()
 
     @Singleton
     @Provides

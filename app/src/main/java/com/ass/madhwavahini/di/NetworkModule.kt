@@ -73,6 +73,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideAradhnaDao(@MukitimargaDarshini retrofit: Retrofit): AradhnaApi =
+        retrofit.create(AradhnaApi::class.java)
+
+    @Provides
+    @Singleton
     fun provideSubCategoryDao(@MukitimargaDarshini retrofit: Retrofit): SubCategoryApi =
         retrofit.create(SubCategoryApi::class.java)
 

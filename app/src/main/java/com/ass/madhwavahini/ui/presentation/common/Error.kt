@@ -28,8 +28,7 @@ fun NoSearchedResults(
 ) {
     Text(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 5.dp),
+            .fillMaxWidth(),
         text = stringResource(id, query),
         color = MaterialTheme.colorScheme.error
     )

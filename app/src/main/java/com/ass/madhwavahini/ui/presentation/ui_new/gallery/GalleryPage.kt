@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -34,6 +35,7 @@ fun GalleryPage(
     banners.error?.ShowError()
     banners.data?.let { bannersList ->
         LazyVerticalStaggeredGrid(
+            modifier=Modifier.fillMaxSize().padding(16.dp),
             columns = StaggeredGridCells.Adaptive(GALLERY_ADAPTIVE_SIZE),
             verticalItemSpacing = 8.dp,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -49,8 +51,7 @@ fun GalleryPage(
                             .wrapContentHeight()
                     )
                 }
-            },
-            modifier = Modifier.fillMaxSize()
+            }
         )
     }
 }
