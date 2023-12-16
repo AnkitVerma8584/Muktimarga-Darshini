@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.Category
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.data.Constants
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.ui.presentation.navigation.modal.RootNavigationFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.HomeNavigationFragments
@@ -25,9 +26,9 @@ fun HomePage(
 ) {
     Column {
         HomePageHeader(user.userName)
-        sh12()
+        sh12.invoke()
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+            columns = GridCells.Adaptive(minSize = Constants.HOME_ADAPTIVE_SIZE),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -52,13 +53,13 @@ fun HomePage(
                     onNavigate(HomeNavigationFragments.Panchanga.route)
                 }
             }
-            item(span = { GridItemSpan(maxLineSpan) }) {
+            item(span = { GridItemSpan(2) }) {
                 HomePageAradhnaCard {
                     onNavigate(HomeNavigationFragments.Aradhna.route)
                 }
             }
         }
-        sh12()
+        sh12.invoke()
     }
 }
 

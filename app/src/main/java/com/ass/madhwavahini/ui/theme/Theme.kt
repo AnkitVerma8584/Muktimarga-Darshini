@@ -93,7 +93,6 @@ internal fun MadhwaVahiniTheme(
                 .isAppearanceLightStatusBars = darkTheme
         }
     }
-
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,

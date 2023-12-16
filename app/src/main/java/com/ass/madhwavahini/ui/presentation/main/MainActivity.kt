@@ -58,42 +58,41 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         checkForAppUpdates()
         setContent {
-            MadhwaVahiniTheme {
-                val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.RequestPermission(),
-                    onResult = { isGranted ->
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) mainViewModel.onPermissionResult(
-                            isPermissionGranted = isGranted,
-                            shouldShowPermissionRationalDialog = shouldShowRequestPermissionRationale(
-                                Manifest.permission.POST_NOTIFICATIONS
-                            )
-                        )
-                    })
-
-                LaunchedEffect(key1 = Unit) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                        notificationPermissionResultLauncher.launch(
+            val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission(),
+                onResult = { isGranted ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) mainViewModel.onPermissionResult(
+                        isPermissionGranted = isGranted,
+                        shouldShowPermissionRationalDialog = shouldShowRequestPermissionRationale(
                             Manifest.permission.POST_NOTIFICATIONS
                         )
-                }
+                    )
+                })
 
-                if (mainViewModel.shouldShowPermissionRational) {
-                    NotificationPermissionRationalDialog(onDismiss = mainViewModel::dismissDialog,
-                        onOkClick = {
-                            mainViewModel.dismissDialog()
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) notificationPermissionResultLauncher.launch(
-                                Manifest.permission.POST_NOTIFICATIONS
-                            )
-                        })
-                }
+            LaunchedEffect(key1 = Unit) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    notificationPermissionResultLauncher.launch(
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
+            }
 
-                if (mainViewModel.shouldLogOut) {
-                    startActivity(Intent(this, AuthenticationActivity::class.java))
-                    finish()
-                }
-
+            if (mainViewModel.shouldShowPermissionRational) {
+                NotificationPermissionRationalDialog(onDismiss = mainViewModel::dismissDialog,
+                    onOkClick = {
+                        mainViewModel.dismissDialog()
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) notificationPermissionResultLauncher.launch(
+                            Manifest.permission.POST_NOTIFICATIONS
+                        )
+                    })
+            }
+            if (mainViewModel.shouldLogOut) {
+                startActivity(Intent(this, AuthenticationActivity::class.java))
+                finish()
+            }
+            MadhwaVahiniTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     MainPage(mainViewModel)
                 }

@@ -32,9 +32,11 @@ fun CategoryPage(
 ) {
     val categories by viewModel.categoryState.collectAsStateWithLifecycle()
     val query by viewModel.categoryQuery.collectAsState()
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(horizontal = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
         SearchBar(
             hint = stringResource(id = R.string.category_search),
             query = query,
@@ -45,14 +47,11 @@ fun CategoryPage(
             return
         }
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = Constants.GALLERY_ADAPTIVE_SIZE),
+            columns = GridCells.Adaptive(minSize = Constants.CATEGORY_ADAPTIVE_SIZE),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             categories.data?.let { list ->
-                /*item(span = { GridItemSpan(maxLineSpan) }) {
-                    Header(header = stringResource(id = R.string.category))
-                }*/
                 if (list.isEmpty())
                     item(span = { GridItemSpan(maxLineSpan) }) {
                         NoSearchedResults(query = query, id = R.string.empty_categories)

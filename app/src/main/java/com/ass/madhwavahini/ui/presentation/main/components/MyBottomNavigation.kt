@@ -32,7 +32,7 @@ fun MyBottomNavigation(
                     Text(
                         text = item.title.asString(),
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                      //  color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
                 onClick = { onNavigate(item.route) },
