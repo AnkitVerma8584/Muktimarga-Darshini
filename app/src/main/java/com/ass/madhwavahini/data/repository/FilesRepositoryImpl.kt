@@ -14,7 +14,7 @@ import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.repository.FilesRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiStateList
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
+import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.files.modals.FilesData
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

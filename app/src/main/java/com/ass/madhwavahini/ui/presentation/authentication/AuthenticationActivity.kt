@@ -49,7 +49,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.SPLASH_TIMEOUT
-import com.ass.madhwavahini.ui.presentation.MainActivity
+import com.ass.madhwavahini.ui.presentation.main.MainActivity
 import com.ass.madhwavahini.ui.presentation.SplashScreen
 import com.ass.madhwavahini.ui.presentation.authentication.login.LoginPage
 import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswordFragment
@@ -199,10 +199,6 @@ private fun Activity.AuthenticationNavigation(
     }
 }
 
-@Composable
-private fun NavigationFragments() {
-
-}
 
 private fun Activity.navigateToMainActivity() {
     startActivity(Intent(this, MainActivity::class.java))

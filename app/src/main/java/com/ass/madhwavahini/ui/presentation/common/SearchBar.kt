@@ -47,10 +47,8 @@ fun SearchBar(
 
     val trailingIconView = @Composable {
         IconButton(
-            onClick = {
-                if (query.isNotBlank())
-                    onSearchQueryChanged("")
-            },
+            enabled = query.isNotBlank(),
+            onClick = { onSearchQueryChanged("") },
         ) {
             Icon(
                 Icons.Default.Clear, contentDescription = "Clear search"

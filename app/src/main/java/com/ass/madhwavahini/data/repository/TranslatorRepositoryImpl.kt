@@ -4,9 +4,8 @@ import com.ass.madhwavahini.data.remote.apis.TranslateApi
 import com.ass.madhwavahini.domain.repository.TranslatorRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiStateList
-import com.ass.madhwavahini.ui.presentation.navigation.screens.document.modals.FileDocumentText
+import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.document.modals.FileDocumentText
 import com.ass.madhwavahini.util.getError
-import com.ass.madhwavahini.util.print
 import com.ass.madhwavahini.util.translations.TranslationLanguages
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

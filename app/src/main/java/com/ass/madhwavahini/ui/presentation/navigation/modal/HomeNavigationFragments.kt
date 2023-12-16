@@ -7,17 +7,17 @@ sealed class HomeNavigationFragments(
     val title: StringUtil,
     val route: String
 ) {
-    data object Home : ProfileNavigationFragments(
+    data object Home : SettingsNavHostFragments(
         route = "home",
         title = StringUtil.StringResource(R.string.category)
     )
 
-    data object Aradhna : ProfileNavigationFragments(
+    data object Aradhna : SettingsNavHostFragments(
         route = "about",
         title = StringUtil.StringResource(R.string.about)
     )
 
-    data object Panchanga : ProfileNavigationFragments(
+    data object Panchanga : SettingsNavHostFragments(
         route = "panchanga",
         title = StringUtil.StringResource(R.string.support)
     )

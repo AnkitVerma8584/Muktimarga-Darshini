@@ -19,7 +19,7 @@ import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiStateList
-import com.ass.madhwavahini.ui.presentation.navigation.screens.files.modals.FilesData
+import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.files.modals.FilesData
 import com.ass.madhwavahini.util.getError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
