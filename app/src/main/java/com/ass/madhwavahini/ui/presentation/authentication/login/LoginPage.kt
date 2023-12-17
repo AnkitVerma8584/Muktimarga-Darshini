@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +36,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
+import com.ass.madhwavahini.ui.presentation.authentication.common.PlaceHolderLoading
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -109,7 +109,7 @@ fun LoginPage(
             )
         }, label = "loading") { loading ->
             if (loading) {
-                CircularProgressIndicator()
+                PlaceHolderLoading()
             } else {
                 Button(
                     onClick = viewModel::login

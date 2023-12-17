@@ -3,6 +3,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.destinations.home.aradhn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -32,7 +33,7 @@ fun AradhnaPage(
 
     val query by viewModel.aradhnaQuery.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier= Modifier.fillMaxSize().padding(16.dp)) {
         SearchBar(
             hint = stringResource(id = R.string.sub_cat_search),
             query = query,

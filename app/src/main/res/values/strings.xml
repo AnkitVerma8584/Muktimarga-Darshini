@@ -36,7 +36,7 @@
     <string name="reset_password">Reset Password</string>
 
     <!--Menu-->
-    <string name="welcome">Welcome %s,</string>
+    <string name="good_morning">Good %s,</string>
     <string name="menu">Menu</string>
     <string name="home">Home</string>
     <string name="gallery">Gallery</string>
@@ -47,7 +47,8 @@
     <string name="logout">Logout</string>
 
     <!--Category-->
-    <string name="category">Categories</string>
+    <string name="category">Category</string>
+    <string name="categories">Categories</string>
     <string name="category_search">Search for any category</string>
 
     <!--Sub Category-->

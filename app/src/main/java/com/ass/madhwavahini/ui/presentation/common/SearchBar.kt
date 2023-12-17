@@ -36,6 +36,7 @@ import com.ass.madhwavahini.ui.theme.ShowPreview
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
+    modifier: Modifier=Modifier,
     hint: String = "",
     query: String,
     onSearchQueryChanged: (String) -> Unit = {},
@@ -56,7 +57,7 @@ fun SearchBar(
         }
     }
     OutlinedTextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .focusRequester(focusRequester),

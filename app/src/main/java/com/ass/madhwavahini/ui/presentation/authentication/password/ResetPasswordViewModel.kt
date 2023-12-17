@@ -22,7 +22,7 @@ class ResetPasswordViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var verificationIdToken: String? = null
-    var userId: Int? = null
+    private var userId: Int? = null
     var mobileText by mutableStateOf("")
         private set
     var mobileError by mutableStateOf<String?>(null)

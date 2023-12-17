@@ -61,8 +61,9 @@ fun TextDocumentScreen(
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Column {
             SearchBar(
+                modifier = Modifier.padding(horizontal = 16.dp),
                 query = query,
                 onSearchQueryChanged = viewModel.textStateHolder::updateQuery,
                 hint = stringResource(id = R.string.document_search),
@@ -127,12 +128,12 @@ private fun ColumnScope.DocumentContent(
         .weight(1f)
         .pointerInput(Unit) {
             detectTransformGestures { _, _, zoom, _ ->
-                if ((scale * zoom) in 11.0f..60.0f) scale *= zoom
+                scale = (scale * zoom).coerceIn(11.0f, 60.0f)
             }
         }) {
         SelectionContainer {
             LazyColumn(
-                contentPadding = PaddingValues(vertical = 16.dp),
+                contentPadding = PaddingValues(16.dp),
                 state = listState,
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -145,7 +146,6 @@ private fun ColumnScope.DocumentContent(
                                 searchedText.size
                             ),
                             modifier = Modifier.padding(start = 8.dp, bottom = 8.dp),
-                            color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.labelMedium
                         )
                     }
@@ -188,7 +188,6 @@ private fun ColumnScope.DocumentContent(
             },
             onTranslateClick = textStateHolder::setDestinationLanguage
         )
-
     }
     textState.error?.ShowBottomBarError()
 

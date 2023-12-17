@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
+import com.ass.madhwavahini.ui.presentation.authentication.common.PlaceHolderLoading
 import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswordViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -65,7 +65,7 @@ fun MobileAuthScreen(
             }, label = "loading"
         ) { loading ->
             if (loading) {
-                CircularProgressIndicator()
+                PlaceHolderLoading()
             } else {
                 Button(onClick = viewModel::getUserFromMobile) {
                     Text(

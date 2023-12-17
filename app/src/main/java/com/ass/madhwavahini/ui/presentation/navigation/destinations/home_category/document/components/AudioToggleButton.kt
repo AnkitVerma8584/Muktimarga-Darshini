@@ -20,14 +20,14 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BoxScope.AudioToggleButton(
+    paddingValues: PaddingValues = PaddingValues(top = 116.dp, end = 16.dp),
     isDisplayingAudio: Boolean,
-    padding: PaddingValues = PaddingValues(top = 116.dp, end = 16.dp),
     onButtonToggled: () -> Unit
 ) {
     IconButton(
         modifier = Modifier
             .align(Alignment.TopEnd)
-            .padding(padding)
+            .padding(paddingValues)
             .size(48.dp)
             .clip(CircleShape)
             .background(color = MaterialTheme.colorScheme.primary),

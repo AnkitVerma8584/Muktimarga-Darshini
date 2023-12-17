@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -107,12 +108,12 @@ fun HomePageNavigationCard(
     cardDescription: String,
     onCardClick: () -> Unit
 ) {
-
     ElevatedCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.onSurface
         ), modifier = Modifier
+            .wrapContentHeight()
             .aspectRatio(1f)
             .clickable(onClick = onCardClick)
     ) {
@@ -144,7 +145,6 @@ fun HomePageNavigationCard(
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-
             }
             Icon(
                 modifier = Modifier
