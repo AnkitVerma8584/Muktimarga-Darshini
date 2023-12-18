@@ -3,6 +3,7 @@
     <string name="splash_description">Developed by Aishwarya Software, Bengaluru</string>
     <string name="app_version">v %s</string>
     <!--Errors-->
+    <string name="empty_aradhna">No aradhna found for query %s</string>
     <string name="empty_categories">No categories found for query %s</string>
     <string name="empty_subcategories">No sub-categories found for query %s</string>
     <string name="empty_sub_to_sub_categories">No sub-to-sub-categories found for query %s</string>
@@ -45,6 +46,11 @@
     <string name="contact_us">Contact Us</string>
     <string name="support">Support</string>
     <string name="logout">Logout</string>
+
+    <!--Aradhna & panchanga-->
+    <string name="aradhna">Aradhna</string>
+    <string name="panchanga">Panchanga</string>
+    <string name="aradhna_search">Search for aradhna</string>
 
     <!--Category-->
     <string name="category">Category</string>

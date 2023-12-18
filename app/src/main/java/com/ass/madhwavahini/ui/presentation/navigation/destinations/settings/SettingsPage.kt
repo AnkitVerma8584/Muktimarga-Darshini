@@ -28,7 +28,6 @@ import com.ass.madhwavahini.ui.theme.ShowPreview
 import com.ass.madhwavahini.ui.theme.UiModePreviews
 import com.ass.madhwavahini.ui.theme.sh8
 
-
 @Composable
 fun SettingsPage(
     user: User,
@@ -99,7 +98,6 @@ fun SettingsPage(
             }
         }
     }
-
 }
 
 @UiModePreviews

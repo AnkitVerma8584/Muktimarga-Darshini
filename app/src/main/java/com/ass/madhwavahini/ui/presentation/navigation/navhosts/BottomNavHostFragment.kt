@@ -16,9 +16,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
+import com.ass.madhwavahini.ui.presentation.navigation.destinations.gallery.GalleryPage
 import com.ass.madhwavahini.ui.presentation.navigation.modal.RootNavigationFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.rootNavigationFragmentsLists
-import com.ass.madhwavahini.ui.presentation.navigation.destinations.gallery.GalleryPage
 
 @Composable
 fun BottomNavHostFragment(
@@ -30,7 +30,7 @@ fun BottomNavHostFragment(
 ) {
 
     fun AnimatedContentTransitionScope<NavBackStackEntry>.getInAnimation(): EnterTransition =
-        slideInHorizontally(animationSpec = tween(700)) {
+        slideInHorizontally(animationSpec = tween(500)) {
             val initial =
                 rootNavigationFragmentsLists.indexOf(rootNavigationFragmentsLists.find { item -> item.route == initialState.destination.route })
             val target =
@@ -38,9 +38,8 @@ fun BottomNavHostFragment(
             if (initial < target) it else -it
         }
 
-
     fun AnimatedContentTransitionScope<NavBackStackEntry>.getOutAnimation(): ExitTransition =
-        slideOutHorizontally(animationSpec = tween(700)) {
+        slideOutHorizontally(animationSpec = tween(500)) {
             val initial =
                 rootNavigationFragmentsLists.indexOf(rootNavigationFragmentsLists.find { item -> item.route == initialState.destination.route })
             val target =
@@ -49,8 +48,7 @@ fun BottomNavHostFragment(
         }
 
     NavHost(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         navController = navController,
         startDestination = RootNavigationFragments.Home.route,
         enterTransition = { getInAnimation() },
@@ -61,7 +59,7 @@ fun BottomNavHostFragment(
         popExitTransition = { getOutAnimation() },
     ) {
         composable(route = RootNavigationFragments.Home.route) {
-            HomeNavHostFragment(user=user) { route ->
+            HomeNavHostFragment(user = user) { route ->
                 navController.navigate(route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
@@ -71,10 +69,9 @@ fun BottomNavHostFragment(
                 }
             }
         }
-
         composable(route = RootNavigationFragments.Category.route) {
             CategoryNavHostFragment(
-                user=user,
+                user = user,
                 onErrorTriggered = onErrorTriggered,
                 onBottomBarStateChange = onBottomBarStateChange,
                 onNavigateBack = navController::navigateUp
@@ -85,9 +82,9 @@ fun BottomNavHostFragment(
         }
         composable(route = RootNavigationFragments.Setting.route) {
             SettingsNavHostFragment(
-                user=user,
-                onNavigateBack = navController::navigateUp,
-                onLogOut = onLogout)
+                user = user, onNavigateBack = navController::navigateUp, onLogOut = onLogout
+            )
         }
     }
+
 }

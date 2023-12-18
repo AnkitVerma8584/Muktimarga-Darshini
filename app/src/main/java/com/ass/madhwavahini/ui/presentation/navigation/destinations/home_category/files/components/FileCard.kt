@@ -33,7 +33,7 @@ fun LazyGridItemScope.FileCard(
 ) {
     ElevatedCard(modifier = Modifier
         .fillMaxWidth()
-        .padding(vertical = 8.dp)
+        .padding(bottom = 16.dp)
         .animateItemPlacement()
         .clickable {
             onFileClicked(item, "", -1)

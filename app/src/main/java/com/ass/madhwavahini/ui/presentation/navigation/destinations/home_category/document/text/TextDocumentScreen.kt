@@ -71,7 +71,7 @@ fun TextDocumentScreen(
             )
             if (uiState.isLoading) {
                 Loading()
-                return@Column
+                return
             }
             uiState.error?.ShowError()
             DocumentContent(

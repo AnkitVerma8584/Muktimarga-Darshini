@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BoxScope.AudioToggleButton(
-    paddingValues: PaddingValues = PaddingValues(top = 116.dp, end = 16.dp),
+    paddingValues: PaddingValues = PaddingValues(top = 76.dp, end = 16.dp),
     isDisplayingAudio: Boolean,
     onButtonToggled: () -> Unit
 ) {

@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -50,7 +51,9 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
+
         if (!BuildConfig.DEBUG)
             window.setFlags(
                 WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE
@@ -58,6 +61,7 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         checkForAppUpdates()
         setContent {
+
             val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission(),
                 onResult = { isGranted ->

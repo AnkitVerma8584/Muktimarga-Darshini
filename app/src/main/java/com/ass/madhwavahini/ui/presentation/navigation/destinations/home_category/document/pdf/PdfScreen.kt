@@ -64,7 +64,7 @@ fun PdfScreen(
             }
             if (pdfViewModel.audioStateHolder.hasAudioFile)
                 AudioToggleButton(
-                    paddingValues = PaddingValues(top = 16.dp, end = 16.dp),
+                    paddingValues = PaddingValues(end = 16.dp),
                     isDisplayingAudio = isDisplayingAudio
                 ) {
                     isDisplayingAudio = !isDisplayingAudio

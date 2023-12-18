@@ -49,13 +49,13 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants.SPLASH_TIMEOUT
-import com.ass.madhwavahini.ui.presentation.main.MainActivity
 import com.ass.madhwavahini.ui.presentation.SplashScreen
 import com.ass.madhwavahini.ui.presentation.authentication.login.LoginPage
 import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswordFragment
 import com.ass.madhwavahini.ui.presentation.authentication.register.RegisterPage
 import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
+import com.ass.madhwavahini.ui.presentation.main.MainActivity
 import com.ass.madhwavahini.ui.theme.MadhwaVahiniTheme
 import com.skydoves.orbital.Orbital
 import com.skydoves.orbital.animateSharedElementTransition
@@ -67,9 +67,9 @@ import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class AuthenticationActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
         setContent {
             var backPressedTime by remember { mutableLongStateOf(0L) }
             BackHandler(onBack = {

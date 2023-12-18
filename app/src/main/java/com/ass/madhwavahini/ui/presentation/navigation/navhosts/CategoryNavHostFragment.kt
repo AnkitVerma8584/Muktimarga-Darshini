@@ -1,17 +1,9 @@
 package com.ass.madhwavahini.ui.presentation.navigation.navhosts
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -19,9 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -36,6 +25,7 @@ import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
+import com.ass.madhwavahini.ui.presentation.main.components.MyTopAppBar
 import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.category.CategoryPage
 import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.document.pdf.PdfScreen
 import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.document.text.TextDocumentScreen
@@ -77,33 +67,15 @@ fun CategoryNavHostFragment(
     }
     Scaffold(
         topBar = {
-            TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background,
-                navigationIconContentColor = MaterialTheme.colorScheme.onBackground
-            ), title = {
-                Text(
-                    text = currentFragment?.title?.asString()
-                        ?: stringResource(id = R.string.category),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }, navigationIcon = {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Navigate Back",
-                    modifier = Modifier
-                        .clickable {
-                            if (CategoryNavigationFragments.Category.route == currentFragment?.route)
-                                onNavigateBack.invoke()
-                            else
-                                categoryNavController.navigateUp()
-                        }
-                        .padding(8.dp)
-                )
-            })
+            MyTopAppBar(
+                title = currentFragment?.title?.asString()
+                    ?: stringResource(id = R.string.category)
+            ) {
+                if (CategoryNavigationFragments.Category.route == currentFragment?.route)
+                    onNavigateBack.invoke()
+                else
+                    categoryNavController.navigateUp()
+            }
         }
     ) { padding ->
         NavHost(

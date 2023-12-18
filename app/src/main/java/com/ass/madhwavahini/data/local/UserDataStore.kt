@@ -65,11 +65,6 @@ class UserDataStore @Inject constructor(
         return preferences[USER_ID] ?: 0
     }
 
-    suspend fun shouldGetNotifications(): Boolean {
-        val preferences: Preferences = dataStore.data.first()
-        return (preferences[USER_IS_PAID_CUSTOMER] ?: false)
-    }
-
     val userData: Flow<User> = dataStore.data
         .catch { e ->
             if (e is IOException) {

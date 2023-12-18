@@ -9,7 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,43 +18,45 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.data.Constants
-import com.ass.madhwavahini.ui.presentation.common.Header
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.common.ShowError
+import com.ass.madhwavahini.util.print
 
 @Composable
 fun AradhnaPage(
-    viewModel: AradhnaViewModel = hiltViewModel(),
-    onNavigateBack: () -> Unit = {}
+    viewModel: AradhnaViewModel = hiltViewModel()
 ) {
     val aradhnas by viewModel.aradhnaState.collectAsStateWithLifecycle()
+    val query by viewModel.aradhnaQuery.collectAsStateWithLifecycle()
 
-    val query by viewModel.aradhnaQuery.collectAsState()
-
-    Column(modifier= Modifier.fillMaxSize().padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+    ) {
         SearchBar(
-            hint = stringResource(id = R.string.sub_cat_search),
+            hint = stringResource(id = R.string.aradhna_search),
             query = query,
             onSearchQueryChanged = viewModel::queryChanged
         )
-
         if (aradhnas.isLoading) {
             Loading()
             return
         }
 
+
         aradhnas.data?.let { aradhnasList ->
-            Header(header = stringResource(id = R.string.sub_cat))
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = Constants.ADAPTIVE_GRID_SIZE),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+
                 if (aradhnasList.isEmpty())
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        NoSearchedResults(query, R.string.empty_subcategories)
+                        NoSearchedResults(query, R.string.empty_aradhna)
                     }
                 else
                     items(items = aradhnasList, key = { it.id }) { aradhna ->
@@ -65,7 +67,6 @@ fun AradhnaPage(
                     }
             }
         }
-        aradhnas.error?.ShowError()
-
+         aradhnas.error?.ShowError()
     }
 }

@@ -35,7 +35,6 @@ import com.ass.madhwavahini.ui.theme.ShowPreview
 import com.ass.madhwavahini.ui.theme.UiModePreviews
 import com.ass.madhwavahini.ui.theme.sh12
 
-
 @Composable
 fun HomePageHeader(userName: String) {
     Row(
@@ -56,9 +55,12 @@ fun HomePageHeader(userName: String) {
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = {
+            //TODO some implementation
+        }) {
             Icon(
-                imageVector = Icons.Outlined.Notifications, contentDescription = "Notification"
+                imageVector = Icons.Outlined.Notifications,
+                contentDescription = "Notifications"
             )
         }
     }
@@ -132,7 +134,7 @@ fun HomePageNavigationCard(
                     imageVector = icon,
                     contentDescription = null
                 )
-                sh12()
+                sh12.invoke()
                 Text(
                     text = cardTitle,
                     style = MaterialTheme.typography.titleMedium,
@@ -187,7 +189,7 @@ fun HomePageAradhnaCard(
                     imageVector = Icons.Outlined.TempleHindu,
                     contentDescription = null
                 )
-                sh12()
+                sh12.invoke()
                 Text(
                     text = "Aradhna",
                     style = MaterialTheme.typography.titleMedium,

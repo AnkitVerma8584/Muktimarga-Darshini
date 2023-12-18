@@ -33,7 +33,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
         CoroutineScope(Default).launch {
-            if (userDataStore.shouldGetNotifications()) {
+            if (userDataStore.getId() != 0) {
                 val data: Map<String, String> = p0.data
                 val title = data["title"] ?: "Title"
                 val body = data["message"] ?: "Message"
