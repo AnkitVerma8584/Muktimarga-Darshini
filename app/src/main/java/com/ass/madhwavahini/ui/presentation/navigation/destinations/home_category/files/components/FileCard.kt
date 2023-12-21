@@ -23,6 +23,7 @@ import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.FileType
 import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.ui.presentation.common.getAnnotatedText
+import com.ass.madhwavahini.ui.theme.dimens
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -33,7 +34,7 @@ fun LazyGridItemScope.FileCard(
 ) {
     ElevatedCard(modifier = Modifier
         .fillMaxWidth()
-        .padding(bottom = 16.dp)
+        .padding(bottom = MaterialTheme.dimens.paddingLarge)
         .animateItemPlacement()
         .clickable {
             onFileClicked(item, "", -1)

@@ -19,14 +19,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.R
-import com.ass.madhwavahini.data.Constants
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.ui.presentation.navigation.modal.SettingsNavHostFragments
 import com.ass.madhwavahini.ui.theme.ShowPreview
 import com.ass.madhwavahini.ui.theme.UiModePreviews
-import com.ass.madhwavahini.ui.theme.sh8
+import com.ass.madhwavahini.ui.theme.dimens
+import com.ass.madhwavahini.util.sh8
 
 @Composable
 fun SettingsPage(
@@ -37,17 +36,20 @@ fun SettingsPage(
     LazyVerticalStaggeredGrid(
         modifier = Modifier
             .fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        columns = StaggeredGridCells.Adaptive(Constants.SETTINGS_GRID_SIZE),
-        verticalItemSpacing = 16.dp,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.paddingLarge),
+        columns = StaggeredGridCells.Adaptive(MaterialTheme.dimens.settingsGridSize),
+        verticalItemSpacing = MaterialTheme.dimens.paddingLarge,
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.paddingLarge),
     ) {
         item {
             ElevatedCard {
                 sh8.invoke()
                 MyRow(text = user.userName, icon = Icons.Outlined.Person)
                 Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    modifier = Modifier.padding(
+                        horizontal = MaterialTheme.dimens.paddingLarge,
+                        vertical = MaterialTheme.dimens.paddingSmall
+                    ),
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
                 )
                 MyRow(text = user.userPhone, icon = Icons.Outlined.Phone)
@@ -64,7 +66,10 @@ fun SettingsPage(
                     onNavigate(SettingsNavHostFragments.AboutUs.route)
                 }
                 Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    modifier = Modifier.padding(
+                        horizontal = MaterialTheme.dimens.paddingLarge,
+                        vertical = MaterialTheme.dimens.paddingSmall
+                    ),
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
                 )
                 SettingOptions(
@@ -74,7 +79,10 @@ fun SettingsPage(
                     onNavigate(SettingsNavHostFragments.ContactUs.route)
                 }
                 Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    modifier = Modifier.padding(
+                        horizontal = MaterialTheme.dimens.paddingLarge,
+                        vertical = MaterialTheme.dimens.paddingSmall
+                    ),
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
                 )
                 SettingOptions(

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,6 +39,7 @@ import com.ass.madhwavahini.ui.presentation.authentication.common.MobileInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PlaceHolderLoading
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
+import com.ass.madhwavahini.ui.theme.dimens
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -102,7 +104,7 @@ fun LoginPage(
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium,
         )
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.spacerExtraLarge))
         AnimatedContent(targetState = viewModel.isLoading, transitionSpec = {
             fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith fadeOut(
                 animationSpec = tween(durationMillis = 300)
@@ -112,7 +114,10 @@ fun LoginPage(
                 PlaceHolderLoading()
             } else {
                 Button(
-                    onClick = viewModel::login
+                    onClick = viewModel::login,
+                    modifier = Modifier
+                        .height(MaterialTheme.dimens.buttonSize)
+                        .wrapContentWidth()
                 ) {
                     Text(
                         text = stringResource(id = R.string.login),
@@ -122,13 +127,13 @@ fun LoginPage(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.spacerMedium))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = stringResource(id = R.string.no_account),
                 style = MaterialTheme.typography.labelMedium
             )
-            Spacer(modifier = Modifier.width(5.dp))
+            Spacer(modifier = Modifier.width(MaterialTheme.dimens.spacerExtraSmall))
             Text(
                 text = stringResource(id = R.string.register),
                 style = MaterialTheme.typography.bodyLarge,
@@ -141,6 +146,6 @@ fun LoginPage(
                 )
             )
         }
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.spacerExtraLarge))
     }
 }

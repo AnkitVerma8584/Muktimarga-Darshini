@@ -21,7 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.ui.theme.dimens
+import com.ass.madhwavahini.util.sh8
 import com.ass.madhwavahini.util.translations.TranslationLanguages
 
 @Composable
@@ -33,7 +34,7 @@ fun BoxScope.ScrollToTopButton(
     Column(
         modifier = Modifier
             .align(Alignment.BottomEnd)
-            .padding(16.dp),
+            .padding(MaterialTheme.dimens.paddingLarge),
     ) {
         AnimatedVisibility(
             visible = shouldScrollToTop,
@@ -46,8 +47,7 @@ fun BoxScope.ScrollToTopButton(
             content = {
                 IconButton(
                     onClick = onClick, modifier = Modifier
-                        .size(54.dp)
-                        .padding(8.dp)
+                        .size(MaterialTheme.dimens.buttonSize)
                         .clip(CircleShape)
                         .background(color = MaterialTheme.colorScheme.primary)
                 ) {
@@ -58,7 +58,7 @@ fun BoxScope.ScrollToTopButton(
                     )
                 }
             })
-
+        sh8.invoke()
         LanguagePopUpBox(onClick = onTranslateClick)
     }
 }

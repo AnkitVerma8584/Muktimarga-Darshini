@@ -2,6 +2,7 @@ package com.ass.madhwavahini.di
 
 import android.app.Application
 import android.provider.Settings
+import com.ass.madhwavahini.BuildConfig
 import com.ass.madhwavahini.data.remote.Api
 import com.ass.madhwavahini.data.remote.apis.*
 import dagger.Module
@@ -16,7 +17,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
@@ -26,8 +26,9 @@ object NetworkModule {
     fun getOkHttpClient(
         application: Application
     ): OkHttpClient.Builder {
-        val deviceId =
+        val deviceId = if (BuildConfig.DEBUG) "dummy_id" else
             Settings.Secure.getString(application.contentResolver, Settings.Secure.ANDROID_ID)
+
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(Interceptor {
             val request =
@@ -75,6 +76,11 @@ object NetworkModule {
     @Singleton
     fun provideAradhnaDao(@MukitimargaDarshini retrofit: Retrofit): AradhnaApi =
         retrofit.create(AradhnaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePanchangaDao(@MukitimargaDarshini retrofit: Retrofit): PanchangaApi =
+        retrofit.create(PanchangaApi::class.java)
 
     @Provides
     @Singleton

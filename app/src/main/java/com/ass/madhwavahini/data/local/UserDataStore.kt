@@ -75,10 +75,10 @@ class UserDataStore @Inject constructor(
         }
         .map { preferences ->
             val userId = preferences[USER_ID] ?: 0
-            val userName = preferences[USER_NAME] ?: ""
-            val userPhone = preferences[USER_MOBILE] ?: ""
+            val userName = preferences[USER_NAME].orEmpty()
+            val userPhone = preferences[USER_MOBILE].orEmpty()
             val isPaid = preferences[USER_IS_PAID_CUSTOMER] ?: false
-            val token = preferences[USER_TOKEN] ?: ""
+            val token = preferences[USER_TOKEN].orEmpty()
             User(
                 userId = userId,
                 userName = userName,

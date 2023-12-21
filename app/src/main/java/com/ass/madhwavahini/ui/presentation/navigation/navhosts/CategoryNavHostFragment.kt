@@ -2,7 +2,6 @@ package com.ass.madhwavahini.ui.presentation.navigation.navhosts
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,7 +34,6 @@ import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_categor
 import com.ass.madhwavahini.ui.presentation.navigation.modal.CategoryNavigationFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.categoryFragmentsList
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryNavHostFragment(
     user: User,

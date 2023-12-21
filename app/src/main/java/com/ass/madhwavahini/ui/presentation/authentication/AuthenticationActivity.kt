@@ -41,7 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -57,6 +57,7 @@ import com.ass.madhwavahini.ui.presentation.common.MyCustomSnack
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.ass.madhwavahini.ui.presentation.main.MainActivity
 import com.ass.madhwavahini.ui.theme.MadhwaVahiniTheme
+import com.ass.madhwavahini.ui.theme.dimens
 import com.skydoves.orbital.Orbital
 import com.skydoves.orbital.animateSharedElementTransition
 import com.skydoves.orbital.rememberContentWithOrbitalScope
@@ -69,7 +70,7 @@ import kotlin.system.exitProcess
 class AuthenticationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         setContent {
             var backPressedTime by remember { mutableLongStateOf(0L) }
             BackHandler(onBack = {
@@ -83,14 +84,14 @@ class AuthenticationActivity : ComponentActivity() {
             val appLogo = rememberContentWithOrbitalScope {
                 Image(
                     modifier = Modifier
-                        .size(180.dp)
+                        .size(MaterialTheme.dimens.logoSize)
                         .animateSharedElementTransition(
                             orbitalScope = this,
                             movementSpec = SpringSpec(stiffness = 200f),
                             transformSpec = SpringSpec(stiffness = 200f)
                         ),
                     painter = rememberAsyncImagePainter(model = R.drawable.app_logo),
-                    contentDescription = null,
+                    contentDescription = stringResource(id = R.string.app_name),
                     contentScale = ContentScale.Crop,
                 )
             }
@@ -98,7 +99,6 @@ class AuthenticationActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-
                     var splashState by rememberSaveable {
                         mutableStateOf(true)
                     }
@@ -106,7 +106,6 @@ class AuthenticationActivity : ComponentActivity() {
                         delay(SPLASH_TIMEOUT)
                         splashState = false
                     }
-
                     Orbital {
                         if (splashState) {
                             SplashScreen { appLogo() }
@@ -158,9 +157,10 @@ private fun Activity.AuthenticationNavigation(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.dimens.spacerExtraLarge))
             sharedImage()
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.dimens.spacerExtraLarge))
+
             AnimatedVisibility(
                 visibleState = remember {
                     MutableTransitionState(false)
@@ -198,7 +198,6 @@ private fun Activity.AuthenticationNavigation(
         }
     }
 }
-
 
 private fun Activity.navigateToMainActivity() {
     startActivity(Intent(this, MainActivity::class.java))

@@ -9,6 +9,7 @@ import com.ass.madhwavahini.data.repository.DocumentRepositoryImpl
 import com.ass.madhwavahini.data.repository.FilesRepositoryImpl
 import com.ass.madhwavahini.data.repository.HomeRepositoryImpl
 import com.ass.madhwavahini.data.repository.LoginRepositoryImpl
+import com.ass.madhwavahini.data.repository.PanchangaRepositoryImpl
 import com.ass.madhwavahini.data.repository.PaymentRepositoryImpl
 import com.ass.madhwavahini.data.repository.SubCategoryRepositoryImpl
 import com.ass.madhwavahini.data.repository.SubToSubCategoryRepositoryImpl
@@ -19,6 +20,7 @@ import com.ass.madhwavahini.domain.repository.DocumentRepository
 import com.ass.madhwavahini.domain.repository.FilesRepository
 import com.ass.madhwavahini.domain.repository.HomeRepository
 import com.ass.madhwavahini.domain.repository.LoginRepository
+import com.ass.madhwavahini.domain.repository.PanchangaRepository
 import com.ass.madhwavahini.domain.repository.PaymentRepository
 import com.ass.madhwavahini.domain.repository.SubCategoryRepository
 import com.ass.madhwavahini.domain.repository.SubToSubCategoryRepository
@@ -91,6 +93,15 @@ object RepositoryModule {
         aradhnaDao: AradhnaDao
     ): AradhnaRepository =
         AradhnaRepositoryImpl(aradhnaApi, aradhnaDao)
+
+
+    @Provides
+    @ViewModelScoped
+    fun providePanchangaRepository(
+        api: PanchangaApi,
+        dao: PanchangaDao
+    ): PanchangaRepository =
+        PanchangaRepositoryImpl(api, dao)
 
 
     @Provides

@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,6 +25,7 @@ import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.category.components.CategoryItem
+import com.ass.madhwavahini.ui.theme.dimens
 
 @Composable
 fun CategoryPage(
@@ -35,7 +37,7 @@ fun CategoryPage(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = MaterialTheme.dimens.paddingLarge)
     ) {
         SearchBar(
             hint = stringResource(id = R.string.category_search),
@@ -47,9 +49,9 @@ fun CategoryPage(
             return
         }
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = Constants.CATEGORY_ADAPTIVE_SIZE),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            columns = GridCells.Adaptive(minSize = MaterialTheme.dimens.categoryGridSize),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.paddingLarge),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.paddingLarge)
         ) {
             categories.data?.let { list ->
                 if (list.isEmpty())

@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.ass.madhwavahini.ui.theme.sw16
+import com.ass.madhwavahini.util.sw16
 
 @Composable
 fun SettingOptions(text: String, icon: ImageVector, onClick: () -> Unit) {

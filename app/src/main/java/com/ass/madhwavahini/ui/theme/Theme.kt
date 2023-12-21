@@ -1,16 +1,22 @@
 package com.ass.madhwavahini.ui.theme
 
 import android.app.Activity
+import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.ass.madhwavahini.util.print
 
 private val lightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -77,10 +83,10 @@ private val darkColors = darkColorScheme(
     scrim = md_theme_dark_scrim
 )
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 internal fun MadhwaVahiniTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         darkTheme -> darkColors
@@ -90,17 +96,55 @@ internal fun MadhwaVahiniTheme(
     if (!view.isInEditMode) {
         SideEffect {
             (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController((view.context as Activity).window, view)
-                .isAppearanceLightStatusBars = darkTheme
+            WindowCompat.getInsetsController(
+                (view.context as Activity).window,
+                view
+            ).isAppearanceLightStatusBars = darkTheme
         }
     }
-    CompositionLocalProvider(
-        LocalSpacing provides CompactSpacers()
-    ) {
+
+
+    val window = calculateWindowSizeClass(activity = view.context as Activity)
+    val config: Configuration = LocalConfiguration.current
+
+    val appDimens: Dimens
+
+    when (window.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            appDimens = if (config.screenWidthDp <= 360) {
+                CompactDimens
+            } else {
+                MediumDimens
+            }
+        }
+
+        WindowWidthSizeClass.Medium -> {
+            appDimens = MediumDimens
+        }
+
+        WindowWidthSizeClass.Expanded -> {
+            appDimens = if (config.screenWidthDp > 1000) {
+                TabDimens
+            } else {
+                ExpandedDimens
+            }
+        }
+
+        else -> {
+            appDimens = MediumDimens
+        }
+    }
+
+    ProvideAppUtils(appDimens = appDimens) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = Typography,
+            typography = MadhwaVahiniTypography,
             content = content
         )
     }
 }
+
+val MaterialTheme.dimens
+    @Composable
+    get() = LocalAppDimens.current
+

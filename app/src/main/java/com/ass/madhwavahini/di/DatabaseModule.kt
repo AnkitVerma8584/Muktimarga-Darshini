@@ -40,6 +40,10 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun providePanchangaDao(db: RoomDB): PanchangaDao = db.getPanchangaDao()
+
+    @Singleton
+    @Provides
     fun provideSubCategoryDao(db: RoomDB): SubCategoryDao = db.getSubCategoryDao()
 
     @Singleton

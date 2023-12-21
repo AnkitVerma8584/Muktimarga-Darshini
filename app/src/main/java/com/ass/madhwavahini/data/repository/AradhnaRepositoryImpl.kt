@@ -9,10 +9,8 @@ import com.ass.madhwavahini.domain.repository.AradhnaRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiStateList
 import com.ass.madhwavahini.util.getError
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlin.random.Random
 
 class AradhnaRepositoryImpl(
     private val aradhnaApi: AradhnaApi,
@@ -34,7 +32,7 @@ class AradhnaRepositoryImpl(
         }
         try {
             val result = aradhnaApi.getAradhnas()
-            if (result.isSuccessful && result.body() != null && Random.nextBoolean()) {
+            if (result.isSuccessful && result.body() != null) {
                 state = if (result.body()!!.success) {
                     val data = result.body()?.data!!
                     if (localAradhnas != data) {

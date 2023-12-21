@@ -17,10 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.ass.madhwavahini.ui.theme.dimens
 
 @Composable
 fun BoxScope.AudioToggleButton(
-    paddingValues: PaddingValues = PaddingValues(top = 76.dp, end = 16.dp),
+    paddingValues: PaddingValues = PaddingValues(
+        top = 76.dp,
+        end = MaterialTheme.dimens.paddingLarge
+    ),
     isDisplayingAudio: Boolean,
     onButtonToggled: () -> Unit
 ) {
@@ -28,7 +32,7 @@ fun BoxScope.AudioToggleButton(
         modifier = Modifier
             .align(Alignment.TopEnd)
             .padding(paddingValues)
-            .size(48.dp)
+            .size(MaterialTheme.dimens.buttonSize)
             .clip(CircleShape)
             .background(color = MaterialTheme.colorScheme.primary),
         onClick = onButtonToggled

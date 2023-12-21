@@ -30,19 +30,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.ui.theme.ShowPreview
 import com.ass.madhwavahini.ui.theme.UiModePreviews
-import com.ass.madhwavahini.ui.theme.sh12
+import com.ass.madhwavahini.ui.theme.dimens
+import com.ass.madhwavahini.util.sh12
 
 @Composable
 fun HomePageHeader(userName: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column {
+        Column(modifier=Modifier.weight(1f)) {
             Text(
                 text = "Good morning",
                 style = MaterialTheme.typography.bodyMedium,
@@ -97,9 +98,7 @@ fun HomePageMessage() {
                 fontWeight = FontWeight.Light,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-
         }
-
     }
 }
 
@@ -123,14 +122,14 @@ fun HomePageNavigationCard(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(MaterialTheme.dimens.paddingLarge),
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Icon(
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.secondaryContainer)
-                        .padding(16.dp),
+                        .padding(MaterialTheme.dimens.paddingLarge),
                     imageVector = icon,
                     contentDescription = null
                 )
@@ -139,12 +138,16 @@ fun HomePageNavigationCard(
                     text = cardTitle,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = cardDescription,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Normal,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -178,14 +181,14 @@ fun HomePageAradhnaCard(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(MaterialTheme.dimens.paddingLarge),
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Icon(
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.secondaryContainer)
-                        .padding(16.dp),
+                        .padding(MaterialTheme.dimens.paddingLarge),
                     imageVector = Icons.Outlined.TempleHindu,
                     contentDescription = null
                 )
@@ -194,12 +197,16 @@ fun HomePageAradhnaCard(
                     text = "Aradhna",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = "Hindu prayers and shlokas",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Normal,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 

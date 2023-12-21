@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,6 +21,7 @@ import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchedFileHeader
 import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.document.components.SearchedText
 import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.files.modals.FilesData
+import com.ass.madhwavahini.ui.theme.dimens
 
 @Composable
 fun FilesList(
@@ -31,7 +33,7 @@ fun FilesList(
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         columns = GridCells.Adaptive(minSize = Constants.ADAPTIVE_GRID_SIZE),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.paddingLarge)
     ) {
         searchedContent.forEach { fileData ->
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -49,7 +51,7 @@ fun FilesList(
                 )
             }
             item(span = { GridItemSpan(maxLineSpan) }) {
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(modifier = Modifier.height(MaterialTheme.dimens.spacerMedium))
             }
         }
 

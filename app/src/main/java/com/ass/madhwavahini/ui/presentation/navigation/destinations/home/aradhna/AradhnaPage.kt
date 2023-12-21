@@ -8,12 +8,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ass.madhwavahini.R
@@ -22,7 +21,7 @@ import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.NoSearchedResults
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.common.ShowError
-import com.ass.madhwavahini.util.print
+import com.ass.madhwavahini.ui.theme.dimens
 
 @Composable
 fun AradhnaPage(
@@ -34,7 +33,11 @@ fun AradhnaPage(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .padding(
+                start = MaterialTheme.dimens.paddingLarge,
+                end = MaterialTheme.dimens.paddingLarge,
+                bottom = MaterialTheme.dimens.paddingLarge
+            )
     ) {
         SearchBar(
             hint = stringResource(id = R.string.aradhna_search),
@@ -46,12 +49,11 @@ fun AradhnaPage(
             return
         }
 
-
         aradhnas.data?.let { aradhnasList ->
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = Constants.ADAPTIVE_GRID_SIZE),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.spacerSmall),
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.spacerSmall)
             ) {
 
                 if (aradhnasList.isEmpty())
@@ -67,6 +69,6 @@ fun AradhnaPage(
                     }
             }
         }
-         aradhnas.error?.ShowError()
+        aradhnas.error?.ShowError()
     }
 }

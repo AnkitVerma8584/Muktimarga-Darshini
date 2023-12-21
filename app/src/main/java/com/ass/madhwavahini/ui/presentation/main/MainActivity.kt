@@ -1,7 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.main
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,15 +11,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.ass.madhwavahini.BuildConfig
-import com.ass.madhwavahini.R
-import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.ui.presentation.authentication.AuthenticationActivity
 import com.ass.madhwavahini.ui.presentation.main.components.MainPage
 import com.ass.madhwavahini.ui.presentation.main.components.dialog.NotificationPermissionRationalDialog
@@ -31,11 +27,9 @@ import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
-import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONObject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
@@ -51,7 +45,6 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
 
         if (!BuildConfig.DEBUG)
@@ -61,7 +54,6 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         checkForAppUpdates()
         setContent {
-
             val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission(),
                 onResult = { isGranted ->
@@ -143,30 +135,5 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
     }
 }
 
-fun Activity.startPayment(
-    paymentData: Payment, mainViewModel: MainViewModel
-) {
-    val checkout = Checkout()
-    checkout.setKeyID(BuildConfig.LIVE_KEY)
-    checkout.setImage(R.mipmap.ic_launcher)
-    try {
-        val options = JSONObject()
-        options.put("name", "Madhva Vahini")
-        options.put("description", "Payment for Madhva Vahini app")
-        options.put("order_id", paymentData.orderId)
-        options.put("theme.color", "#934B00")
-        options.put("currency", "INR")
-        options.put("prefill.email", "${mainViewModel.user.firstName}@gmail.com")
-        options.put("prefill.contact", mainViewModel.user.userPhone)
-        options.put("amount", paymentData.amount)
-        val retryObj = JSONObject()
-        retryObj.put("enabled", true)
-        retryObj.put("max_count", 4)
-        options.put("retry", retryObj)
-        checkout.open(this, options)
-    } catch (e: Exception) {
-        mainViewModel.showError()
-    }
-}
 
 

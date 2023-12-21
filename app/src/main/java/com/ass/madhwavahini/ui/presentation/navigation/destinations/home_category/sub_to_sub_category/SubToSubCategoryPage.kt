@@ -3,6 +3,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.destinations.home_catego
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,6 +16,7 @@ import com.ass.madhwavahini.domain.modals.HomeFile
 import com.ass.madhwavahini.domain.modals.HomeSubToSubCategory
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.sub_to_sub_category.components.SubToSubCategoryContent
+import com.ass.madhwavahini.ui.theme.dimens
 
 @Composable
 fun SubToSubCategoryPage(
@@ -27,7 +29,7 @@ fun SubToSubCategoryPage(
     val searchedData by viewModel.searchedFilesData.collectAsState()
     val query by viewModel.query.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
+    Column(modifier = Modifier.fillMaxSize().padding(horizontal = MaterialTheme.dimens.paddingLarge)) {
         SearchBar(
             hint = stringResource(id = R.string.sub_to_sub_cat_search),
             query = query,

@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Category
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,8 +21,10 @@ import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.ui.presentation.navigation.modal.RootNavigationFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.HomeNavigationFragments
 import com.ass.madhwavahini.ui.theme.ShowPreview
-import com.ass.madhwavahini.ui.theme.sh12
+import com.ass.madhwavahini.util.sh12
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.ui.theme.dimens
+
 @Composable
 fun HomePage(
     user: User,
@@ -30,13 +33,13 @@ fun HomePage(
 ) {
     Column(modifier= Modifier
         .fillMaxSize()
-        .padding(16.dp))  {
+        .padding(MaterialTheme.dimens.paddingLarge))  {
         HomePageHeader(user.userName)
         sh12.invoke()
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = Constants.HOME_ADAPTIVE_SIZE),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            columns = GridCells.Adaptive(minSize = MaterialTheme.dimens.homeGridSize),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.paddingLarge),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.paddingLarge)
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
                 HomePageMessage()

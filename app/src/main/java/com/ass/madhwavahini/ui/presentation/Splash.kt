@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.ass.madhwavahini.BuildConfig
 import com.ass.madhwavahini.R
 
-
 @Composable
 internal fun SplashScreen(
     sharedImage: @Composable () -> Unit
