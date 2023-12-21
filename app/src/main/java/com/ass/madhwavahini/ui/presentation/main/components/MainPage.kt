@@ -2,7 +2,10 @@ package com.ass.madhwavahini.ui.presentation.main.components
 
 import android.app.Activity
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
@@ -16,15 +19,22 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.main.MainViewModel
 import com.ass.madhwavahini.ui.presentation.main.components.payment.PaymentBottomSheetModule
 import com.ass.madhwavahini.ui.presentation.navigation.modal.rootNavigationFragmentsLists
 import com.ass.madhwavahini.ui.theme.ScreenOrientation
+import com.ass.madhwavahini.ui.theme.dimens
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -52,52 +62,60 @@ fun Activity.MainPage(
     val shouldShowNavDrawer = config.screenWidthDp >= 1000 && isLandscape
     val shouldShowNavRail = !shouldShowNavDrawer && !isCompactDevice
 
-    PermanentNavigationDrawer(
-        drawerContent = {
-            if (shouldShowNavDrawer)
-                PermanentDrawerSheet {
-                    rootNavigationFragmentsLists.forEach { item ->
-                        val isSelected: Boolean =
-                            item.route == navBackStackEntry?.destination?.route
-                        NavigationDrawerItem(
-                            selected = isSelected, onClick = {
-                                rootNavHostController.navigate(item.route) {
-                                    popUpTo(rootNavHostController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }, label = {
-                                Text(
-                                    text = item.title.asString(),
-                                    style = MaterialTheme.typography.labelMedium
-                                )
-                            }, icon = {
-                                Icon(
-                                    imageVector = if (isSelected) item.selectedIcon else item.icon,
-                                    contentDescription = item.title.asString()
-                                )
-                            })
-                    }
+    PermanentNavigationDrawer(drawerContent = {
+        if (shouldShowNavDrawer)
+            PermanentDrawerSheet(modifier = Modifier.padding(MaterialTheme.dimens.paddingLarge)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.app_logo),
+                        contentDescription = null,
+                        modifier = Modifier.size(80.dp)
+                    )
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
                 }
-        }
-    ) {
-        Row {
-            if (shouldShowNavRail)
-                MyNavigationRail(
-                    shouldShowBuyButton = !mainViewModel.user.isPaidCustomer,
-                    onBuyClick = mainViewModel::getOrder,
-                    navBackStackEntry = navBackStackEntry,
-                    onNavigate = {
-                        rootNavHostController.navigate(it) {
+                rootNavigationFragmentsLists.forEach { item ->
+                    val isSelected: Boolean = item.route == navBackStackEntry?.destination?.route
+                    NavigationDrawerItem(selected = isSelected, onClick = {
+                        rootNavHostController.navigate(item.route) {
                             popUpTo(rootNavHostController.graph.findStartDestination().id) {
                                 saveState = true
                             }
                             launchSingleTop = true
                             restoreState = true
                         }
+                    }, label = {
+                        Text(
+                            text = item.title.asString(),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }, icon = {
+                        Icon(
+                            imageVector = if (isSelected) item.selectedIcon else item.icon,
+                            contentDescription = item.title.asString()
+                        )
                     })
+                }
+            }
+
+    }) {
+        Row {
+            if (shouldShowNavRail) MyNavigationRail(shouldShowBuyButton = !mainViewModel.user.isPaidCustomer,
+                onBuyClick = mainViewModel::getOrder,
+                navBackStackEntry = navBackStackEntry,
+                onNavigate = {
+                    rootNavHostController.navigate(it) {
+                        popUpTo(rootNavHostController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                })
 
             MyScaffold(
                 mainViewModel = mainViewModel,
