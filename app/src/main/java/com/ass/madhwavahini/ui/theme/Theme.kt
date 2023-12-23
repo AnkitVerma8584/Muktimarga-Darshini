@@ -10,13 +10,12 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.ass.madhwavahini.util.print
 
 private val lightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -145,6 +144,7 @@ internal fun MadhwaVahiniTheme(
 }
 
 val MaterialTheme.dimens
+    @ReadOnlyComposable
     @Composable
     get() = LocalAppDimens.current
 

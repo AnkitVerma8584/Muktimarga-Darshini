@@ -34,13 +34,48 @@ fun List<Aradhna>.mapToHomeAradhnas(): List<HomeAradhna> =
 fun List<HomeAradhna>.mapToAradhnas(): List<Aradhna> =
     this.map { Aradhna(it.id, it.title, it.description, it.image) }
 
-fun List<Panchanga>.mapToHomePanchanga(): List<HomePanchanga> = map {
-    HomePanchanga(it.id, it.sunrise, it.sunset)
-}
+fun Panchanga.mapToHomePanchanga(): HomePanchanga =
+    HomePanchanga(
+        id,
+        date,
+        week,
+        suryodaya,
+        suryasthamaya,
+        samvatsara,
+        ayana,
+        ruthu,
+        masa,
+        masaNiyamaka,
+        paksha,
+        tithi,
+        vasara,
+        nakshatra,
+        yoga,
+        karana,
+        todaySpecial
+    )
 
-fun List<HomePanchanga>.mapToPanchanga(): List<Panchanga> = map {
-    Panchanga(it.id, it.sunrise, it.sunset)
-}
+fun HomePanchanga.mapToPanchanga(): Panchanga =
+    Panchanga(
+        id,
+        date,
+        week,
+        suryodaya,
+        suryasthamaya,
+        title,
+        ayana,
+        ruthu,
+        masa,
+        masaNiyamaka,
+        paksha,
+        tithi,
+        vasara,
+        nakshatra,
+        yoga,
+        karana,
+        todaySpecial
+    )
+
 
 fun List<HomeSubCategory>.mapToSubCategoryList(): List<SubCategory> = this.map {
     SubCategory(it.id, it.catId, it.name, it.description, it.image)

@@ -10,17 +10,17 @@ import com.ass.madhwavahini.data.local.modals.Panchanga
 @Dao
 abstract class PanchangaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    protected abstract suspend fun insert(panchangaList: List<Panchanga>)
+    protected abstract suspend fun insert(panchanga: Panchanga)
 
     @Query("DELETE FROM panchanga;")
     protected abstract suspend fun delete()
 
     @Query("SELECT * FROM panchanga;")
-    abstract suspend fun getPanchangaList(): List<Panchanga>
+    abstract suspend fun getPanchanga(): Panchanga?
 
     @Transaction
-    open suspend fun insertPanchanga(panchangaList: List<Panchanga>) {
+    open suspend fun insertPanchanga(panchanga: Panchanga) {
         delete()
-        insert(panchangaList)
+        insert(panchanga)
     }
 }
