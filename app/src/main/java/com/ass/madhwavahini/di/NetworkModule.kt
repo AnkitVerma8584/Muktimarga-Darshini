@@ -69,6 +69,16 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideCategoryDao(@MukitimargaDarshini retrofit: Retrofit): CategoryApi =
+        retrofit.create(CategoryApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideGalleryDao(@MukitimargaDarshini retrofit: Retrofit): GalleryApi =
+        retrofit.create(GalleryApi::class.java)
+
+    @Provides
+    @Singleton
     fun providePaymentDao(@MukitimargaDarshini retrofit: Retrofit): PaymentApi =
         retrofit.create(PaymentApi::class.java)
 

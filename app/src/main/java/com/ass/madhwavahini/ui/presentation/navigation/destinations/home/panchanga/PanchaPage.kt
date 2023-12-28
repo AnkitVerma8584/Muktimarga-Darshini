@@ -64,7 +64,7 @@ private fun PanchangaData(panchanga: HomePanchanga) {
                 .wrapContentHeight()
         ) {
             PanchangaHeader(panchanga = panchanga)
-            Divider(color = MaterialTheme.colorScheme.onBackground, thickness = 1.dp)
+            Divider(color = MaterialTheme.colorScheme.outline)
             PanchangaTitle(title = panchanga.title)
             if (config.screenWidthDp < 800) PanchangaContentCompact(panchanga = panchanga)
             else PanchangaContentExpanded(panchanga = panchanga)

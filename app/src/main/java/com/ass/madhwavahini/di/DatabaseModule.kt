@@ -28,7 +28,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideBannerDao(db: RoomDB): BannerDao = db.getBannerDao()
+    fun provideGalleryDao(db: RoomDB): GalleryDao = db.getGalleryDao()
 
     @Singleton
     @Provides

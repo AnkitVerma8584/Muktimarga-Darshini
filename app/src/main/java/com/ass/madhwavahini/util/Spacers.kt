@@ -1,11 +1,8 @@
 package com.ass.madhwavahini.util
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,13 +23,3 @@ private fun GetSpacerOfWidth(width: Int) = Spacer(modifier = Modifier.width(widt
 @Composable
 private fun GetSpacerOfHeight(height: Int) = Spacer(modifier = Modifier.height(height.dp))
 
-
-@Composable
-fun HorizontalDivider() {
-    Divider(
-        color = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier
-            .fillMaxHeight()
-            .width(1.dp)
-    )
-}

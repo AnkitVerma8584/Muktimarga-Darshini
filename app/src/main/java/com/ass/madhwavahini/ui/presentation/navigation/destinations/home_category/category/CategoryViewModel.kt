@@ -2,7 +2,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.destinations.home_catego
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ass.madhwavahini.domain.repository.HomeRepository
+import com.ass.madhwavahini.domain.repository.CategoryRepository
 import com.ass.madhwavahini.domain.wrapper.UiStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -16,11 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    homeRepository: HomeRepository
+    categoryRepository: CategoryRepository
 ) : ViewModel() {
 
     private val _categoryState =
-        homeRepository.getCategoryState().flowOn(IO)
+        categoryRepository.getCategoryState().flowOn(IO)
 
 
     private val _categoryQuery = MutableStateFlow("")

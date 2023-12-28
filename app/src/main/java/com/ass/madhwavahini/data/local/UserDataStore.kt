@@ -28,6 +28,7 @@ private val USER_MOBILE = stringPreferencesKey("user_mobile")
 private val USER_NAME = stringPreferencesKey("user_name")
 private val USER_IS_PAID_CUSTOMER = booleanPreferencesKey("user_is_paid")
 private val USER_TOKEN = stringPreferencesKey("user_login_token")
+private val HOME_DAILY_QUOTE = stringPreferencesKey("home_daily_quote")
 
 @Singleton
 class UserDataStore @Inject constructor(
@@ -58,6 +59,17 @@ class UserDataStore @Inject constructor(
     suspend fun getToken(): String? {
         val preferences: Preferences = dataStore.data.first()
         return preferences[USER_TOKEN]
+    }
+
+    suspend fun saveQuote(quote: String) {
+        dataStore.edit {
+            it[HOME_DAILY_QUOTE] = quote
+        }
+    }
+
+    suspend fun getQuote(): String {
+        val preferences: Preferences = dataStore.data.first()
+        return preferences[USER_TOKEN].orEmpty()
     }
 
     suspend fun getId(): Int {

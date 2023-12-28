@@ -2,9 +2,12 @@ package com.ass.madhwavahini.ui.presentation.navigation.destinations.home.pancha
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,25 +24,35 @@ fun PanchangaContentCompact(panchanga: HomePanchanga) {
             .fillMaxWidth()
             .padding(horizontal = MaterialTheme.dimens.paddingLarge)
             .padding(bottom = MaterialTheme.dimens.paddingLarge)
-            .border(1.dp, MaterialTheme.colorScheme.onSurface)
+            .border(1.dp, MaterialTheme.colorScheme.outline)
     ) {
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "Ayana", tableValue = panchanga.ayana)
             TableItems(tableName = "Ruthu", tableValue = panchanga.ruthu)
         }
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "Masa", tableValue = panchanga.masa)
             TableItems(tableName = "MasaNiyamaka", tableValue = panchanga.masaNiyamaka)
         }
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "Paksha", tableValue = panchanga.paksha)
             TableItems(tableName = "Tithi", tableValue = panchanga.tithi)
         }
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "Vasara", tableValue = panchanga.vasara)
             TableItems(tableName = "Nakshatra", tableValue = panchanga.nakshatra)
         }
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "Yoga", tableValue = panchanga.yoga)
             TableItems(tableName = "Karana", tableValue = panchanga.karana)
         }
@@ -54,23 +67,31 @@ fun PanchangaContentExpanded(panchanga: HomePanchanga) {
             .fillMaxWidth()
             .padding(horizontal = MaterialTheme.dimens.paddingLarge)
             .padding(bottom = MaterialTheme.dimens.paddingLarge)
-            .border(1.dp, MaterialTheme.colorScheme.onSurface)
+            .border(1.dp, MaterialTheme.colorScheme.outline)
     ) {
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "Ayana", tableValue = panchanga.ayana)
             TableItems(tableName = "Ruthu", tableValue = panchanga.ruthu)
             TableItems(tableName = "Masa", tableValue = panchanga.masa)
         }
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "MasaNiyamaka", tableValue = panchanga.masaNiyamaka)
             TableItems(tableName = "Paksha", tableValue = panchanga.paksha)
         }
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "Tithi", tableValue = panchanga.tithi)
             TableItems(tableName = "Vasara", tableValue = panchanga.vasara)
             TableItems(tableName = "Nakshatra", tableValue = panchanga.nakshatra)
         }
-        Row {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             TableItems(tableName = "Yoga", tableValue = panchanga.yoga)
             TableItems(tableName = "Karana", tableValue = panchanga.karana)
         }
@@ -83,7 +104,8 @@ private fun RowScope.TableItems(tableName: String, tableValue: String) {
     Column(
         modifier = Modifier
             .weight(1f)
-            .border((0.5).dp, MaterialTheme.colorScheme.onSurface)
+            .fillMaxHeight()
+            .border((0.5).dp, MaterialTheme.colorScheme.outline)
             .padding(MaterialTheme.dimens.paddingMedium)
     ) {
         Text(
@@ -92,7 +114,8 @@ private fun RowScope.TableItems(tableName: String, tableValue: String) {
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = tableValue, style = MaterialTheme.typography.bodyLarge
+            text = tableValue,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

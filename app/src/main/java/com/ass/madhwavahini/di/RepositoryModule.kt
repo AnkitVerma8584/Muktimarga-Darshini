@@ -5,8 +5,10 @@ import com.ass.madhwavahini.data.local.UserDataStore
 import com.ass.madhwavahini.data.local.dao.*
 import com.ass.madhwavahini.data.remote.apis.*
 import com.ass.madhwavahini.data.repository.AradhnaRepositoryImpl
+import com.ass.madhwavahini.data.repository.CategoryRepositoryImpl
 import com.ass.madhwavahini.data.repository.DocumentRepositoryImpl
 import com.ass.madhwavahini.data.repository.FilesRepositoryImpl
+import com.ass.madhwavahini.data.repository.GalleryRepositoryImpl
 import com.ass.madhwavahini.data.repository.HomeRepositoryImpl
 import com.ass.madhwavahini.data.repository.LoginRepositoryImpl
 import com.ass.madhwavahini.data.repository.PanchangaRepositoryImpl
@@ -16,8 +18,10 @@ import com.ass.madhwavahini.data.repository.SubToSubCategoryRepositoryImpl
 import com.ass.madhwavahini.data.repository.TranslatorRepositoryImpl
 import com.ass.madhwavahini.data.repository.UserRepositoryImpl
 import com.ass.madhwavahini.domain.repository.AradhnaRepository
+import com.ass.madhwavahini.domain.repository.CategoryRepository
 import com.ass.madhwavahini.domain.repository.DocumentRepository
 import com.ass.madhwavahini.domain.repository.FilesRepository
+import com.ass.madhwavahini.domain.repository.GalleryRepository
 import com.ass.madhwavahini.domain.repository.HomeRepository
 import com.ass.madhwavahini.domain.repository.LoginRepository
 import com.ass.madhwavahini.domain.repository.PanchangaRepository
@@ -60,11 +64,27 @@ object RepositoryModule {
     @Provides
     @ViewModelScoped
     fun provideHomeRepository(
-        bannerDao: BannerDao,
-        categoryDao: CategoryDao,
+        userDataStore: UserDataStore,
         homeApi: HomeApi
     ): HomeRepository =
-        HomeRepositoryImpl(bannerDao, categoryDao, homeApi)
+        HomeRepositoryImpl(userDataStore, homeApi)
+
+    @Provides
+    @ViewModelScoped
+    fun provideCategoryRepository(
+        categoryDao: CategoryDao,
+        categoryApi: CategoryApi
+    ): CategoryRepository =
+        CategoryRepositoryImpl(categoryDao, categoryApi)
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideGalleryRepository(
+        galleryDao: GalleryDao,
+        galleryApi: GalleryApi
+    ): GalleryRepository =
+        GalleryRepositoryImpl(galleryDao, galleryApi)
 
 
     @Provides

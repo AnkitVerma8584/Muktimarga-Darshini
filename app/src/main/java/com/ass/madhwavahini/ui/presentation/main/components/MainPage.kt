@@ -59,11 +59,15 @@ fun Activity.MainPage(
     val widthSizeClass: WindowWidthSizeClass = calculateWindowSizeClass(this).widthSizeClass
     val isLandscape = ScreenOrientation == Configuration.ORIENTATION_LANDSCAPE
     val isCompactDevice = WindowWidthSizeClass.Compact == widthSizeClass
-    val shouldShowNavDrawer = config.screenWidthDp >= 1000 && isLandscape
-    val shouldShowNavRail = !shouldShowNavDrawer && !isCompactDevice
+
+    val navigationType = if (!isLandscape && isCompactDevice)
+        NavigationType.BOTTOM_BAR
+    else if (config.screenWidthDp >= 1000 && isLandscape)
+        NavigationType.SIDE_DRAWER
+    else NavigationType.SIDE_RAIL
 
     PermanentNavigationDrawer(drawerContent = {
-        if (shouldShowNavDrawer)
+        if (navigationType == NavigationType.SIDE_DRAWER)
             PermanentDrawerSheet(modifier = Modifier.padding(MaterialTheme.dimens.paddingLarge)) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -104,25 +108,26 @@ fun Activity.MainPage(
 
     }) {
         Row {
-            if (shouldShowNavRail) MyNavigationRail(shouldShowBuyButton = !mainViewModel.user.isPaidCustomer,
-                onBuyClick = mainViewModel::getOrder,
-                navBackStackEntry = navBackStackEntry,
-                onNavigate = {
-                    rootNavHostController.navigate(it) {
-                        popUpTo(rootNavHostController.graph.findStartDestination().id) {
-                            saveState = true
+            if (navigationType == NavigationType.SIDE_RAIL)
+                MyNavigationRail(shouldShowBuyButton = !mainViewModel.user.isPaidCustomer,
+                    onBuyClick = mainViewModel::getOrder,
+                    navBackStackEntry = navBackStackEntry,
+                    onNavigate = {
+                        rootNavHostController.navigate(it) {
+                            popUpTo(rootNavHostController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                })
+                    })
 
             MyScaffold(
                 mainViewModel = mainViewModel,
                 snackBarHostState = snackBarHostState,
                 rootNavHostController = rootNavHostController,
                 navBackStackEntry = navBackStackEntry,
-                shouldShowBottomBar = isCompactDevice
+                navigationType = navigationType
             )
         }
     }

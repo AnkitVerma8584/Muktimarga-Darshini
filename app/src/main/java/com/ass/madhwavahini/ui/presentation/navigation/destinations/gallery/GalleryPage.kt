@@ -26,15 +26,16 @@ import com.ass.madhwavahini.ui.theme.dimens
 fun GalleryPage(
     viewModel: GalleryViewModel = hiltViewModel()
 ) {
-    val banners by viewModel.bannerState.collectAsStateWithLifecycle()
+    val gallery by viewModel.galleryState.collectAsStateWithLifecycle()
 
-    if (banners.isLoading) {
+    if (gallery.isLoading) {
         Loading()
         return
     }
 
-    banners.error?.ShowError()
-    banners.data?.let { bannersList ->
+    gallery.error?.ShowError()
+
+    gallery.data?.let { homeGalleries ->
         LazyVerticalStaggeredGrid(
             modifier = Modifier
                 .fillMaxSize()
@@ -43,7 +44,7 @@ fun GalleryPage(
             verticalItemSpacing = MaterialTheme.dimens.spacerExtraSmall,
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.spacerExtraSmall),
             content = {
-                items(bannersList, key = { it.id }) { gallery ->
+                items(homeGalleries, key = { it.id }) { gallery ->
                     AsyncImage(
                         model = gallery.image,
                         contentScale = ContentScale.Crop,

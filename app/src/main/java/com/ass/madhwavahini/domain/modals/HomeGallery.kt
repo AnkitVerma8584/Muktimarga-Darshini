@@ -1,6 +1,6 @@
 package com.ass.madhwavahini.domain.modals
 
-data class Gallery(
+data class HomeGallery(
     val id: Int,
     val image: String
 )

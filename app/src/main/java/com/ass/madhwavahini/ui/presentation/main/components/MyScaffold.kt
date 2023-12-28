@@ -37,7 +37,7 @@ fun RowScope.MyScaffold(
     snackBarHostState: SnackbarHostState,
     rootNavHostController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
-    shouldShowBottomBar: Boolean
+    navigationType: NavigationType
 ) {
     val scope = rememberCoroutineScope()
     var bottomBarState by remember {
@@ -56,10 +56,10 @@ fun RowScope.MyScaffold(
         }
     },
         floatingActionButton = {
-            if (!mainViewModel.user.isPaidCustomer && shouldShowBottomBar)
+            if (!mainViewModel.user.isPaidCustomer && navigationType == NavigationType.BOTTOM_BAR)
                 PurchasePackButton(onBuyClick = mainViewModel::getOrder)
         }, bottomBar = {
-            if (bottomBarState && shouldShowBottomBar) {
+            if (bottomBarState && navigationType == NavigationType.BOTTOM_BAR) {
                 MyBottomNavigation(navBackStackEntry, onNavigate = {
                     rootNavHostController.navigate(it) {
                         popUpTo(rootNavHostController.graph.findStartDestination().id) {
