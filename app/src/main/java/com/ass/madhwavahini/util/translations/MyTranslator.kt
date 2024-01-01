@@ -57,8 +57,8 @@ class MyTranslator(
                 }
 
                 "te" -> {
-                    _sourceLanguage.value = TranslationLanguages.TELEGU
-                    _destinationLanguage.value = TranslationLanguages.TELEGU
+                    _sourceLanguage.value = TranslationLanguages.TELUGU
+                    _destinationLanguage.value = TranslationLanguages.TELUGU
                 }
 
                 "ta" -> {

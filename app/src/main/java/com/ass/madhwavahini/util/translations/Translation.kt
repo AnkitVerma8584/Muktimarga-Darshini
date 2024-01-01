@@ -9,7 +9,7 @@ enum class TranslationLanguages(
 ) {
     ENGLISH(R.string.en, "HK"),
     KANNADA(R.string.kn, "Kannada"),
-    TELEGU(R.string.te, "Telugu"),
+    TELUGU(R.string.te, "Telugu"),
     TAMIL(R.string.ta, "TamilExtended"),
     SANSKRIT(R.string.sa, "Devanagari")
 }

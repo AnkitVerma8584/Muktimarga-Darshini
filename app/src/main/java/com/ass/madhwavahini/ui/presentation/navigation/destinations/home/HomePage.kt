@@ -12,28 +12,34 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.ass.madhwavahini.data.Constants
-import com.ass.madhwavahini.domain.modals.User
-import com.ass.madhwavahini.ui.presentation.navigation.modal.RootNavigationFragments
-import com.ass.madhwavahini.ui.presentation.navigation.modal.HomeNavigationFragments
-import com.ass.madhwavahini.ui.theme.ShowPreview
-import com.ass.madhwavahini.util.sh12
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.domain.modals.User
+import com.ass.madhwavahini.ui.presentation.navigation.modal.HomeNavigationFragments
+import com.ass.madhwavahini.ui.presentation.navigation.modal.RootNavigationFragments
+import com.ass.madhwavahini.ui.theme.ShowPreview
 import com.ass.madhwavahini.ui.theme.dimens
+import com.ass.madhwavahini.util.sh12
 
 @Composable
 fun HomePage(
+    homeViewModel: HomeViewModel = hiltViewModel(),
     user: User,
     onRootNavigation: (route: String) -> Unit,
     onNavigate: (route: String) -> Unit
 ) {
-    Column(modifier= Modifier
-        .fillMaxSize()
-        .padding(MaterialTheme.dimens.paddingLarge))  {
+    val quotesState by homeViewModel.homeState.collectAsStateWithLifecycle()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(MaterialTheme.dimens.paddingLarge)
+    ) {
         HomePageHeader(user.userName)
         sh12.invoke()
         LazyVerticalGrid(
@@ -42,7 +48,7 @@ fun HomePage(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.paddingLarge)
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
-                HomePageMessage()
+                HomePageMessage(quotesState)
             }
             item {
                 HomePageNavigationCard(
