@@ -31,22 +31,6 @@ class PdfViewModel @Inject constructor(
     val audioStateHolder: AudioStateHolder =
         AudioStateHolder(viewModelScope, myPlayer, savedStateHandle)
 
-    /*/////////////////////////////////  AUDIO  /////////////////////////////////
-    var currentTrack: Track by mutableStateOf(getTrackInfo())
-        private set
-
-    var hasAudioFile: Boolean by mutableStateOf(false)
-        private set
-
-    private var isTrackPlay: Boolean = false
-
-    private var playbackStateJob: Job? = null
-
-    private val _playbackState = MutableStateFlow(PlaybackState(0L, 0L))
-    val playbackState: StateFlow<PlaybackState> get() = _playbackState.asStateFlow()
-
-    ////////////////////////////////  AUDIO  /////////////////////////////////
-    */
     init {
         viewModelScope.launch(Dispatchers.IO) {
             fetchFile(
@@ -54,11 +38,6 @@ class PdfViewModel @Inject constructor(
                 savedStateHandle.get<String>("file_url") ?: ""
             )
         }
-        /* if (currentTrack.trackUrl.isNotBlank()) {
-             hasAudioFile = true
-             myPlayer.initPlayer(currentTrack.trackUrl)
-             observePlayerState()
-         }*/
     }
 
 
@@ -79,71 +58,8 @@ class PdfViewModel @Inject constructor(
         }
     }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /**                                               AUDIO                                                */
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /*
-        private fun getTrackInfo(): Track {
-            val audioUrl = savedStateHandle.get<String>("audio_url").getAudioUrl()
-            val audioImage = savedStateHandle.get<String>("audio_image").getAudioUrl()
-            return if (audioUrl.isBlank()) Track() else
-                Track(
-                    trackUrl = audioUrl,
-                    trackImage = audioImage
-                )
-        }
-
-        private fun updateState(state: PlayerStates) {
-            isTrackPlay = (state == PlayerStates.STATE_PLAYING)
-            currentTrack = currentTrack.copy(state = state)
-            updatePlaybackState(state)
-        }
-
-        private fun observePlayerState() {
-            viewModelScope.launch {
-                myPlayer.playerState.collect {
-                    updateState(it)
-                }
-            }
-        }
-
-
-        private fun updatePlaybackState(state: PlayerStates) {
-            playbackStateJob?.cancel()
-            playbackStateJob = viewModelScope.launch {
-                do {
-                    _playbackState.emit(
-                        PlaybackState(
-                            currentPlaybackPosition = myPlayer.currentPlaybackPosition,
-                            currentTrackDuration = myPlayer.currentTrackDuration
-                        )
-                    )
-                    delay(1000)
-                } while (state == PlayerStates.STATE_PLAYING && isActive)
-            }
-        }
-
-        override fun onSeekForward() {
-            myPlayer.seekForward()
-        }
-
-        override fun onSeekBackward() {
-            myPlayer.seekBackward()
-        }
-
-        override fun onPlayPauseClick() {
-            myPlayer.playPause()
-        }
-
-        override fun onSeekBarPositionChanged(position: Long) {
-            myPlayer.seekToPosition(position)
-        }*/
-
     override fun onCleared() {
         super.onCleared()
         audioStateHolder.clearPlayer()
-        // myPlayer.releasePlayer()
     }
 }
