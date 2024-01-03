@@ -20,7 +20,7 @@ import com.ass.madhwavahini.data.local.modals.SubToSubCategory
 @Database(
     entities = [Gallery::class, Category::class, Aradhna::class, Panchanga::class, SubCategory::class, SubToSubCategory::class, Files::class],
     exportSchema = false,
-    version = 3  //TODO keep 3
+    version = 4  //TODO keep 4
 )
 abstract class RoomDB : RoomDatabase() {
     abstract fun getGalleryDao(): GalleryDao

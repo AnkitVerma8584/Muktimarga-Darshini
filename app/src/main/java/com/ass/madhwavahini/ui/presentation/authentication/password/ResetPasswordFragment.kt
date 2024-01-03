@@ -22,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.ass.madhwavahini.domain.wrapper.StringUtil
+import com.ass.madhwavahini.ui.presentation.authentication.AuthenticationActivity
 import com.ass.madhwavahini.ui.presentation.authentication.password.PasswordScreenState.NUMBER_VERIFICATION
 import com.ass.madhwavahini.ui.presentation.authentication.password.PasswordScreenState.OTP_STATE
 import com.ass.madhwavahini.ui.presentation.authentication.password.PasswordScreenState.RESET_PASSWORD
@@ -41,7 +42,7 @@ import kotlinx.coroutines.flow.collectLatest
 import java.util.concurrent.TimeUnit
 
 @Composable
-fun Activity.ResetPasswordFragment(
+fun AuthenticationActivity.ResetPasswordFragment(
     showSnack: (message: String, snackBarType: SnackBarType) -> Unit,
     viewModel: ResetPasswordViewModel = hiltViewModel(),
     onPasswordResetCompleted: () -> Unit
@@ -115,7 +116,7 @@ fun Activity.ResetPasswordFragment(
 }
 
 
-private fun Activity.getOtp(
+private fun AuthenticationActivity.getOtp(
     phoneNumber: String,
     onCodeSent: (String) -> Unit,
     onVerified: () -> Unit,

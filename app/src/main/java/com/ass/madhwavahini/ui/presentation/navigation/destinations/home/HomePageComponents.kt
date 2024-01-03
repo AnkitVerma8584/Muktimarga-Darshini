@@ -1,5 +1,9 @@
 package com.ass.madhwavahini.ui.presentation.navigation.destinations.home
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,43 +20,49 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.NotificationsOff
 import androidx.compose.material.icons.outlined.TempleHindu
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import com.ass.madhwavahini.domain.modals.HomeQuotes
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.theme.ShowPreview
 import com.ass.madhwavahini.ui.theme.UiModePreviews
 import com.ass.madhwavahini.ui.theme.dimens
-import com.ass.madhwavahini.util.print
+import com.ass.madhwavahini.util.getSalutation
 import com.ass.madhwavahini.util.sh12
 
 @Composable
 fun HomePageHeader(userName: String) {
+    val ctx = LocalContext.current
+    val isNotificationEnabled =
+        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ActivityCompat.checkSelfPermission(
+            ctx, Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED) || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "Good morning",
+                text = getSalutation(),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -64,10 +74,12 @@ fun HomePageHeader(userName: String) {
             )
         }
         IconButton(onClick = {
-            //TODO some implementation
+            if (isNotificationEnabled) {
+                Toast.makeText(ctx, "Notifications are enabled", Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(ctx, "Notifications are disabled", Toast.LENGTH_SHORT).show()
         }) {
             Icon(
-                imageVector = Icons.Outlined.Notifications,
+                imageVector = if (isNotificationEnabled) Icons.Outlined.Notifications else Icons.Outlined.NotificationsOff,
                 contentDescription = "Notifications"
             )
         }
@@ -77,9 +89,6 @@ fun HomePageHeader(userName: String) {
 
 @Composable
 fun HomePageMessage(homeState: UiState<HomeQuotes>) {
-    LaunchedEffect(homeState) {
-        homeState.print()
-    }
     ElevatedCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -87,7 +96,6 @@ fun HomePageMessage(homeState: UiState<HomeQuotes>) {
         ),
     ) {
         if (homeState.isLoading) {
-            //TODO SHOW SHIMMER TEXT
             Loading()
         }
         homeState.data?.let {
@@ -114,10 +122,7 @@ fun HomePageMessage(homeState: UiState<HomeQuotes>) {
 
 @Composable
 fun HomePageNavigationCard(
-    icon: ImageVector,
-    cardTitle: String,
-    cardDescription: String,
-    onCardClick: () -> Unit
+    icon: ImageVector, cardTitle: String, cardDescription: String, onCardClick: () -> Unit
 ) {
     ElevatedCard(
         colors = CardDefaults.cardColors(

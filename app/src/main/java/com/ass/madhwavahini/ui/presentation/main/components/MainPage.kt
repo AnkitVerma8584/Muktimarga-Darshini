@@ -1,6 +1,5 @@
 package com.ass.madhwavahini.ui.presentation.main.components
 
-import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
@@ -30,6 +29,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ass.madhwavahini.R
+import com.ass.madhwavahini.ui.presentation.main.MainActivity
 import com.ass.madhwavahini.ui.presentation.main.MainViewModel
 import com.ass.madhwavahini.ui.presentation.main.components.payment.PaymentBottomSheetModule
 import com.ass.madhwavahini.ui.presentation.navigation.modal.rootNavigationFragmentsLists
@@ -38,7 +38,7 @@ import com.ass.madhwavahini.ui.theme.dimens
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun Activity.MainPage(
+fun MainActivity.MainPage(
     mainViewModel: MainViewModel
 ) {
     val rootNavHostController: NavHostController = rememberNavController()

@@ -1,6 +1,5 @@
 package com.ass.madhwavahini.ui.presentation.main.components.payment
 
-import android.app.Activity
 import android.content.Context.CLIPBOARD_SERVICE
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -41,6 +40,7 @@ import com.ass.madhwavahini.domain.modals.Payment
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
+import com.ass.madhwavahini.ui.presentation.main.MainActivity
 import com.razorpay.Checkout
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -49,7 +49,7 @@ import org.json.JSONObject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Activity.PaymentBottomSheetModule(
+fun MainActivity.PaymentBottomSheetModule(
     snackBarHostState: SnackbarHostState,
     orderState: Flow<UiState<Payment>>,
     paymentState: Flow<UiState<User>>,
@@ -74,8 +74,7 @@ fun Activity.PaymentBottomSheetModule(
             paymentState.collectLatest { payment ->
                 payment.data?.let {
                     snackBarHostState.showSnackbar(
-                        message = "Payment Verified.",
-                        duration = SnackbarDuration.Short
+                        message = "Payment Verified.", duration = SnackbarDuration.Short
                     )
                 }
                 payment.error?.let { txt ->
@@ -108,7 +107,7 @@ fun Activity.PaymentBottomSheetModule(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Activity.PaymentOptionsBottomSheet(
+private fun MainActivity.PaymentOptionsBottomSheet(
     sheetState: SheetState,
     paymentData: Payment,
     onDismiss: () -> Unit,
@@ -117,8 +116,7 @@ private fun Activity.PaymentOptionsBottomSheet(
     val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
 
     ModalBottomSheet(
-        sheetState = sheetState,
-        onDismissRequest = onDismiss
+        sheetState = sheetState, onDismissRequest = onDismiss
     ) {
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
             PaymentOption(
@@ -131,25 +129,19 @@ private fun Activity.PaymentOptionsBottomSheet(
 
             Spacer(modifier = Modifier.height(10.dp))
             UpiInfoField(
-                "Upi Id",
-                paymentData.upi,
-                clipboardManager
+                "Upi Id", paymentData.upi, clipboardManager
             ) {
                 Icon(imageVector = Icons.Default.PermIdentity, contentDescription = null)
             }
             Spacer(modifier = Modifier.height(10.dp))
             UpiInfoField(
-                "PhonePe number",
-                paymentData.phone,
-                clipboardManager
+                "PhonePe number", paymentData.phone, clipboardManager
             ) {
                 Icon(imageVector = Icons.Default.Phone, contentDescription = null)
             }
             Spacer(modifier = Modifier.height(10.dp))
             UpiInfoField(
-                "Amount to be paid",
-                (paymentData.amount / 100).toString(),
-                clipboardManager
+                "Amount to be paid", (paymentData.amount / 100).toString(), clipboardManager
             ) {
                 Text(text = "Rs.")
             }
@@ -163,9 +155,7 @@ private fun Activity.PaymentOptionsBottomSheet(
 
 @Composable
 private fun PaymentOption(
-    icon: Int,
-    text: String,
-    modifier: Modifier = Modifier
+    icon: Int, text: String, modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {
         Image(
@@ -178,7 +168,7 @@ private fun PaymentOption(
     }
 }
 
-private fun Activity.startPayment(
+private fun MainActivity.startPayment(
     paymentData: Payment,
     name: String,
     phoneNumber: String,

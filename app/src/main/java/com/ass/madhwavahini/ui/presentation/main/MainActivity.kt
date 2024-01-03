@@ -73,10 +73,12 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
             }
 
             if (mainViewModel.shouldShowPermissionRational) {
-                NotificationPermissionRationalDialog(onDismiss = mainViewModel::dismissDialog,
+                NotificationPermissionRationalDialog(
+                    onDismiss = mainViewModel::dismissDialog,
                     onOkClick = {
                         mainViewModel.dismissDialog()
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) notificationPermissionResultLauncher.launch(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                            notificationPermissionResultLauncher.launch(
                             Manifest.permission.POST_NOTIFICATIONS
                         )
                     })

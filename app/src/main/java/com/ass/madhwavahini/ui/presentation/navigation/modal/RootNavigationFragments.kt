@@ -51,6 +51,6 @@ sealed class RootNavigationFragments(
 val rootNavigationFragmentsLists = listOf(
     RootNavigationFragments.Home,
     RootNavigationFragments.Category,
-    RootNavigationFragments.Gallery,
+    //RootNavigationFragments.Gallery,
     RootNavigationFragments.Setting
 )

@@ -6,11 +6,7 @@ object Constants {
     const val MINIMUM_SEARCH_CHAR: Int = 3
     const val SPLASH_TIMEOUT: Long = 2000
     const val AUDIO_SKIP_TIME: Long = 10000
-    val CATEGORY_ADAPTIVE_SIZE = 150.dp
-    val HOME_ADAPTIVE_SIZE = 120.dp
-    val GALLERY_ADAPTIVE_SIZE = 200.dp
     val ADAPTIVE_GRID_SIZE = 400.dp
-    val SETTINGS_GRID_SIZE = 350.dp
 
     const val TOPIC = "madhwavahini_topic"
     const val CHANNEL_ONE_ID: String = "101"

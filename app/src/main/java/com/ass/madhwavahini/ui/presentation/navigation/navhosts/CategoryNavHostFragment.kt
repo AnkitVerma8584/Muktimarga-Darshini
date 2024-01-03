@@ -61,7 +61,7 @@ fun CategoryNavHostFragment(
         }
     }
     LaunchedEffect(key1 = shouldShowBottomBar) {
-        onBottomBarStateChange(shouldShowBottomBar)
+        onBottomBarStateChange.invoke(shouldShowBottomBar)
     }
     Scaffold(
         topBar = {

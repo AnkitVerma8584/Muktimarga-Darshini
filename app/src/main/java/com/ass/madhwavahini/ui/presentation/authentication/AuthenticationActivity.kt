@@ -1,6 +1,5 @@
 package com.ass.madhwavahini.ui.presentation.authentication
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -121,7 +120,7 @@ class AuthenticationActivity : ComponentActivity() {
 
 
 @Composable
-private fun Activity.AuthenticationNavigation(
+private fun AuthenticationActivity.AuthenticationNavigation(
     sharedImage: @Composable () -> Unit
 ) {
     val navController: NavHostController = rememberNavController()
@@ -158,7 +157,7 @@ private fun Activity.AuthenticationNavigation(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(MaterialTheme.dimens.spacerExtraLarge))
-            sharedImage()
+            sharedImage.invoke()
             Spacer(modifier = Modifier.height(MaterialTheme.dimens.spacerExtraLarge))
 
             AnimatedVisibility(
@@ -199,7 +198,7 @@ private fun Activity.AuthenticationNavigation(
     }
 }
 
-private fun Activity.navigateToMainActivity() {
+private fun AuthenticationActivity.navigateToMainActivity() {
     startActivity(Intent(this, MainActivity::class.java))
     finish()
 }

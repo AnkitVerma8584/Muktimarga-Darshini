@@ -9,7 +9,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.HomeFile
@@ -29,7 +28,11 @@ fun SubToSubCategoryPage(
     val searchedData by viewModel.searchedFilesData.collectAsState()
     val query by viewModel.query.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize().padding(horizontal = MaterialTheme.dimens.paddingLarge)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = MaterialTheme.dimens.paddingLarge)
+    ) {
         SearchBar(
             hint = stringResource(id = R.string.sub_to_sub_cat_search),
             query = query,

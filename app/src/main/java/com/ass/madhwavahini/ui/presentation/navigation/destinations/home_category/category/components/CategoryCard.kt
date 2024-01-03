@@ -30,7 +30,7 @@ fun LazyGridItemScope.CategoryItem(
 ) {
     ElevatedCard(modifier = Modifier
         .animateItemPlacement()
-        .clickable { onClick(data) }) {
+        .clickable { onClick.invoke(data) }) {
         Image(
             modifier = Modifier
                 .fillMaxWidth()
@@ -41,7 +41,9 @@ fun LazyGridItemScope.CategoryItem(
         )
         Text(
             text = getAnnotatedText(text = data.name.trim(), query = query),
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
             minLines = 2,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,

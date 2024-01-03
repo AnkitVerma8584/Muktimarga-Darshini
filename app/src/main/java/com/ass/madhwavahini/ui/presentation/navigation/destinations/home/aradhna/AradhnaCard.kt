@@ -2,7 +2,6 @@ package com.ass.madhwavahini.ui.presentation.navigation.destinations.home.aradhn
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,19 +24,20 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.ass.madhwavahini.domain.modals.HomeAradhna
 import com.ass.madhwavahini.ui.presentation.common.getAnnotatedText
+import com.ass.madhwavahini.util.sw8
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyGridItemScope.AradhnaCard(
     data: HomeAradhna,
-    onClick: (HomeAradhna) -> Unit = {},
     query: String
 ) {
-    ElevatedCard(modifier = Modifier
-        .animateItemPlacement()
-        .fillMaxWidth()
-        .clickable { onClick(data) }) {
+    ElevatedCard(
+        modifier = Modifier
+            .animateItemPlacement()
+            .fillMaxWidth()
+    ) {
         Row(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -56,15 +56,23 @@ fun LazyGridItemScope.AradhnaCard(
                     .padding(8.dp),
                 verticalArrangement = Arrangement.Top
             ) {
-                Text(
-                    text = getAnnotatedText(text = data.title.trim(), query = query),
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
+                Row {
+                    Text(
+                        text = getAnnotatedText(text = data.title.trim(), query = query),
+                        modifier = Modifier
+                            .weight(1f),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    sw8.invoke()
+                    Text(
+                        text = data.date,
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Normal
+                    )
+                }
                 Text(
                     text = data.description,
                     modifier = Modifier

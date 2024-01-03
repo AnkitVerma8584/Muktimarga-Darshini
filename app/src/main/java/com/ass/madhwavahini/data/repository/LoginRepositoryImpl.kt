@@ -9,7 +9,6 @@ import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.util.getError
 import com.ass.madhwavahini.util.notification.NotificationHelper
-import com.ass.madhwavahini.util.print
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +40,6 @@ class LoginRepositoryImpl(
                 )
             }
         } catch (e: Exception) {
-            e.print()
             state = state.copy(
                 isLoading = false, error = e.getError()
             )

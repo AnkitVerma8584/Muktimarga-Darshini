@@ -31,10 +31,10 @@ fun List<Category>.mapToHomeCategoryList(): List<HomeCategory> = this.map { cat 
 }
 
 fun List<Aradhna>.mapToHomeAradhnas(): List<HomeAradhna> =
-    this.map { HomeAradhna(it.id, it.title, it.description, it.image) }
+    this.map { HomeAradhna(it.id, it.title, it.description, it.date, it.image) }
 
 fun List<HomeAradhna>.mapToAradhnas(): List<Aradhna> =
-    this.map { Aradhna(it.id, it.title, it.description, it.image) }
+    this.map { Aradhna(it.id, it.title, it.description, it.date, it.image) }
 
 fun Panchanga.mapToHomePanchanga(): HomePanchanga =
     HomePanchanga(

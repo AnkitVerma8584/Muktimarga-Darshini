@@ -56,7 +56,7 @@ fun RowScope.MyScaffold(
         }
     },
         floatingActionButton = {
-            if (!mainViewModel.user.isPaidCustomer && navigationType == NavigationType.BOTTOM_BAR)
+            if (!mainViewModel.user.isPaidCustomer && navigationType != NavigationType.SIDE_RAIL)
                 PurchasePackButton(onBuyClick = mainViewModel::getOrder)
         }, bottomBar = {
             if (bottomBarState && navigationType == NavigationType.BOTTOM_BAR) {
@@ -71,7 +71,6 @@ fun RowScope.MyScaffold(
                 })
             }
         }) { padding ->
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
