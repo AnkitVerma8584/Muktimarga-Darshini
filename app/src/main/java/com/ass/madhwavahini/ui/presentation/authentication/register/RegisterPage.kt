@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,6 +39,7 @@ import com.ass.madhwavahini.ui.presentation.authentication.common.NameInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PlaceHolderLoading
 import com.ass.madhwavahini.ui.presentation.common.SnackBarType
+import com.ass.madhwavahini.ui.theme.dimens
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -110,7 +112,7 @@ fun RegisterPage(
                 text = stringResource(id = R.string.login),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.error,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable(
                     role = Role.Button,
                     enabled = !viewModel.isLoading,
@@ -127,7 +129,12 @@ fun RegisterPage(
             if (loading) {
                 PlaceHolderLoading()
             } else {
-                Button(onClick = viewModel::register) {
+                Button(
+                    onClick = viewModel::register,
+                    modifier = Modifier
+                        .height(MaterialTheme.dimens.buttonSize)
+                        .wrapContentWidth()
+                ) {
                     Text(
                         text = stringResource(id = R.string.register),
                         style = MaterialTheme.typography.bodyLarge,

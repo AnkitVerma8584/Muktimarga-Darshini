@@ -122,7 +122,7 @@ fun HomePageMessage(homeState: UiState<HomeQuotes>) {
 
 @Composable
 fun HomePageNavigationCard(
-    icon: ImageVector, cardTitle: String, cardDescription: String, onCardClick: () -> Unit
+    icon: ImageVector, cardTitle: String, onCardClick: () -> Unit
 ) {
     ElevatedCard(
         colors = CardDefaults.cardColors(
@@ -156,14 +156,6 @@ fun HomePageNavigationCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = cardDescription,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Normal,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             Icon(
@@ -216,15 +208,6 @@ fun HomePageAradhnaCard(
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                Text(
-                    text = "Hindu prayers and shlokas",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Normal,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
             }
             Icon(
                 modifier = Modifier

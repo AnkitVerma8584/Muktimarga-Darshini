@@ -53,8 +53,7 @@ fun HomePage(
             item {
                 HomePageNavigationCard(
                     icon = Icons.Outlined.Category,
-                    cardTitle = stringResource(id = R.string.category),
-                    cardDescription = "Explore the vast "
+                    cardTitle = stringResource(id = R.string.files)
                 ) {
                     onRootNavigation(RootNavigationFragments.Category.route)
                 }
@@ -62,8 +61,7 @@ fun HomePage(
             item {
                 HomePageNavigationCard(
                     icon = Icons.Outlined.CalendarMonth,
-                    cardTitle = "Panchanga",
-                    cardDescription = "The Hindu calendar"
+                    cardTitle = "Panchanga"
                 ) {
                     onNavigate(HomeNavigationFragments.Panchanga.route)
                 }

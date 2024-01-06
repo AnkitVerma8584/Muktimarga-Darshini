@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.authentication.common.PlaceHolderLoading
 import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswordViewModel
 import com.ass.madhwavahini.ui.presentation.authentication.password.components.OtpView
+import com.ass.madhwavahini.ui.theme.dimens
 
 @Composable
 fun OtpAuthScreen(
@@ -53,7 +55,12 @@ fun OtpAuthScreen(
             if (loading) {
                 PlaceHolderLoading()
             } else {
-                Button(onClick = viewModel::verifyOtp) {
+                Button(
+                    onClick = viewModel::verifyOtp,
+                    modifier = Modifier
+                        .height(MaterialTheme.dimens.buttonSize)
+                        .wrapContentWidth()
+                ) {
                     Text(
                         text = stringResource(id = R.string.verify_otp),
                         style = MaterialTheme.typography.bodyLarge,

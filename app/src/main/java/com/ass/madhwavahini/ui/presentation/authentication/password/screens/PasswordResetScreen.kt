@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import com.ass.madhwavahini.R
 import com.ass.madhwavahini.ui.presentation.authentication.common.PasswordInput
 import com.ass.madhwavahini.ui.presentation.authentication.common.PlaceHolderLoading
 import com.ass.madhwavahini.ui.presentation.authentication.password.ResetPasswordViewModel
+import com.ass.madhwavahini.ui.theme.dimens
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -79,7 +81,12 @@ fun ResetPasswordModule(
             if (loading) {
                 PlaceHolderLoading()
             } else {
-                Button(onClick = viewModel::resetPassword) {
+                Button(
+                    onClick = viewModel::resetPassword,
+                    modifier = Modifier
+                        .height(MaterialTheme.dimens.buttonSize)
+                        .wrapContentWidth()
+                ) {
                     Text(
                         text = stringResource(id = R.string.reset_password),
                         style = MaterialTheme.typography.bodyLarge,

@@ -76,7 +76,7 @@ val MediumDimens = Dimens(
     galleryGridSize = 180.dp,
     settingsGridSize = 350.dp,
     categoryGridSize = 150.dp,
-    buttonSize = 48.dp,
+    buttonSize = 42.dp,
     logoSize = 180.dp
 )
 
@@ -99,7 +99,7 @@ val ExpandedDimens = Dimens(
     galleryGridSize = 250.dp,
     settingsGridSize = 350.dp,
     categoryGridSize = 180.dp,
-    buttonSize = 52.dp,
+    buttonSize = 48.dp,
     logoSize = 200.dp
 )
 

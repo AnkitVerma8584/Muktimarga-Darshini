@@ -2,6 +2,7 @@ package com.ass.madhwavahini.ui.presentation.navigation.destinations.home_catego
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,30 +29,32 @@ fun LazyGridItemScope.CategoryItem(
     onClick: (HomeCategory) -> Unit,
     query: String
 ) {
-    ElevatedCard(modifier = Modifier
-        .animateItemPlacement()
-        .clickable { onClick.invoke(data) }) {
+    ElevatedCard(
+        modifier = Modifier
+            .animateItemPlacement()
+            .clickable { onClick.invoke(data) }) {
         Image(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f),
             contentScale = ContentScale.FillBounds,
             painter = rememberAsyncImagePainter(model = data.image),
-            contentDescription = null
+            contentDescription = data.name
         )
         Text(
             text = getAnnotatedText(text = data.name.trim(), query = query),
             modifier = Modifier
                 .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.primary)
                 .padding(horizontal = 12.dp, vertical = 8.dp),
             minLines = 2,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
-
 }
 
 

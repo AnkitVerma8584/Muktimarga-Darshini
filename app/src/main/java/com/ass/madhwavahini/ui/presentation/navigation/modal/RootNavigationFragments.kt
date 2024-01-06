@@ -28,7 +28,7 @@ sealed class RootNavigationFragments(
 
     data object Category : RootNavigationFragments(
         route = "category_home",
-        title = StringUtil.StringResource(R.string.category),
+        title = StringUtil.StringResource(R.string.files),
         icon = Icons.Outlined.Category,
         selectedIcon = Icons.Filled.Category
     )
