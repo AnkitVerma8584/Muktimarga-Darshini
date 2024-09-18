@@ -153,6 +153,6 @@ fun PanchangaFooter(footer: String) {
             .fillMaxWidth()
             .padding(horizontal = MaterialTheme.dimens.paddingLarge),
         text = footer,
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.titleMedium
     )
 }

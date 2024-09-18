@@ -64,18 +64,18 @@ fun HomePanchanga.mapToPanchanga(): Panchanga =
         week,
         suryodaya,
         suryasthamaya,
-        title,
-        ayana,
-        ruthu,
-        masa,
-        masaNiyamaka,
-        paksha,
-        tithi,
-        vasara,
-        nakshatra,
-        yoga,
-        karana,
-        todaySpecial
+        title.trim(),
+        ayana.trim(),
+        ruthu.trim(),
+        masa.trim(),
+        masaNiyamaka.trim(),
+        paksha.trim(),
+        tithi.trim(),
+        vasara.trim(),
+        nakshatra.trim(),
+        yoga.trim(),
+        karana.trim(),
+        todaySpecial.trim()
     )
 
 
