@@ -82,7 +82,6 @@ fun SearchBar(
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             capitalization = KeyboardCapitalization.Sentences,
-            autoCorrect = false,
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Search
         ),

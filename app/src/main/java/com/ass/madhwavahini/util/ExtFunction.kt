@@ -29,7 +29,7 @@ internal fun Long.formatTime(): String {
     val totalSeconds = this / 1000
     val minutes = totalSeconds / 60
     val remainingSeconds = totalSeconds % 60
-    return String.format("%02d:%02d", minutes, remainingSeconds)
+    return String.format(Locale.getDefault(),"%02d:%02d", minutes, remainingSeconds)
 }
 
 internal fun getSalutation(): String {

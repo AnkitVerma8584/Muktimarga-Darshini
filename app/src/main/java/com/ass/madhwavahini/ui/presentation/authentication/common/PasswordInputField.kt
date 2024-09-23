@@ -54,7 +54,6 @@ fun PasswordInput(
     imeAction: ImeAction = ImeAction.Done,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
         capitalization = KeyboardCapitalization.None,
-        autoCorrect = false,
         keyboardType = KeyboardType.Password,
         imeAction = imeAction
     ),

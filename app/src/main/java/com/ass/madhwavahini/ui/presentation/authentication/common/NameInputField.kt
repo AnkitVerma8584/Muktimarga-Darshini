@@ -86,7 +86,6 @@ fun NameInput(
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Next
         ),

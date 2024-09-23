@@ -47,7 +47,6 @@ fun MobileInput(
     onDoneClick: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
         capitalization = KeyboardCapitalization.None,
-        autoCorrect = false,
         keyboardType = KeyboardType.Phone,
         imeAction = imeAction
     ),

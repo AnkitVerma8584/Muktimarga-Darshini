@@ -15,8 +15,8 @@ abstract class PanchangaDao {
     @Query("DELETE FROM panchanga;")
     protected abstract suspend fun delete()
 
-    @Query("SELECT * FROM panchanga;")
-    abstract suspend fun getPanchanga(): Panchanga?
+    @Query("SELECT * FROM panchanga WHERE date=:date LIMIT 1")
+    abstract suspend fun getPanchanga(date:String): Panchanga?
 
     @Transaction
     open suspend fun insertPanchanga(panchanga: Panchanga) {
