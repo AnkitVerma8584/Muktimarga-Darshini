@@ -38,23 +38,23 @@ fun List<HomeAradhna>.mapToAradhnas(): List<Aradhna> =
 
 fun Panchanga.mapToHomePanchanga(): HomePanchanga =
     HomePanchanga(
-        id,
-        date,
-        week,
-        suryodaya,
-        suryasthamaya,
-        samvatsara,
-        ayana,
-        ruthu,
-        masa,
-        masaNiyamaka,
-        paksha,
-        tithi,
-        vasara,
-        nakshatra,
-        yoga,
-        karana,
-        todaySpecial
+        this.id,
+        this.date,
+        this.week,
+        this.suryodaya,
+        this.suryasthamaya,
+        this.samvatsara,
+        this.ayana,
+        this.ruthu,
+        this.masa,
+        this.masaNiyamaka,
+        this.paksha,
+        this.tithi,
+        this.vasara,
+        this.nakshatra,
+        this.yoga,
+        this.karana,
+        this.todaySpecial
     )
 
 fun HomePanchanga.mapToPanchanga(): Panchanga =

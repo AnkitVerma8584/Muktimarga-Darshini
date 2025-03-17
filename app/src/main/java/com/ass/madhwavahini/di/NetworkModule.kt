@@ -26,8 +26,7 @@ object NetworkModule {
     fun getOkHttpClient(
         application: Application
     ): OkHttpClient.Builder {
-        val deviceId = if (BuildConfig.DEBUG) "dummy_id" else
-            Settings.Secure.getString(application.contentResolver, Settings.Secure.ANDROID_ID)
+        val deviceId = Settings.Secure.getString(application.contentResolver, Settings.Secure.ANDROID_ID)
 
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(Interceptor {

@@ -2,6 +2,8 @@ package com.ass.madhwavahini.ui.presentation.navigation.destinations.home_catego
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,6 +17,7 @@ import com.ass.madhwavahini.ui.presentation.common.Loading
 import com.ass.madhwavahini.ui.presentation.common.SearchBar
 import com.ass.madhwavahini.ui.presentation.common.ShowError
 import com.ass.madhwavahini.ui.presentation.navigation.destinations.home_category.files.components.FilesList
+import com.ass.madhwavahini.ui.theme.dimens
 
 @Composable
 fun FilePage(
@@ -28,7 +31,9 @@ fun FilePage(
     val searchedData by viewModel.fileData.collectAsState()
     val query by viewModel.query.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+        .padding(horizontal = MaterialTheme.dimens.paddingLarge)) {
         SearchBar(
             hint = stringResource(id = R.string.files_search),
             query = query,

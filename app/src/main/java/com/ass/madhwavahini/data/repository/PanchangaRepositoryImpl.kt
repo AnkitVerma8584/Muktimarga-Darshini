@@ -9,19 +9,15 @@ import com.ass.madhwavahini.domain.repository.PanchangaRepository
 import com.ass.madhwavahini.domain.wrapper.StringUtil
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.util.getError
-import com.ass.madhwavahini.util.print
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class PanchangaRepositoryImpl(
     private val panchangaApi: PanchangaApi,
     private val panchangaDao: PanchangaDao
 ) : PanchangaRepository {
 
-    override fun getPanchanga(date:String): Flow<UiState<HomePanchanga>> = flow {
+    override fun getPanchanga(date: String): Flow<UiState<HomePanchanga>> = flow {
         var state = UiState<HomePanchanga>(isLoading = true)
         emit(state)
 
@@ -37,9 +33,9 @@ class PanchangaRepositoryImpl(
             val result = panchangaApi.getPanchanga(date)
             if (result.isSuccessful && result.body() != null) {
                 state = if (result.body()!!.success) {
-                    val data = result.body()?.data!!
+                    val data = result.body()?.data
                     if (data != localPanchanga) {
-                        panchangaDao.insertPanchanga(data.mapToPanchanga())
+                        panchangaDao.insertPanchanga(data!!.mapToPanchanga())
                     } else return@flow
                     state.copy(isLoading = false, data = data)
                 } else {
