@@ -92,17 +92,16 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
                     })
             }
 
-
             if (mainViewModel.shouldLogOut) {
                 startActivity(Intent(this, AuthenticationActivity::class.java))
                 finish()
             }
 
-            var shouldShowDialog by rememberSaveable { mutableStateOf(true) }
+            var shouldShowOfferDialog by rememberSaveable { mutableStateOf(!mainViewModel.user.isPaidCustomer) }
 
-            if (shouldShowDialog && !mainViewModel.user.isPaidCustomer) {
-                OfferDialog(onDismiss = { shouldShowDialog = false }, onOkClick = {
-                    shouldShowDialog = false
+            if (shouldShowOfferDialog && !mainViewModel.user.isPaidCustomer) {
+                OfferDialog(onDismiss = { shouldShowOfferDialog = false }, onOkClick = {
+                    shouldShowOfferDialog = false
                     mainViewModel.getOrder()
                 })
             }

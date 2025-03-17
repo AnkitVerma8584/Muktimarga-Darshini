@@ -39,10 +39,11 @@ class LoginViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             userDataStore.getToken()?.let { token ->
-                loginRepository.verifyUser(token).collectLatest {
-                    isLoading = it.isLoading
-                    _userState.send(it)
-                }
+                if(token.isNotEmpty())
+                    loginRepository.verifyUser(token).collectLatest {
+                        isLoading = it.isLoading
+                        _userState.send(it)
+                    }
             }
         }
     }

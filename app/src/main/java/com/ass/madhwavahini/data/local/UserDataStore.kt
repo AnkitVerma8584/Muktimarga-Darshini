@@ -49,7 +49,9 @@ class UserDataStore @Inject constructor(
 
     suspend fun logout() {
         dataStore.edit {
-            it.clear()
+            it[USER_TOKEN] = ""
+            it[USER_MOBILE] = ""
+            it[USER_ID] = 0
         }
     }
 
@@ -57,6 +59,7 @@ class UserDataStore @Inject constructor(
         val preferences: Preferences = dataStore.data.first()
         return preferences[USER_MOBILE] ?: ""
     }
+
 
     suspend fun getToken(): String? {
         val preferences: Preferences = dataStore.data.first()

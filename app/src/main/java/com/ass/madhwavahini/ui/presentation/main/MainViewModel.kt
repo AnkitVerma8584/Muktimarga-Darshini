@@ -34,7 +34,6 @@ class MainViewModel @Inject constructor(
     var shouldLogOut by mutableStateOf(false)
         private set
 
-
     //Notification settings starts
     var isNotificationEnabled by mutableStateOf(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
 
@@ -49,7 +48,7 @@ class MainViewModel @Inject constructor(
         isPermissionGranted: Boolean,
         shouldShowPermissionRationalDialog: Boolean
     ) {
-        if(isPermissionGranted)
+        if (isPermissionGranted)
             isNotificationEnabled = true
         if (!isPermissionGranted && shouldShowPermissionRationalDialog) {
             shouldShowPermissionRational = true
@@ -66,6 +65,7 @@ class MainViewModel @Inject constructor(
                     user = it
                 }
             }
+
         }
     }
 
