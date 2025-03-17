@@ -38,6 +38,7 @@ fun RowScope.MyScaffold(
     rootNavHostController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
     navigationType: NavigationType,
+    isPaidCustomer:Boolean,
     isNotificationEnabled:Boolean
 ) {
     val scope = rememberCoroutineScope()
@@ -57,8 +58,10 @@ fun RowScope.MyScaffold(
         }
     },
         floatingActionButton = {
-            if (!mainViewModel.user.isPaidCustomer && navigationType != NavigationType.SIDE_RAIL)
+
+            if (!isPaidCustomer && navigationType != NavigationType.SIDE_RAIL)
                 PurchasePackButton(onBuyClick = mainViewModel::getOrder)
+
         }, bottomBar = {
             if (bottomBarState && navigationType == NavigationType.BOTTOM_BAR) {
                 MyBottomNavigation(navBackStackEntry, onNavigate = {

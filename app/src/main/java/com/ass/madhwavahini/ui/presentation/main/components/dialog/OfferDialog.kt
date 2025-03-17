@@ -25,8 +25,8 @@ fun OfferDialog(
     onOkClick: () -> Unit
 ) {
     AlertDialog(
-        containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
         onDismissRequest = onDismiss,
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
         dismissButton = {
             TextButton(
                 onClick = onDismiss

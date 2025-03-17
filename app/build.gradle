@@ -26,7 +26,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 8
-        versionName "1.24.01"
+        versionName "1.25.01"
         // type.year.iteration
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

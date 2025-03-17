@@ -128,6 +128,7 @@ fun MainActivity.MainPage(
                 rootNavHostController = rootNavHostController,
                 navBackStackEntry = navBackStackEntry,
                 navigationType = navigationType,
+                isPaidCustomer = mainViewModel.user.isPaidCustomer,
                 isNotificationEnabled= mainViewModel.isNotificationEnabled,
             )
         }
