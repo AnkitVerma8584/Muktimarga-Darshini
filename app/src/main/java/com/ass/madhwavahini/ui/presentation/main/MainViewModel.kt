@@ -1,5 +1,6 @@
 package com.ass.madhwavahini.ui.presentation.main
 
+import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,10 +31,14 @@ class MainViewModel @Inject constructor(
     var user by mutableStateOf(User())
         private set
 
-    var shouldShowPermissionRational by mutableStateOf(false)
+    var shouldLogOut by mutableStateOf(false)
         private set
 
-    var shouldLogOut by mutableStateOf(false)
+
+    //Notification settings starts
+    var isNotificationEnabled by mutableStateOf(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+
+    var shouldShowPermissionRational by mutableStateOf(false)
         private set
 
     fun dismissDialog() {
@@ -44,10 +49,15 @@ class MainViewModel @Inject constructor(
         isPermissionGranted: Boolean,
         shouldShowPermissionRationalDialog: Boolean
     ) {
+        if(isPermissionGranted)
+            isNotificationEnabled = true
         if (!isPermissionGranted && shouldShowPermissionRationalDialog) {
             shouldShowPermissionRational = true
         }
     }
+
+    //Notification settings ends
+
 
     init {
         viewModelScope.launch {

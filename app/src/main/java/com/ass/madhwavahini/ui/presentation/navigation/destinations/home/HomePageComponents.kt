@@ -1,8 +1,5 @@
 package com.ass.madhwavahini.ui.presentation.navigation.destinations.home
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,7 +37,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
 import com.ass.madhwavahini.domain.modals.HomeQuotes
 import com.ass.madhwavahini.domain.wrapper.UiState
 import com.ass.madhwavahini.ui.presentation.common.Loading
@@ -51,12 +47,9 @@ import com.ass.madhwavahini.util.getSalutation
 import com.ass.madhwavahini.util.sh12
 
 @Composable
-fun HomePageHeader(userName: String) {
+fun HomePageHeader(userName: String, isNotificationEnabled: Boolean) {
     val ctx = LocalContext.current
-    val isNotificationEnabled =
-        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ActivityCompat.checkSelfPermission(
-            ctx, Manifest.permission.POST_NOTIFICATIONS
-        ) == PackageManager.PERMISSION_GRANTED) || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+
     Row(
         modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     ) {

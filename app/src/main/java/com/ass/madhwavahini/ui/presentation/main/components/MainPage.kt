@@ -127,7 +127,8 @@ fun MainActivity.MainPage(
                 snackBarHostState = snackBarHostState,
                 rootNavHostController = rootNavHostController,
                 navBackStackEntry = navBackStackEntry,
-                navigationType = navigationType
+                navigationType = navigationType,
+                isNotificationEnabled= mainViewModel.isNotificationEnabled,
             )
         }
     }

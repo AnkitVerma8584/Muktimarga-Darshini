@@ -26,7 +26,8 @@ fun BottomNavHostFragment(
     user: User,
     onLogout: () -> Unit,
     onBottomBarStateChange: (state: Boolean) -> Unit,
-    onErrorTriggered: (message: String, type: SnackBarType) -> Unit
+    onErrorTriggered: (message: String, type: SnackBarType) -> Unit,
+    isNotificationEnabled:Boolean,
 ) {
 
     fun AnimatedContentTransitionScope<NavBackStackEntry>.getInAnimation(): EnterTransition =
@@ -59,7 +60,10 @@ fun BottomNavHostFragment(
         popExitTransition = { getOutAnimation() },
     ) {
         composable(route = RootNavigationFragments.Home.route) {
-            HomeNavHostFragment(user = user) { route ->
+            HomeNavHostFragment(
+                user = user,
+                isNotificationEnabled= isNotificationEnabled,
+            ) { route ->
                 navController.navigate(route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true

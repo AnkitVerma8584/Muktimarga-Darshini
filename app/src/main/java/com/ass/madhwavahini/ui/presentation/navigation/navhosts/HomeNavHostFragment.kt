@@ -26,6 +26,7 @@ import com.ass.madhwavahini.ui.presentation.navigation.modal.homeNavigationFragm
 @Composable
 fun HomeNavHostFragment(
     user: User,
+    isNotificationEnabled:Boolean,
     onRootNavigation: (route: String) -> Unit
 ) {
     val homeNavController = rememberNavController()
@@ -59,7 +60,11 @@ fun HomeNavHostFragment(
             startDestination = HomeNavigationFragments.Home.route
         ) {
             composable(route = HomeNavigationFragments.Home.route) {
-                HomePage(user = user, onRootNavigation = onRootNavigation) { route ->
+                HomePage(
+                    user = user,
+                    onRootNavigation = onRootNavigation,
+                    isNotificationEnabled = isNotificationEnabled,
+                ) { route ->
                     homeNavController.navigate(route) {
                         popUpTo(homeNavController.graph.findStartDestination().id) {
                             saveState = true

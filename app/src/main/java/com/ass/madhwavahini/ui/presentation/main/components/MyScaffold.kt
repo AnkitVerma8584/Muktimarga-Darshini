@@ -37,7 +37,8 @@ fun RowScope.MyScaffold(
     snackBarHostState: SnackbarHostState,
     rootNavHostController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
-    navigationType: NavigationType
+    navigationType: NavigationType,
+    isNotificationEnabled:Boolean
 ) {
     val scope = rememberCoroutineScope()
     var bottomBarState by remember {
@@ -95,7 +96,8 @@ fun RowScope.MyScaffold(
                             actionLabel = type.name
                         )
                     }
-                }
+                },
+                isNotificationEnabled =  isNotificationEnabled
             )
         }
     }

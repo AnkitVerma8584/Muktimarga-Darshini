@@ -13,21 +13,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import com.ass.madhwavahini.BuildConfig
 import com.ass.madhwavahini.ui.presentation.authentication.AuthenticationActivity
-import com.ass.madhwavahini.ui.presentation.common.SnackBarType
 import com.ass.madhwavahini.ui.presentation.main.components.MainPage
 import com.ass.madhwavahini.ui.presentation.main.components.dialog.NotificationPermissionRationalDialog
 import com.ass.madhwavahini.ui.presentation.main.components.dialog.OfferDialog
@@ -41,7 +35,6 @@ import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
@@ -66,15 +59,17 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         checkForAppUpdates()
         setContent {
+
             val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission(),
                 onResult = { isGranted ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) mainViewModel.onPermissionResult(
-                        isPermissionGranted = isGranted,
-                        shouldShowPermissionRationalDialog = shouldShowRequestPermissionRationale(
-                            Manifest.permission.POST_NOTIFICATIONS
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                        mainViewModel.onPermissionResult(
+                            isPermissionGranted = isGranted,
+                            shouldShowPermissionRationalDialog = shouldShowRequestPermissionRationale(
+                                Manifest.permission.POST_NOTIFICATIONS
+                            )
                         )
-                    )
                 })
 
             LaunchedEffect(key1 = Unit) {
@@ -84,6 +79,7 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
                     )
             }
 
+
             if (mainViewModel.shouldShowPermissionRational) {
                 NotificationPermissionRationalDialog(
                     onDismiss = mainViewModel::dismissDialog,
@@ -91,8 +87,8 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
                         mainViewModel.dismissDialog()
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                             notificationPermissionResultLauncher.launch(
-                            Manifest.permission.POST_NOTIFICATIONS
-                        )
+                                Manifest.permission.POST_NOTIFICATIONS
+                            )
                     })
             }
 
@@ -104,9 +100,9 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
 
             var shouldShowDialog by rememberSaveable { mutableStateOf(true) }
 
-            if(shouldShowDialog && !mainViewModel.user.isPaidCustomer){
-                OfferDialog(onDismiss = {shouldShowDialog=false}, onOkClick =  {
-                    shouldShowDialog=false
+            if (shouldShowDialog && !mainViewModel.user.isPaidCustomer) {
+                OfferDialog(onDismiss = { shouldShowDialog = false }, onOkClick = {
+                    shouldShowDialog = false
                     mainViewModel.getOrder()
                 })
             }

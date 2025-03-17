@@ -15,20 +15,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ass.madhwavahini.R
 import com.ass.madhwavahini.domain.modals.User
 import com.ass.madhwavahini.ui.presentation.navigation.modal.HomeNavigationFragments
 import com.ass.madhwavahini.ui.presentation.navigation.modal.RootNavigationFragments
-import com.ass.madhwavahini.ui.theme.ShowPreview
 import com.ass.madhwavahini.ui.theme.dimens
 import com.ass.madhwavahini.util.sh12
 
 @Composable
 fun HomePage(
-    homeViewModel: HomeViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel<HomeViewModel>(),
+    isNotificationEnabled: Boolean,
     user: User,
     onRootNavigation: (route: String) -> Unit,
     onNavigate: (route: String) -> Unit
@@ -40,7 +39,10 @@ fun HomePage(
             .fillMaxSize()
             .padding(MaterialTheme.dimens.paddingLarge)
     ) {
-        HomePageHeader(user.userName)
+        HomePageHeader(
+            user.userName,
+            isNotificationEnabled
+        )
         sh12.invoke()
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = MaterialTheme.dimens.homeGridSize),
@@ -73,14 +75,6 @@ fun HomePage(
             }
         }
         sh12.invoke()
-    }
-}
-
-@Preview
-@Composable
-fun HomePagePreview() {
-    ShowPreview {
-        HomePage(user = User(userName = "Dummy User"), onRootNavigation = {}, onNavigate = {})
     }
 }
 
